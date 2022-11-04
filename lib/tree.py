@@ -10,7 +10,7 @@ def Tree(**k):
 	def Arg(a):
 		arg={}
 		arg['n']			= k.get("n")
-		arg['m']			=	k.get("m") or [0,0,0,0]
+		arg['m']			= k.get("m") or [0,0,0,0]
 		r = arg.get(a)
 		return r
 
@@ -20,20 +20,20 @@ def Tree(**k):
 
 	def Mtd():
 		wgt = w['Wgt']
-		mtd=gnr.Mtd()
-		return mtd(wgt)
+		mtd=gnr.Mtds(wgt)
+		return mtd
 
 	def Atr():
 		wgt = w['Wgt']
-		atr=gnr.Atr()
-		return atr(wgt)
+		atr=gnr.Atrs(wgt)
+		return atr
 
 	def Fnx():
 		f={}
 		return f
 	def Init():
 		def init():
-			w['Mtd']['setObjectName'](f'wgt_{Arg("n")}')
+			w['Mtd']['setObjectName'](f'tree_{Arg("n")}')
 			w['Mtd']['setContentsMargins'](*Arg('m'))
 
 		init()

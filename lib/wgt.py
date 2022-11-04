@@ -1,56 +1,49 @@
 #!/usr/bin/env python
 
 
-from  PyQt5.QtWidgets import QWidget,QApplication
-import gnr
+from PyQt5.QtWidgets import QWidget
+from myPyQt.lib import gnr
 
 
 def Wgt(**k):
-
 	def Wgt():
 		return QWidget()
-
 	def Arg(a):
 		arg={}
 		arg['n']			= k.get("n")
 		arg['t']			= k.get("t")
-		arg['m']			=	k.get("m") or [0,0,0,0]
+		arg['m']			= k.get("m") or [0,0,0,0]
 		arg['l']			=	k.get("l")
 		r = arg.get(a)
 		return r
-
 	def Elements():
 		e={}
 		return e
-	
 	def Props():
-		name 		= Arg('n')
-		layout 	= gnr.Layouts(Arg('t'))
-		return locals()
-
+		p={
+			'Name' 		: Arg('n'),
+			'layout' 	: gnr.Layouts(Arg('t')).__name__,
+			}
+		return p
 	def Mtd():
 		wgt = w['Wgt']
-		mtd=gnr.Mtd()
-		return mtd(wgt)
-
+		mtd=gnr.Mtds(wgt)
+		return mtd
 	def Atr():
 		wgt = w['Wgt']
-		atr=gnr.Atr()
-		return atr(wgt)
-
+		atr=gnr.Atrs(wgt)
+		return atr
 	def Lay():
 		wgt=w['Wgt']
 		l = Layout(w=wgt,**k) if Arg('t') else None
 		return l
-
 	def Fnx():
 		def Add(i):
 			w['Lay']['Add'](i['Wgt'])
-			w['Elements'][i['Prp']['name']]= i
+			w['Elements'][i['Prp']['Name']]= i
 		f={}
 		f['Add'] = Add
 		return f
-	
 	def Init():
 		def init():
 			w['Mtd']['setObjectName'](f'wgt_{Arg("n")}')
@@ -75,7 +68,7 @@ def Layout(**k):
 		arg={}
 		arg['n']			= k.get("n")
 		arg['t']			= k.get("t")
-		arg['m']			=	k.get("m") or [0,0,0,0]
+		arg['m']			= k.get("m") or [0,0,0,0]
 		arg['l']			=	k.get("l")
 		arg['w']			=	k.get("w")
 		r = arg.get(a)
@@ -85,23 +78,21 @@ def Layout(**k):
 		lay=nlay(Arg('w'))
 		return lay
 	def Props():
-		name 		= Arg('n')
-		layout 	= gnr.Layouts(Arg('t')).__name__
-		return locals()
-
+		p={
+			'name' 		: Arg('n'),
+			'layout' 	: gnr.Layouts(Arg('t')).__name__,
+			}
+		return p
 	def Mtd():
 		wgt = l['Lay']
-		mtd=gnr.Mtd()
-		return mtd(wgt)
-
+		mtd=gnr.Mtds(wgt)
+		return mtd
 	def Atr():
 		wgt = l['Lay']
-		atr=gnr.Atr()
-		return atr(wgt)
-
+		atr=gnr.Atrs(wgt)
+		return atr
 	def Add():
 		return  l['Mtd']['addWidget']
-
 	def Init():
 		def init():
 			l['Mtd']['setObjectName'](f'lay_{Arg("n")}')

@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 # Auth
 from inspect import ismethod
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QHBoxLayout,QVBoxLayout,QGridLayout,QFormLayout
 from PyQt5.QtWidgets  import  QSizePolicy as QSP
+from PyQt5 import QtGui
 def Layouts(t):
 
 	l				=		{
-		'H'   :	QHBoxLayout,
-		'V'   : QVBoxLayout,
-		'G'   :	QGridLayout,
-		'F'   :	QFormLayout,
+		'h'   :	QHBoxLayout,
+		'v'   : QVBoxLayout,
+		'g'   :	QGridLayout,
+		'f'   :	QFormLayout,
 						}
-	return l[t]
+	return l[t.casefold()]
 def SizePols():
 
 	p={
@@ -24,30 +26,42 @@ def SizePols():
 		}
 	return p
 
+def Mtds(w):
 
-def Mtds(o):
-	f={}
-	for n in dir(o):
-		m=getattr(o, n)
-		if callable(m) and '__' not in n:
-			f[n]=m
+	f = {}
+	for n in dir(w):
+		m1 = getattr(w, n)
+		if callable(m1) and '__' not in n:
+			f[n] = m1
 	return f
 
-def Attr(o):
-	v={}
-	for n in dir(o):
-		a=getattr(o, n)
-		if not ismethod(a) and '__' not in n:
-			v[n]=a
+def Atrs(w):
+	v = {}
+	for n in dir(w):
+		a1 = getattr(w, n)
+		if not callable(a1) and '__' not in n:
+			v[n] = a1
 	return v
 
-def Mtd():
-	def mtd(w):
-		m=Mtds(w)
-		return m
-	return mtd
-def Atr():
-	def atr(w):
-		a=Attr(w)
-		return a
-	return atr
+def qwMtd(**k):
+	m=k.get('m')
+	mtds=Mtds(QtWidgets)
+
+	return mtds[m]
+
+def Icon(n=None,ico=None):
+	import base64
+	icon_states={
+		0 : QtGui.QIcon.On,
+		1 :	QtGui.QIcon.Off,	}
+	icon = QtGui.QIcon()
+	def  make_icon(icon,state):
+		with open(f'icon{state}.svg','wb') as l:
+			l.write(base64.b64decode(ico[n][state]))
+		icon.addPixmap(QtGui.QPixmap(f'icon{state}.svg'), QtGui.QIcon.Normal, icon_states[state])
+		return icon
+	# with open('icond.svg','wb') as d:
+	# 	d.write(base64.b64decode(ico[n][1]))
+	icon = make_icon(icon,0)
+	icon = make_icon(icon,1)
+	return icon
