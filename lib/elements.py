@@ -22,9 +22,9 @@ def iBtn(**k):
 		arg['pfx']			=	'iBtn'
 		r = arg.get(a)
 		return r
-	def Props(p):
+	def Props():
 		P={
-		'Name' 							: 	'{PFX}_{NAME}'.format(FPX=Arg('pfx'),NAME=Arg('n')),
+		'Name' 							: 	'{PFX}_{NAME}'.format(PFX=Arg('pfx'),NAME=Arg('n')),
 		'Icon'							:		Icon(n=Arg('n'),ico=Arg('ico'))	,
 		'IconSizes'					:		Arg('icowh'),
 		'IconSize'					:		QtCore.QSize(*Arg('icowh')),
@@ -54,7 +54,7 @@ def iBtn(**k):
 			w['Mtd']['setCheckable'](P['Checkable'])
 			w['Mtd']['setMaximumSize'](P['MaximumSize'])
 			w['Mtd']['setToolButtonStyle'](P['ToolButtonStyle'])
-		Init()
+		init()
 		return {'Init' : Init}
 	def Conn():
 		c={}

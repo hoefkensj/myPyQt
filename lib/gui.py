@@ -4,7 +4,7 @@ from  PyQt5.QtWidgets import QWidget,QApplication
 from wgt import  Wgt
 from tree import Tree
 from QtWgt import make
-from iBtn import iBtn
+from elements import  iBtn
 from assets import ico
 
 # from QtpyDictator.pyDictatorQt import browse
