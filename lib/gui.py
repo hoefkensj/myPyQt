@@ -1,21 +1,10 @@
 #!/usr/bin/env python
+
+
 import sys
-from  PyQt5.QtWidgets import QWidget,QApplication
-from wgt import  Wgt
-from tree import Tree
-from QtWgt import make
-from elements import  iBtn
-from assets import ico
+from .PyQtX import QWidget,QApplication
+from .wgt import  Wgt
 
-# from QtpyDictator.pyDictatorQt import browse
-
-def App():
-	from sys import argv
-	
-	a = {}
-	a['QtApp'] = QApplication(argv)
-	a['Clip'] = a['QtApp'].clipboard()
-	return a
 
 def pTree(*a, **k):
 	d = k.get('d')
@@ -38,39 +27,54 @@ def pTree(*a, **k):
 			sys.stdout.write('  ┗━━ ' if keys == 0 else '  ┣━━ ')
 			sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
 
-def Elements():
-	def create(e={}):
-		e|= make(n='trw_Tree')
-		e|=	make(n='lbl_Test')
-		e|=	make(n='txt_Key')
-		e|= iBtn(n='Search',ico=ico.ico)
-		return e
-	e = create()
-	return e
 
-def place(**k):
-	GUI=k.get('ui')
-	e=k.get('e') or 'All'
-	if e == 'All':
-		for element in GUI['Elements']:
-			GUI['Main']['Fnx']['Add'](GUI['Elements'][element])
-	return GUI
+
+
 
 def Gui():
+	def App():
+		from sys import argv
+		a = {}
+		a['QtApp'] = QApplication(argv)
+		a['Clip'] = a['QtApp'].clipboard()
+		return a
+
+	def Elements():
+		return {}
+
+	def Fnx():
+		def Add(e):
+			GUI['Main']['Fnx']['Add'](e.pop(list(e.keys())[0]))
+		def Show():
+			GUI['Main']['Mtd']['show']()
+		def Init():
+			for element in GUI['Elements']:
+				GUI['Main']['Fnx']['Add'](GUI['Elements'][element])
+			GUI['FNX']['Show']()
+		def Run():
+			from sys import exit
+			GUI['FNX']['Init']()
+			exit(GUI['App']['QtApp'].exec())
+		f={}
+		f['Add']	=	Add
+		f['Show']	=	Show
+		f['Init']	=	Init
+		f['Run']	=	Run
+		return f
+
 	GUI = {}
 	GUI['App'] = App()
 	GUI['Main'] = Wgt(n='Qt5', t='V')
-	GUI['Elements']=Elements()
-	GUI=place(ui=GUI,e='All')
-	GUI['Main']['Mtd']['show']()
-
+	GUI['Elements']= {}
+	GUI['FNX']=Fnx()
+	GUI['Run']=GUI['FNX']['Run']
 	return GUI
 
 
 
-GUI=Gui()
-pTree(d=GUI)
-sys.exit(GUI['App']['QtApp'].exec())
+
+# pTree(d=GUI)
+
 
 # pTree()
 # browse(myPyQt=GUI())

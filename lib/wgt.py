@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 
-from PyQt5.QtWidgets import QWidget
-from myPyQt.lib import gnr
+from .PyQtX import QWidget
+from .gnr import Layouts,Mtds,Atrs
 
 
 def Wgt(**k):
@@ -22,16 +22,16 @@ def Wgt(**k):
 	def Props():
 		p={
 			'Name' 		: Arg('n'),
-			'layout' 	: gnr.Layouts(Arg('t')).__name__,
+			'layout' 	: Layouts(Arg('t')).__name__,
 			}
 		return p
 	def Mtd():
 		wgt = w['Wgt']
-		mtd=gnr.Mtds(wgt)
+		mtd=Mtds(wgt)
 		return mtd
 	def Atr():
 		wgt = w['Wgt']
-		atr=gnr.Atrs(wgt)
+		atr=Atrs(wgt)
 		return atr
 	def Lay():
 		wgt=w['Wgt']
@@ -39,7 +39,7 @@ def Wgt(**k):
 		return l
 	def Fnx():
 		def Add(i):
-			w['Lay']['Add'](i['Wgt'])
+			w['Lay']['Mtd']['addWidget'](i['Wgt'])
 			w['Elements'][i['Prp']['Name']]= i
 		f={}
 		f['Add'] = Add
@@ -74,25 +74,26 @@ def Layout(**k):
 		r = arg.get(a)
 		return r
 	def Lay():
-		nlay=gnr.Layouts(Arg('t'))
+		nlay=Layouts(Arg('t'))
 		lay=nlay(Arg('w'))
 		return lay
 	def Props():
 		p={
 			'name' 		: Arg('n'),
-			'layout' 	: gnr.Layouts(Arg('t')).__name__,
+			'layout' 	: Layouts(Arg('t')).__name__,
 			}
 		return p
 	def Mtd():
 		wgt = l['Lay']
-		mtd=gnr.Mtds(wgt)
+		mtd=Mtds(wgt)
 		return mtd
 	def Atr():
 		wgt = l['Lay']
-		atr=gnr.Atrs(wgt)
+		atr=Atrs(wgt)
 		return atr
 	def Add():
 		return  l['Mtd']['addWidget']
+
 	def Init():
 		def init():
 			l['Mtd']['setObjectName'](f'lay_{Arg("n")}')

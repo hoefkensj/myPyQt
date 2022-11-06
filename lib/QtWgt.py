@@ -1,35 +1,47 @@
 #!/usr/bin/env python
-from  PyQt5 import QtWidgets
-from myPyQt.lib import gnr
-def QtWgt(**k):
+from .PyQtX import QtWidgets
+from .gnr import Mtds,Atrs,Names,sizePol
 
+def qwMtd(**k):
+	m=k.get('m')
+	mtds=Mtds(QtWidgets)
+	return mtds[m]
+
+def QtWgt(**k):
 	def Wgt():
-		wgt=gnr.qwMtd(m=Arg('qt'))
+		wgt= qwMtd(m=Arg('qt'))
 		return wgt()
 
-	def Arg(a):
-		arg={}
-		arg['qt']			= k.get('qt')
-		arg['n']			= k.get('n')
-		arg['m']			= k.get('m') or [0,0,0,0]
-		arg['pfx']		= k.get('pfx') or k.get('qt')
-		r = arg.get(a)
+	def Arg(a,Arg={}):
+		def read():
+			args={}
+			args['qt']		= k.get('qt')
+			args['n']			= k.get('n')
+			args['name']	= k.get('name')
+			args['m']			= k.get('m') or [0,0,0,0]
+			args['pfx']		= k.get('pfx')
+			args['vPol']	= k.get('vPol')
+			args['hPol']	= k.get('hPol')
+			return args
+		if not Arg:	Arg= read()
+		r = Arg.get(a)
 		return r
 
 	def Props():
 		p={
-			'Name' 		: Arg('n'),
+			'Name' 					: Arg('n'),
+			'SizePolicy'		:	sizePol(h=Arg('hPol'),v=Arg('vPol'))
 			}
 		return p
 
 	def Mtd():
 		wgt = w['Wgt']
-		mtd=gnr.Mtds(wgt)
+		mtd=Mtds(wgt)
 		return mtd
 
 	def Atr():
 		wgt = w['Wgt']
-		atr=gnr.Atrs(wgt)
+		atr=Atrs(wgt)
 		return atr
 	def Conn():
 		c={}
@@ -37,11 +49,12 @@ def QtWgt(**k):
 	def Fnx():
 		f={}
 		return f
-
 	def Init():
+		P=w['Prp']
 		def init():
-			w['Mtd']['setObjectName'](f'{Arg("pfx")}_{Arg("n")}')
+			w['Mtd']['setObjectName'](P['Name'])
 			w['Mtd']['setContentsMargins'](*Arg('m'))
+			w['Mtd']['setSizePolicy'](P['SizePolicy'])
 		init()
 		return {'Init' : Init}
 
@@ -50,52 +63,53 @@ def QtWgt(**k):
 	w['Prp']			= Props()
 	w['Mtd']			=	Mtd()
 	w['Atr']			= Atr()
-	w['con']			= Conn()
+	w['Con']			= Conn()
 	w['Fnx']			=	Fnx()
 	w['Init']			=	Init()
 	return w
 
-def QtPfx(**k):
-	pfx=k.get('pfx')
-	qt=k.get('qt')
-
+def Pfx2Qt(pfx):
 	dct_Pfx={
-	'lbl' :	'QLabel',
-	'trw'  :	'QTreeWidget',
-	'txt' :	'QLineEdit',
-	'pBtn'  :	'QPushButton',
-	'frm' :	'QFrame',
-	'grp' :	'QGroupBox',
-	'dSpn'  :	'QDoubleSpinBox',
-	'cmb' :	'QComboBox',
-	'chk' :	'QCheckBox',
-	'mbar'  :	'QMenuBar',
-	'mnu' :	'QMenu',
-	'pBtn'  :	'QPushButton',
-	'tBtn'  :	'QToolButton',
-	'rdo' :	'QRadioButton',
+	'lbl'		:	'QLabel',
+	'trw'		:	'QTreeWidget',
+	'txt'		:	'QLineEdit',
+	'btn'		:	'QPushButton',
+	'frm'		:	'QFrame',
+	'grp'		:	'QGroupBox',
+	'cmb'		:	'QComboBox',
+	'chk'		:	'QCheckBox',
+	'mnu'		:	'QMenu',
+	'rdo'		:	'QRadioButton',
+	'mbar'	:	'QMenuBar',
+	'dSpn'	:	'QDoubleSpinBox',
+	'pBtn'	:	'QPushButton',
+	'tBtn'	:	'QToolButton',
+	'iBtn'	:	'QToolButton',
+	'wgt'		:	'QWidget',
 	}
-	return dct_Pfx.get(pfx)
+	qt=dct_Pfx.get(pfx)
+	return qt
 
 def make(**k):
-	n=k.get('n')
-	pfx_name= n.split('_') #should be replaced with regex
-	name=pfx_name[-1]
-	pfx=k.get('t') or pfx_name[0]
-	qt=QtPfx(pfx=pfx)
-	wgt=QtWgt(qt=qt,n=name,pfx=pfx)
-	return {n:wgt}
 
+	def n2names():
+		makename	=	k.get('n')
+		names			=	Names(n=makename)
+		Pfx				=	names['pfx']
+		Name			= names['name']
+		Pfx_Name	=	names['pfx_name']
+		return Pfx,Name,Pfx_Name
+	def prepArgs():
+		Pfx,Name,Pfx_Name=n2names()
+		Qt=Pfx2Qt(Pfx)
+		Args={}
+		Args['Pfx']=Pfx
+		Args['name']=Name
+		Args['n']=Pfx_Name
+		Args['qt']=Qt
+		Args
+		return Args
+	Arg=prepArgs()
 
-
-
-
-
-
-
-
-
-
-
-
+	return {Arg['n'] : QtWgt(**Arg)}
 
