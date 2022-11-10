@@ -64,7 +64,7 @@ def Gui():
 
 	GUI = {}
 	GUI['App'] = App()
-	GUI['Main'] = Wgt(n='Qt5', t='V')
+	GUI['Main'] = Wgt(n='wgt_Qt5', t='V')
 	GUI['Elements']= {}
 	GUI['FNX']=Fnx()
 	GUI['Run']=GUI['FNX']['Run']

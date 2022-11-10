@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # Auth
-from .PyQtX import QHBoxLayout,QVBoxLayout,QGridLayout,QFormLayout
-from .PyQtX import QSizePolicy as QSP
-from . PyQtX import QtGui
+import re
+
+from .PyQtX import QtWidgets,QtGui,QtCore
+
 
 def Layouts(t):
+	from .PyQtX import QHBoxLayout,QVBoxLayout,QGridLayout,QFormLayout
 
 	l				=		{
 		'h'   :	QHBoxLayout,
@@ -50,6 +52,7 @@ def Icon(ico):
 	return icon
 	
 def sizePol(**k):
+	from .PyQtX import QSizePolicy as QSP
 	def SizePols(a):
 		p={
 				'P'   : QSP.Policy.Preferred,
@@ -65,14 +68,81 @@ def sizePol(**k):
 	pol=QSP(SizePols(hp),SizePols(vp))
 	return pol
 
-def Names(**k):
-	pfx_name	=k.get('n')
-	name			=k.get('name')
-	pfx				=k.get('pfx')
-	if pfx_name:
-		pfxname= pfx_name.split('_') #should be replaced with regex
-		pfx=pfxname.pop(0)
-		name='_'.join(pfxname)
+def makeNames(**k):
+	def pfxRex(s):
+		PFX=r'([^_]*)'
+		SEP=r'([_]?)'
+		NME=r'(.*)'
+		gPFX=r'(?P<PFX>{RE})'.format(RE=PFX)
+		gSEP=r'(?P<SEP>{RE})'.format(RE=SEP)
+		gNME=r'(?P<NME>{RE})'.format(RE=NME)
+		gCON=f'^{gPFX}{gSEP}{gNME}$'
+		rex=re.compile(gCON ,re.VERBOSE)
+		return rex.search(s)
+	if k.get('n'):
+		grps= pfxRex(k.get('n'))
+		pfx = grps.group('PFX')
+		name = grps.group('NME')
 	else:
-		pfx_name='{PFX}_{NAME}'.format(PFX=pfx,NAME=name)
+		pfx = k.get('pfx')
+		name = k.get('name')
+	
+	pfx_name	=	'{PFX}_{NAME}'.format(PFX=pfx,NAME=name)
 	return {'pfx_name':pfx_name,'pfx':pfx,'name':name}
+
+def Pfx2Qt(pfx):
+	dct_Pfx={
+	'lbl'   :	'QLabel',
+	'trw'   :	'QTreeWidget',
+	'txt'   :	'QLineEdit',
+	'btn'   :	'QPushButton',
+	'frm'   :	'QFrame',
+	'grp'   :	'QGroupBox',
+	'cmb'   :	'QComboBox',
+	'chk'   :	'QCheckBox',
+	'mnu'   :	'QMenu',
+	'rdo'   :	'QRadioButton',
+	'mbar'  :	'QMenuBar',
+	'dSpn'  :	'QDoubleSpinBox',
+	'pBtn'  :	'QPushButton',
+	'tBtn'  :	'QToolButton',
+	'iBtn'  :	'QToolButton',
+	'wgt'   :	'QWidget',
+	}
+	qt=dct_Pfx.get(pfx)
+	return qt
+
+def ArgKwargs(**k):
+	kwargs=k.pop('defaults') or {}
+	kwargs|=k
+	def argkwargs(a):
+		arg={ar : kwargs.get(ar) for ar in kwargs.keys()}
+		return arg[a]
+	return argkwargs
+
+def qwMtd(**k):
+	m=k.get('m')
+	mtds=Mtds(QtWidgets)
+	return mtds[m]
+
+def makeSize(*a,**k):
+	if len(a) != 1 or len(k) !=1:
+		w=k.get('w') or a[0]
+		h=k.get('h') or a[1]
+	else:
+		w=k.get('wh')[0] or a[0][0]
+		h=k.get('wh')[0] or a[0][1]
+
+	return QtCore.QSize(w,h)
+
+def tBtnStyles(t):
+	from .PyQtX import ToolButtonIconOnly,ToolButtonTextOnly,ToolButtonFollowStyle
+	from .PyQtX import ToolButtonTextUnderIcon,ToolButtonTextBesideIcon
+	s={
+		'i' 	: ToolButtonIconOnly,
+		't'		:	ToolButtonTextOnly,
+		'f'		:	ToolButtonFollowStyle,
+		'i|t'	:	ToolButtonTextBesideIcon,
+		'i/t'	:	ToolButtonTextUnderIcon,
+		}
+	return s[t.casefold()]

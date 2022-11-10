@@ -1,71 +1,101 @@
 #!/usr/bin/env python
 
 from .PyQtX import QtCore
-from .gnr import Icon, Mtds, Atrs, Names, sizePol
+from . import gnr
 from ..assets import ico
 
 from .QtWgt import make
 
-
-
-
-def iBtn(**k):
+def iBtn(*n, **k):
 	def Wgt():
-		n=Arg('pfx_name')
+		n = cfg('pfx_name')
 		wgt = make(n=n)
 		return wgt[n]
-	def Arg(a,Args={}):
-		def read():
-			arg={}
-			arg['n']				=	k.get('n')
-			arg|= Names(pfx='iBtn',name=arg['n'])
-			arg['w']				= k.get('w')			or 20
-			arg['h']				= k.get('h')			or 20
-			arg['bi']				= k.get('bi') 		or False
-			arg['ico']			=	k.get('ico')		or ico.get(arg['name'])
-			arg['icowh']		= k.get('icowh')	or [32, 32]
-			arg['lbl']			= k.get('lbl')
-			arg['m']				= k.get('m') 			or [0,0,0,0]
-			return arg
-		if not Args:	Args= read()
-		r = Args.get(a)
-		return r
-	def Props():
-		P={
-		'Name'              : 	Arg('pfx_name'),
-		'b64Svg'						:		Arg('ico'),
-		'Icon'              :		Icon(Arg('ico'))	,
-		'IconSizes'         :		Arg('icowh'),
-		'IconSize'          :		QtCore.QSize(*Arg('icowh')),
-		'Checkable'         :		Arg('bi'),
-		'MaximumSizes'      :		[Arg('w'), Arg('h')],
-		'MaximumSize'       :		QtCore.QSize(Arg('w'), Arg('h')),
-		'ToolButtonStyle'   :		QtCore.Qt.ToolButtonStyle.ToolButtonIconOnly,
-		'SizePolicy'				:		sizePol(h='P', v='P'),
+
+
+	def Arg(a,args={}):
+		def defaults():
+			d	=	{
+			'pfx'   :	'iBtn'				,
+			'm'     :	[0,0,0,0]			,
+			'hPol'  :	'P'						,
+			'vPol'  :	'P'						,
+			'w'     :	20						,
+			'h'     :	20						,
+			'bi'    :	False					,
+			'ico'   :	ico.get(n[0])	,
+			'icow'  :	32						,
+			'icoh'  :	32						,
+			'lbl'		:	None					,
 			}
-		return P
+			return d
+
+		def readkwargs():
+			arg=gnr.ArgKwargs(defaults=defaults(),**k)
+			return arg
+		args = args or readkwargs()
+		return args(a)
+
+	def Cfg():
+		def names(nn,names={}):
+			names = names or gnr.makeNames(name=n[0], pfx=Arg('pfx'))
+			return names[nn]
+
+		def btnstyles():
+			if not Arg('lbl'):
+				s=gnr.tBtnStyles('I')
+			else:
+				s=gnr.tBtnStyles('I|T')
+			return s
+
+		c={}
+		c['pfx_name']			= names('pfx_name')
+		c['pfx']					= names('pfx')
+		c['name']					=	names('name')
+		c['qt']						= gnr.Pfx2Qt(c['pfx'])
+		c['lbl']					=	Arg('lbl')
+		c['hpol']					=	Arg('hPol')
+		c['vpol']					=	Arg('vPol')
+		c['sizepolicy']		=	gnr.sizePol(h=c['hpol'], v=c['vpol'])
+		c['b64svg']				=	Arg('ico')
+		c['icow']    			=	Arg('icow')
+		c['icoh']    			=	Arg('icoh')
+		c['icowh']				= [c['icow'],c['icoh']]
+		c['iconsize']     =	gnr.makeSize(c['icow'],c['icoh'])
+		c['icon']         =	gnr.Icon(c['b64svg'])
+		c['maxw']					=	Arg('w')
+		c['maxh']					= Arg('h')
+		c['maxsize']			=	gnr.makeSize(c['maxw'],c['maxh'])
+		c['margin']				=	Arg('m')
+		c['btnstyle']			=	btnstyles()
+		c['checkable']		= Arg('bi')
+		return c
+	def cfg(a,c={}):
+		c=c or Cfg()
+		return c[a]
+
 	def Mtd():
 		wgt = w['Wgt']
-		mtd=Mtds(wgt)
+		mtd=gnr.Mtds(wgt)
 		return mtd
 	def Atr():
 		wgt = w['Wgt']
-		atr=Atrs(wgt)
+		atr=gnr.Atrs(wgt)
 		return atr
 	def Fnx():
 		f 					= {}
 		return f
 	def Init():
-		P=w['Prp']
+		P=w['Cfg']
 		M=w['Mtd']
 		def init():
-			M['setObjectName'](P['Name'])
-			M['setSizePolicy'](P['SizePolicy'])
-			M['setIcon'](P['Icon'])
-			M['setIconSize'](P['IconSize'])
-			M['setCheckable'](P['Checkable'])
-			M['setMaximumSize'](P['MaximumSize'])
-			M['setToolButtonStyle'](P['ToolButtonStyle'])
+			M['setObjectName'](P['name'])
+			M['setSizePolicy'](P['sizepolicy'])
+			M['setIcon'](P['icon'])
+			M['setIconSize'](P['iconsize'])
+			M['setCheckable'](P['checkable'])
+			M['setMaximumSize'](P['maxsize'])
+			M['setToolButtonStyle'](P['btnstyle'])
 		init()
 		return init
 	def Conn():
@@ -74,13 +104,13 @@ def iBtn(**k):
 		return c
 
 	w 					=			Wgt()
-	w['Prp']		|=		Props()
+	w['Cfg']		|=		Cfg()
 	w['Mtd']		|=		Mtd()
 	w['Atr']		|=		Atr()
 	w['Fnx']		|=		Fnx()
 	w['Con']		|=		Conn()
 	w['Init']		= 		Init()
-	return {w['Prp']['Name'] : w }
+	return {w['Cfg']['pfx_name'] : w }
 
 
 
@@ -97,7 +127,7 @@ def chkBox(**k):
 			arg|= Names(pfx='chk',name=arg['n'])
 			arg['w']				= k.get("w")	or 20
 			arg['h']				= k.get("h")	or 20
-			arg['ico']			=	k.get('ico') or ico.get(arg['name'])
+			arg['ico']			= k.get('ico') or ico.get(arg['name'])
 			arg['lbl']			= k.get('lbl')
 			arg['m']				= k.get('m') or [0,0,0,0]
 
@@ -110,23 +140,23 @@ def chkBox(**k):
 	def Props():
 		P={
 		'Name'              : 	Arg('pfx_name'),
-		'b64Svg'						:		Arg('ico'),
-		'Icon'              :		Icon(Arg('ico'))	,
+		'b64Svg'            :		Arg('ico'),
+		'Icon'              :		gnr.Icon(Arg('ico'))	,
 		'IconSizes'         :		Arg('icowh'),
 		'IconSize'          :		QtCore.QSize(*Arg('icowh')),
 		'Checkable'         :		Arg('bi'),
 		'MaximumSizes'      :		[Arg('w'), Arg('h')],
 		'MaximumSize'       :		QtCore.QSize(Arg('w'), Arg('h')),
-		'SizePolicy'				:		sizePol(h='P', v='P'),
+		'SizePolicy'        :		gnr.sizePol(h='P', v='P'),
 			}
 		return P
 	def Mtd():
 		wgt = w['Wgt']
-		mtd=Mtds(wgt)
+		mtd=gnr.Mtds(wgt)
 		return mtd
 	def Atr():
 		wgt = w['Wgt']
-		atr=Atrs(wgt)
+		atr=gnr.Atrs(wgt)
 		return atr
 	def Fnx():
 		def toggle():
