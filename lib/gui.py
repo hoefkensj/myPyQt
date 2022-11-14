@@ -2,9 +2,9 @@
 
 
 import sys
-from .PyQtX import QWidget,QApplication
-from .wgt import  Wgt
-
+from .PyQtX import QWidget,QApplication,QtVersion
+from . import QWgt
+from .gnr import ArgKwargs,makeNames,PfxMap
 
 def pTree(*a, **k):
 	d = k.get('d')
@@ -31,7 +31,30 @@ def pTree(*a, **k):
 
 
 
-def Gui():
+def Gui(*a,**k):
+	def Arg(a,args={}):
+		d= {
+				'm'   : [0, 0, 0, 0],
+				't'   : None,
+				'hPol': 'E',
+				'vPol': 'E',
+				}
+		args = args or ArgKwargs(defaults=d, **k)
+		return args(a)
+
+	def Cfg():
+		c={}
+		c['AppName']			= Arg('name')
+		c['QtName']				=	Arg('pfx_name')
+		c['QtVersion']		= Arg('Qt')
+		c['hpol']					=	Arg('hPol')
+		c['vpol']					=	Arg('vPol')
+		c['sizepolicy']		=	sizePol(h=c['hpol']	, v=c['vpol']	)
+		c['layouttype']		=	Arg('t')
+		c['layout_name']	=	Layouts(Arg('t')),
+		c['margin']				=	Arg('m')
+		return c
+
 	def App():
 		from sys import argv
 		a = {}
@@ -39,39 +62,39 @@ def Gui():
 		a['Clip'] = a['QtApp'].clipboard()
 		return a
 
-	def Elements():
-		return {}
-
 	def Fnx():
-		def Add(e):
-			GUI['Main']['Fnx']['Add'](e.pop(list(e.keys())[0]))
-		def Show():
-			GUI['Main']['Mtd']['show']()
 		def Init():
-			for element in GUI['Elements']:
-				GUI['Main']['Fnx']['Add'](GUI['Elements'][element])
-			GUI['FNX']['Show']()
+			# for element in GUI['Elements']:
+			# 	wgt=GUI['Elements'].get(element)
+			# 	f['Add'](wgt)
+			f['Show']()
 		def Run():
+			f['Init']()
 			from sys import exit
-			GUI['FNX']['Init']()
 			exit(GUI['App']['QtApp'].exec())
 		f={}
-		f['Add']	=	Add
-		f['Show']	=	Show
+		f['Add']	=	GUI['Main']['Fnx']['Add']
+		f['Show']	=	GUI['Main']['Mtd']['show']
 		f['Init']	=	Init
 		f['Run']	=	Run
 		return f
 
 	GUI = {}
 	GUI['App'] = App()
-	GUI['Main'] = Wgt(n='wgt_Qt5', t='V')
-	GUI['Elements']= {}
-	GUI['FNX']=Fnx()
-	GUI['Run']=GUI['FNX']['Run']
+	GUI['Main']= QWgt.make('Main', t='v')
+	GUI['Elements']= GUI['Main']['Fnx']['Add']
+	GUI['Fnx']=Fnx()
+	GUI['Run']=GUI['Fnx']['Run']
 	return GUI
 
-
-
+def make(*a,**k):
+	pfx=f'Qt{QtVersion}'
+	Names=makeNames(name=[a][0],pfx=pfx)
+	kwargs={
+	'pfx_name'  :	Names['pfx_name'],
+	'pfx'       :	Names['pfx'],
+	'name'      :	Names['name'],}
+	return Gui(**kwargs, **k)
 
 # pTree(d=GUI)
 

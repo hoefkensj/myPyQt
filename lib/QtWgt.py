@@ -1,81 +1,58 @@
 #!/usr/bin/env python
 
-from .gnr import sizePol, Mtds, Atrs, ArgKwargs,makeNames,Pfx2Qt,qwMtd
+from . import gnr
 
 def QtWgt(**k):
-	def Wgt():
-		wgt= qwMtd(m=cfg('qt'))
-		return wgt()
-
 	def Arg(a,args={}):
-		def defaults():
-			d	=	{
+		d	=	{
 			'm'   :	[0,0,0,0]	,
 			'hPol':	'P'				,
 			'vPol':	'P'				,
 			}
-			return d
-
-		def readkwargs():
-			arg=ArgKwargs(defaults=defaults(),**k)
-			return arg
-
-		args = args or readkwargs()
+		args = args or gnr.ArgKwargs(defaults=d, **k)
 		return args(a)
-
 	def Cfg():
-		def names(n,names={}):
-			names = names or makeNames(n=Arg('n'))
-			return names[n]
-
-		c={}
-		c['pfx_name']			= names('pfx_name')
-		c['pfx']					= names('pfx')
-		c['name']					=	names('name')
-		c['qt']						= Pfx2Qt(c['pfx'])
-		c['hpol']					=	Arg('hPol')
-		c['vpol']					=	Arg('vPol')
-		c['sizepolicy']		=	sizePol(h=c['hpol']	, v=c['vpol']	)
-		c['margin']				=	Arg('m')
+		c={
+			'pfx_name'      : Arg('pfx_name'),
+			'pfx'           : Arg('pfx'),
+			'name'          :	Arg('name'),
+			'qt'            : Arg('qt'),
+			'spol'          :	[Arg('hPol'),Arg('vPol')],
+			'sizepolicy'    :	gnr.sizePol(h=Arg('hPol'), v=Arg('vPol')),
+			'margin'        :	Arg('m'),
+		}
 		return c
-	def cfg(a,c={}):
-		c=c or Cfg()
-		return c[a]
-
-	def Mtd():
-		wgt = w['Wgt']
-		mtd=Mtds(wgt)
-		return mtd
-
-	def Atr():
-		wgt = w['Wgt']
-		atr=Atrs(wgt)
-		return atr
-	def Conn():
-		c={}
-		return c
-	def Fnx():
-		f={}
-		return f
 	def Init():
+		setMtd=gnr.SetMtd(w)
 		C=w['Cfg']
 		def init():
-			w['Mtd']['setObjectName'](C['name'])
-			w['Mtd']['setContentsMargins'](*C['margin'])
-			w['Mtd']['setSizePolicy'](C['sizepolicy'])
+			setMtd('ObjectName',C['pfx_name'])
+			setMtd('ContentsMargins',*C['margin'])
+			setMtd('SizePolicy',C['sizepolicy'])
 		init()
-		return {'Init' : Init}
+		return Init
 
 	w= {}
-	w['Wgt']			=	Wgt()
+	w['Name']			= Arg('pfx_name')
+	w['Wgt']			=	gnr.SubQWgt(Arg('pfx'))()
 	w['Cfg']			= Cfg()
-	w['Mtd']			=	Mtd()
-	w['Atr']			= Atr()
-	w['Con']			= Conn()
-	w['Fnx']			=	Fnx()
+	w['Mtd']			=	gnr.Mtds(w['Wgt'])
+	w['Atr']			= gnr.Atrs(w['Wgt'])
+	w['Con']			= {}
+	w['Fnx']			= {}
 	w['Init']			=	Init()
-	return w
+	return gnr.Pack(w)
 
-def make(n,**k):
-	return {n : QtWgt(n=n,**k)}
+def make(*a,**k):
+	if a:
+		Names=gnr.makeNames(n=a[0])
+	else :
+		print('couldnt make names')
+	pfx_name	=	Names['pfx_name']
+	pfx				=	Names['pfx']
+	name			=	Names['name']
+	qt				= gnr.PfxMap(pfx)
+	qtwgt 		=	QtWgt(pfx_name=pfx_name,pfx=pfx,name=name,qt=qt,**k)
+
+	return gnr.rePack(qtwgt)
 

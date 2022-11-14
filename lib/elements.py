@@ -4,18 +4,11 @@ from .PyQtX import QtCore
 from . import gnr
 from ..assets import ico
 
-from .QtWgt import make
+from . import QtWgt
 
-def iBtn(*n, **k):
-	def Wgt():
-		n = cfg('pfx_name')
-		wgt = make(n=n)
-		return wgt[n]
-
-
+def iBtn(**k):
 	def Arg(a,args={}):
-		def defaults():
-			d	=	{
+		d	=	{
 			'pfx'   :	'iBtn'				,
 			'm'     :	[0,0,0,0]			,
 			'hPol'  :	'P'						,
@@ -23,79 +16,44 @@ def iBtn(*n, **k):
 			'w'     :	20						,
 			'h'     :	20						,
 			'bi'    :	False					,
-			'ico'   :	ico.get(n[0])	,
-			'icow'  :	32						,
-			'icoh'  :	32						,
-			'lbl'		:	None					,
+			'ico'   :	ico.get(k.get('name'))	,
+			'icowh' :	[32,32]				,
+			'lbl'   :	None					,
 			}
-			return d
-
-		def readkwargs():
-			arg=gnr.ArgKwargs(defaults=defaults(),**k)
-			return arg
-		args = args or readkwargs()
-		return args(a)
+		args= args or k|d
+		return args[a]
 
 	def Cfg():
-		def names(nn,names={}):
-			names = names or gnr.makeNames(name=n[0], pfx=Arg('pfx'))
-			return names[nn]
-
-		def btnstyles():
-			if not Arg('lbl'):
-				s=gnr.tBtnStyles('I')
-			else:
-				s=gnr.tBtnStyles('I|T')
-			return s
-
-		c={}
-		c['pfx_name']			= names('pfx_name')
-		c['pfx']					= names('pfx')
-		c['name']					=	names('name')
-		c['qt']						= gnr.Pfx2Qt(c['pfx'])
-		c['lbl']					=	Arg('lbl')
-		c['hpol']					=	Arg('hPol')
-		c['vpol']					=	Arg('vPol')
-		c['sizepolicy']		=	gnr.sizePol(h=c['hpol'], v=c['vpol'])
-		c['b64svg']				=	Arg('ico')
-		c['icow']    			=	Arg('icow')
-		c['icoh']    			=	Arg('icoh')
-		c['icowh']				= [c['icow'],c['icoh']]
-		c['iconsize']     =	gnr.makeSize(c['icow'],c['icoh'])
-		c['icon']         =	gnr.Icon(c['b64svg'])
-		c['maxw']					=	Arg('w')
-		c['maxh']					= Arg('h')
-		c['maxsize']			=	gnr.makeSize(c['maxw'],c['maxh'])
-		c['margin']				=	Arg('m')
-		c['btnstyle']			=	btnstyles()
+		def sizing():
+			c={}
+			c['hpol']					=	Arg('hPol')
+			c['vpol']					=	Arg('vPol')
+			c['sizepolicy']		=	gnr.sizePol(h=c['hpol'], v=c['vpol'])
+			c['maxw']					=	Arg('w')
+			c['maxh']					= Arg('h')
+			c['maxsize']			=	gnr.makeSize(c['maxw'],c['maxh'])
+			c['margin']				=	Arg('m')
+			return c
+		c		=		{}
+		c['pfx_name']=	Arg('pfx_name')
+		c		|=	gnr.Icon(Arg('ico'),Arg('icowh'))
+		c		|=	sizing()
+		c['qt']						= gnr.PfxMap(Arg('pfx'))
 		c['checkable']		= Arg('bi')
+		c['btnstyle']			=	gnr.tBtnStyles('I')
 		return c
-	def cfg(a,c={}):
-		c=c or Cfg()
-		return c[a]
 
-	def Mtd():
-		wgt = w['Wgt']
-		mtd=gnr.Mtds(wgt)
-		return mtd
-	def Atr():
-		wgt = w['Wgt']
-		atr=gnr.Atrs(wgt)
-		return atr
-	def Fnx():
-		f 					= {}
-		return f
-	def Init():
-		P=w['Cfg']
-		M=w['Mtd']
+	def Init()     :
+		setMtd=gnr.SetMtd(w)
 		def init():
-			M['setObjectName'](P['name'])
-			M['setSizePolicy'](P['sizepolicy'])
-			M['setIcon'](P['icon'])
-			M['setIconSize'](P['iconsize'])
-			M['setCheckable'](P['checkable'])
-			M['setMaximumSize'](P['maxsize'])
-			M['setToolButtonStyle'](P['btnstyle'])
+			C=w['Cfg']
+			C|=setMtd('ObjectName', w['Name'])
+			C|=setMtd('SizePolicy', C['sizepolicy'])
+			C|=setMtd('Icon', C['icon'])
+			C|=setMtd('IconSize', C['iconsize'])
+			C|=setMtd('Checkable', C['checkable'])
+			C|=setMtd('MaximumSize', C['maxsize'])
+			C|=setMtd('ToolButtonStyle', C['btnstyle'])
 		init()
 		return init
 	def Conn():
@@ -103,28 +61,37 @@ def iBtn(*n, **k):
 		c['clicked'] = w['Mtd']['clicked']
 		return c
 
-	w 					=			Wgt()
+
+	w={}
+	w						|=		gnr.unPack(QtWgt.make(Arg('pfx_name')))
+	w['Name']		=			Arg('pfx_name')
 	w['Cfg']		|=		Cfg()
-	w['Mtd']		|=		Mtd()
-	w['Atr']		|=		Atr()
-	w['Fnx']		|=		Fnx()
+	w		|=		gnr.Mtds(w['Wgt'])
+	w		|=		gnr.Atrs(w['Wgt'])
+	w['Fnx']		|=		{}
 	w['Con']		|=		Conn()
 	w['Init']		= 		Init()
-	return {w['Cfg']['pfx_name'] : w }
+	return gnr.Pack(w)
 
-
-
+def make_iBtn(*a,**k):
+	pfx		=	'iBtn'
+	name=a[0]
+	Names=gnr.makeNames(name=name,pfx=pfx)
+	kwargs={
+	'pfx_name'  :	Names['pfx_name'],
+	'pfx'       :	Names['pfx'],
+	'name'      :	Names['name'],}
+	ibtn 		=	iBtn(**kwargs,**k)
+	return gnr.rePack(ibtn)
 
 def chkBox(**k):
 	def Wgt():
 		n=Arg('pfx_name')
-		wgt = make(n=n)
+		wgt = QtWgt.make(n=n)
 		return wgt[n]
 	def Arg(a,Args={}):
 		def read():
 			arg={}
-			arg['n']				=	k.get('n')
-			arg|= Names(pfx='chk',name=arg['n'])
 			arg['w']				= k.get("w")	or 20
 			arg['h']				= k.get("h")	or 20
 			arg['ico']			= k.get('ico') or ico.get(arg['name'])
