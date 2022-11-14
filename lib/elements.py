@@ -7,70 +7,67 @@ from ..assets import ico
 from . import QtWgt
 
 def iBtn(**k):
-	def Arg(a,args={}):
-		d	=	{
-			'pfx'   :	'iBtn'				,
-			'm'     :	[0,0,0,0]			,
-			'hPol'  :	'P'						,
-			'vPol'  :	'P'						,
-			'w'     :	20						,
-			'h'     :	20						,
-			'bi'    :	False					,
-			'ico'   :	ico.get(k.get('name'))	,
-			'icowh' :	[32,32]				,
-			'lbl'   :	None					,
-			}
-		args= args or k|d
-		return args[a]
+	def defaults():
+			d	=	{
+				'pfx'   :	'iBtn'				,
+				'm'     :	[0,0,0,0]			,
+				'hPol'  :	'P'						,
+				'vPol'  :	'P'						,
+				'w'     :	20						,
+				'h'     :	20						,
+				'bi'    :	False					,
+				'ico'   :	ico.get(k.get('name').split('_')[0])	,
+				'icowh' :	[32,32]				,
+				'lbl'   :	None					,
+				}
+			return d
+	k,Arg=gnr.ArgKwargs(defaults,**k)
 
 	def Cfg():
-		def sizing():
-			c={}
-			c['hpol']					=	Arg('hPol')
-			c['vpol']					=	Arg('vPol')
-			c['sizepolicy']		=	gnr.sizePol(h=c['hpol'], v=c['vpol'])
-			c['maxw']					=	Arg('w')
-			c['maxh']					= Arg('h')
-			c['maxsize']			=	gnr.makeSize(c['maxw'],c['maxh'])
-			c['margin']				=	Arg('m')
-			return c
-		c		=		{}
-		c['pfx_name']=	Arg('pfx_name')
-		c		|=	gnr.Icon(Arg('ico'),Arg('icowh'))
-		c		|=	sizing()
-		c['qt']						= gnr.PfxMap(Arg('pfx'))
-		c['checkable']		= Arg('bi')
-		c['btnstyle']			=	gnr.tBtnStyles('I')
+		c={
+			'pfx_name'      : Arg('pfx_name'),
+			'pfx'           : Arg('pfx'),
+			'name'          :	Arg('name'),
+			'qt'            : gnr.PfxMap(Arg('pfx')),
+			'spol'          :	[Arg('hPol'),Arg('vPol')],
+			'sizepolicy'    :	gnr.sizePol(Arg('hPol'), Arg('vPol')),
+			'maxw'					:	Arg('w'),
+			'maxh'					: Arg('h'),
+			'maxsize'				:	gnr.makeSize(Arg('w'),Arg('h')),
+			'margin'        :	Arg('m'),
+			'checkable'			:	Arg('bi'),
+			'btnstyle'			:	gnr.tBtnStyles('I'),
+			**gnr.Icon(Arg('ico'),Arg('icowh')),
+		}
 		return c
 
-	def Init()     :
+	def Init(w)     :
 		setMtd=gnr.SetMtd(w)
-		def init():
-			C=w['Cfg']
-			C|=setMtd('ObjectName', w['Name'])
-			C|=setMtd('SizePolicy', C['sizepolicy'])
-			C|=setMtd('Icon', C['icon'])
-			C|=setMtd('IconSize', C['iconsize'])
-			C|=setMtd('Checkable', C['checkable'])
-			C|=setMtd('MaximumSize', C['maxsize'])
-			C|=setMtd('ToolButtonStyle', C['btnstyle'])
-		init()
-		return init
+		C=w['Cfg']
+		w['Cfg']|=setMtd('ObjectName', w['Name'])
+		w['Cfg']|=setMtd('SizePolicy', C['sizepolicy'])
+		w['Cfg']|=setMtd('Icon', C['icon'])
+		w['Cfg']|=setMtd('IconSize', C['iconsize'])
+		w['Cfg']|=setMtd('Checkable', C['checkable'])
+		w['Cfg']|=setMtd('MaximumSize', C['maxsize'])
+		w['Cfg']|=setMtd('ToolButtonStyle', C['btnstyle'])
+		return w
+
 	def Conn():
 		c={}
-		c['clicked'] = w['Mtd']['clicked']
+		c['clicked'] = w['Mtd']['clicked'].connect
 		return c
 
 
-	w={}
-	w						|=		gnr.unPack(QtWgt.make(Arg('pfx_name')))
-	w['Name']		=			Arg('pfx_name')
-	w['Cfg']		|=		Cfg()
-	w		|=		gnr.Mtds(w['Wgt'])
-	w		|=		gnr.Atrs(w['Wgt'])
+
+	w						=		gnr.unPack(QtWgt.make(Arg('pfx_name')))
+	w['Name']		=		Arg('pfx_name')
+	w['Cfg']		=		Cfg()
+	w['Mtd']		|=		gnr.Mtds(w['Wgt'])
+	w['Atr']		|=		gnr.Atrs(w['Wgt'])
 	w['Fnx']		|=		{}
 	w['Con']		|=		Conn()
-	w['Init']		= 		Init()
+	w						= 		Init(w)
 	return gnr.Pack(w)
 
 def make_iBtn(*a,**k):

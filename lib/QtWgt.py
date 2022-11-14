@@ -3,14 +3,15 @@
 from . import gnr
 
 def QtWgt(**k):
-	def Arg(a,args={}):
+	def defaults():
 		d	=	{
 			'm'   :	[0,0,0,0]	,
 			'hPol':	'P'				,
 			'vPol':	'P'				,
 			}
-		args = args or gnr.ArgKwargs(defaults=d, **k)
-		return args(a)
+		return d
+	k,Arg= gnr.ArgKwargs(defaults, **k)
+
 	def Cfg():
 		c={
 			'pfx_name'      : Arg('pfx_name'),
@@ -22,6 +23,7 @@ def QtWgt(**k):
 			'margin'        :	Arg('m'),
 		}
 		return c
+
 	def Init():
 		setMtd=gnr.SetMtd(w)
 		C=w['Cfg']

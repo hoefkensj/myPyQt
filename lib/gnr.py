@@ -47,6 +47,17 @@ def SetMtd(wgt):
 		return r
 	return setmtd
 
+def Set(wgt):
+	mtds=wgt['Mtd']
+	setmtds={}
+	for mtd in mtds:
+		if mtd.startswith('set'):
+			short=mtd.strip('set')
+			setmtds[short]=mtds[mtd]
+			print(short)
+	return setmtds
+
+
 def Icon(svg,wh,):
 	def icon(ico):
 		import base64
@@ -69,7 +80,7 @@ def Icon(svg,wh,):
 	return {'icon':ico,'iconsize':size,'svg':svg}
 
 	
-def sizePol(**k):
+def sizePol(*a,**k):
 	from .PyQtX import QSizePolicy as QSP
 	def SizePols(a):
 		p={
@@ -81,8 +92,8 @@ def sizePol(**k):
 				'F'   :	QSP.Policy.Fixed,
 			}
 		return p.get(a)
-	hp=k.get('h') or 'P'
-	vp=k.get('v') or 'P'
+	hp=k.get('h') or a[0]
+	vp=k.get('v') or a[1]
 	pol=QSP(SizePols(hp),SizePols(vp))
 	return pol
 
@@ -130,12 +141,12 @@ def PfxMap(pfx):
 	}
 	return Map[pfx]
 
-def ArgKwargs(defaults={},**k):
-	k=k|defaults
+def ArgKwargs(defaults,**k):
+	args= defaults()|k
 	def argkwargs(a):
-		arg={ar : k.get(ar) for ar in k.keys()}
-		return arg[a]
-	return argkwargs
+		return args[a]
+	return args,argkwargs
+
 
 def SubQWgt(pfx, qwgts={}):
 	qwgts=qwgts or Mtds(QtWidgets)
@@ -148,7 +159,6 @@ def makeSize(*a,**k):
 	else:
 		w=k.get('wh')[0] or a[0][0]
 		h=k.get('wh')[0] or a[0][1]
-
 	return QtCore.QSize(w,h)
 
 def tBtnStyles(t):

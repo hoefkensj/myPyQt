@@ -6,30 +6,23 @@ from . import gnr
 
 
 def QWgt(**k):
-	def Arg(a,args={}):
+	def defaults():
 		d	=	{
-			'm'   :	[0,0,0,0]	,
-			'pfx' :	'wgt'			,
-			't'   :	None			,
+			'margin'		:	[0,0,0,0]	,
+			'pfx'	:	'wgt'			,
+			't'		:	None			,
 			'hPol':	'E'				,
 			'vPol':	'E'				,
-			}
-		args= args or d|k
-		return args[a]
+		}
+		return d
 	def Cfg():
-		c={}
-		c['pfx_name']			= Arg('pfx_name')
-		c['pfx']					= Arg('pfx')
-		c['name']					=	Arg('name')
-		c['hpol']					=	Arg('hPol')
-		c['vpol']					=	Arg('vPol')
-		c['sizepolicy']		=	gnr.sizePol(h=c['hpol'], v=c['vpol'])
-		c['layouttype']		=	Arg('t')
-		c['layout_name']	= gnr.Layouts(Arg('t')),
-		c['margin']				=	Arg('m')
+		c=k
+		c['sizepolicy']		=	gnr.sizePol(h=c['hPol'], v=c['vPol'])
+		c['layout_name']	= gnr.Layouts(k.get('t')),
+		# c['size']					=	gnr.makeSize(k.get('w'),k.get('h')) if k.get('w' or 'h') else None
 		return c
 	def Lay():
-		l = make_Qlay(w['Wgt'],**k) if Arg('t') else None
+		l = make_Qlay(w['Wgt'],**k) if k.get('t') else None
 		return l
 	def Fnx():
 		def Add(i):
@@ -42,17 +35,19 @@ def QWgt(**k):
 		f={}
 		f['Add'] = Add
 		return f
-	def Init():
+	def Init(w)     :
 		setMtd=gnr.SetMtd(w)
-		C=w['Cfg']
-		def init():
-			setMtd('ObjectName', w['Name'])
-			setMtd('ContentsMargins', *C['margin'])
-			setMtd('SizePolicy', C['sizepolicy'])
-		init()
-		return init
+		set=gnr.Set(w)
+		conf={}
+		conf['ObjectName']				=	w['Name']
+		conf['SizePolicy']				=	w['Cfg']['sizepolicy']
+		for prop in conf:
+			 w['Cfg']	|=	setMtd(prop,conf[prop])
+		set['ContentsMargin'](*w['Cfg']['margin'])
+		return w
+	k,Arg = gnr.ArgKwargs(defaults,**k)
 	w= {}
-	w['Name']			=	Arg('pfx_name')
+	w['Name']			=	k.get('pfx_name')
 	w['Wgt']			=	QWidget()
 	w['Cfg']			= Cfg()
 	w['Mtd']			=	gnr.Mtds(w['Wgt'])
@@ -60,36 +55,38 @@ def QWgt(**k):
 	w['Elements']	=	{}
 	w['Lay']			= Lay()
 	w['Fnx']			=	Fnx()
-	w['Init']			=	Init()
+	w['Con']			= {}
+	w			=	Init(w)
 	return  w
 
 def QLay(**k):
-	def Arg(a,args={}):
+	def defaults():
 		d = {
-			'm'   : [0, 0, 0, 0],
-			'pfx' : 'lay'	,
+			'm'		: [0, 0, 0, 0],
+			'pfx'	: 'lay'	,
 			'hPol': 'E'				,
 			'vPol': 'E'				,
 		}
-		args = args or gnr.ArgKwargs(defaults=d, **k)
-		return args(a)
+		return d
+
+
 	def Lay():
-		nlay=gnr.Layouts(Arg('t'))['layout']
-		lay=nlay(Arg('w'))
+		nlay=gnr.Layouts(k.get('t'))['layout']
+		lay=nlay(k.get('w'))
 		return lay
 	def Cfg():
 		c={}
-		c['widget']				=	Arg('w')
-		c['pfx_name']			= Arg('pfx_name')
-		c['pfx']					= Arg('pfx')
-		c['name']					=	Arg('name')
-		c['hpol']					=	Arg('hPol')
-		c['vpol']					=	Arg('vPol')
+		c['widget']				=	k.get('w')
+		c['pfx_name']			= k.get('pfx_name')
+		c['pfx']					= k.get('pfx')
+		c['name']					=	k.get('name')
+		c['hpol']					=	k.get('hPol')
+		c['vpol']					=	k.get('vPol')
 		c['sizepolicy']		=	gnr.sizePol(h=c['hpol'], v=c['vpol'])
-		c['layouttype']		=	Arg('t')
+		c['layouttype']		=	k.get('t')
 		c['layout_name']	= gnr.Layouts(c['layouttype'])['name'],
 		c['layout']				= gnr.Layouts(c['layouttype'])['layout'],
-		c['margin']				=	Arg('m')
+		c['margin']				=	k.get('m')
 		return c
 	def Add():
 		return  l['Mtd']['addWidget']
@@ -102,9 +99,9 @@ def QLay(**k):
 		init()
 		return init
 
-
+	k,Arg = gnr.ArgKwargs(defaults, **k)
 	l= {}
-	l['Name']			=	Arg('pfx_name')
+	l['Name']			=	k.get('pfx_name')
 	l['Lay']			=	Lay()
 	l['Cfg']			= Cfg()
 	l['Mtd']			=	gnr.Mtds(l['Lay'])
@@ -116,10 +113,10 @@ def QLay(**k):
 def make_QWgt(name,pfx='wgt',**k):
 	Names=gnr.makeNames(name=name, pfx=pfx)
 	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],
-	'qt'        : gnr.PfxMap(pfx),}
+	'pfx_name'	:	Names['pfx_name'],
+	'pfx'				:	Names['pfx'],
+	'name'			:	Names['name'],
+	'qt'				: gnr.PfxMap(pfx),}
 	qwgt 		=	QWgt(**kwargs,**k)
 	return qwgt
 	
@@ -130,10 +127,10 @@ def make_Qlay(widget,**k):
 	wgt_name=k.pop('pfx_name')
 	Names=gnr.makeNames(name=name, pfx=pfx)
 	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],
-	'w'         : widget,}
+	'pfx_name'	:	Names['pfx_name'],
+	'pfx'				:	Names['pfx'],
+	'name'			:	Names['name'],
+	'w'					: widget,}
 	qlay 		=	QLay(**kwargs,**k)
 	return qlay
 

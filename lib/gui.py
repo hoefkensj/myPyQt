@@ -4,7 +4,7 @@
 import sys
 from .PyQtX import QWidget,QApplication,QtVersion
 from . import QWgt
-from .gnr import ArgKwargs,makeNames,PfxMap
+from . import gnr
 
 def pTree(*a, **k):
 	d = k.get('d')
@@ -39,7 +39,7 @@ def Gui(*a,**k):
 				'hPol': 'E',
 				'vPol': 'E',
 				}
-		args = args or ArgKwargs(defaults=d, **k)
+		args = args or gnr.ArgKwargs(defaults=d, **k)
 		return args(a)
 
 	def Cfg():
@@ -49,9 +49,9 @@ def Gui(*a,**k):
 		c['QtVersion']		= Arg('Qt')
 		c['hpol']					=	Arg('hPol')
 		c['vpol']					=	Arg('vPol')
-		c['sizepolicy']		=	sizePol(h=c['hpol']	, v=c['vpol']	)
+		c['sizepolicy']		=	gnr.sizePol(h=c['hpol']	, v=c['vpol']	)
 		c['layouttype']		=	Arg('t')
-		c['layout_name']	=	Layouts(Arg('t')),
+		c['layout_name']	=	gnr.Layouts(Arg('t')),
 		c['margin']				=	Arg('m')
 		return c
 
@@ -89,7 +89,7 @@ def Gui(*a,**k):
 
 def make(*a,**k):
 	pfx=f'Qt{QtVersion}'
-	Names=makeNames(name=[a][0],pfx=pfx)
+	Names=gnr.makeNames(name=[a][0], pfx=pfx)
 	kwargs={
 	'pfx_name'  :	Names['pfx_name'],
 	'pfx'       :	Names['pfx'],

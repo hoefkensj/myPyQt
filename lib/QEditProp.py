@@ -26,42 +26,37 @@ def pTree(*a, **k):
 			sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
 
 def QEditProp(**k):
-	def Arg(a,args={}):
+	def defaults():
 		d	=	{
-		'pfx'   :	'mqw'				,
-		'm'     :	[0,0,0,0]			,
-		'hPol'  :	'P'						,
-		'vPol'  :	'P'						,
-		'w'     :	20						,
-		'h'     :	20						,
-		'bi'    :	False					,
-		'icowh' :	[32,32]				,
-		'lbl'   :	None					,
+		'pfx'		:	'mqw'				,
+		'm'			:	[0,0,0,0]			,
+		'hPol'	:	'E'						,
+		'vPol'	:	'P'						,
+		'lbl'		:	None					,
+		'ed'		:	True,
 		}
-		args = args or gnr.ArgKwargs(defaults=d,**k)
-
-		return args(a)
-
+		return d
+	k,Arg = gnr.ArgKwargs(defaults,**k)
 
 	def Cfg():
-		def sizing():
-			c={}
-			c['hpol']					=	Arg('hPol')
-			c['vpol']					=	Arg('vPol')
-			c['sizepolicy']		=	gnr.sizePol(h=c['hpol'], v=c['vpol'])
-			c['maxw']					=	Arg('w')
-			c['maxh']					= Arg('h')
-			c['maxsize']			=	gnr.makeSize(c['maxw'],c['maxh'])
-			c['margin']				=	Arg('m')
-			return c
-		c		=		{}
-		c		|=	gnr.makeNames(name=n[0], pfx=Arg('pfx'))
-		c		|=	sizing()
-		c['qt'] = gnr.PfxMap(Arg('pfx'))
-		c['checkable']		= Arg('bi')
-		c['btnstyle']			=	gnr.tBtnStyles('I')
+		c={
+			'pfx_name'			: Arg('pfx_name'),
+			'pfx'						: Arg('pfx'),
+			'name'					:	Arg('name'),
+			'qt'						: gnr.PfxMap(Arg('pfx')),
+			'spol'					:	[Arg('hPol'),Arg('vPol')],
+			'sizepolicy'		:	gnr.sizePol(Arg('hPol'), Arg('vPol')),
+			'margin'				:	Arg('m'),
+			'ed'						:	Arg('ed'),
+		}
+		def Optional():return {
+			'maxw'					:	k.get('w'),
+			'maxh'					: k.get('h'),
+			'maxsize'				:	gnr.makeSize(k.get('w'),k.get('h')),
+			}
+		if k.get('w'):
+			c|=Optional()
 		return c
-
 
 	# def elements():
 	# 	e= {}
@@ -73,82 +68,91 @@ def QEditProp(**k):
 	# 	return e
 
 	def Elements():
+		parent=w['Cfg']['name']
 		add=w['Fnx']['Add']
 		e		= {}
-		# e['lbl_EditProp']=QtWgt.make('lbl_EditProp')
-		# e['txt_EditProp']	= QtWgt.make('txt_EditProp')
-		# e['txt_dupEditProp']	= QtWgt.make('txt_dupEditProp')
-		e|= QtWgt.make('tBtn_Set')
-		e|= elements.make_iBtn('Edit', bi=True)
+		e|= QtWgt.make(f'lbl_Edit_{parent}',hPol='F',vPol='F')
+		e|= QtWgt.make(f'txt_Edit_{parent}')
+		e|= QtWgt.make(f'txt_Edit_{parent}dup')
+		e|= QtWgt.make(f'tBtn_Edit_{parent}Set',hPol='F',vPol='F',w=50,h=32)
+		e|= elements.make_iBtn(f'Edit_{parent}', bi=True)
 		for element in e:
 			add(e[element])
 		return e
 
-	def build():
-		elements=	w['Elements']
-		for element in elements :
-			w['Fnx']['Add'](elements[element])
+	def ShortMtds():
+		parent=w['Cfg']['name']
+		lbl=w['Elements'][f'lbl_Edit_{parent}']['Mtd']
+		txt=w['Elements'][f'txt_Edit_{parent}']['Mtd']
+		dup=w['Elements'][f'txt_Edit_{parent}dup']['Mtd']
+		set=w['Elements'][f'tBtn_Edit_{parent}Set']['Mtd']
+		edt=w['Elements'][f'iBtn_Edit_{parent}']['Mtd']
+		return lbl,txt,dup,set,edt
 
+	def fnx():
+		lbl,txt,dup,set,edt=ShortMtds()
 
-	def init(wgt):
-		# w['Elements']['lbl_EditProp']['Mtd']['setText'](Arg('lbl'))
-		w['Elements']['tBtn_Set']['Mtd']['setHidden'](True)
-		# w['Elements']['txt_EditProp']['Mtd']['setReadOnly'](True)
-		# w['Elements']['txt_dupEditProp']['Mtd']['setHidden'](True)
-		# w['Fnx']['Editable'](not k.get('ed'))
-		return wgt
-	def fnx(wgt):
-		def txtText(wgt):
+		def txtText():
 			def txtText(text):
-				wgt.txt.setText(text)
-				wgt.txtdup.setText(text)
+				txt['setText'](text)
+				dup['setText'](text)
 			return txtText
-		def setText(wgt):
+		def setText():
 			def setText():
-				nText=  wgt.txt.text()
-				wgt.txtdup.setText(nText)
-				wgt.btnEdit.setChecked(False)
-				wgt.btnSet.setHidden(True)
+				nText= txt['text']()
+				dup['setText'](nText)
+				edt['setChecked'](False)
+				set['setHidden'](True)
 				fnSet(nText)
 			return setText
-		def edit(wgt):
+		def edit():
 			def edit(state):
-				wgt.btnEdit.setChecked(state)
-				wgt.txt.setReadOnly(not state)
-				wgt.btnSet.setHidden(not state)
+				edt['setChecked'](state)
+				txt['setReadOnly'](not state)
+				set['setHidden'](not state)
 				if not state:
-					wgt.txt.setText(wgt.txtdup.text())
+					txt['setText'](dup['text']())
 			return edit
-		def editable(wgt):
+		def editable():
 			def editable(state):
-				w['Elements']['iBtn_Edit']['Mtd']['setHidden'](state)
+				edt['setHidden'](state)
 			return editable
 		f = {}
-		f['Edit'] 		=	edit(wgt)
-		f['txtText'] 	=	txtText(wgt)
-		f['setText']	=	setText(wgt)
-		f['Editable'] =	editable(wgt)
+		f['Edit'] 		=	edit()
+		f['txtText'] 	=	txtText()
+		f['setText']	=	setText()
+		f['Editable'] =	editable()
 		return f
-	def conn(wgt):
+	def Con():
+		lbl,txt,dup,set,edt=ShortMtds()
 		c = {}
-		c['iBtn_Edit']= w['Elements']['iBtn_Edit']['Mtd']['clicked'].connect
-		# c['tBtn_Set']= w['Elements']['tBtn_Set']['Mtd']['clicked'].connect
-		# c['txt_EditProp']	= {}
-		# c['txt_EditProp']['returnPressed']= w['Elements']['txt_EditProp']['Mtd']['returnPressed'].connect
-		# wgt.btnEdit.clicked.connect(w['fnx']['Edit'])
-		# wgt.btnSet.clicked.connect(w['fnx']['txtText'])
-		# wgt.txt.returnPressed.connect(w['fnx']['txtText'])
+		c['iBtn_Edit']= edt['clicked'].connect
+		c['tBtn_Set']=	set['clicked'].connect
+		c['txt_EditProp']	= {}
+		c['txt_EditProp']['returnPressed']= txt['returnPressed'].connect
+
+		c['iBtn_Edit'](w['Fnx']['Edit'])
+		c['tBtn_Set'](w['Fnx']['txtText'])
+		c['txt_EditProp']['returnPressed'](w['Fnx']['txtText'])
 		return c
+
+	def init(w):
+		lbl,txt,dup,set,edt=ShortMtds()
+		lbl['setText'](w['Cfg']['name'])
+		set['setHidden'](True)
+		set['setText']('Set')
+		txt['setReadOnly'](True)
+		dup['setHidden'](True)
+		w['Fnx']['Editable'](not w['Cfg']['ed'])
+		return w
 	w ={}
-
-
-	w=	QWgt.make(Arg('name'),t='h')
+	w=	QWgt.make(Arg('name'),t='h',vPol='F',hPol='E')
+	w['Name']			=	Arg('pfx_name')
 	w['Elements'] = Elements()
-
-
-	w['Fnx'] 			|= fnx(w['Wgt'])
-	w['Conn']			=	conn(w['Wgt'])
-	w['Wgt']			=	init(w['Wgt'])
+	w['Cfg']			= Cfg()
+	w['Fnx'] 			|= fnx()
+	w['Con']			|=	Con()
+	w			=	init(w)
 
 	return w
 
@@ -156,9 +160,9 @@ def QEditProp(**k):
 def make(name,pfx='wgt',**k):
 	Names=gnr.makeNames(name=name,pfx=pfx)
 	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],
+	'pfx_name'	:	Names['pfx_name'],
+	'pfx'				:	Names['pfx'],
+	'name'			:	Names['name'],
 		'qt'        : gnr.PfxMap(pfx),}
 	qtwgt 		=	QEditProp(**kwargs,**k)
 	return qtwgt

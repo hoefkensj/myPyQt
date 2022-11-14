@@ -5,7 +5,7 @@ def setQtVersion(QtVersion):
 	if QtVersion==6:
 		from PyQt6 import QtCore,QtWidgets,QtGui
 	elif  QtVersion==5:
-		from PyQt6 import QtCore,QtWidgets,QtGui
+		from PyQt5 import QtCore,QtWidgets,QtGui
 	else:
 		sys.exit('no Qt version set')
 
