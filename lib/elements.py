@@ -68,7 +68,7 @@ def iBtn(**k):
 	w['Fnx']		|=		{}
 	w['Con']		|=		Conn()
 	w						= 		Init(w)
-	return gnr.Pack(w)
+	return gnr.sPack(w)
 
 def make_iBtn(*a,**k):
 	pfx		=	'iBtn'
@@ -79,7 +79,7 @@ def make_iBtn(*a,**k):
 	'pfx'       :	Names['pfx'],
 	'name'      :	Names['name'],}
 	ibtn 		=	iBtn(**kwargs,**k)
-	return gnr.rePack(ibtn)
+	return ibtn
 
 def chkBox(**k):
 	def Wgt():

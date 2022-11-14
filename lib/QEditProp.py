@@ -26,8 +26,7 @@ def pTree(*a, **k):
 			sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
 
 def QEditProp(**k):
-	def defaults():
-		d	=	{
+	def defaults(): return {
 		'pfx'		:	'mqw'				,
 		'm'			:	[0,0,0,0]			,
 		'hPol'	:	'E'						,
@@ -35,9 +34,6 @@ def QEditProp(**k):
 		'lbl'		:	None					,
 		'ed'		:	True,
 		}
-		return d
-
-
 	def Cfg():
 		c={
 			'pfx_name'			: k.get('pfx_name'),
@@ -60,17 +56,13 @@ def QEditProp(**k):
 
 	def Elements():
 		parent=w['Cfg']['name']
-		add=w['Fnx']['Add']
 		e		= {}
 		e|= QtWgt.make(f'lbl_Edit_{parent}',hPol='F',vPol='F')
 		e|= QtWgt.make(f'txt_Edit_{parent}')
 		e|= QtWgt.make(f'txt_Edit_{parent}dup')
 		e|= QtWgt.make(f'tBtn_Edit_{parent}Set',hPol='F',vPol='F',w=50,h=32)
 		e|= elements.make_iBtn(f'Edit_{parent}', bi=True)
-		for element in e:
-			add(e[element])
 		return e
-
 	def ShortMtds():
 		parent=w['Cfg']['name']
 		lbl=w['Elements'][f'lbl_Edit_{parent}']['Mtd']
@@ -79,10 +71,8 @@ def QEditProp(**k):
 		set=w['Elements'][f'tBtn_Edit_{parent}Set']['Mtd']
 		edt=w['Elements'][f'iBtn_Edit_{parent}']['Mtd']
 		return lbl,txt,dup,set,edt
-
-	def fnx():
+	def Fnx():
 		lbl,txt,dup,set,edt=ShortMtds()
-
 		def txtText():
 			def txtText(text):
 				txt['setText'](text)
@@ -126,8 +116,9 @@ def QEditProp(**k):
 		c['tBtn_Set'](w['Fnx']['txtText'])
 		c['txt_Edit']['returnPressed'](w['Fnx']['txtText'])
 		return c
-
-	def init(w):
+	def Init(w):
+		for element in w['Elements']:
+			w['Fnx']['Add'](w['Elements'][element])
 		lbl,txt,dup,set,edt=ShortMtds()
 		lbl['setText'](w['Cfg']['name'])
 		set['setHidden'](True)
@@ -137,17 +128,14 @@ def QEditProp(**k):
 		w['Fnx']['Editable'](not w['Cfg']['ed'])
 		return w
 		
-	k,Arg = gnr.ArgKwargs(defaults,**k)	
-	w ={}
-	w=	QWgt.make(k.get('name'),t='h',vPol='F',hPol='E')
-	w['Name']			=	k.get('pfx_name')
-	w['Elements'] = Elements()
-	w['Cfg']			= Cfg()
-	w['Fnx'] 			|= fnx()
+	k,Arg					=		gnr.ArgKwargs(defaults,**k)
+	w							=		QWgt.make(k.get('name'),t='h',vPol='F',hPol='E')
+	w['Name']			=		k.get('pfx_name')
+	w							|=	{'Elements' : Elements()}
+	w							|=	{'Cfg' 			: Cfg()}
+	w['Fnx'] 			|=	Fnx()
 	w['Con']			|=	Con()
-	w			=	init(w)
-
-	return w
+	return Init(w)
 
 
 def make(name,pfx='wgt',**k):

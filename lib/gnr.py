@@ -173,12 +173,13 @@ def tBtnStyles(t):
 		}
 	return s[t.casefold()]
 
-def Pack(qt):
+def dPack(qt):
 	return {'name': qt['Name']	,	'qt':	qt,}
+
+def sPack(qt):
+	return {qt['Name']:qt}
 
 def unPack(pack):
 	for key in pack:
 		return pack[key]
 
-def rePack(pack):
-	return {pack['name']:pack['qt']}

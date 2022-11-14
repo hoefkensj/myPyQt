@@ -43,7 +43,7 @@ def QtWgt(**k):
 	w['Con']			= {}
 	w['Fnx']			= {}
 	w['Init']			=	Init()
-	return gnr.Pack(w)
+	return gnr.sPack(w)
 
 def make(*a,**k):
 	if a:
@@ -56,5 +56,5 @@ def make(*a,**k):
 	qt				= gnr.PfxMap(pfx)
 	qtwgt 		=	QtWgt(pfx_name=pfx_name,pfx=pfx,name=name,qt=qt,**k)
 
-	return gnr.rePack(qtwgt)
+	return qtwgt
 
