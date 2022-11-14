@@ -36,18 +36,18 @@ def QEditProp(**k):
 		'ed'		:	True,
 		}
 		return d
-	k,Arg = gnr.ArgKwargs(defaults,**k)
+
 
 	def Cfg():
 		c={
-			'pfx_name'			: Arg('pfx_name'),
-			'pfx'						: Arg('pfx'),
-			'name'					:	Arg('name'),
-			'qt'						: gnr.PfxMap(Arg('pfx')),
-			'spol'					:	[Arg('hPol'),Arg('vPol')],
-			'sizepolicy'		:	gnr.sizePol(Arg('hPol'), Arg('vPol')),
-			'margin'				:	Arg('m'),
-			'ed'						:	Arg('ed'),
+			'pfx_name'			: k.get('pfx_name'),
+			'pfx'						: k.get('pfx'),
+			'name'					:	k.get('name'),
+			'qt'						: gnr.PfxMap(k.get('pfx')),
+			'spol'					:	[k.get('hPol'),k.get('vPol')],
+			'sizepolicy'		:	gnr.sizePol(k.get('hPol'), k.get('vPol')),
+			'margin'				:	k.get('m'),
+			'ed'						:	k.get('ed'),
 		}
 		def Optional():return {
 			'maxw'					:	k.get('w'),
@@ -145,9 +145,11 @@ def QEditProp(**k):
 		dup['setHidden'](True)
 		w['Fnx']['Editable'](not w['Cfg']['ed'])
 		return w
+		
+	k,Arg = gnr.ArgKwargs(defaults,**k)	
 	w ={}
-	w=	QWgt.make(Arg('name'),t='h',vPol='F',hPol='E')
-	w['Name']			=	Arg('pfx_name')
+	w=	QWgt.make(k.get('name'),t='h',vPol='F',hPol='E')
+	w['Name']			=	k.get('pfx_name')
 	w['Elements'] = Elements()
 	w['Cfg']			= Cfg()
 	w['Fnx'] 			|= fnx()
