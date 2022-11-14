@@ -58,15 +58,6 @@ def QEditProp(**k):
 			c|=Optional()
 		return c
 
-	# def elements():
-	# 	e= {}
-	# 	e['lbl_EditProp']		= QtWgt.make(n='lbl_EditProp')
-	# 	e		|= QtWgt.make(n='txt_EditProp')#(n,ro=True)
-	# 	e		|= QtWgt.make(n='txt_dupEditProp')#(n,ro=True)
-	# 	e		|= QtWgt.make('tBtn_Set')
-	# 	e		|= iBtn('Edit', bi=True)
-	# 	return e
-
 	def Elements():
 		parent=w['Cfg']['name']
 		add=w['Fnx']['Add']
@@ -128,12 +119,12 @@ def QEditProp(**k):
 		c = {}
 		c['iBtn_Edit']= edt['clicked'].connect
 		c['tBtn_Set']=	set['clicked'].connect
-		c['txt_EditProp']	= {}
-		c['txt_EditProp']['returnPressed']= txt['returnPressed'].connect
+		c['txt_Edit']	= {}
+		c['txt_Edit']['returnPressed']= txt['returnPressed'].connect
 
 		c['iBtn_Edit'](w['Fnx']['Edit'])
 		c['tBtn_Set'](w['Fnx']['txtText'])
-		c['txt_EditProp']['returnPressed'](w['Fnx']['txtText'])
+		c['txt_Edit']['returnPressed'](w['Fnx']['txtText'])
 		return c
 
 	def init(w):

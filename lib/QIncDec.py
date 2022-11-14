@@ -5,11 +5,10 @@ import sys
 from . import QWgt
 
 
-def IncDec(**k):
-	def defaults():
-		d	=	{
+def QIncDec(**k):
+	def defaults():return {
 		'pfx'		:	'idw'				,
-		'm'			:	[0,0,0,0]			,
+		'm'			:	[5,0,5,0]			,
 		'hPol'	:	'F'						,
 		'vPol'	:	'F'						,
 		'w'			:	20						,
@@ -17,29 +16,68 @@ def IncDec(**k):
 		'lbl'		:	None					,
 		'ed'		:	True,
 		}
-		return d
-	def create(wgt):
-		wgt.btnExp 		= blk['Elements']['iBtn']('Inc',h=15,w=15,icons=ico)
-		wgt.btnCol 		= blk['Elements']['iBtn']('Dec',h=15,w=15,icons=ico)
-		return wgt
-	def layout(wgt):
-		wgt = blk['Base']['sPol'](wgt, h='P', v='P')
-		wgt.setContentsMargins(*margin)
-		return wgt
-	def add(wgt,lay):
-		lay.addWidget(wgt.btnExp)
-		lay.addWidget(wgt.btnCol)
-		return lay
-	def conn(wgt):
-		wgt.fnI=wgt.btnExp.clicked.connect
-		wgt.fnD=wgt.btnCol.clicked.connect
-		return wgt
+	def Elements():
+		parent=w['Cfg']['name']
+		add=w['Fnx']['Add']
+		e		= {}
+		e|= elements.make_iBtn(f'Inc_{parent}',h=15,w=15, bi=False)
+		e|= elements.make_iBtn(f'Dec_{parent}',h=15,w=15, bi=False)
+		for element in e:
+			add(e[element])
+		return e
 
-	margin=k.get('margin') or [5,0,5,0]
-	wgt =	 blk['Base']['Wgt'](n='wgtIncDec',t='h')
-	wgt=create(wgt)
-	wgt.lay=add(wgt,wgt.lay)
-	wgt=layout(wgt)
-	wgt=conn(wgt)
-	wgt.setContentsMargins(*margin)
-	return wgt
+		return wgt
+	def ShortMtds():
+		parent=w['Cfg']['name']
+		inc=w['Elements'][f'iBtn_Inc_{parent}']['Mtd']
+		dec=w['Elements'][f'iBtn_Dec_{parent}']['Mtd']
+		return inc,dec
+	def Con():
+		inc,dec=ShortMtds()
+		c = {}
+		c['iBtn_Inc']=	inc['clicked'].connect
+		c['iBtn_Dec']=	dec['clicked'].connect
+		return c
+	def init(w):
+		Inc,Dec=ShortMtds()
+		return w
+	def fnx():
+		Inc,Dec=ShortMtds()
+		def StateInc():
+			def stateinc(state):
+				Inc['setEnabled'](state)
+			return stateinc
+		def StateDec():
+			def statedec(state):
+				Dec['setEnabled'](state)
+			return statedec
+		def Show():
+			def show(state):
+				w['Wgt']['Mtd']['setVisible'](state)
+				return show
+		f = {}
+		f['Inc'] 		=	StateInc()
+		f['Dec'] 		= StateDec()
+		f['IncDec'] =	Show()
+		return f
+	k,Arg = gnr.ArgKwargs(defaults,**k)
+	w ={}
+	w=	QWgt.make(k.get('name'),t='h',vPol='P',hPol='P')
+	w['Name']			=	k.get('pfx_name')
+	w['Elements'] = Elements()
+	# w['Cfg']			= Cfg()
+	w['Fnx'] 			|= fnx()
+	w['Con']			|=	Con()
+	w			=	init(w)
+
+	return w
+
+def make(name,pfx='wgt',**k):
+	Names=gnr.makeNames(name=name,pfx=pfx)
+	kwargs={
+	'pfx_name'	:	Names['pfx_name'],
+	'pfx'				:	Names['pfx'],
+	'name'			:	Names['name'],
+	'qt'				: gnr.PfxMap(pfx),}
+	qtwgt				=QIncDec(**kwargs,**k)
+	return qtwgt
