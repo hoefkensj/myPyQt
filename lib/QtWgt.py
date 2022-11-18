@@ -10,40 +10,40 @@ def QtWgt(**k):
 			'vPol':	'P'				,
 			}
 		return d
-	k,Arg= gnr.ArgKwargs(defaults, **k)
-
+	def Create():
+		w=dict()
+		w['Name']			=	k['pfx_name']
+		w['name']			=	k['name']
+		w['Wgt']			=	gnr.SubQWgt(k['pfx'])
+		w['Mtd']			=	gnr.Mtds(w['Wgt'])
+		w['Atr']			= gnr.Atrs(w['Wgt'])
+		w							|= gnr.SetMtds(w)
+		return w
 	def Cfg():
+		c= gnr.ArgKwargs(defaults, **k)
 		c={
-			'pfx_name'      : Arg('pfx_name'),
-			'pfx'           : Arg('pfx'),
-			'name'          :	Arg('name'),
-			'qt'            : Arg('qt'),
-			'spol'          :	[Arg('hPol'),Arg('vPol')],
-			'sizepolicy'    :	gnr.sizePol(h=Arg('hPol'), v=Arg('vPol')),
-			'margin'        :	Arg('m'),
+			'spol'          :	[c.get('hPol'),c.get('vPol')],
+			'sizepolicy'    :	gnr.sizePol(h=c.get('hPol'), v=c.get('vPol')),
+			'margin'        :	c.get('m'),
 		}
 		return c
 
-	def Init():
-		setMtd=gnr.SetMtd(w)
-		C=w['Cfg']
-		def init():
-			setMtd('ObjectName',C['pfx_name'])
-			setMtd('ContentsMargins',*C['margin'])
-			setMtd('SizePolicy',C['sizepolicy'])
-		init()
-		return Init
+	def Init(w)     :
+		Set=w['Set'];Read=w['Read']
+		conf = {}
+		conf['ObjectName']				=	w['Name']
+		conf['SizePolicy']				=	w['Cfg']['sizepolicy']
+		for prop in conf:
+			Set[prop](conf[prop])
+			w['Cfg'][prop]=Read[prop]()
+		Set['ContentsMargins'](*w['Cfg']['margin'])
+		return w
 
-	w= {}
-	w['Name']			= Arg('pfx_name')
-	w['Wgt']			=	gnr.SubQWgt(Arg('pfx'))()
+	w							= Create()
 	w['Cfg']			= Cfg()
-	w['Mtd']			=	gnr.Mtds(w['Wgt'])
-	w['Atr']			= gnr.Atrs(w['Wgt'])
 	w['Con']			= {}
 	w['Fnx']			= {}
-	w['Init']			=	Init()
-	return gnr.sPack(w)
+	return Init(w)
 
 def make(*a,**k):
 	if a:

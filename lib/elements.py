@@ -1,127 +1,44 @@
 #!/usr/bin/env python
 
-from .PyQtX import QtCore
 from . import gnr
 from ..assets import ico
 
 from . import QtWgt
 
-def iBtn(**k):
-	def defaults():
-			d	=	{
-				'pfx'   :	'iBtn'				,
-				'm'     :	[0,0,0,0]			,
-				'hPol'  :	'P'						,
-				'vPol'  :	'P'						,
-				'w'     :	20						,
-				'h'     :	20						,
-				'bi'    :	False					,
-				'ico'   :	ico.get(k.get('name').split('_')[0])	,
-				'icowh' :	[32,32]				,
-				'lbl'   :	None					,
-				}
-			return d
-	k,Arg=gnr.ArgKwargs(defaults,**k)
+def chkBox(**k):
+	def defaults(): return{
+			'pfx'   :	'iBtn'				,
+			'm'     :	[0,0,0,0]			,
+			'pol'  :	'FP'					,
+			'w'     :	20						,
+			'h'     :	20						,
+			'ico'   :	ico.get(k.get('name').split('_')[0])	,
+			'icowh' :	[32,32]				,
+			}
 
-	def Cfg():
-		c={
-			'pfx_name'      : Arg('pfx_name'),
-			'pfx'           : Arg('pfx'),
-			'name'          :	Arg('name'),
-			'qt'            : gnr.PfxMap(Arg('pfx')),
-			'spol'          :	[Arg('hPol'),Arg('vPol')],
-			'sizepolicy'    :	gnr.sizePol(Arg('hPol'), Arg('vPol')),
-			'maxw'					:	Arg('w'),
-			'maxh'					: Arg('h'),
-			'maxsize'				:	gnr.makeSize(Arg('w'),Arg('h')),
-			'margin'        :	Arg('m'),
-			'checkable'			:	Arg('bi'),
-			'btnstyle'			:	gnr.tBtnStyles('I'),
-			**gnr.Icon(Arg('ico'),Arg('icowh')),
-		}
-		return c
-
-	def Init(w)     :
-		setMtd=gnr.SetMtd(w)
-		C=w['Cfg']
-		w['Cfg']|=setMtd('ObjectName', w['Name'])
-		w['Cfg']|=setMtd('SizePolicy', C['sizepolicy'])
-		w['Cfg']|=setMtd('Icon', C['icon'])
-		w['Cfg']|=setMtd('IconSize', C['iconsize'])
-		w['Cfg']|=setMtd('Checkable', C['checkable'])
-		w['Cfg']|=setMtd('MaximumSize', C['maxsize'])
-		w['Cfg']|=setMtd('ToolButtonStyle', C['btnstyle'])
+	def Create():
+		w=dict()
+		w['Name']			=	k['pfx_name']
+		w['name']			=	k['name']
+		w['Wgt']			=	QtWgt.make(gnr.ArgKwargs(defaults,**k))
+		w['Mtd']			=	gnr.Mtds(w['Wgt'])
+		w['Atr']			= gnr.Atrs(w['Wgt'])
+		w							|= gnr.SetMtds(w)
 		return w
 
-	def Conn():
-		c={}
-		c['clicked'] = w['Mtd']['clicked'].connect
-		return c
 
 
-
-	w						=		gnr.unPack(QtWgt.make(Arg('pfx_name')))
-	w['Name']		=		Arg('pfx_name')
-	w['Cfg']		=		Cfg()
-	w['Mtd']		|=		gnr.Mtds(w['Wgt'])
-	w['Atr']		|=		gnr.Atrs(w['Wgt'])
-	w['Fnx']		|=		{}
-	w['Con']		|=		Conn()
-	w						= 		Init(w)
-	return gnr.sPack(w)
-
-def make_iBtn(*a,**k):
-	pfx		=	'iBtn'
-	name=a[0]
-	Names=gnr.makeNames(name=name,pfx=pfx)
-	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],}
-	ibtn 		=	iBtn(**kwargs,**k)
-	return ibtn
-
-def chkBox(**k):
-	def Wgt():
-		n=Arg('pfx_name')
-		wgt = QtWgt.make(n=n)
-		return wgt[n]
-	def Arg(a,Args={}):
-		def read():
-			arg={}
-			arg['w']				= k.get("w")	or 20
-			arg['h']				= k.get("h")	or 20
-			arg['ico']			= k.get('ico') or ico.get(arg['name'])
-			arg['lbl']			= k.get('lbl')
-			arg['m']				= k.get('m') or [0,0,0,0]
-
-			arg['bi']				= k.get('bi') 		or False
-			arg['icowh']		= k.get('icowh')	or [32, 32]
-			return arg
-		if not Args:	Args= read()
-		r = Args.get(a)
-		return r
-	def Props():
-		P={
-		'Name'              : 	Arg('pfx_name'),
-		'b64Svg'            :		Arg('ico'),
-		'Icon'              :		gnr.Icon(Arg('ico'))	,
-		'IconSizes'         :		Arg('icowh'),
-		'IconSize'          :		QtCore.QSize(*Arg('icowh')),
-		'Checkable'         :		Arg('bi'),
-		'MaximumSizes'      :		[Arg('w'), Arg('h')],
-		'MaximumSize'       :		QtCore.QSize(Arg('w'), Arg('h')),
-		'SizePolicy'        :		gnr.sizePol(h='P', v='P'),
+	def Cfg():
+		c=gnr.ArgKwargs(defaults,**k)
+		c|={
+			'sizepolicy'    :	gnr.sizePol('Pol'),
+			'maxw'          :	c.get('w'),
+			'maxh'          : c.get('h'),
+			'maxsize'       :	gnr.makeSize(c.get('w'),c.get('h')),
+			'margin'        :	c.pop('m'),
+			**gnr.Icon(c.get('ico'),c.get('icowh')),
 			}
-		return P
-	def Mtd():
-		wgt = w['Wgt']
-		mtd=gnr.Mtds(wgt)
-		return mtd
-	def Atr():
-		wgt = w['Wgt']
-		atr=gnr.Atrs(wgt)
-		return atr
+		return c
 	def Fnx():
 		def toggle():
 			state=w['Mtd']['isChecked']
@@ -129,17 +46,15 @@ def chkBox(**k):
 		f 					= {}
 		f['Toggle']	= toggle
 		return f
-	def Init():
-		P=w['Prp']
-		M=w['Mtd']
-		def init():
-			M['setObjectName'](P['Name'])
-			M['setSizePolicy'](P['SizePolicy'])
-			M['setIcon'](P['Icon'])
-			M['setIconSize'](P['IconSize'])
-			M['setCheckable'](P['Checkable'])
-			M['setMaximumSize'](P['MaximumSize'])
-		init()
+	def Init(w):
+		c=w['Cfg']
+		w['Set']['ObjectName'](c['Name'])
+		w['Set']['SizePolicy'](c['SizePolicy'])
+		w['Set']['Icon'](c['Icon'])
+		w['Set']['IconSize'](c['IconSize'])
+		w['Set']['Checkable'](c['Checkable'])
+		w['Set']['MaximumSize'](c['MaximumSize'])
+
 		return init
 	def Conn():
 		c={}
@@ -162,10 +77,10 @@ def chkBox(**k):
 '''	  
 def Spcr(**k):
 	def Wgt():
-		wgt = make(n=Arg('n'), t=Arg('qt'))
-		return wgt[Arg('n')]
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
 
-	def Arg(a):
+	def c.get(a):
 		arg={}
 		arg['n']	= k.get("n")	or 'N'
 		arg['w']	= k.get('w')	or 0
@@ -188,7 +103,7 @@ def Spcr(**k):
 		Init()
 		return Init
 	w={}
-	w['Arg']			=	Arg()
+	w['Arg']			=	c.get()
 	# s['Wgt'] 			= QtWidgets.QSpacerItem(w, h, sPols(hPol), sPols(vPol))
 	# s['Data']			=	Data(s)
 	# s['Mtd']			=	Mtd(s)
@@ -197,10 +112,10 @@ def Spcr(**k):
 
 def SpcFix(**k):
 	def Wgt():
-		wgt = make(n=Arg('n'), t=Arg('qt'))
-		return wgt[Arg('n')]
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
 
-	def Arg():
+	def c.get():
 		arg={}
 		arg['n']	= k.get("n")	or 'N'
 		arg['w']	= k.get('w')	or 0
@@ -225,10 +140,10 @@ def SpcFix(**k):
 
 def SpcEx(**k):
 	def Wgt():
-		wgt = make(n=Arg('n'), t=Arg('qt'))
-		return wgt[Arg('n')]
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
 
-	def Arg():
+	def c.get():
 		arg={}
 		arg['n']	=	k.get("n")
 		arg['w']	= k.get("w")	or 0
@@ -253,12 +168,12 @@ def SpcEx(**k):
 
 def chkBox(**k):
 	def Wgt():
-		wgt = make(n=Arg('n'), t=Arg('qt'))
-		return wgt[Arg('n')]
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
 
 	wgt=None
 
-	def Arg():
+	def c.get():
 		arg={}
 		arg['n']				=	k.get("n")
 		arg['w']				= k.get("w")	or 20
@@ -294,7 +209,7 @@ def chkBox(**k):
 
 	w={}
 	w['Wgt'] 		= Wgt()
-	w['Arg']		=	Arg()
+	w['Arg']		=	c.get()
 	w['Mtd']		= Mtd(b)
 	w['Data']		=	Data(b)
 	w['Fnx']		= Fnx()
@@ -304,10 +219,10 @@ def chkBox(**k):
 
 def iBtn(**k):
 	def Wgt():
-		wgt = make(n=Arg('n'), t=Arg('qt'))
-		return wgt[Arg('n')]
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
 
-	def Arg():
+	def c.get():
 		arg={}
 		arg['n']				=	k.get("n")
 		arg['w']				= k.get("w")	or 20
@@ -339,7 +254,7 @@ def iBtn(**k):
 
 	w={}
 	w['Wgt'] 		= QtWidgets.QToolButton()
-	w['Arg']		=	Arg()
+	w['Arg']		=	c.get()
 	Mtd=     dClass('Mtds')('Wgt')
 	w['Mtd']		= Mtd(b)
 	w['Data']		=	Data(b)
@@ -350,10 +265,10 @@ def iBtn(**k):
 
 def tBtn(**k):
 	def Wgt():
-		wgt = make(n=Arg('n'), t=Arg('qt'))
-		return wgt[Arg('n')]
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
 
-	def Arg():
+	def c.get():
 		arg={}
 		arg['n']				=	k.get("n")
 		arg['w']				= k.get("w")	or 20
@@ -384,7 +299,7 @@ def tBtn(**k):
 
 	w={}
 	w['Wgt'] 		= Wgt()
-	w['Arg']		= Arg()
+	w['Arg']		= c.get()
 	Mtd=     dClass('Mtds')('Wgt')
 	w['Mtd']		= Mtd(b)
 	w['Data']		=	Data(b)
@@ -395,11 +310,11 @@ def tBtn(**k):
 
 def Lbl(**k):
 	def Wgt():
-		wgt = make(n=Arg('n'), t=Arg('qt'))
-		return wgt[Arg('n')]
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
 
 	Mtd=     dClass('Mtds')('Wgt')
-	def Arg():
+	def c.get():
 		arg={}
 		arg['n']				=	k.get('n')
 		arg['w']				= k.get('w')	or 20
@@ -426,7 +341,7 @@ def Lbl(**k):
 
 	w={}
 	w['Wgt'] 		= Wgt()
-	w['Arg']		=	Arg()
+	w['Arg']		=	c.get()
 	w['Mtd']		= Mtd(l)
 	w['Data']		= None
 	w['Fnx']		= Fnx()
@@ -436,10 +351,10 @@ def Lbl(**k):
 
 def lEdit(**k):
 	def Wgt():
-		wgt = make(n=Arg('n'), t=Arg('qt'))
-		return wgt[Arg('n')]
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
 
-	def Arg():
+	def c.get():
 		arg={}
 		arg['n']				=	k.get('n')
 		arg['w']				= k.get('w')	or 20
@@ -471,7 +386,7 @@ def lEdit(**k):
 
 	w={}
 	w['Wgt'] 		= Wgt()
-	w['Arg'] = Arg()
+	w['Arg'] = c.get()
 	Mtd=     dClass('Mtds')('Wgt')
 	w['Mtd']		= Mtd(l)
 	w['Data']		=	Data(l)
@@ -482,10 +397,10 @@ def lEdit(**k):
 
 def Tree(**k):
 	def Wgt():
-		wgt = make(n=Arg('n'), t=Arg('qt'))
-		return wgt[Arg('n')]
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
 
-	def Arg():
+	def c.get():
 		arg={}
 		arg['n']				= k.get('n') or 'Tree'
 		arg['m']				= k.get('m') or [0,0,0,0]
@@ -524,7 +439,7 @@ def Tree(**k):
 
 	w={}
 	w['Wgt'] 		= Wgt()
-	w['Arg']		=	Arg()
+	w['Arg']		=	c.get()
 	w['Mtd']		= Mtd(t)
 	w['Data']		=	Data(t)
 	w['Fnx']		= Fnx()

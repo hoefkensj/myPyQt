@@ -5,9 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="638b6880-4a88-4897-aefd-48c2526c0dfa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/QSearch.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icons.conf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/QElements/QIconButton.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/QElements/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/QModules/QHArrows.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/QModules/QHSearch.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/QModules/QHSearchCtl.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/QModules/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QEditProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QEditProp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QEditProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QEditProp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QIncDec.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QIncDec.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QSearch.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QWgt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/QtWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QtWgt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/elements.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/elements.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/gnr.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gnr.py" afterDir="false" />
@@ -37,7 +46,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/lib/QtWgt.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QEditProp.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/QModules/QEditProp.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lib/gui.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lib/elements.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lib/PyQtX.py" root0="FORCE_HIGHLIGHTING" />
@@ -64,8 +73,8 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../corectl" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/QModules" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -76,6 +85,11 @@
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/QModules" />
+    </key>
   </component>
   <component name="RunManager" selected="Python.scratch">
     <configuration name="PyQtX" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -224,7 +238,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/lib/QIncDec.py</url>
-          <line>8</line>
+          <line>9</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

@@ -19,7 +19,6 @@ def Layouts(t):
 		r=None;n='None'
 	return {'name': n , 'layout': r}
 
-
 def Mtds(w):
 	f = {}
 	for n in dir(w):
@@ -37,26 +36,34 @@ def Atrs(w):
 	return v
 
 def SetMtd(wgt):
-	mtds=wgt['Mtd']
+	sets=wgt['Set']
+	reads=wgt['Read']
 	def setmtd(setm, *setv):
-		mtd=mtds[f'set{setm}']
-		mtd(*setv)
-		fuckcase=f'{setm[0].casefold()}{setm[1:]}'
-		newval=mtds.get(fuckcase) or mtds.get(f'is{setm}')
-		r={fuckcase : newval()} if newval else {fuckcase:None}
+		Set=sets[setm]
+		Set(*setv)
+		Val=reads[setm]
+		r={setm : Val()}
 		return r
 	return setmtd
 
-def Set(wgt):
+def SetMtds(wgt):
 	mtds=wgt['Mtd']
-	setmtds={}
+	sets={};reads={}
+	nocase=[]
 	for mtd in mtds:
 		if mtd.startswith('set'):
-			short=mtd.strip('set')
-			setmtds[short]=mtds[mtd]
-			print(short)
-	return setmtds
-
+			short=mtd[3:]
+			nocase+=[short.casefold()]
+			sets[short]=mtds[mtd]
+	for mtd in mtds:
+		if mtd.startswith('is'):
+			fix=mtd[2:]
+		else:
+			fix=f'{mtd[0].upper()}{mtd[1:]}'
+		if mtd.casefold() in nocase:
+			reads[fix]=mtds[mtd]
+	SetMtds={'Set': sets,'Read': reads}
+	return SetMtds
 
 def Icon(svg,wh,):
 	def icon(ico):
@@ -92,8 +99,12 @@ def sizePol(*a,**k):
 				'F'   :	QSP.Policy.Fixed,
 			}
 		return p.get(a)
-	hp=k.get('h') or a[0]
-	vp=k.get('v') or a[1]
+	if len(a)==1:
+		hp=a[0][0]
+		vp=a[0][1]
+	else:
+		hp=k.get('h') or a[0]
+		vp=k.get('v') or a[1]
 	pol=QSP(SizePols(hp),SizePols(vp))
 	return pol
 
@@ -145,12 +156,12 @@ def ArgKwargs(defaults,**k):
 	args= defaults()|k
 	def argkwargs(a):
 		return args[a]
-	return args,argkwargs
+	return args
 
 
-def SubQWgt(pfx, qwgts={}):
-	qwgts=qwgts or Mtds(QtWidgets)
-	return qwgts[PfxMap(pfx)]
+def SubQWgt(pfx):
+	qwgt= getattr(QtWidgets,PfxMap(pfx))
+	return qwgt()
 
 def makeSize(*a,**k):
 	if len(a) != 1 or len(k) !=1:

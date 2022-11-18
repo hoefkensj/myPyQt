@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from . import QtWgt,gnr
+import lib.QElements.QIconButton
+from . import QtWgt, gnr
 from . import elements
 import sys
 from . import QWgt
@@ -7,21 +8,21 @@ from . import QWgt
 
 def QIncDec(**k):
 	def defaults():return {
-		'pfx'		:	'idw'				,
-		'm'			:	[5,0,5,0]			,
-		'hPol'	:	'F'						,
-		'vPol'	:	'F'						,
-		'w'			:	20						,
-		'h'			:	20						,
-		'lbl'		:	None					,
-		'ed'		:	True,
+		'pfx'   :	'idw'				,
+		'm'     :	[5,0,5,0]			,
+		'hPol'  :	'F'						,
+		'vPol'  :	'F'						,
+		'w'     :	20						,
+		'h'     :	20						,
+		'lbl'   :	None					,
+		'ed'    :	True,
 		}
 	def Elements():
 		parent=w['Cfg']['name']
 		add=w['Fnx']['Add']
-		e		= {}
-		e|= elements.make_iBtn(f'Inc_{parent}',h=15,w=15, bi=False)
-		e|= elements.make_iBtn(f'Dec_{parent}',h=15,w=15, bi=False)
+		e = {}
+		e |= lib.QElements.QIconButton.make(f'Inc_{parent}', h=15, w=15, bi=False)
+		e |= lib.QElements.QIconButton.make(f'Dec_{parent}', h=15, w=15, bi=False)
 		for element in e:
 			add(e[element])
 		return e
@@ -33,16 +34,16 @@ def QIncDec(**k):
 		dec=w['Elements'][f'iBtn_Dec_{parent}']['Mtd']
 		return inc,dec
 	def Con():
-		inc,dec=ShortMtds()
+    inc,dec=ShortMtds()
 		c = {}
 		c['iBtn_Inc']=	inc['clicked'].connect
 		c['iBtn_Dec']=	dec['clicked'].connect
 		return c
 	def init(w):
-		Inc,Dec=ShortMtds()
+    Inc,Dec=ShortMtds()
 		return w
 	def fnx():
-		Inc,Dec=ShortMtds()
+    Inc,Dec=ShortMtds()
 		def StateInc():
 			def stateinc(state):
 				Inc['setEnabled'](state)
@@ -60,7 +61,7 @@ def QIncDec(**k):
 		f['Dec'] 		= StateDec()
 		f['IncDec'] =	Show()
 		return f
-	k,Arg = gnr.ArgKwargs(defaults,**k)
+  k,Arg = gnr.ArgKwargs(defaults,**k)
 	w ={}
 	w=	QWgt.make(k.get('name'),t='h',vPol='P',hPol='P')
 	w['Name']			=	k.get('pfx_name')
@@ -75,9 +76,9 @@ def QIncDec(**k):
 def make(name,pfx='wgt',**k):
 	Names=gnr.makeNames(name=name,pfx=pfx)
 	kwargs={
-	'pfx_name'	:	Names['pfx_name'],
-	'pfx'				:	Names['pfx'],
-	'name'			:	Names['name'],
-	'qt'				: gnr.PfxMap(pfx),}
+	'pfx_name'  :	Names['pfx_name'],
+	'pfx'       :	Names['pfx'],
+	'name'      :	Names['name'],
+	'qt'        : gnr.PfxMap(pfx),}
 	qtwgt				=QIncDec(**kwargs,**k)
 	return qtwgt
