@@ -26,24 +26,18 @@ def pTree(*a, **k):
 			sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
 
 def QEditProp(**k):
-	def defaults():return {
-		'pfx'   :	'mqw'				,
-		'm'     :	[0,0,0,0]			,
-		'pol'   :	'EF'						,
-		'lbl'   :	None					,
-		'ed'    :	True,
-		't'     :	'h',
-		}
+
 	def Cfg():
-		c=		gnr.ArgKwargs(defaults,**k)
+		c= k
+
 		c|={
-			'sizepolicy'    :	gnr.sizePol(c.get('pol')),
-			'margin'        :	c.pop('m'),
+			'sizepolicy'		:	gnr.sizePol(c.get('pol')),
+			'margin'				:	c.pop('m'),
 		}
 		def Optional():return {
-			'maxw'          :	c.get('w'),
-			'maxh'          : c.get('h'),
-			'maxsize'       :	gnr.makeSize(c.get('w'),c.get('h')),
+			'maxw'					:	c.get('w'),
+			'maxh'					: c.get('h'),
+			'maxsize'				:	gnr.makeSize(c.get('w'),c.get('h')),
 			}
 		if c.get('w'):
 			c|=Optional()
@@ -142,11 +136,16 @@ def QEditProp(**k):
 	return Init(w)
 
 
-def make(name,pfx='wgt',**k):
-	Names=gnr.makeNames(name=name,pfx=pfx)
-	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],
-		'qt'        : gnr.PfxMap(pfx),}
-	return QEditProp(**kwargs,**k)
+def make(name,**k):
+	def defaults():return {
+		'pfx'		:	'mqw'				,
+		'm'			:	[0,0,0,0]			,
+		'pol'		:	'EF'						,
+		'lbl'		:	None					,
+		'ed'		:	True,
+		't'			:	'h',
+		'pfx'		:	'wgt'
+		}
+	k|=gnr.ArgKwargs(defaults,**k)
+	k|=gnr.makeNames(**k)
+	return QEditProp(**k)

@@ -15,7 +15,6 @@ def QHIncDec(**k):
 		't'			: 'h',
 		}
 
-	def Create(): return gnr.QtCreate(QWgt.make,defaults,**k)
 
 	def Cfg():
 		c=		gnr.ArgKwargs(defaults,**k)
@@ -80,7 +79,7 @@ def QHIncDec(**k):
 		s=Short()
 		return w
 
-	w							=		Create()
+	w							=		gnr.QtCreate(QWgt.make,defaults,**k)
 	w							|=	{'Elements' : Elements()}
 	w							|=	{'Cfg' 			: Cfg()}
 	w['Fnx'] 			|=	Fnx()

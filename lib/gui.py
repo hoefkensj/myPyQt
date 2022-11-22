@@ -39,7 +39,6 @@ def QGui(*a,**k):
 		a['QtApp'] = QApplication(argv)
 		a['Clip'] = a['QtApp'].clipboard()
 		return a
-	def Create(): return gnr.QtCreate(QWgt.make,**k)
 	def Cfg():
 		g={
 			'QtVersion'					:		k.pop('qtversion'),
@@ -56,8 +55,6 @@ def QGui(*a,**k):
 			'QtConf' : QtConf,
 		}
 		return c
-
-
 
 	def Fnx():
 		def Add():
@@ -93,7 +90,7 @@ def QGui(*a,**k):
 
 	GUI = {}
 	GUI['App'] 				= 	App()
-	GUI['Main']				=		Create()
+	GUI['Main']				=		gnr.QtCreate(QWgt.make,**k)
 	GUI								|=	{'Elements': {}}
 	GUI								|=	{'Cfg' 			: Cfg()}
 	GUI['Fnx']				=	Fnx()
