@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import lib.Create
 
 from . import gnr
 
@@ -9,9 +10,9 @@ def QtWgt(**k):
 		w['Name']			=	k['pfx_name']
 		w['name']			=	k['name']
 		w['Wgt']			=	gnr.SubQWgt(k['pfx'])
-		w['Mtd']			=	gnr.Mtds(w['Wgt'])
-		w['Atr']			= gnr.Atrs(w['Wgt'])
-		w							|= gnr.SetMtds(w)
+		w['Mtd']			=	lib.Create.Mtds(w['Wgt'])
+		w['Atr']			= lib.Create.Atrs(w['Wgt'])
+		w							|= lib.Create.SetMtds(w)
 		return w
 	def Cfg():
 		c={

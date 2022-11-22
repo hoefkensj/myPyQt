@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import lib.Create
 from  PyQt5.QtWidgets import QTreeWidget
 from myPyQt.lib import gnr
 
@@ -20,12 +21,12 @@ def Tree(**k):
 
 	def Mtd():
 		wgt = w['Wgt']
-		mtd=gnr.Mtds(wgt)
+		mtd= lib.Create.Mtds(wgt)
 		return mtd
 
 	def Atr():
 		wgt = w['Wgt']
-		atr=gnr.Atrs(wgt)
+		atr= lib.Create.Atrs(wgt)
 		return atr
 
 	def Fnx():
@@ -48,7 +49,58 @@ def Tree(**k):
 	w['Init']			=	Init()
 	return w
 	
-	
+def Tree(**k):
+	def Wgt():
+		wgt = make(n=c.get('n'), t=c.get('qt'))
+		return wgt[c.get('n')]
+
+	def c.get():
+		arg={}
+		arg['n']				= k.get('n') or 'Tree'
+		arg['m']				= k.get('m') or [0,0,0,0]
+		r = arg.get(a)
+		return r
+	def Fnx():
+		f 					= {}
+		f['setHeader']				= t['Mtd']['setHeader']
+		f['addTopLevelItem']	=	t['Mtd']['addTopLevelItem']
+		f['setColumnWidth']		=	t['Mtd']['setColumnWidth']
+		f['setCurrentItem']		=	t['Mtd']['setCurrentItem']
+		f['expandAll']				= t['Mtd']['expandAll']
+		f['collapseAll']			= t['Mtd']['collapseAll']
+		return f
+	def Init():
+		t['Wgt'] 	=	sPol(t['Wgt'], h='E', v='mE')
+		def Init():
+			t['Mtd']['setObjectName'](f'tree{n}')
+			t['Mtd']['setAlternatingRowColors'](True)
+			t['Mtd']['setAnimated'](True)
+			t['Mtd']['setHeaderHidden'](True)
+			t['Mtd']['setColumnCount'](5)
+			t['Mtd']['hideColumn'](2)
+			t['Mtd']['hideColumn'](3)
+			t['Mtd']['hideColumn'](4)
+			t['Mtd']['setMinimumHeight'](10)
+			t['Mtd']['setAllColumnsShowFocus'](True)
+			t['Mtd']['setMinimumHeight'](50)
+			t['Mtd']['setContentsMargins'](*m)
+			Init()
+		return Init
+	def Conn():
+		c={}
+		c['itemClicked']=t['Mtd']['itemClicked'].connect
+		return c
+
+	w={}
+	w['Wgt'] 		= Wgt()
+	w['Arg']		=	c.get()
+	w['Mtd']		= Mtd(t)
+	w['Data']		=	Data(t)
+	w['Fnx']		= Fnx()
+	w['Conn']		=	Conn()
+	w['Init']		= Init()
+	return t
+
 # def __Tree(**k):
 # 	def create():
 # 		wgt = QtWidgets.QTreeWidget()

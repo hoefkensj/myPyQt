@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # Auth
+import lib.Create
+
 from ..QElements import QIconButton
 from myPyQt.lib import QtWgt, gnr,QWgt
 
@@ -9,9 +11,9 @@ def QHArrows(**k):
 		'pfx'   :	'idw'				,
 		'm'     :	[0,0,0,0]		,
 		'pol'  :	'FF'				,
-		't'			:	'h'					,
+		't'     :	'h'					,
 		}
-	def Create(): return gnr.QtCreate(QWgt.make,defaults,**k)
+	def Create(): return lib.Create.QtCreate(QWgt.make, defaults, **k)
 	def Cfg():
 		c=		gnr.ArgKwargs(defaults,**k)
 		c|={

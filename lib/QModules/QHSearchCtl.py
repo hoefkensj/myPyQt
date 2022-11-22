@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # Auth
+import lib.Create
+
 from ..QElements import QIconButton
 from .. import gnr,QWgt
 from . import QHArrows
@@ -10,7 +12,7 @@ def QHSearchCtl(**k):
 		'm'    :	[0,0,0,0]		,
 		'pol'  :	'PF'				,
 		}
-	def Create(): return gnr.QtCreate(QWgt.make,defaults,**k)
+	def Create(): return lib.Create.QtCreate(QWgt.make, defaults, **k)
 	def Cfg():
 		c=		gnr.ArgKwargs(defaults,**k)
 		c|={
@@ -28,7 +30,7 @@ def QHSearchCtl(**k):
 	def Elements():
 		parent=w['name']
 		n=[f'PrevNext_{parent}',
-		f'Search_{parent}']
+    f'Search_{parent}']
 		e		= {}
 		e[n[0]]=QHArrows.make(n[0], bi=False)
 		e[n[1]]=QIconButton.make(n[1], bi=False)

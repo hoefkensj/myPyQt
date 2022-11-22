@@ -7,36 +7,16 @@ from .PyQtX import QtWidgets,QtGui,QtCore
 
 def Layouts(t):
 	from .PyQtX import QHBoxLayout,QVBoxLayout,QGridLayout,QFormLayout
-	if t is not None:
-		l				=		{
+	l				=		{
 			'h'   :	QHBoxLayout,
 			'v'   : QVBoxLayout,
 			'g'   :	QGridLayout,
 			'f'   :	QFormLayout,
 							}
-		r=l[t.casefold()];n=r.__name__
-	else:
-		r=None;n='None'
-	return {'name': n , 'layout': r}
-
-def Mtds(w):
-	f = {}
-	for n in dir(w):
-		m1 = getattr(w, n)
-		if callable(m1):
-			f[n] = m1
-	return f
-
-def Atrs(w):
-	v = {}
-	for n in dir(w):
-		a1 = getattr(w, n)
-		if not callable(a1):
-			v[n] = a1
-	return v
+	return l[t.casefold()]
 
 def SetMtd(wgt):
-	sets=wgt['Set']
+	sets = wgt['Set']
 	reads=wgt['Read']
 	def setmtd(setm, *setv):
 		Set=sets[setm]
@@ -45,25 +25,6 @@ def SetMtd(wgt):
 		r={setm : Val()}
 		return r
 	return setmtd
-
-def SetMtds(wgt):
-	mtds=wgt['Mtd']
-	sets={};reads={}
-	nocase=[]
-	for mtd in mtds:
-		if mtd.startswith('set'):
-			short=mtd[3:]
-			nocase+=[short.casefold()]
-			sets[short]=mtds[mtd]
-	for mtd in mtds:
-		if mtd.startswith('is'):
-			fix=mtd[2:]
-		else:
-			fix=f'{mtd[0].upper()}{mtd[1:]}'
-		if mtd.casefold() in nocase:
-			reads[fix]=mtds[mtd]
-	SetMtds={'Set': sets,'Read': reads}
-	return SetMtds
 
 def Icon(svg,wh,):
 	def icon(ico):
@@ -181,32 +142,13 @@ def tBtnStyles(t):
 		}
 	return s[t.casefold()]
 
-def QtCreate(QtFn,**k):
-	w=dict()
-	w['Name']			=	k['pfx_name']
-	w['name']			=	k.pop('name')
-	w							|=	QtFn(w['Name'],**k)
-	w['Mtd']			=	Mtds(w['Wgt'])
-	w['Atr']			= Atrs(w['Wgt'])
-	w							|= SetMtds(w)
-	return w
-def QCreate(QtFn,defaults,**k):
-	k|=defaults()
-	w=dict()
-	w['Name']			=	k['pfx_name']
-	w['name']			=	k.pop('name')
-	w['Wgt']			=	QtFn()
-	w['Mtd']			=	Mtds(w['Wgt'])
-	w['Atr']			= Atrs(w['Wgt'])
-	w							|= SetMtds(w)
-	return w
 
 def Element(component):
 	name=component['Name']
 	return {name : component}
 
 def Short(w):
-	return {[e.split('_')[0]]: w['Elements'][e]for e in w['Elements']}
+	return {[e.split('_')[1]]: w['Elements'][e]for e in w['Elements']}
 
 def IconSet(i):
 	name=assets.ico.iconname(i)

@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import lib.Create
+
 from ..QElements import QIconButton
 from myPyQt.lib import QtWgt, gnr,elements
 from myPyQt.lib import QWgt
@@ -12,7 +14,7 @@ def QHIncDec(**k):
 		'w'     :	20						,
 		'h'     :	20						,
 		'lbl'   :	None					,
-		't'			: 'h',
+		't'     : 'h',
 		}
 
 
@@ -33,8 +35,8 @@ def QHIncDec(**k):
 	def Elements():
 		parent=w['name']
 		n=[f'Inc_{parent}',
-		f'Dec_{parent}'
-		]
+    f'Dec_{parent}'
+    ]
 		e		= {}
 		e[n[0]]=QIconButton.make(n[0], h=15, w=15, bi=False)
 		e[n[1]]=QIconButton.make(n[1], h=15, w=15, bi=False)
@@ -79,7 +81,7 @@ def QHIncDec(**k):
 		s=Short()
 		return w
 
-	w							=		gnr.QtCreate(QWgt.make,defaults,**k)
+	w = lib.Create.QtCreate(QWgt.make, defaults, **k)
 	w							|=	{'Elements' : Elements()}
 	w							|=	{'Cfg' 			: Cfg()}
 	w['Fnx'] 			|=	Fnx()

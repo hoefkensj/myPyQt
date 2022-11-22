@@ -2,6 +2,9 @@
 
 
 import sys
+
+import lib.Create
+
 from .PyQtX import QWidget,QApplication,QtVersion
 from . import QWgt
 from . import gnr
@@ -41,8 +44,8 @@ def QGui(*a,**k):
 		return a
 	def Cfg():
 		g={
-			'QtVersion'					:		k.pop('qtversion'),
-			'ContentsMargins'		:		k['margin'],
+			'QtVersion'         :		k.pop('qtversion'),
+			'ContentsMargins'   :		k['margin'],
 		}
 		QtConf={
 			'ObjectName'        :		k['name'],
@@ -50,7 +53,7 @@ def QGui(*a,**k):
 		}
 
 		c={
-			'Config'	: k,
+			'Config'  : k,
 			'General' : g,
 			'QtConf' : QtConf,
 		}
@@ -90,7 +93,7 @@ def QGui(*a,**k):
 
 	GUI = {}
 	GUI['App'] 				= 	App()
-	GUI['Main']				=		gnr.QtCreate(QWgt.make,**k)
+	GUI['Main'] = lib.Create.QtCreate(QWgt.make, **k)
 	GUI								|=	{'Elements': {}}
 	GUI								|=	{'Cfg' 			: Cfg()}
 	GUI['Fnx']				=	Fnx()
@@ -103,12 +106,12 @@ def QGui(*a,**k):
 
 def make(n,**k):
 	def defaults(): return{
-		'margin'		: [0, 0, 0, 0],
-		't'		: 'v',
+		'margin'    : [0, 0, 0, 0],
+		't'   : 'v',
 		'pol': 'EE'}
 	kwargs={
 	'qt'        : gnr.PfxMap('wgt'),
-	'qtversion'	: QtVersion,}
+	'qtversion' : QtVersion,}
 	k|=gnr.ArgKwargs(defaults,**k)
 	k|=gnr.makeNames(name=n,pfx='wgt')
 	k|=kwargs

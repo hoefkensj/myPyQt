@@ -1,19 +1,21 @@
 #!/usr/bin/env python
 # Auth
+import lib.Create
+
 from . import QHSearchCtl
 from .. import QtWgt, gnr, QWgt
 
 
 def QSearch(**k):
 	def defaults():return {
-		'pfx'		:	'shw'					,
-		'm'			:	[0,0,0,0]			,
-		'pol'		:	'EF'					,
-		'w' 		:	20						,
-		'h'			:	20						,
-		'lbl'		:	None					,
+		'pfx'   :	'shw'					,
+		'm'     :	[0,0,0,0]			,
+		'pol'   :	'EF'					,
+		'w'     :	20						,
+		'h'     :	20						,
+		'lbl'   :	None					,
 		}
-	def Create(): return gnr.QtCreate(QWgt.make,defaults,**k)
+	def Create(): return lib.Create.QtCreate(QWgt.make, defaults, **k)
 	def Cfg():
 		c= gnr.ArgKwargs(defaults, **k)
 		c|={

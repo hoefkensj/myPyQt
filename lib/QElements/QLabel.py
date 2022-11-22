@@ -1,7 +1,8 @@
 #!/usr/bin/env python
+import lib.Create
 from  PyQt5.QtWidgets import QLabel
 import gnr
-def Lbl(**k):
+def QLabel(**k):
 
 	def Wgt():
 		return QLabel()
@@ -19,12 +20,12 @@ def Lbl(**k):
 
 	def Mtd():
 		wgt = w['Wgt']
-		mtd=gnr.Mtds(wgt)
+		mtd= lib.Create.Mtds(wgt)
 		return mtd
 
 	def Atr():
 		wgt = w['Wgt']
-		atr=gnr.Atrs(wgt)
+		atr= lib.Create.Atrs(wgt)
 		return atr
 
 	def Fnx():

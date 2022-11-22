@@ -1,32 +1,32 @@
 #!/usr/bin/env python
-
+import lib.Create
 
 from .PyQtX import QWidget
 from . import gnr
 
-def QWgt(**k):
-	def defaults():	return {
-			'margin'    :	[0,0,0,0]	,
-			't'   :	None			,
-			'pol':	'EE'			,
+def Cfg(**k):
+	QtConf={
+		'ObjectName': k['pfx_name'],
+		'SizePolicy':	gnr.sizePol(k['pol']),
 		}
-	def Create(): return gnr.QCreate(QWidget,defaults,**k)
+	Pos={
+		'ContentsMargins'	: k['margin']
+		}
+	C={
+		'Kwargs' 	:	{**k},
+		'QtConf'	:	QtConf,
+		'QtPos'		:	Pos,
+	}
+	return C
 
-	def Cfg():
-		c=gnr.ArgKwargs(defaults,**k)
-		pol=c.get('pol')
-		if not pol:	pol=''.join(c.get('hPol'),c.get('vPol'))
-		c['sizepolicy']		=	gnr.sizePol(pol)
-		c['layout_name']	= gnr.Layouts(c.get('t')),
-		# c['size']					=	gnr.makeSize(k.get('w'),k.get('h')) if k.get('w' or 'h') else None
-		return c
-	def Lay():
-		l = make_Qlay(w,**w['Cfg']) if k.get('t') else None
-		return l
+
+def QWgt(**k):
+
 	def Fnx():
-		def Add(i):
-			w['Lay']['Fnx']['Add'](i['Wgt'])
-			w['Elements'][i['Name']]=i
+		def Add():
+			def add(i)
+				w['Lay']['Fnx']['Add'](i['Wgt'])
+				w['Elements'][i['Name']]=i
 
 		f={}
 		f['Add'] = Add
@@ -43,10 +43,10 @@ def QWgt(**k):
 		Set['ContentsMargins'](*w['Cfg']['margin'])
 		return w
 
-	w							= Create()
-	w['Cfg']			= Cfg()
+	w							= lib.Create.QtCreate(QWidget, **k)
+	w['Cfg']			= Cfg(**k)
 	w['Elements']	=	{}
-	w['Lay']			= Lay()
+	w['Lay']			= make_Qlay(w,**k) if k.get('t') else None
 	w['Fnx']			=	Fnx()
 	w['Con']			= {}
 	w['Add']			= w['Fnx']['Add']
@@ -54,76 +54,61 @@ def QWgt(**k):
 	return  Init(w)
 
 def QLay(**k):
-	def defaults():return  {
-			'm'   : [0, 0, 0, 0],
-			'pfx' : 'lay'	,
-			'pol': 'EE'		,
-		}
-	def Create():
-		nlay=gnr.Layouts(k.get('t'))
-		l=dict()
-		l['Lay']=nlay['layout'](k.get('w'))
-		l['Name']			=	k.get('pfx_name')
-		l['name']			=	k.get('name')
-		l['Mtd']			=	gnr.Mtds(l['Lay'])
-		l['Atr']			= gnr.Atrs(l['Lay'])
-		l							|= gnr.SetMtds(l)
-		return l
-	def Cfg():
-		c									=	gnr.ArgKwargs(defaults, **k)
-		c['sizepolicy']		=	gnr.sizePol(c['pol'])
-		c['layouttype']		=	c.get('t')
-
-		layout						=	gnr.Layouts(c['layouttype'])
-		c['layout_name']	= layout['name']
-		c['layout']				=	layout['layout']
-		c['margin']				=	c.pop('m')
-		return c
 	def Fnx():
 		def Add():
-			return  l['Mtd']['addWidget']
-		f=dict()
-		f['Add']=Add()
-		return f
+			fnAdd=l['Mtd']['addWidget']
+			def add(wgt):
+				fnAdd(wgt)
+			return add
+		return {
+		'Add' : Add(),
+		}
 	def Init(l):
-		Set=l['Set']
-		Read=l['Read']
-		conf = {}
-		conf['ObjectName']				=	l['Name']
-		for prop in conf:
-			Set[prop](conf[prop])
-			l['Cfg'][prop]=Read[prop]()
-		Set['ContentsMargins'](*l['Cfg']['margin'])
+		Cfg=l['Cfg']
+		def Configure():
+			Cfg=l['Cfg'];	Qt=Cfg['QtConf'];	Pos=Cfg['QtPos']
+			for QtProp in Qt:
+				l['Set'][QtProp](Qt[QtProp])
+			l['Set']['ContentsMargins'](*Pos['ContentsMargins'])
+		def readCfg():
+			All={}
+			for key in l['Read']:
+				All[key]=l['Read'][key]()
+			return All
+
 		return l
 
-	l							= Create()
-	l['Cfg']			= Cfg()
-
+	l							= lib.Create.QlCreate(k['layout'], **k)
+	l['Cfg']			= Cfg(**k)
 	l['Fnx']			= Fnx()
 	l['Add']			= l['Fnx']['Add']
 	return Init(l)
 
-def make_QWgt(n,**k):
-	Names=gnr.makeNames(name=n, pfx='wgt')
-	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],
-	'qt'        : gnr.PfxMap('wgt'),}
-	k|=kwargs
+def make_QWgt(name,**k):
+	def defaults():	return {
+			'margin'    :	[0,0,0,0]	,
+			't'         :	None			,
+			'pol'       :	'EE'			,
+		}
+	k|={
+		'pfx'       :	'wgt'					,
+		'name'      :	name			,
+		'pfx_name'  :	f'wgt_{name}'	,
+		}
+	k|=gnr.ArgKwargs(defaults,**k)
 	return QWgt(**k)
 	
 def make_Qlay(widget,**k):
-	pfx='lay'
 	name=widget['name']
+	layout:gnr.Layouts(k['t'])
+	k|={
+		'pfx'       :	'lay'					,
+		'name'      :	name			,
+		'pfx_name'  :	f'lay_{name}'	,
+		'widget'    :	widget				,
+		'layout'    :	layout				,
+		}
 
-	Names=gnr.makeNames(name=name, pfx=pfx)
-	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],
-	'w'         : widget['Wgt'],}
-	k|=kwargs
 	return QLay(**k)
 
 def make(n,**k):
