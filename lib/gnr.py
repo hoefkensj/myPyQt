@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Auth
 import re
-
+import assets.ico
 from .PyQtX import QtWidgets,QtGui,QtCore
 
 
@@ -84,7 +84,7 @@ def Icon(svg,wh,):
 		return icon
 	size   =	makeSize( wh[0],wh[1])
 	ico    =	icon(svg)
-	return {'icon':ico,'iconsize':size,'svg':svg}
+	return {'Icon':ico,'IconSize':size,'Svg':svg}
 
 	
 def sizePol(*a,**k):
@@ -121,6 +121,7 @@ def makeNames(*a,**k):
 		return rex.search(s)
 	n= [a][0] or k.get('n')
 	if n:
+		print(n)
 		grps= pfxRex(n)
 		pfx = grps.group('PFX')
 		name = grps.group('NME')
@@ -153,10 +154,7 @@ def PfxMap(pfx):
 	return Map[pfx]
 
 def ArgKwargs(defaults,**k):
-	args= defaults()|k
-	def argkwargs(a):
-		return args[a]
-	return args
+	return defaults()|k
 
 
 def SubQWgt(pfx):
@@ -184,13 +182,33 @@ def tBtnStyles(t):
 		}
 	return s[t.casefold()]
 
-def dPack(qt):
-	return {'name': qt['Name']	,	'qt':	qt,}
+def QtCreate(QtFn,**k):
+	w=dict()
+	w['Name']			=	k['pfx_name']
+	w['name']			=	k.pop('name')
+	w							|=	QtFn(w['name'],**k)
+	w['Mtd']			=	Mtds(w['Wgt'])
+	w['Atr']			= Atrs(w['Wgt'])
+	w							|= SetMtds(w)
+	return w
+def QCreate(QtFn,defaults,**k):
+	k|=defaults()
+	w=dict()
+	w['Name']			=	k['pfx_name']
+	w['name']			=	k.pop('name')
+	w['Wgt']			=	QtFn()
+	w['Mtd']			=	Mtds(w['Wgt'])
+	w['Atr']			= Atrs(w['Wgt'])
+	w							|= SetMtds(w)
+	return w
 
-def sPack(qt):
-	return {qt['Name']:qt}
+def Element(component):
+	name=component['Name']
+	return {name : component}
 
-def unPack(pack):
-	for key in pack:
-		return pack[key]
+def Short(w):
+	return {[e.split('_')[0]]: w['Elements'][e]for e in w['Elements']}
 
+def IconSet(i):
+	name=assets.ico.iconname(i)
+	return assets.ico.get(name) if name in  assets.ico.names() else None

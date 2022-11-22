@@ -6,29 +6,38 @@ from .. import QtWgt, gnr, QWgt
 
 def QSearch(**k):
 	def defaults():return {
-		'pfx'   :	'shw'				,
-		'm'    :	[0,0,0,0]			,
-		'hPol'  :	'F'						,
-		'vPol'  :	'F'						,
-		'w'    :	20						,
-		'h'    :	20						,
-		'lbl'   :	None					,
+		'pfx'		:	'shw'					,
+		'm'			:	[0,0,0,0]			,
+		'pol'		:	'EF'					,
+		'w' 		:	20						,
+		'h'			:	20						,
+		'lbl'		:	None					,
 		}
+	def Create(): return gnr.QtCreate(QWgt.make,defaults,**k)
+	def Cfg():
+		c= gnr.ArgKwargs(defaults, **k)
+		c|={
+			'sizepolicy'    :	gnr.sizePol(c.get('pol')),
+			'margin'        :	c.get('m'),
+		}
+		return c
 	def Elements():
-		parent=k.get('name')
+		parent=w['name']
+		n=[f'chk_RegEx_{parent}',f'txt_Field_{parent}',f'ctl_{parent}']
 		e		= {}
-		e|= QtWgt.make(f'chk_RegEx_{parent}')
-		e|= QtWgt.make(f'txt_Field_{parent}',vPol='F')
-		e|= gnr.sPack(QHSearchCtl.make(f'Ctl_{parent}', bi=False))
+		e[n[0]]= QtWgt.make(n[0],pol='PF')
+		e[n[1]]= QtWgt.make(n[1],pol='EF')
+		e[n[2]]= QHSearchCtl.make(n[2],pol='PF')
 		return e
-	def ShortMtds():
-		parent=k.get('name')
-		rex=w['Elements'][f'chk_RegEx_{parent}']['Mtd']
-		txt=w['Elements'][f'txt_Field_{parent}']['Mtd']
-		ctl=w['Elements'][f'wgt_Ctl_{parent}']['Con']
-		return rex,txt,ctl
+	def Short():
+		parent=w['name']
+		s={}
+		s['rex']=w['Elements'][f'chk_RegEx_{parent}']
+		s['txt']=w['Elements'][f'txt_Field_{parent}']
+		s['ctl']=w['Elements'][f'wgt_Ctl_{parent}']
+		return s
 	def Fnx():
-		rex,txt,ctl=ShortMtds()
+		s=Short()
 
 		# def dispPN(wgt):
 		# 	def dispPN(show):
@@ -53,13 +62,13 @@ def QSearch(**k):
 		# return wgt
 		def Show():
 			def show(state):
-				w['Wgt']['Mtd']['setVisible'](state)
+				w['Wgt']['Set']['Visible'](state)
 			return show
 		f = {}
 		f['Search'] =	Show()
 		return f
 	def Con():
-		rex,txt,ctl=ShortMtds()
+		s=Short()
 		c = {}
 		# c['chk_RegEx']=	rex['checkStateChecked'].connect
 		# wgt.Find		=	wgt.btnSearch.clicked.conne
@@ -70,17 +79,16 @@ def QSearch(**k):
 		# c['iBtn_Next']=ctl['iBtn_Next']
 		return c
 	def Init(w):
-		rex,txt,ctl=ShortMtds()
+		s=Short()
 		for element in w['Elements']:
 			w['Fnx']['Add'](w['Elements'][element])
 		return w
-	k = gnr.ArgKwargs(defaults,**k)
-	w=	QWgt.make(k.get('name'),t='h',vPol='P',hPol='E')
-	w['Name']			=	k.get('pfx_name')
+
+	w							=	Create()
+	w['Cfg']			=	Cfg()
 	w['Elements'] = Elements()
-	# w['Cfg']			= Cfg()
 	w['Fnx'] 			|= Fnx()
-	w['Con'] |=	Con()
+	w['Con'] 			|=Con()
 	return Init(w)
 
 def make(name,**k):

@@ -1,45 +1,64 @@
 #!/usr/bin/env python
 # Auth
 from ..QElements import QIconButton
-
 from .. import gnr,QWgt
 from . import QHArrows
+
 def QHSearchCtl(**k):
 	def defaults():return {
-		'pfx'   :	'idw'				,
-		'm'    :	[0,0,0,0]			,
-		'hPol'  :	'F'						,
-		'vPol'  :	'F'						,
+		'pfx'   :	'wgt'				,
+		'm'    :	[0,0,0,0]		,
+		'pol'  :	'PF'				,
 		}
-	def Create():
-		Name=	k.get('pfx_name')
-		name= k.get('name')
-		w=QWgt.make(name,t='h',Pol='PP')
-		w['Name']			= Name
-		w['name']			=	name
-		return w
+	def Create(): return gnr.QtCreate(QWgt.make,defaults,**k)
+	def Cfg():
+		c=		gnr.ArgKwargs(defaults,**k)
+		c|={
+			'sizepolicy'    :	gnr.sizePol(c.get('pol')),
+			'margin'        :	c.pop('m'),
+		}
+		def Optional():return {
+			'maxw'          :	c.get('w'),
+			'maxh'          : c.get('h'),
+			'maxsize'       :	gnr.makeSize(c.get('w'),c.get('h')),
+			}
+		if c.get('w'):
+			c|=Optional()
+		return c
 	def Elements():
+		parent=w['name']
+		n=[f'PrevNext_{parent}',
+		f'Search_{parent}']
 		e		= {}
-		e|= gnr.sPack(QHArrows.make('PrevNext', bi=False))
-		e|= QIconButton.make('Search', bi=False)
+		e[n[0]]=QHArrows.make(n[0], bi=False)
+		e[n[1]]=QIconButton.make(n[1], bi=False)
 		return e
+	def Short():
+		parent=w['name']
+		s={}
+		s['<>']=w['Elements'][f'PrevNext_{parent}']
+		# s['Srch']=w['Elements'][f'Search_{parent}']
+		return s
+
 	def Fnx(): return {}
-	def Con(e):
+	def Con():
+		s=Short()
 		c = {}
-		c['iBtn_Search']=	e['iBtn_Search']['Mtd']['clicked'].connect
-		c['iBtn_Prev']=e['wgt_PrevNext']['Con']['iBtn_Prev']
-		c['iBtn_Next']=e['wgt_PrevNext']['Con']['iBtn_Next']
+		# c['iBtn_Search']=	s['Srch']['Mtd']['clicked'].connect
+		c['iBtn_Prev']=s['<>']['Con']['iBtn_Prev']
+		c['iBtn_Next']=s['<>']['Con']['iBtn_Next']
 		return c
 	def Init(w):
+
 		for element in w['Elements']:
-			w['Fnx']['Add'](w['Elements'][element])
+			w['Add'](w['Elements'][element])
 		return w
 
-	k 						= gnr.ArgKwargs(defaults,**k)
 	w							=	Create()
+	w['Cfg']			= Cfg()
 	w['Elements'] = Elements()
-	w['Fnx'] 			= Fnx()
-	w['Con']			=	Con()
+	w['Fnx'] 			|= Fnx()
+	w['Con']			|=	Con()
 	return Init(w)
 
 
@@ -50,5 +69,5 @@ def make(name, pfx='wgt', **k):
 	'pfx'      :	Names['pfx'],
 	'name'      :	Names['name'],
 		'qt'        : gnr.PfxMap(pfx),}
-	qtwgt 		=	QHSearchCtl(**kwargs, **k)
-	return qtwgt
+	k|=kwargs
+	return QHSearchCtl(**k)

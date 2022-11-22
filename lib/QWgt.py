@@ -10,15 +10,8 @@ def QWgt(**k):
 			't'   :	None			,
 			'pol':	'EE'			,
 		}
-	def Create():
-		w=dict()
-		w['Name']			=	k.get('pfx_name')
-		w['name']			=	k.get('name')
-		w['Wgt']			=	QWidget()
-		w['Mtd']			=	gnr.Mtds(w['Wgt'])
-		w['Atr']			= gnr.Atrs(w['Wgt'])
-		w							|= gnr.SetMtds(w)
-		return w
+	def Create(): return gnr.QCreate(QWidget,defaults,**k)
+
 	def Cfg():
 		c=gnr.ArgKwargs(defaults,**k)
 		pol=c.get('pol')
@@ -28,11 +21,11 @@ def QWgt(**k):
 		# c['size']					=	gnr.makeSize(k.get('w'),k.get('h')) if k.get('w' or 'h') else None
 		return c
 	def Lay():
-		l = make_Qlay(w['Wgt'],**k) if k.get('t') else None
+		l = make_Qlay(w,**w['Cfg']) if k.get('t') else None
 		return l
 	def Fnx():
 		def Add(i):
-			w['Lay']['Add'](i['Wgt'])
+			w['Lay']['Fnx']['Add'](i['Wgt'])
 			w['Elements'][i['Name']]=i
 
 		f={}
@@ -56,6 +49,7 @@ def QWgt(**k):
 	w['Lay']			= Lay()
 	w['Fnx']			=	Fnx()
 	w['Con']			= {}
+	w['Add']			= w['Fnx']['Add']
 
 	return  Init(w)
 
@@ -89,7 +83,7 @@ def QLay(**k):
 		def Add():
 			return  l['Mtd']['addWidget']
 		f=dict()
-		f['Add']=Add
+		f['Add']=Add()
 		return f
 	def Init(l):
 		Set=l['Set']
@@ -109,27 +103,28 @@ def QLay(**k):
 	l['Add']			= l['Fnx']['Add']
 	return Init(l)
 
-def make_QWgt(name,**k):
-	Names=gnr.makeNames(name=name, pfx='wgt')
+def make_QWgt(n,**k):
+	Names=gnr.makeNames(name=n, pfx='wgt')
 	kwargs={
 	'pfx_name'  :	Names['pfx_name'],
 	'pfx'       :	Names['pfx'],
 	'name'      :	Names['name'],
 	'qt'        : gnr.PfxMap('wgt'),}
-	return QWgt(**kwargs,**k)
+	k|=kwargs
+	return QWgt(**k)
 	
 def make_Qlay(widget,**k):
-	k.pop('pfx')
 	pfx='lay'
-	name=k.pop('name')
-	wgt_name=k.pop('pfx_name')
+	name=widget['name']
+
 	Names=gnr.makeNames(name=name, pfx=pfx)
 	kwargs={
 	'pfx_name'  :	Names['pfx_name'],
 	'pfx'       :	Names['pfx'],
 	'name'      :	Names['name'],
-	'w'         : widget,}
-	return QLay(**kwargs,**k)
+	'w'         : widget['Wgt'],}
+	k|=kwargs
+	return QLay(**k)
 
-def make(name,**k):
-	return make_QWgt(name,**k)
+def make(n,**k):
+	return make_QWgt(n,**k)

@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # Auth
 
-from lib import QtWgt, gnr
-from lib.QElements import QIconButton
+from .. import QtWgt, gnr,QWgt
+from ..QElements import QIconButton
 import sys
-from lib import QWgt
 def pTree(*a, **k):
 	d = k.get('d')
 	indent = k.get('indent') or 0
@@ -27,7 +26,7 @@ def pTree(*a, **k):
 			sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
 
 def QEditProp(**k):
-	def defaults(): return {
+	def defaults():return {
 		'pfx'   :	'mqw'				,
 		'm'     :	[0,0,0,0]			,
 		'pol'   :	'EF'						,
@@ -35,20 +34,11 @@ def QEditProp(**k):
 		'ed'    :	True,
 		't'     :	'h',
 		}
-	def Create():
-		w=dict()
-		w['Name']			=	k['pfx_name']
-		w['name']			=	k['name']
-		w['Wgt']			=	QWgt.make(w['name'],gnr.ArgKwargs(defaults,**k))
-		w['Mtd']			=	gnr.Mtds(w['Wgt'])
-		w['Atr']			= gnr.Atrs(w['Wgt'])
-		w							|= gnr.SetMtds(w)
-		return w
 	def Cfg():
 		c=		gnr.ArgKwargs(defaults,**k)
 		c|={
 			'sizepolicy'    :	gnr.sizePol(c.get('pol')),
-			'margin'        :	k.pop('m'),
+			'margin'        :	c.pop('m'),
 		}
 		def Optional():return {
 			'maxw'          :	c.get('w'),
@@ -59,49 +49,50 @@ def QEditProp(**k):
 			c|=Optional()
 		return c
 	def Elements():
-		parent=w['Cfg']['name']
+		parent=w['name']
+
 		e		= {}
-		e|= QtWgt.make(f'lbl_Edit{parent}',hPol='F',vPol='F')
-		e|= QtWgt.make(f'txt_Edit{parent}')
-		e|= QtWgt.make(f'txt_Edit{parent}dup')
-		e|= QtWgt.make(f'tBtn_Edit{parent}Set', hPol='F', vPol='F', w=50, h=32)
-		e |= QIconButton.make(f'Edit{parent}', bi=True)
+		e|= gnr.Element(QtWgt.make(f'lbl_Edit{parent}',pol='FF'))
+		e|= gnr.Element(QtWgt.make(f'txt_Edit{parent}',pol='EF'))
+		e|= gnr.Element(QtWgt.make(f'txt_Edit{parent}dup',pol='EF'))
+		e|= gnr.Element(QtWgt.make(f'tBtn_Edit{parent}Set',pol='EF', w=50, h=32))
+		e|= gnr.Element(QIconButton.make(f'Edit_{parent}', bi=True))
 		return e
-	def ShortMtds():
-		parent=w['Cfg']['name']
+	def Short():
+		parent=w['name']
 		s={}
 		s['lbl']=w['Elements'][f'lbl_Edit{parent}']
 		s['txt']=w['Elements'][f'txt_Edit{parent}']
 		s['dup']=w['Elements'][f'txt_Edit{parent}dup']
 		s['set']=w['Elements'][f'tBtn_Edit{parent}Set']
-		s['edt']=w['Elements'][f'iBtn_Edit{parent}']
+		s['edt']=w['Elements'][f'Edit_{parent}']
 		return s
 	def Fnx():
-		lbl,txt,dup,set,edt=ShortMtds()
+		s=Short()
 		def txtText():
 			def txtText(text):
-				txt['setText'](text)
-				dup['setText'](text)
+				s['txt']['Set']['Text'](text)
+				s['dup']['Set']['Text'](text)
 			return txtText
 		def setText():
 			def setText():
-				nText= txt['text']()
-				dup['setText'](nText)
-				edt['setChecked'](False)
-				set['setHidden'](True)
-				fnSet(nText)
+				nText= 	s['txt']['Set']['Text']()
+				s['dup']['Set']['Text'](nText)
+				s['edt']['Set']['Checked'](False)
+				s['set']['Set']['Hidden'](True)
+				# fnSet(nText)
 			return setText
 		def edit():
 			def edit(state):
-				edt['setChecked'](state)
-				txt['setReadOnly'](not state)
-				set['setHidden'](not state)
+				s['edt']['Set']['Checked'](state)
+				s['txt']['Set']['ReadOnly'](not state)
+				s['set']['Set']['Hidden'](not state)
 				if not state:
-					txt['setText'](dup['text']())
+					s['txt']['Set']['Text'](s['dup']['Read']['Text']())
 			return edit
 		def editable():
 			def editable(state):
-				edt['setHidden'](state)
+				s['edt']['Set']['Hidden'](state)
 			return editable
 		f = {}
 		f['Edit'] 		=	edit()
@@ -110,12 +101,12 @@ def QEditProp(**k):
 		f['Editable'] =	editable()
 		return f
 	def Con():
-		lbl,txt,dup,set,edt=ShortMtds()
+		s=Short()
 		c = {}
-		c['iBtn_Edit']= edt['clicked'].connect
-		c['tBtn_Set']=	set['clicked'].connect
+		c['iBtn_Edit']= s['edt']['Mtd']['clicked'].connect
+		c['tBtn_Set']=	s['set']['Mtd']['clicked'].connect
 		c['txt_Edit']	= {}
-		c['txt_Edit']['returnPressed']= txt['returnPressed'].connect
+		c['txt_Edit']['returnPressed']= s['txt']['Mtd']['returnPressed'].connect
 
 		c['iBtn_Edit'](w['Fnx']['Edit'])
 		c['tBtn_Set'](w['Fnx']['txtText'])
@@ -124,16 +115,26 @@ def QEditProp(**k):
 	def Init(w):
 		for element in w['Elements']:
 			w['Fnx']['Add'](w['Elements'][element])
-		s=ShortMtds()
-		s['lbl']['Set']['Text'](w['Cfg']['name'])
+		s=Short()
+		s['lbl']['Set']['Text'](w['name'])
 		s['set']['Set']['Hidden'](True)
 		s['set']['Set']['Text']('Set')
 		s['txt']['Set']['ReadOnly'](True)
 		s['dup']['Set']['Hidden'](True)
 		w['Fnx']['Editable'](not w['Cfg']['ed'])
+		Set=w['Set']
+		Read=w['Read']
+		conf = {}
+		conf['ObjectName']				=	w['Name']
+		conf['SizePolicy']				=	w['Cfg']['sizepolicy']
+		for prop in conf:
+			Set[prop](conf[prop])
+			w['Cfg'][prop]=Read[prop]()
+		Set['ContentsMargins'](*w['Cfg']['margin'])
 		return w
+
 		
-	w							=		Create()
+	w 						=		gnr.QtCreate(QWgt.make,**k)
 	w							|=	{'Elements' : Elements()}
 	w							|=	{'Cfg' 			: Cfg()}
 	w['Fnx'] 			|=	Fnx()

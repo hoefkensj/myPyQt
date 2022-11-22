@@ -3,13 +3,10 @@
 from . import gnr
 
 def QtWgt(**k):
-	def defaults():
-		d	=	{
+	def defaults(): return {
 			'm'   :	[0,0,0,0]	,
-			'hPol':	'P'				,
-			'vPol':	'P'				,
+			'pol':	'PP'			,
 			}
-		return d
 	def Create():
 		w=dict()
 		w['Name']			=	k['pfx_name']
@@ -21,13 +18,11 @@ def QtWgt(**k):
 		return w
 	def Cfg():
 		c= gnr.ArgKwargs(defaults, **k)
-		c={
-			'spol'          :	[c.get('hPol'),c.get('vPol')],
-			'sizepolicy'    :	gnr.sizePol(h=c.get('hPol'), v=c.get('vPol')),
+		c|={
+			'sizepolicy'    :	gnr.sizePol(c.get('pol')),
 			'margin'        :	c.get('m'),
 		}
 		return c
-
 	def Init(w)     :
 		Set=w['Set'];Read=w['Read']
 		conf = {}
@@ -38,23 +33,14 @@ def QtWgt(**k):
 			w['Cfg'][prop]=Read[prop]()
 		Set['ContentsMargins'](*w['Cfg']['margin'])
 		return w
-
 	w							= Create()
 	w['Cfg']			= Cfg()
 	w['Con']			= {}
 	w['Fnx']			= {}
 	return Init(w)
 
-def make(*a,**k):
-	if a:
-		Names=gnr.makeNames(n=a[0])
-	else :
-		print('couldnt make names')
-	pfx_name	=	Names['pfx_name']
-	pfx				=	Names['pfx']
-	name			=	Names['name']
-	qt				= gnr.PfxMap(pfx)
-	qtwgt 		=	QtWgt(pfx_name=pfx_name,pfx=pfx,name=name,qt=qt,**k)
-
-	return qtwgt
+def make(n,**k):
+	k|=gnr.makeNames(n)
+	k|={'qt'				: gnr.PfxMap(k['pfx']),}
+	return QtWgt(**k)
 

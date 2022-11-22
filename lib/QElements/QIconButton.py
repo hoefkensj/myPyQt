@@ -1,75 +1,68 @@
 #!/usr/bin/env python
 # Auth
-from ...assets import ico
+import assets.ico
+
 from .. import QtWgt,gnr
 
 def QIconButton(**k):
-	def defaults(): return{
-				'pfx'   :	'iBtn'				,
-				'm'     :	[0,0,0,0]			,
-				'pol'  :	'PP'					,
-				'w'     :	20						,
-				'h'     :	20						,
-				'bi'    :	False					,
-				'ico'   :	ico.get(k.get('name').split('_')[0])	,
-				'icowh' :	[32,32]				,
-				'lbl'   :	None					,
-				}
-	def Create():
-		w=dict()
-		w['Name']			=	k['pfx_name']
-		w['name']			=	k['name']
-		w['Wgt']			=	QtWgt.make(gnr.ArgKwargs(defaults,**k))
-		w['Mtd']			=	gnr.Mtds(w['Wgt'])
-		w['Atr']			= gnr.Atrs(w['Wgt'])
-		w							|= gnr.SetMtds(w)
-		return w
 
 	def Cfg():
-		c=gnr.ArgKwargs(defaults,**k)
-		c|={
-			'sizepolicy'    :	gnr.sizePol('Pol'),
-			'maxw'          :	c.get('w'),
-			'maxh'          : c.get('h'),
-			'maxsize'       :	gnr.makeSize(c.get('w'),c.get('h')),
-			'margin'        :	c.pop('m'),
-			'checkable'     :	c.pop('bi'),
-			'btnstyle'      :	gnr.tBtnStyles('I'),
-			**gnr.Icon(c.get('ico'),c.get('icowh')),
+		icons=gnr.Icon(k['ico'],k['icowh'])
+		g={
+			'maxw'          		:		k['w'],
+			'maxh'          		: 	k['h'],
+			'ContentsMargins'		:		k['margin'],
+		}
+		QtConf={
+			'ObjectName'        :		w['Name'],
+			'SizePolicy'        :		gnr.sizePol(k['pol']),
+			'Checkable'					:		k['bi'],
+			'MaximumSize'				:		gnr.makeSize(k['w'],k['h']),
+			'ToolButtonStyle'		:		gnr.tBtnStyles('I'),
+			**icons
+		}
+
+		c={
+			'Config'	: k,
+			'General' : g,
+			'QtConf' : QtConf,
 		}
 		return c
-
-	def Init(w)     :
-		setMtd=gnr.SetMtd(w)
-		C=w['Cfg']
-		w['Cfg']|=setMtd('ObjectName', w['Name'])
-		w['Cfg']|=setMtd('SizePolicy', C['sizepolicy'])
-		w['Cfg']|=setMtd('Icon', C['icon'])
-		w['Cfg']|=setMtd('IconSize', C['iconsize'])
-		w['Cfg']|=setMtd('Checkable', C['checkable'])
-		w['Cfg']|=setMtd('MaximumSize', C['maxsize'])
-		w['Cfg']|=setMtd('ToolButtonStyle', C['btnstyle'])
-		return w
-
-	def Conn():
+	def Con():
 		c={}
 		c['clicked'] = w['Mtd']['clicked'].connect
 		return c
 
 
+	def Init(w)     :
+		C=w['Cfg']
 
-	w						=			Create()
+		w['Set']['ObjectName'](w['Name'])
+		w['Set']['SizePolicy'](C['sizepolicy'])
+		w['Set']['Icon'](C['icon'])
+		w['Set']['IconSize'](C['iconsize'])
+		w['Set']['Checkable'](C['checkable'])
+		w['Set']['MaximumSize'](C['maxsize'])
+		w['Set']['ToolButtonStyle'](C['btnstyle'])
+		return w
+	w						= 		gnr.QtCreate(QtWgt.make, **k)
 	w['Cfg']		=			Cfg()
-	w['Fnx']		|=		{}
-	w['Con']		|=		Conn()
+	w['Fnx']		=			{}
+	w['Con']		=			Con()
 	return Init(w)
-def make(*a, **k):
-	pfx		=	'iBtn'
-	name=a[0]
-	Names=gnr.makeNames(name=name,pfx=pfx)
-	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],}
-	ibtn 		=	QIconButton(**kwargs, **k)
-	return ibtn
+
+
+def make(n, **k):
+	def defaults(): return		{
+					'margin'  :	[0,0,0,0]				,
+					'pol'  		:	'PP'						,
+					'w'    		:	20							,
+					'h'    		:	20							,
+					'bi'   		:	False						,
+					'ico'  		:	gnr.IconSet(n)	,
+					'icowh'		:	[32,32]					,
+					'lbl'  		:	None						,
+					}
+	k|=gnr.makeNames(name=n,pfx='iBtn')
+	k|=gnr.ArgKwargs(defaults,**k)
+	return QIconButton(**k)

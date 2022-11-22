@@ -13,7 +13,7 @@ def setQtVersion(QtVersion):
 	QtWidgets=QtWidgets
 	QtGui=QtGui
 
-	return QtVersion,QtCore,QtWidgets,QtGui
+	return QtVersion,QtCore,QtWidgets,QtGui,
 
 QtVersion,QtCore,QtWidgets,QtGui=setQtVersion(6)
 
