@@ -5,25 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="638b6880-4a88-4897-aefd-48c2526c0dfa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/QFrames/QDictator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/QFrames/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/QFrames/icon0.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/QFrames/icon1.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/QElements/QIconCheckBox.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ico.py" beforeDir="false" afterPath="$PROJECT_DIR$/assets/ico.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/PyQtX.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/PyQtX.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QFrames/icon0.svg" beforeDir="false" afterPath="$PROJECT_DIR$/QFrames/icon0.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/QElements/QIconButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QElements/QIconButton.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QIncDec.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QHIncDec.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QModules/QEditProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QEditProp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QModules/QHArrows.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QHArrows.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QModules/QHSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QHSearch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QModules/QHSearchCtl.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QHSearchCtl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QWgt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/QtWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QtWgt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/elements.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/elements.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/gnr.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gnr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,27 +82,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.QDictator">
-    <configuration name="PyQtX" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="myPyQt" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lib" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lib/PyQtX.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="QDictator" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="myPyQt" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -133,6 +98,27 @@
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="true" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="QtWgt" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="myPyQt" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lib" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lib/QtWgt.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
@@ -224,11 +210,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.QtWgt" />
         <item itemvalue="Python.ico" />
         <item itemvalue="Python.scratch_3" />
         <item itemvalue="Python.scratch" />
         <item itemvalue="Python.elements" />
-        <item itemvalue="Python.PyQtX" />
       </list>
     </recent_temporary>
   </component>

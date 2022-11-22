@@ -33,7 +33,6 @@ def QIconButton(**k):
 		c['clicked'] = w['Mtd']['clicked'].connect
 		return c
 
-
 	def Init(w)     :
 		C=w['Cfg']
 
@@ -62,7 +61,8 @@ def make(n, **k):
 					'ico'  		:	gnr.IconSet(n)	,
 					'icowh'		:	[32,32]					,
 					'lbl'  		:	None						,
+					'pfx'			:	'iBtn'					,
 					}
-	k|=gnr.makeNames(name=n,pfx='iBtn')
 	k|=gnr.ArgKwargs(defaults,**k)
+	k|=gnr.makeNames(**k)
 	return QIconButton(**k)

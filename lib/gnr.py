@@ -108,7 +108,7 @@ def sizePol(*a,**k):
 	pol=QSP(SizePols(hp),SizePols(vp))
 	return pol
 
-def makeNames(*a,**k):
+def makeNames(**k):
 	def pfxRex(s):
 		PFX=r'([^_]*)'
 		SEP=r'([_]?)'
@@ -119,9 +119,8 @@ def makeNames(*a,**k):
 		gCON=f'^{gPFX}{gSEP}{gNME}$'
 		rex=re.compile(gCON ,re.VERBOSE)
 		return rex.search(s)
-	n= [a][0] or k.get('n')
+	n= k.get('pfx_name')
 	if n:
-		print(n)
 		grps= pfxRex(n)
 		pfx = grps.group('PFX')
 		name = grps.group('NME')
@@ -186,7 +185,7 @@ def QtCreate(QtFn,**k):
 	w=dict()
 	w['Name']			=	k['pfx_name']
 	w['name']			=	k.pop('name')
-	w							|=	QtFn(w['name'],**k)
+	w							|=	QtFn(w['Name'],**k)
 	w['Mtd']			=	Mtds(w['Wgt'])
 	w['Atr']			= Atrs(w['Wgt'])
 	w							|= SetMtds(w)

@@ -3,10 +3,7 @@
 from . import gnr
 
 def QtWgt(**k):
-	def defaults(): return {
-			'm'   :	[0,0,0,0]	,
-			'pol':	'PP'			,
-			}
+
 	def Create():
 		w=dict()
 		w['Name']			=	k['pfx_name']
@@ -17,10 +14,9 @@ def QtWgt(**k):
 		w							|= gnr.SetMtds(w)
 		return w
 	def Cfg():
-		c= gnr.ArgKwargs(defaults, **k)
-		c|={
-			'sizepolicy'    :	gnr.sizePol(c.get('pol')),
-			'margin'        :	c.get('m'),
+		c={
+			'sizepolicy'    :	gnr.sizePol(k.get('pol')),
+			'margin'        :	k.get('m'),
 		}
 		return c
 	def Init(w)     :
@@ -40,7 +36,14 @@ def QtWgt(**k):
 	return Init(w)
 
 def make(n,**k):
-	k|=gnr.makeNames(n)
-	k|={'qt'				: gnr.PfxMap(k['pfx']),}
-	return QtWgt(**k)
+	def defaults(): return {
+		'm'   :	[0,0,0,0]	,
+		'pol':	'PP'			,
+		}
+	c={}
+	c|=gnr.ArgKwargs(defaults,**k)
+	c|=gnr.makeNames(pfx_name=n)
+	print('pfx=',c['pfx'])
+	c|={'qt'				: gnr.PfxMap(c['pfx']),}
+	return QtWgt(**c)
 
