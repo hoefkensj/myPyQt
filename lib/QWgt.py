@@ -41,7 +41,7 @@ def QWgt(**k):
 		def Generate():
 			for element in w['Elements']:
 				wgt=w['Elements'].get(element)
-				w['Add'](wgt)
+				w['Add'](wgt['Wgt'])
 		def Configure():
 			for prop in w['Cfg']:
 				if prop == 'ContentsMargins':

@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="638b6880-4a88-4897-aefd-48c2526c0dfa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/QModules/QMain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QFrames/QDictator.py" beforeDir="false" afterPath="$PROJECT_DIR$/QFrames/QDictator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QFrames/icon0.svg" beforeDir="false" afterPath="$PROJECT_DIR$/QFrames/icon0.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QFrames/icon1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/QFrames/icon1.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ico.py" beforeDir="false" afterPath="$PROJECT_DIR$/assets/ico.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Create.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QElements/QIconButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QElements/QIconButton.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/QModules/QEditProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QEditProp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/QWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QWgt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QtWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QtWgt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/gnr.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gnr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

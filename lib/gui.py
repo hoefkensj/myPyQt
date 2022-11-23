@@ -45,20 +45,16 @@ def QGui(*a,**k):
 	def Fnx():
 		def Add():
 			return GUI['Main']['Add']
-		def Generate():
-			for element in GUI['Elements']:
-				wgt=GUI['Elements'].get(element)
-				GUI['Main']['Add'](wgt['Wgt'])
 		def Show():
 			return GUI['Main']['Mtd']['show']
 		def Run():
 			from sys import exit
-			Generate()
+			GUI['Main']['Elements']=GUI['Elements']
+			GUI['Main']['Fnx']['Generate']()
 			GUI['Show']()
 			exit(GUI['App']['QtApp'].exec())
 		f={}
 		f['Add']	=	Add()
-		f['Generate']= Generate
 		f['Show']	=	Show()
 		f['Run']	=	Run
 		return f

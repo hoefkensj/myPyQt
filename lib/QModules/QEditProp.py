@@ -68,14 +68,12 @@ def QEditProp(**k):
 		return c
 
 	def Init(w):
-		for element in w['Elements']:
-			w['Add'](w['Elements'][element]['Wgt'])
-		parent=w['name']
-		w['Elements'][f'lbl_Name_{parent}']['Set']['Text'](w['name'])
-		w['Elements'][f'tBtn_Set_{parent}']['Set']['Hidden'](True)
-		w['Elements'][f'tBtn_Set_{parent}']['Set']['Text']('Set')
-		w['Elements'][f'txt_Field_{parent}']['Set']['ReadOnly'](True)
-		w['Elements'][f'txt_Dupl_{parent}']['Set']['Hidden'](True)
+		s=gnr.Short(w)
+		s['Name']['Set']['Text'](w['name'])
+		s['Set']['Set']['Hidden'](True)
+		s['Set']['Set']['Text']('Set')
+		s['Field']['Set']['ReadOnly'](True)
+		s['Dupl']['Set']['Hidden'](True)
 		w['Fnx']['Editable'](not k['ed'])
 		Set=w['Set']
 		Read=w['Read']
@@ -86,6 +84,7 @@ def QEditProp(**k):
 			Set[prop](conf[prop])
 			w['Cfg'][prop]=Read[prop]()
 		Set['ContentsMargins'](*k['margin'])
+		w['Fnx']['Generate']()
 		return w
 
 		
