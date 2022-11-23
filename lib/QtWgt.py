@@ -2,49 +2,67 @@
 import lib.Create
 
 from . import gnr
+def Cfg(**k):
+	QtConf={
+		'ObjectName': k['pfx_name'],
+		'SizePolicy':	gnr.sizePol(k['pol']),
+		}
+	Pos={
+		'ContentsMargins'	: k['margin']
+		}
+	C={
+		'Kwargs'	:	{**k},
+		'QtConf'	:	QtConf,
+		'QtPos'		:	Pos,
+	}
+	return C
+
+def Init(w)     :
+	def Configure():
+			for QtProp in w['Cfg']['QtConf']:
+				w['Set'][QtProp](w['Cfg']['QtConf'][QtProp])
+			w['Set']['ContentsMargins'](*w['Cfg']['QtPos']['ContentsMargins'])
+
+	Configure()
+
+	return w
 
 def QtWgt(**k):
-
 	def Create():
-		w=dict()
-		w['Name']			=	k['pfx_name']
-		w['name']			=	k['name']
-		w['Wgt']			=	gnr.SubQWgt(k['pfx'])
-		w['Mtd']			=	lib.Create.Mtds(w['Wgt'])
-		w['Atr']			= lib.Create.Atrs(w['Wgt'])
-		w							|= lib.Create.SetMtds(w)
+		wgt=k['QtFn']()
+		w=lib.Create.QCreate(wgt,'Wgt',**k)
 		return w
-	def Cfg():
-		c={
-			'sizepolicy'    :	gnr.sizePol(k.get('pol')),
-			'margin'        :	k.get('m'),
-		}
-		return c
-	def Init(w)     :
-		Set=w['Set'];Read=w['Read']
-		conf = {}
-		conf['ObjectName']				=	w['Name']
-		conf['SizePolicy']				=	w['Cfg']['sizepolicy']
-		for prop in conf:
-			Set[prop](conf[prop])
-			w['Cfg'][prop]=Read[prop]()
-		Set['ContentsMargins'](*w['Cfg']['margin'])
-		return w
-	w							= Create()
-	w['Cfg']			= Cfg()
+	def Fnx():
+		def Configure():
+			for prop in w['Cfg']:
+				if prop == 'ContentsMargins':
+					w['Set']['ContentsMargins'](*w['Cfg']['ContentsMargins'])
+				else:
+					if prop in w['Read'].keys():
+						w['Set'][prop](w['Cfg'][prop])
+		def Init(wgt):
+			Configure()
+			return wgt
+		f={}
+		f['Configure']=Configure
+		return f
+	w							=Create()
+	w['Cfg']			= Cfg(**k)
 	w['Con']			= {}
 	w['Fnx']			= {}
 	return Init(w)
 
-def make(n,**k):
-	def defaults(): return {
-		'm'   :	[0,0,0,0]	,
-		'pol':	'PP'			,
+def make(namestr,**k):
+	name=gnr.makeName(namestr)
+	pfx=gnr.makePfx(namestr)
+	k={
+		'margin'		:	[0,0,0,0]					,
+		'pol'				:	'PP'							,
+		}|k|{
+		'pfx'				:	pfx								,
+		'name'			:	name							,
+		'pfx_name'	: f'{pfx}_{name}'			,
 		}
-	c={}
-	c|=gnr.ArgKwargs(defaults,**k)
-	c|=gnr.makeNames(pfx_name=n)
-	print('pfx=',c['pfx'])
-	c|={'qt'				: gnr.PfxMap(c['pfx']),}
-	return QtWgt(**c)
 
+	k|={'QtFn' : gnr.SubQWgt(k['pfx'])}
+	return QtWgt(**k)

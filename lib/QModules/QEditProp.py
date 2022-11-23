@@ -6,9 +6,9 @@ from .. import QtWgt, gnr,QWgt
 from ..QElements import QIconButton
 
 def QEditProp(**k):
-
-	def Cfg():
-
+	def Create():
+		w=lib.QWgt.make(k['pfx_name'])
+		return w
 
 	def Elements():
 		parent=w['name']
@@ -17,10 +17,10 @@ def QEditProp(**k):
 		e|= gnr.Element(QtWgt.make(f'txt_Field_{parent}',pol='EF'))
 		e|= gnr.Element(QtWgt.make(f'txt_Dupl_{parent}',pol='EF'))
 		e|= gnr.Element(QtWgt.make(f'tBtn_Set_{parent}',pol='EF', w=50, h=32))
-		e|= gnr.Element(QIconButton.make(f'Enable_{parent}', bi=True))
+		e|= gnr.Element(QIconButton.make(f'Edit_{parent}', bi=True))
 		return e
 
-	def Fnx():
+	def Fnx(w):
 		s=gnr.Short(w)
 		def txtText():
 			def txtText(text):
@@ -45,7 +45,7 @@ def QEditProp(**k):
 			return edit
 		def editable():
 			def editable(state):
-				s['Enable']['Set']['Hidden'](state)
+				s['Edit']['Set']['Hidden'](state)
 			return editable
 		f = {}
 		f['Edit'] 		=	edit()
@@ -57,56 +57,56 @@ def QEditProp(**k):
 	def Con():
 		s=gnr.Short(w)
 		c = {}
-		c['Enable']= s['Set']['Mtd']['clicked'].connect
+		c['Edit']= s['Set']['Mtd']['clicked'].connect
 		c['Set']=	s['Set']['Mtd']['clicked'].connect
 		c['Field']	= {}
-		c['Field']['returnPressed']= s['txt']['Mtd']['returnPressed'].connect
+		c['Field']['returnPressed']= s['Field']['Mtd']['returnPressed'].connect
 
-		c['iBtn_Edit'](w['Fnx']['Edit'])
-		c['tBtn_Set'](w['Fnx']['txtText'])
-		c['txt_Edit']['returnPressed'](w['Fnx']['txtText'])
+		c['Edit'](w['Fnx']['Edit'])
+		c['Set'](w['Fnx']['txtText'])
+		c['Field']['returnPressed'](w['Fnx']['txtText'])
 		return c
+
 	def Init(w):
 		for element in w['Elements']:
-			w['Fnx']['Add'](w['Elements'][element])
-		s=Short()
-		s['lbl']['Set']['Text'](w['name'])
-		s['set']['Set']['Hidden'](True)
-		s['set']['Set']['Text']('Set')
-		s['txt']['Set']['ReadOnly'](True)
-		s['dup']['Set']['Hidden'](True)
-		w['Fnx']['Editable'](not w['Cfg']['ed'])
+			w['Add'](w['Elements'][element]['Wgt'])
+		parent=w['name']
+		w['Elements'][f'lbl_Name_{parent}']['Set']['Text'](w['name'])
+		w['Elements'][f'tBtn_Set_{parent}']['Set']['Hidden'](True)
+		w['Elements'][f'tBtn_Set_{parent}']['Set']['Text']('Set')
+		w['Elements'][f'txt_Field_{parent}']['Set']['ReadOnly'](True)
+		w['Elements'][f'txt_Dupl_{parent}']['Set']['Hidden'](True)
+		w['Fnx']['Editable'](not k['ed'])
 		Set=w['Set']
 		Read=w['Read']
 		conf = {}
 		conf['ObjectName']				=	w['Name']
-		conf['SizePolicy']				=	w['Cfg']['sizepolicy']
+		conf['SizePolicy']				=	gnr.sizePol(k['pol'])
 		for prop in conf:
 			Set[prop](conf[prop])
 			w['Cfg'][prop]=Read[prop]()
-		Set['ContentsMargins'](*w['Cfg']['margin'])
+		Set['ContentsMargins'](*k['margin'])
 		return w
 
 		
-	w 						=		lib.Create.QtCreate(QWgt.make, **k)
-	w							|=	{'Elements' : Elements()}
-	w							|=	{'Cfg' 			: Cfg()}
-	w['Fnx'] 			|=	Fnx()
-	w['Con']			|=	Con()
+	w 						=		Create()
+	w['Elements'] = Elements()
+	w['Fnx'] 			|=	Fnx(w)
+	w['Con']			=	Con()
 	return Init(w)
 
 
-def make(name,**k):
-	def defaults():	return {
-		'm'         :	[0,0,0,0]					,
-		'pol'       :	'EF'							,
+def make(namestr,**k):
+	name=lib.gnr.makeName(namestr)
+	k={
 		'lbl'       :	None							,
 		'ed'        :	True							,
-		't'         :	'h'								,}
-	k|={
+		'margin'    :	[0,0,0,0]					,
+		'pol'       :	'EF'							,
+		't'         :	'h'								,
+		}|k|{
 		'pfx'       :	'wgt'							,
-		'name'      :	f'{name}Edit'			,
-		'pfx_name'  :	f'wgt_{name}Edit'	,
+		'name'      :	name							,
+		'pfx_name'  :	f'wgt_{name}'			,
 		}
-	k|=gnr.ArgKwargs(defaults,**k)
 	return QEditProp(**k)

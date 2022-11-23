@@ -16,8 +16,7 @@ def Atrs(w):
 			v[n] = a1
 	return v
 
-def SetMtds(wgt):
-	mtds=wgt['Mtd']
+def SetMtds(mtds):
 	sets={};reads={}
 	nocase=[]
 	for mtd in mtds:
@@ -36,23 +35,15 @@ def SetMtds(wgt):
 	return SetMtds
 
 def postCreate(wgt,type,**k):
-	return {
+	w={
 	'Name'    :	k['pfx_name']	,
 	'name'    :	k['name']			,
 	type     	:	wgt						,
 	'Mtd'     :	Mtds(wgt)			,
-	'Atr'     : Atrs(wgt)			,
-	**SetMtds(wgt)						,
-	}
-
-def QCreate(QtFn,**k):
-	wgt=QtFn(k['pfx_name'],**k)
-	return postCreate(wgt,'Wgt',**k)
-
-def QtCreate(QtFn,**k):
-	wgt=QtFn()
-	return postCreate(wgt,'Wgt',**k)
-
-def QlCreate(QlFn,**k):
-	lay=QlFn(k['widget']['Wgt'])
-	return postCreate(lay,'Lay',**k)
+	'Atr'     : Atrs(wgt)			,}
+	return w
+def QCreate(wgt,type,**k):
+	p=postCreate(wgt,type,**k)
+	s=SetMtds(p['Mtd'])
+	p|=s
+	return p

@@ -4,112 +4,130 @@ import lib.Create
 from .PyQtX import QWidget
 from . import gnr
 
-def Cfg(**k):
-	QtConf={
-		'ObjectName': k['pfx_name'],
-		'SizePolicy':	gnr.sizePol(k['pol']),
-		}
-	Pos={
-		'ContentsMargins'	: k['margin']
-		}
-	C={
-		'Kwargs' 	:	{**k},
-		'QtConf'	:	QtConf,
-		'QtPos'		:	Pos,
-	}
-	return C
-
+#
+# def Init(w)     :
+# 	def Configure():
+# 			for QtProp in w['Cfg']['QtConf']:
+# 				w['Set'][QtProp](w['Cfg']['QtConf'][QtProp])
+# 			w['Set']['ContentsMargins'](*w['Cfg']['QtPos']['ContentsMargins'])
+# 	def readCfg():
+# 			All = {}
+# 			for key in w['Read']:
+# 				if  key not in ['Property','Stretch']:
+# 					All[key]=w['Read'][key]()
+# 			return All
+# 	Configure()
+# 	w['Cfg']['All']=readCfg()
+# 	return w
 
 def QWgt(**k):
-
-	def Fnx():
-		def Add():
-			def add(i)
-				w['Lay']['Fnx']['Add'](i['Wgt'])
-				w['Elements'][i['Name']]=i
-
-		f={}
-		f['Add'] = Add
-		return f
-	def Init(w)     :
-		Set=w['Set']
-		Read=w['Read']
-		conf = {}
-		conf['ObjectName']				=	w['Name']
-		conf['SizePolicy']				=	w['Cfg']['sizepolicy']
-		for prop in conf:
-			Set[prop](conf[prop])
-			w['Cfg'][prop]=Read[prop]()
-		Set['ContentsMargins'](*w['Cfg']['margin'])
+	def Create():
+		wgt=lib.PyQtX.QWidget()
+		w=lib.Create.QCreate(wgt,'Wgt',**k)
 		return w
-
-	w							= lib.Create.QtCreate(QWidget, **k)
-	w['Cfg']			= Cfg(**k)
-	w['Elements']	=	{}
-	w['Lay']			= make_Qlay(w,**k) if k.get('t') else None
-	w['Fnx']			=	Fnx()
-	w['Con']			= {}
+	def Cfg():
+		c={
+			'ObjectName'			:	k['pfx_name'],
+			'ContentsMargins'	: k['margin'],
+			}
+		return c
+	def Lay():
+		if k.get('t'):
+			l= make_Qlay(w,**k) 
+		else:
+			l= None
+		return l
+	def Fnx(w):
+		def Generate():
+			for element in w['Elements']:
+				wgt=w['Elements'].get(element)
+				w['Add'](wgt)
+		def Configure():
+			for prop in w['Cfg']:
+				if prop == 'ContentsMargins':
+					w['Set']['ContentsMargins'](*w['Cfg']['ContentsMargins'])
+				else:
+					if prop in w['Read'].keys():
+						w['Set'][prop](w['Cfg'][prop])
+		def Init(wgt):
+			Configure()
+			Generate()
+			return wgt
+		f={}
+		f['Generate']= Generate
+		f['Configure']=Configure
+		f['Add']= w['Lay']['Add']
+		f['Init']=Init
+		return f
+	w=Create()
+	w['Cfg'] 			= Cfg()
+	w['Lay']			= Lay()
+	w['Fnx']			=	Fnx(w)
 	w['Add']			= w['Fnx']['Add']
-
-	return  Init(w)
+	w['Elements'] = {}
+	w['Init']			=	w['Fnx']['Init']
+	return  w['Init'](w)
 
 def QLay(**k):
-	def Fnx():
-		def Add():
-			fnAdd=l['Mtd']['addWidget']
-			def add(wgt):
-				fnAdd(wgt)
-			return add
-		return {
-		'Add' : Add(),
-		}
-	def Init(l):
-		Cfg=l['Cfg']
-		def Configure():
-			Cfg=l['Cfg'];	Qt=Cfg['QtConf'];	Pos=Cfg['QtPos']
-			for QtProp in Qt:
-				l['Set'][QtProp](Qt[QtProp])
-			l['Set']['ContentsMargins'](*Pos['ContentsMargins'])
-		def readCfg():
-			All={}
-			for key in l['Read']:
-				All[key]=l['Read'][key]()
-			return All
-
+	def Create():
+		lay=k['layout']()
+		l=lib.Create.QCreate(lay,'lay',**k)
 		return l
+	def Cfg():
+		c={
+			'ObjectName'			:	k['pfx_name'],
+			'ContentsMargins'	: k['margin'],
+			}
+		return c
+	def Fnx(l):
+		def Configure():
+			for prop in l['Cfg']:
+				if prop == 'ContentsMargins':
+					l['Set']['ContentsMargins'](*l['Cfg']['ContentsMargins'])
+				else:
+					if prop in l['Read'].keys():
+						l['Set'][prop](l['Cfg'][prop])
 
-	l							= lib.Create.QlCreate(k['layout'], **k)
-	l['Cfg']			= Cfg(**k)
-	l['Fnx']			= Fnx()
+		def Init(wgt):
+			Configure()
+			return wgt
+		f={}
+		f['Add']= l['Mtd']['addWidget']
+		f['Configure']= Configure
+		f['Init']= Init
+		return f
+	l							= Create()
+	l['Cfg']			= Cfg()
+	l['Fnx']			= Fnx(l)
 	l['Add']			= l['Fnx']['Add']
-	return Init(l)
+	return l
 
-def make_QWgt(name,**k):
-	def defaults():	return {
-			'margin'    :	[0,0,0,0]	,
-			't'         :	None			,
-			'pol'       :	'EE'			,
+def make_QWgt(namestr,**k):
+	name=gnr.makeName(namestr)
+	k={
+		'margin'    :	[0,0,0,0]					,
+		'pol'       :	'EE'							,
+		't'         :	'v'								,
+		}|k|{
+		'pfx'       :	'wgt'							,
+		'name'      :	name							,
+		'pfx_name'  :	f'wgt_{name}'			,
 		}
-	k|={
-		'pfx'       :	'wgt'					,
-		'name'      :	name			,
-		'pfx_name'  :	f'wgt_{name}'	,
-		}
-	k|=gnr.ArgKwargs(defaults,**k)
 	return QWgt(**k)
 	
 def make_Qlay(widget,**k):
 	name=widget['name']
-	layout:gnr.Layouts(k['t'])
-	k|={
-		'pfx'       :	'lay'					,
-		'name'      :	name			,
-		'pfx_name'  :	f'lay_{name}'	,
-		'widget'    :	widget				,
-		'layout'    :	layout				,
+	layout=gnr.Layouts(k['t'])
+	k={
+		'margin'    :	[0,0,0,0]					,
+		}|k|{
+		'pfx'       :	'lay'							,
+		'name'      :	name							,
+		'pfx_name'  :	f'lay_{name}'			,
+		'widget'		:	widget						,
+		'layout'		:	layout						,
 		}
-
 	return QLay(**k)
 
-def make(n,**k):
-	return make_QWgt(n,**k)
+def make(name,**k):
+	return make_QWgt(name,**k)

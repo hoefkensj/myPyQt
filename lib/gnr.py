@@ -47,7 +47,7 @@ def Icon(svg,wh,):
 	ico    =	icon(svg)
 	return {'Icon':ico,'IconSize':size,'Svg':svg}
 
-	
+
 def sizePol(*a,**k):
 	from .PyQtX import QSizePolicy as QSP
 	def SizePols(a):
@@ -69,30 +69,46 @@ def sizePol(*a,**k):
 	pol=QSP(SizePols(hp),SizePols(vp))
 	return pol
 
-def makeNames(**k):
-	def pfxRex(s):
-		PFX=r'([^_]*)'
-		SEP=r'([_]?)'
-		NME=r'(.*)'
-		gPFX=r'(?P<PFX>{RE})'.format(RE=PFX)
-		gSEP=r'(?P<SEP>{RE})'.format(RE=SEP)
-		gNME=r'(?P<NME>{RE})'.format(RE=NME)
-		gCON=f'^{gPFX}{gSEP}{gNME}$'
-		rex=re.compile(gCON ,re.VERBOSE)
-		return rex.search(s)
-	n= k.get('pfx_name')
-	if n:
-		grps= pfxRex(n)
-		pfx = grps.group('PFX')
-		name = grps.group('NME')
-	else:
-		pfx = k.get('pfx')
-		name = k.get('name')
-	
-	pfx_name	=	'{PFX}_{NAME}'.format(PFX=pfx,NAME=name)
-	return {'pfx_name':pfx_name,'pfx':pfx,'name':name}
+def pfxRex():
+	PFX=r'([^_]*)'
+	SEP=r'([_]?)'
+	NME=r'(.*)'
+	gPFX=r'(?P<PFX>{RE})'.format(RE=PFX)
+	gSEP=r'(?P<SEP>{RE})'.format(RE=SEP)
+	gNME=r'(?P<NME>{RE})'.format(RE=NME)
+	gCON=f'^{gPFX}{gSEP}{gNME}$'
+	rex=re.compile(gCON ,re.VERBOSE)
+	return rex
 
-def PfxMap(pfx):
+def splitName(name):
+	nrex=pfxRex()
+	rrex=nrex.search(name)
+	res={'pfx': rrex.group('PFX'),'name' : rrex.group('NME'),}
+	return res
+
+def makeName(namestr):
+	pfxx=PfxMap()
+	rex=pfxRex()
+	if '_' in namestr:
+		rrex=rex.search(namestr)
+		if rrex.group('PFX') in pfxx:
+			name	=	rrex.group('NME')
+		else:
+			name	=	namestr
+	else:
+		name	=	namestr
+
+	return name
+def makePfx(namestr):
+	pfxx=PfxMap()
+	rex=pfxRex()
+	if '_' in namestr:
+		rrex=rex.search(namestr)
+		if rrex.group('PFX') in pfxx:
+			pfx	=	rrex.group('PFX')
+	return pfx
+
+def PfxMap():
 	Map={
 	'lbl'   :	'QLabel',
 	'trw'   :	'QTreeWidget',
@@ -111,15 +127,16 @@ def PfxMap(pfx):
 	'iBtn'  :	'QToolButton',
 	'wgt'   :	'QWidget',
 	}
-	return Map[pfx]
+	return Map
 
 def ArgKwargs(defaults,**k):
 	return defaults()|k
 
 
 def SubQWgt(pfx):
-	qwgt= getattr(QtWidgets,PfxMap(pfx))
-	return qwgt()
+	pfxx=PfxMap()
+	qwgt= getattr(QtWidgets,pfxx[pfx])
+	return qwgt
 
 def makeSize(*a,**k):
 	if len(a) != 1 or len(k) !=1:
@@ -148,8 +165,7 @@ def Element(component):
 	return {name : component}
 
 def Short(w):
-	return {[e.split('_')[1]]: w['Elements'][e]for e in w['Elements']}
+	return {e.split('_')[1]: w['Elements'][e]for e in w['Elements']}
 
 def IconSet(i):
-	name=assets.ico.iconname(i)
-	return assets.ico.get(name) if name in  assets.ico.names() else None
+	return assets.ico.get(i) if i in  assets.ico.names() else None

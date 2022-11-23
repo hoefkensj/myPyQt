@@ -27,8 +27,7 @@ icolib					=		{
 	}
 
 def get(a):
-	name=iconname(a)
-	return icolib[name]
+	return icolib[a]
 
 def names():
 	return [*icolib.keys()]

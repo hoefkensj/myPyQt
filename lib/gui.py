@@ -4,7 +4,7 @@
 import sys
 
 import lib.Create
-
+import lib.QModules.QMain
 from .PyQtX import QWidget,QApplication,QtVersion
 from . import QWgt
 from . import gnr
@@ -42,35 +42,18 @@ def QGui(*a,**k):
 		a['QtApp'] = QApplication(argv)
 		a['Clip'] = a['QtApp'].clipboard()
 		return a
-	def Cfg():
-		g={
-			'QtVersion'         :		k.pop('qtversion'),
-			'ContentsMargins'   :		k['margin'],
-		}
-		QtConf={
-			'ObjectName'        :		k['name'],
-			'SizePolicy'        :		gnr.sizePol(k['pol']),
-		}
-
-		c={
-			'Config'  : k,
-			'General' : g,
-			'QtConf' : QtConf,
-		}
-		return c
-
 	def Fnx():
 		def Add():
 			return GUI['Main']['Add']
 		def Generate():
 			for element in GUI['Elements']:
 				wgt=GUI['Elements'].get(element)
-				GUI['Add'](wgt)
+				GUI['Main']['Add'](wgt['Wgt'])
 		def Show():
 			return GUI['Main']['Mtd']['show']
 		def Run():
 			from sys import exit
-			GUI['Generate']()
+			Generate()
 			GUI['Show']()
 			exit(GUI['App']['QtApp'].exec())
 		f={}
@@ -79,42 +62,28 @@ def QGui(*a,**k):
 		f['Show']	=	Show()
 		f['Run']	=	Run
 		return f
-	def Init(w)     :
-		Set=	GUI['Main']['Set']
-		Read=	GUI['Main']['Read']
-		conf = {}
-		conf['ObjectName']				=		GUI['Main']['Name']
-		conf['SizePolicy']				=		GUI['Main']['Cfg']['sizepolicy']
-		for prop in conf:
-			Set[prop](conf[prop])
-			GUI['Main']['Cfg'][prop]=Read[prop]()
-		Set['ContentsMargins'](*	GUI['Main']['Cfg']['margin'])
+	def Init(w):
 		return GUI
 
 	GUI = {}
 	GUI['App'] 				= 	App()
-	GUI['Main'] = lib.Create.QtCreate(QWgt.make, **k)
-	GUI								|=	{'Elements': {}}
-	GUI								|=	{'Cfg' 			: Cfg()}
-	GUI['Fnx']				=	Fnx()
-	# GUI['Con']				|=	Con()
-	GUI['Add']				=		GUI['Fnx']['Add']
-	GUI['Generate']		=		GUI['Fnx']['Generate']
+	GUI['Main'] 			=	 lib.QModules.QMain.make(k['pfx_name'])
+	GUI['Fnx']				= 	Fnx()
+	GUI['Elements']		=		{}
 	GUI['Show']				=		GUI['Fnx']['Show']
 	GUI['Run']				=		GUI['Fnx']['Run']
 	return Init(GUI)
 
-def make(n,**k):
-	def defaults(): return{
-		'margin'    : [0, 0, 0, 0],
-		't'   : 'v',
-		'pol': 'EE'}
-	kwargs={
-	'qt'        : gnr.PfxMap('wgt'),
-	'qtversion' : QtVersion,}
-	k|=gnr.ArgKwargs(defaults,**k)
-	k|=gnr.makeNames(name=n,pfx='wgt')
-	k|=kwargs
+def make(name,**k):
+	k={
+		'margin'    :	[0,0,0,0]					,
+		'pol'       :	'EE'							,
+		't'         :	'v'								,
+		}|k|{
+		'pfx'       :	'wgt'							,
+		'name'      :	name							,
+		'pfx_name'  :	f'wgt_{name}'			,
+		}
 	return QGui(**k)
 
 # pTree(d=GUI)

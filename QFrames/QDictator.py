@@ -4,12 +4,12 @@
 
 from lib import gui,gnr
 from lib.QModules import QHIncDec,QHSearch, QEditProp
-from QtpyDictator.pyDictatorQt import browse
+
 GUI=gui.make('TEST')
 GUI['Elements']|= gnr.Element(QEditProp.make('Key'))
-GUI['Elements']|= gnr.Element(QEditProp.make('Val'))
-GUI['Elements']|= gnr.Element(QHIncDec.make('ColEx'))
-GUI['Elements']|= gnr.Element(QHSearch.make('Search'))
+# GUI['Elements']|= gnr.Element(QEditProp.make('Val'))
+# GUI['Elements']|= gnr.Element(QHIncDec.make('ColEx'))
+# GUI['Elements']|= gnr.Element(QHSearch.make('Search'))
 GUI['Run']()
 
 
