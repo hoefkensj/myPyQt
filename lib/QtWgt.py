@@ -2,30 +2,6 @@
 import lib.Create
 
 from . import gnr
-def Cfg(**k):
-	QtConf={
-		'ObjectName': k['pfx_name'],
-		'SizePolicy':	gnr.sizePol(k['pol']),
-		}
-	Pos={
-		'ContentsMargins'	: k['margin']
-		}
-	C={
-		'Kwargs'	:	{**k},
-		'QtConf'	:	QtConf,
-		'QtPos'		:	Pos,
-	}
-	return C
-
-def Init(w)     :
-	def Configure():
-			for QtProp in w['Cfg']['QtConf']:
-				w['Set'][QtProp](w['Cfg']['QtConf'][QtProp])
-			w['Set']['ContentsMargins'](*w['Cfg']['QtPos']['ContentsMargins'])
-
-	Configure()
-
-	return w
 
 def QtWgt(**k):
 	def Create():
@@ -50,7 +26,7 @@ def QtWgt(**k):
 	w['Cfg']			= Cfg(**k)
 	w['Con']			= {}
 	w['Fnx']			= {}
-	return Init(w)
+	return w
 
 def make(namestr,**k):
 	name=gnr.makeName(namestr)

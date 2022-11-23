@@ -36,12 +36,7 @@ def pTree(*a, **k):
 
 def QGui(*a,**k):
 
-	def App():
-		from sys import argv
-		a = {}
-		a['QtApp'] = QApplication(argv)
-		a['Clip'] = a['QtApp'].clipboard()
-		return a
+
 	def Fnx():
 		def Add():
 			return GUI['Main']['Add']
@@ -49,8 +44,6 @@ def QGui(*a,**k):
 			return GUI['Main']['Mtd']['show']
 		def Run():
 			from sys import exit
-			GUI['Main']['Elements']=GUI['Elements']
-			GUI['Main']['Fnx']['Generate']()
 			GUI['Show']()
 			exit(GUI['App']['QtApp'].exec())
 		f={}

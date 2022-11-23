@@ -4,21 +4,6 @@ import lib.Create
 from .PyQtX import QWidget
 from . import gnr
 
-#
-# def Init(w)     :
-# 	def Configure():
-# 			for QtProp in w['Cfg']['QtConf']:
-# 				w['Set'][QtProp](w['Cfg']['QtConf'][QtProp])
-# 			w['Set']['ContentsMargins'](*w['Cfg']['QtPos']['ContentsMargins'])
-# 	def readCfg():
-# 			All = {}
-# 			for key in w['Read']:
-# 				if  key not in ['Property','Stretch']:
-# 					All[key]=w['Read'][key]()
-# 			return All
-# 	Configure()
-# 	w['Cfg']['All']=readCfg()
-# 	return w
 
 def QWgt(**k):
 	def Create():
@@ -31,47 +16,27 @@ def QWgt(**k):
 			'ContentsMargins'	: k['margin'],
 			}
 		return c
-	def Lay():
+	def Lay(w):
 		if k.get('t'):
 			l= make_Qlay(w,**k) 
 		else:
 			l= None
 		return l
 	def Fnx(w):
-		def Generate():
-			for element in w['Elements']:
-				wgt=w['Elements'].get(element)
-				w['Add'](wgt['Wgt'])
-		def Configure():
-			for prop in w['Cfg']:
-				if prop == 'ContentsMargins':
-					w['Set']['ContentsMargins'](*w['Cfg']['ContentsMargins'])
-				else:
-					if prop in w['Read'].keys():
-						w['Set'][prop](w['Cfg'][prop])
-		def Init(wgt):
-			Configure()
-			Generate()
-			return wgt
-		f={}
-		f['Generate']= Generate
-		f['Configure']=Configure
-		f['Add']= w['Lay']['Add']
-		f['Init']=Init
-		return f
+		return w
+	def Init(wgt):
+		return wgt
 	w=Create()
 	w['Cfg'] 			= Cfg()
-	w['Lay']			= Lay()
+	w['Lay']			= Lay(w)
 	w['Fnx']			=	Fnx(w)
-	w['Add']			= w['Fnx']['Add']
 	w['Elements'] = {}
-	w['Init']			=	w['Fnx']['Init']
-	return  w['Init'](w)
+	return  Init(w)
 
 def QLay(**k):
 	def Create():
 		lay=k['layout']()
-		l=lib.Create.QCreate(lay,'lay',**k)
+		l=lib.Create.QCreate(lay,'Lay',**k)
 		return l
 	def Cfg():
 		c={
@@ -80,26 +45,15 @@ def QLay(**k):
 			}
 		return c
 	def Fnx(l):
-		def Configure():
-			for prop in l['Cfg']:
-				if prop == 'ContentsMargins':
-					l['Set']['ContentsMargins'](*l['Cfg']['ContentsMargins'])
-				else:
-					if prop in l['Read'].keys():
-						l['Set'][prop](l['Cfg'][prop])
+		return l
+	def Init(wgt):
+		return wgt
 
-		def Init(wgt):
-			Configure()
-			return wgt
-		f={}
-		f['Add']= l['Mtd']['addWidget']
-		f['Configure']= Configure
-		f['Init']= Init
 		return f
 	l							= Create()
 	l['Cfg']			= Cfg()
 	l['Fnx']			= Fnx(l)
-	l['Add']			= l['Fnx']['Add']
+
 	return l
 
 def make_QWgt(namestr,**k):
@@ -129,5 +83,5 @@ def make_Qlay(widget,**k):
 		}
 	return QLay(**k)
 
-def make(name,**k):
-	return make_QWgt(name,**k)
+def make(namestr,**k):
+	return make_QWgt(namestr,**k)

@@ -6,7 +6,7 @@ import lib.PyQtX
 
 def QMain(**k):
 	def Create():
-		w=lib.QWgt.make(k['pfx_name'])
+		w=lib.QWgt.make(k['pfx_name'],**k)
 		return w
 	def Cfg():
 		c={
@@ -15,7 +15,6 @@ def QMain(**k):
 			}
 		return c
 	w=Create()
-	w['Elements'] = {}
 	w['Cfg'] 			= Cfg()
 	w['Add']			=	w['Fnx']['Add']
 	return w

@@ -2,14 +2,16 @@
 # Auth
 
 
-from lib import gui,gnr
+from lib import gui,gnr,QtWgt
 from lib.QModules import QHIncDec,QHSearch, QEditProp
 
 GUI=gui.make('TEST')
-GUI['Main']['Elements']|= gnr.Element(QEditProp.make('Key'))
-GUI['Elements']|= gnr.Element(QEditProp.make('Val'))
+# GUI['Main']['Elements']|= gnr.Element(QEditProp.make('Key'))
+# GUI['Elements']|= QEditProp.make('Val')
 # GUI['Elements']|= gnr.Element(QHIncDec.make('ColEx'))
 # GUI['Elements']|= gnr.Element(QHSearch.make('Search'))
+GUI['Main']['Elements'] |= gnr.Element(QtWgt.make('iBtn_Edit'))
+GUI['Main']['Lay']['Lay'].addWidget(GUI['Main']['Elements']['iBtn_Edit']['Wgt'])
 GUI['Run']()
 
 
@@ -19,7 +21,7 @@ GUI['Run']()
 # GUI['Elements'](QHSearch.make('TrSearch'))
 # GUI['Fnx']['Add'](  QtWgt.make('trw_RegEx',))
 # GUI['Elements'](elements.make_iBtn('Search'))
-# GUI['Elements'] |= elements.iBtn('Edit',lbl='test')
+#
 # GUI['Elements'] |= QtWgt.make(n='txt_EditProp')
 # GUI['Elements'] |= elements.chkBox('RegEx')
 # GUI['Elements'] |= QtWgt.make(n='chk_RegEx',)
