@@ -1,19 +1,17 @@
 #!/usr/bin/env python
 import lib.Create
 
-from .PyQtX import QWidget
+from static.QtLibs import QElements,QSizePolicies
 from . import gnr
 
 
 def QWgt(**k):
-	def Create():
-		wgt=lib.PyQtX.QWidget()
-		w=lib.Create.QCreate(wgt,'Wgt',**k)
-		return w
+
 	def Cfg():
 		c={
-			'ObjectName'			:	k['pfx_name'],
+			'ObjectName'			:	w['Name'],
 			'ContentsMargins'	: k['margin'],
+			'QSizePolicy'			: QSizePolicies[k['pol']]
 			}
 		return c
 	def Lay(w):
@@ -26,7 +24,7 @@ def QWgt(**k):
 		return w
 	def Init(wgt):
 		return wgt
-	w=Create()
+	w							=	lib.Create.QCreate(QElements['wgt'], **k)
 	w['Cfg'] 			= Cfg()
 	w['Lay']			= Lay(w)
 	w['Fnx']			=	Fnx(w)
@@ -56,17 +54,15 @@ def QLay(**k):
 
 	return l
 
-def make_QWgt(namestr,**k):
-	name=gnr.makeName(namestr)
-	k={
-		'margin'    :	[0,0,0,0]					,
-		'pol'       :	'EE'							,
-		't'         :	'v'								,
-		}|k|{
-		'pfx'       :	'wgt'							,
-		'name'      :	name							,
-		'pfx_name'  :	f'wgt_{name}'			,
-		}
+def make_QWgt(name,**k):
+	k	=     {
+		'margin'		:	[0,0,0,0]					,
+		'pol'				:	'EE'							,
+		't'					:	'V'								,
+	} |	k	|	{
+		'pfx'				:	'wgt'							,
+		'name'			:	name							,
+	}
 	return QWgt(**k)
 	
 def make_Qlay(widget,**k):
@@ -75,9 +71,9 @@ def make_Qlay(widget,**k):
 	k={
 		'margin'    :	[0,0,0,0]					,
 		}|k|{
-		'pfx'       :	'lay'							,
-		'name'      :	name							,
-		'pfx_name'  :	f'lay_{name}'			,
+		'pfx'				:	'lay'							,
+		'name'			:	name							,
+		'pfx_name'	:	f'lay_{name}'			,
 		'widget'		:	widget						,
 		'layout'		:	layout						,
 		}

@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 # Auth
-def Mtds(w):
-	f = {}
-	for n in dir(w):
-		m1 = getattr(w, n)
-		if callable(m1):
-			f[n] = m1
-	return f
+
 
 def Atrs(w):
 	v = {}
@@ -16,34 +10,47 @@ def Atrs(w):
 			v[n] = a1
 	return v
 
-def SetMtds(mtds):
-	sets={};reads={}
-	nocase=[]
-	for mtd in mtds:
-		if mtd.startswith('set'):
-			short=mtd[3:]
-			nocase+=[short.casefold()]
-			sets[short]=mtds[mtd]
-	for mtd in mtds:
-		if mtd.startswith('is'):
-			fix=mtd[2:]
-		else:
-			fix=f'{mtd[0].upper()}{mtd[1:]}'
-		if mtd.casefold() in nocase:
-			reads[fix]=mtds[mtd]
-	SetMtds={'Set': sets,'Read': reads}
-	return SetMtds
+def Mtds(wgt):
+	all={};sets={};reads={}
 
-def postCreate(wgt,type,**k):
-	w={
-	'Name'    :	k['pfx_name']	,
-	'name'    :	k['name']			,
-	type     	:	wgt						,
-	'Mtd'     :	Mtds(wgt)			,
-	'Atr'     : Atrs(wgt)			,}
+	for n in dir(wgt):
+		m1 = getattr(wgt, n)
+		if callable(m1):
+			all[n] = m1
+
+	for mtd in all:
+		if mtd.startswith('set'):
+			setmtd		=	mtd[3:]
+			shortmtd	=	f'{setmtd[0].casefold()}{setmtd[1:]}'
+			ismtd			=	f'is{setmtd}'
+			if ismtd in all:
+				readmtd	=	all[ismtd]
+			elif shortmtd in all:
+				readmtd	=	all[shortmtd]
+			sets[setmtd]	=	all.pop(mtd)
+			reads[setmtd]	=	all.pop(readmtd)
+
+	return {'Set': sets,'Read': reads, 'Mtd': all}
+
+def preCreate(pfx,name):
+	w		=		{
+		'Name'    :	f'{pfx}_{name}'			,
+		'name'		:	name								,
+		'type'		:	pfx									,
+	}
 	return w
-def QCreate(wgt,type,**k):
-	p=postCreate(wgt,type,**k)
-	s=SetMtds(p['Mtd'])
-	p|=s
-	return p
+
+def postCreate(wgt):
+	w		=		{
+							**Mtds(wgt)						,
+		'Atr'     : Atrs(wgt)						,
+	}
+	return w
+
+def QCreate(wgt,**k):
+	QWgt=wgt()
+	w	=	{
+		**preCreate(k['pfx'],k['name'])	,
+		'wgt'     :	QWgt								,
+		**postCreate(QWgt)							,}
+	return w

@@ -27,19 +27,10 @@ QWidget				=QtWidgets.QWidget
 QTreeWidget		=QtWidgets.QTreeWidget
 QLabel				=QtWidgets.QLabel
 
-QHBoxLayout		=QtWidgets.QHBoxLayout
-QVBoxLayout		=QtWidgets.QVBoxLayout
-QGridLayout		=QtWidgets.QGridLayout
-QFormLayout		=QtWidgets.QFormLayout
 
 
-QSizePolicy		=QtWidgets.QSizePolicy
-Policy				=QSizePolicy.Policy
-Preferred			=Policy.Preferred
-Fixed					=Policy.Fixed
-Minimum				=Policy.Minimum
-Maximum				=Policy.Maximum
-Expanding			=Policy.Expanding
+
+
 
 
 ToolButtonStyle=Qt.ToolButtonStyle
