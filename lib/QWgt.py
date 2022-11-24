@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 import lib.Create
 
-from static.QtLibs import QElements,QSizePolicies
+from static.QtLibs import QElements,QLayouts
 from . import gnr
 
 
 def QWgt(**k):
 
 	def Cfg():
+
 		c={
 			'ObjectName'			:	w['Name'],
 			'ContentsMargins'	: k['margin'],
-			'QSizePolicy'			: QSizePolicies[k['pol']]
+			'QSizePolicy'			:	gnr.makeSizePolicy(k['pol'])
 			}
 		return c
 	def Lay(w):
@@ -38,7 +39,7 @@ def QLay(**k):
 		return l
 	def Cfg():
 		c={
-			'ObjectName'			:	k['pfx_name'],
+			'ObjectName'			:	w['Name'],
 			'ContentsMargins'	: k['margin'],
 			}
 		return c
@@ -48,7 +49,7 @@ def QLay(**k):
 		return wgt
 
 		return f
-	l							= Create()
+	w							=	lib.Create.QCreate(QLayouts[k['t']], **k)
 	l['Cfg']			= Cfg()
 	l['Fnx']			= Fnx(l)
 
@@ -57,7 +58,7 @@ def QLay(**k):
 def make_QWgt(name,**k):
 	k	=     {
 		'margin'		:	[0,0,0,0]					,
-		'pol'				:	'EE'							,
+		'pol'				:	'E.E'							,
 		't'					:	'V'								,
 	} |	k	|	{
 		'pfx'				:	'wgt'							,

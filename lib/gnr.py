@@ -3,7 +3,7 @@
 import re
 import assets.ico
 import lib.PyQtX
-
+from static.QtLibs import QSizePolicies
 
 
 
@@ -64,7 +64,9 @@ def NameRE(**k):
 def makeSize(wh):
 	return lib.PyQtX.QtCore.QSize(wh[0], wh[1])
 
-
+def makeSizePolicy(pol):
+	h,v = pol.split('.')
+	return QSizePolicies[QSizePolicies[h],QSizePolicies[v]]
 
 
 def Element(component):
