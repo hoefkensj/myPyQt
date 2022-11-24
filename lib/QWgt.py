@@ -6,60 +6,70 @@ from . import gnr
 
 
 def QWgt(**k):
-
 	def Cfg():
-
 		c={
 			'ObjectName'			:	w['Name'],
 			'ContentsMargins'	: k['margin'],
 			'QSizePolicy'			:	gnr.makeSizePolicy(k['pol'])
 			}
 		return c
-	def Lay(w):
+	def Lay(wgt):
 		if k.get('t'):
-			l= make_Qlay(w,**k) 
-		else:
-			l= None
-		return l
-	def Fnx(w):
-		return w
+			return make_Qlay(wgt,**k)
+	def Fnx(wgt):
+		def Add(wgt):
+			def add(component):
+				wgt['Lay']['Fnx']['Add'](component)
+			return add
+
+		f={}
+		f['Configure']	=	gnr.Configure(wgt)
+		f['Add']				=	Add(wgt)
+		return f
 	def Init(wgt):
+		wgt=wgt['Fnx']['Configure']()
+		# for prop in wgt['Cfg']:
+		# 	wgt['Set'][prop](wgt['Cfg'][prop])
 		return wgt
 	w							=	lib.Create.QCreate(QElements['wgt'], **k)
+	w['Elements'] = {}
 	w['Cfg'] 			= Cfg()
 	w['Lay']			= Lay(w)
 	w['Fnx']			=	Fnx(w)
-	w['Elements'] = {}
 	return  Init(w)
 
 def QLay(**k):
-	def Create():
-		lay=k['layout']()
-		l=lib.Create.QCreate(lay,'Lay',**k)
-		return l
+	def Lay():
+		w	=	lib.Create.QCreate(QLayouts[k['t']], **k)
+		w['Wgt'](k['widget'])
+		return w
 	def Cfg():
 		c={
 			'ObjectName'			:	w['Name'],
 			'ContentsMargins'	: k['margin'],
 			}
 		return c
-	def Fnx(l):
-		return l
-	def Init(wgt):
-		return wgt
-
+	def Fnx(wgt):
+		def Add(wgt):
+			def add(component):
+				wgt['Mtd']['addWidget'](component['Wgt'])
+			return add
+		f={}
+		f['Add']	=	Add(wgt)
+		f['Configure'] = gnr.Configure(wgt)
 		return f
-	w							=	lib.Create.QCreate(QLayouts[k['t']], **k)
-	l['Cfg']			= Cfg()
-	l['Fnx']			= Fnx(l)
-
-	return l
+	def Init(wgt):
+		wgt=wgt['Fnx']['Configure']()
+		return wgt
+	w							=	Lay()
+	w['Cfg']			= Cfg()
+	w['Fnx']			= Fnx(w)
+	return Init(w)
 
 def make_QWgt(name,**k):
 	k	=     {
 		'margin'		:	[0,0,0,0]					,
 		'pol'				:	'E.E'							,
-		't'					:	'V'								,
 	} |	k	|	{
 		'pfx'				:	'wgt'							,
 		'name'			:	name							,
@@ -68,16 +78,13 @@ def make_QWgt(name,**k):
 	
 def make_Qlay(widget,**k):
 	name=widget['name']
-	layout=gnr.Layouts(k['t'])
-	k={
+	k	=			{
 		'margin'    :	[0,0,0,0]					,
-		}|k|{
+	}	|	k	|	{
 		'pfx'				:	'lay'							,
 		'name'			:	name							,
-		'pfx_name'	:	f'lay_{name}'			,
 		'widget'		:	widget						,
-		'layout'		:	layout						,
-		}
+	}
 	return QLay(**k)
 
 def make(namestr,**k):

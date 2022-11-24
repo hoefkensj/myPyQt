@@ -51,6 +51,6 @@ def QCreate(wgt,**k):
 	QWgt=wgt()
 	w	=	{
 		**preCreate(k['pfx'],k['name'])	,
-		'wgt'     :	QWgt								,
+		'Wgt'     :	QWgt								,
 		**postCreate(QWgt)							,}
 	return w

@@ -73,8 +73,12 @@ def Element(component):
 	name=component['Name']
 	return {name : component}
 
-def makeQuickNames(elements):
-	for element in elements:
+def Configure(wgt):
+	def configure():
+		for prop in wgt['Cfg']:
+			wgt['Set'][prop](wgt['Cfg'][prop])
+		return wgt
+	return configure
 
 
 
