@@ -16,10 +16,6 @@ def setQtVersion(QtVersion):
 	return QtVersion,QtCore,QtWidgets,QtGui,
 
 QtVersion,QtCore,QtWidgets,QtGui=setQtVersion(6)
-
-
-
-
 Qt=QtCore.Qt
 
 QApplication	=QtWidgets.QApplication

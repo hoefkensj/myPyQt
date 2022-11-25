@@ -5,10 +5,13 @@ from . import gnr
 
 def QtWgt(**k):
 	def Cfg():
+		if k.get('ctl'):
+			k.pop('ctl')
 		c={
 			'ObjectName'			:	w['Name'],
-			'ContentsMargins'	: k['margin'],
-			'SizePolicy'			:	lib.gnr.makeSizePolicy(k['pol'])
+			'ContentsMargins'	: k.pop('margin'),
+			'SizePolicy'			:	lib.gnr.makeSizePolicy(k.pop('pol')),
+			**k
 			}
 		return c
 	def Fnx(wgt):
@@ -25,10 +28,11 @@ def QtWgt(**k):
 	return Init(w)
 
 def make(namestr,**k):
+	l=k.get('k') or {}
 	k	=     {
 		'margin'		:	[0,0,0,0]					,
 		'pol'				:	'E.E'							,
-	} |	k	|	{
+	} |	l	|	k	|	{
 		'name'			:	namestr						,
 	}
 	return QtWgt(**k)

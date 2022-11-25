@@ -2,6 +2,7 @@
 # Auth
 import re
 import assets.ico
+import contextlib
 import lib.PyQtX
 from static.QtLibs import QSizePolicies
 
@@ -79,14 +80,17 @@ def Configure(wgt):
 			wgt['Set']['ContentsMargins'](*wgt['Cfg'].pop('ContentsMargins'))
 
 		for prop in wgt['Cfg']:
-			wgt['Set'][prop](wgt['Cfg'][prop])
+			with contextlib.suppress(KeyError):
+				wgt['Set'][prop](wgt['Cfg'][prop])
 		return wgt
+
 	return configure
 
 
 
+def ShortNames(wgt):
+	return {name.split('_')[1]:wgt['Elements'][name]for name in wgt['Elements']}
 
-	# return {e.split('_')[1]: w['Elements'][e]for e in w['Elements']}
 
 def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None
@@ -96,3 +100,21 @@ def Generate(wgt):
 		for element in 	wgt['Elements']:
 			wgt['Fnx']['Add'](wgt['Elements'][element]['Wgt'])
 	return generate
+
+def Show(w):
+	def show(state):
+		w['Wgt']['Set']['Visible'](state)
+	return show
+
+def Fnx(wgt):
+	f = {}
+	f['Show'] 			=	Show(wgt)
+	f['Configure']	=	Configure(wgt)
+	f['Generate'] 	= Generate(wgt)
+	return f
+
+def minInit(wgt):
+	wgt['Fnx']['Configure']()
+	wgt['Fnx']['Generate']()
+	wgt['Fnx']['Init']()
+	return wgt

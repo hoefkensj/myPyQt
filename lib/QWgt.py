@@ -10,7 +10,8 @@ def QWgt(**k):
 		c={
 			'ObjectName'			:	w['Name'],
 			'ContentsMargins'	: k['margin'],
-			'SizePolicy'			:	lib.gnr.makeSizePolicy(k['pol'])
+			'SizePolicy'			:	lib.gnr.makeSizePolicy(k['pol']),
+			**k
 			}
 		return c
 	def Lay(wgt):
@@ -44,6 +45,7 @@ def QLay(**k):
 		c={
 			'ObjectName'			:	w['Name'],
 			'ContentsMargins'	: k['margin'],
+			**k
 			}
 		return c
 	def Fnx(wgt):
@@ -52,10 +54,11 @@ def QLay(**k):
 				wgt['Mtd']['addWidget'](component)
 			return add
 		f={}
+		f['Configure']	=	lib.gnr.Configure(wgt)
 		f['Add']	=	Add(wgt)
 		return f
 	def Init(wgt):
-		# wgt=gnr.Configure(wgt)
+		wgt=wgt['Fnx']['Configure']()
 		return wgt
 	w							=	Lay()
 	w['Cfg']			= Cfg()

@@ -37,7 +37,7 @@ def QIconButton(**k):
 def make(namestr, **k):
 	iconame=namestr.split('_')[0]
 	k	= {
-		'margin'    :	[0,0,0,0]							,
+		'margin'    :	[0,20,100,0]							,
 		'pol'       :	'P.P'									,
 		'wh'        :	[20,20]								,
 		'bi'        :	False									,

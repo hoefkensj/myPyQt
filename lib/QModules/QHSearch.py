@@ -5,27 +5,31 @@ import lib.gnr
 import lib.QElements.QTextButton
 import lib.QElements.QIconButton
 import lib.QtWgt
-
+import lib.QWgt
 
 def QHSearch(**k):
-
 	def Cfg():
 		c={
 			'ObjectName'				:		w['Name'],
 			'SizePolicy'				:		lib.gnr.makeSizePolicy(k['pol']),
 			'ContentsMargins'		:		k['margin'],
+			**k
 		}
 		return c
 	def Elements():
 		parent=w['name']
 		e		= {}
-		e|= gnr.Element(lib.QtWgt.make(f'chk_RegEx_{parent}',pfx='lbl',pol='F.F'))
-		e|= gnr.Element(lib.QtWgt.make(f'txt_Field_{parent}',pfx='txtE',pol='E.F'))
+		e|= lib.gnr.Element(lib.QtWgt.make(f'RegEx_{parent}',pfx='chkB',pol='F.F'))
+		e|= lib.gnr.Element(lib.QtWgt.make(f'Field_{parent}',pfx='txtE',pol='E.F'))
+		e|= lib.gnr.Element(lib.QElements.QIconButton.make(f'<_{parent}', bi=False))
+		e|= lib.gnr.Element(lib.QElements.QIconButton.make(f'>_{parent}', bi=False))
+		e|= lib.gnr.Element(lib.QElements.QIconButton.make(f'Search_{parent}', bi=False))
+
 		# e|= gnr.Element(QtWgt.make(f'ctl_{parent}',pfx='txtE',pol='E.F'))
 		return e
 
-	def Fnx():
-
+	def Fnx(wgt):
+		s={name.split('_')[1]:wgt['Elements'][name] for name in wgt['Elements']}
 
 		# def dispPN(wgt):
 		# 	def dispPN(show):
@@ -52,11 +56,20 @@ def QHSearch(**k):
 			def show(state):
 				w['Wgt']['Set']['Visible'](state)
 			return show
+		def Init(wgt):
+			def init():
+				s={name.split('_')[1]:wgt['Elements'][name]for name in wgt['Elements']}
+				s['RegEx']['Set']['Text']('RE')
+				s['Field']['Set']['ReadOnly'](False)
+			return init
 		f = {}
 		f['Search'] =	Show()
+		f['Configure']	=	lib.gnr.Configure(wgt)
+		f['Generate'] 	= lib.gnr.Generate(wgt)
+		f['Init']				=	Init(wgt)
 		return f
-	def Con():
-		s=Short()
+	def Con(w):
+		s={name.split('_')[1]:w['Elements'][name]for name in w['Elements']}
 		c = {}
 		# c['chk_RegEx']=	rex['checkStateChecked'].connect
 		# wgt.Find		=	wgt.btnSearch.clicked.conne
@@ -66,15 +79,12 @@ def QHSearch(**k):
 		# c['iBtn_Prev']=ctl['iBtn_Prev']
 		# c['iBtn_Next']=ctl['iBtn_Next']
 		return c
+
+
 	def Init(wgt):
-		s={name.split('_')[1]:w['Elements'][name]for name in w['Elements']}
-		s['Name']['Set']['Text'](w['name'])
-		s['Set']['Set']['Hidden'](True)
-		# s['Set']['Set']['Text']('Set')
-		s['Field']['Set']['ReadOnly'](True)
-		s['Dupl']['Set']['Hidden'](True)
-		wgt['Fnx']['Editable'](not k['ed'])
+		wgt['Fnx']['Configure']()
 		wgt['Fnx']['Generate']()
+		wgt['Fnx']['Init']()
 		return wgt
 
 
@@ -87,13 +97,13 @@ def QHSearch(**k):
 
 def make(namestr,**k):
 	k={
-		'ed'        :	True							,
-		'margin'    :	[0,0,0,0]					,
-		'pol'       :	'E.F'							,
-		't'         :	'H'								,
+		'ed'        :	True								,
+		'margin'    :	[0,0,0,0]						,
+		'pol'       :	'E.F'								,
+		't'         :	'H'									,
 	} |	k	|	{
-		'pfx'       :	'wgt'							,
-		'name'      :	namestr							,
+		'pfx'       :	'wgt'								,
+		'name'      :	f'{namestr}_Search'	,
 	}
 	return  QHSearch(**k)
 
