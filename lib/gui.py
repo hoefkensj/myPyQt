@@ -5,6 +5,7 @@ import sys
 
 import lib.Create
 import lib.QModules.QMain
+import lib.QtApplication
 from .PyQtX import QWidget,QApplication,QtVersion
 from . import QWgt
 from . import gnr
@@ -35,43 +36,44 @@ def pTree(*a, **k):
 
 
 def QGui(*a,**k):
-
-
 	def Fnx():
-		def Add():
-			return GUI['Main']['Add']
-		def Show():
-			return GUI['Main']['Mtd']['show']
+		def Generate():
+			def generate():
+				for element in 	GUI['Main']['Elements']:
+					GUI['Fnx']['Add'](GUI['Main']['Elements'][element]['Wgt'])
+			return generate
 		def Run():
-			from sys import exit
-			GUI['Show']()
-			exit(GUI['App']['QtApp'].exec())
+			def run():
+				GUI['Fnx']['Generate']()
+				GUI['Show']()
+				sys.exit(GUI['App']['QtApp'].exec())
+			return run
 		f={}
-		f['Add']	=	Add()
-		f['Show']	=	Show()
-		f['Run']	=	Run
+		f['Add']			=	GUI['Main']['Add']
+		f['Show']			=	GUI['Main']['Mtd']['show']
+		f['Generate'] = Generate()
+		f['Run']			=	Run()
 		return f
-	def Init(w):
+	def Init(GUI):
 		return GUI
 
-	GUI = {}
-	GUI['App'] 				= 	App()
-	GUI['Main'] 			=	 lib.QModules.QMain.make(k['pfx_name'])
+	GUI = lib.Create.QCreate(dict, **k)
+	GUI['App'] 				= 	lib.QtApplication.QtApplication()
+	GUI['Main'] 			=	 	lib.QModules.QMain.make(GUI['name'],**k)
 	GUI['Fnx']				= 	Fnx()
-	GUI['Elements']		=		{}
+	GUI['Elements']		=	GUI['Main']['Elements']
+
 	GUI['Show']				=		GUI['Fnx']['Show']
 	GUI['Run']				=		GUI['Fnx']['Run']
 	return Init(GUI)
 
 def make(name,**k):
 	k={
-		'margin'    :	[0,0,0,0]					,
-		'pol'       :	'EE'							,
-		't'         :	'v'								,
+
 		}|k|{
-		'pfx'       :	'wgt'							,
+		'pfx'       :	'gui'							,
 		'name'      :	name							,
-		'pfx_name'  :	f'wgt_{name}'			,
+
 		}
 	return QGui(**k)
 

@@ -2,14 +2,10 @@
 # Auth
 import assets.ico
 import lib.Create
-
+from static.QtLibs import QElements,QToolButtons
 from .. import QtWgt, gnr
 
 def QIconButton(**k):
-	def Create():
-		wgt=k['QtFn']()
-		w=lib.Create.QCreate(wgt,'Wgt',**k)
-		return w
 	def Cfg():
 		icons=gnr.Icon(k['ico'],k['icowh'])
 		g={
@@ -19,10 +15,10 @@ def QIconButton(**k):
 		}
 		QtConf={
 			'ObjectName'        :		w['Name'],
-			'SizePolicy'        :		gnr.sizePol(k['pol']),
+			'SizePolicy'				:	lib.gnr.makeSizePolicy(k['pol']),
 			'Checkable'         :		k['bi'],
-			'MaximumSize'       :		gnr.makeSize(k['w'],k['h']),
-			'ToolButtonStyle'   :		gnr.tBtnStyles('I'),
+			'MaximumSize'       :		gnr.makeSize([k['w'],k['h']]),
+			'ToolButtonStyle'   :		QToolButtons['I'],
 			**icons
 		}
 
@@ -40,7 +36,7 @@ def QIconButton(**k):
 	def Init(w)     :
 
 		return w
-	w						= Create()
+	w							=	lib.Create.QCreate(QElements[k['pfx']], **k)
 	w['Cfg']		=			Cfg()
 	w['Fnx']		=			{}
 	w['Con']		=			Con()
@@ -48,11 +44,11 @@ def QIconButton(**k):
 
 
 def make(namestr, **k):
-	name=gnr.makeName(namestr)
-	iconame=name.split('_')[0]
+
+	iconame=namestr.split('_')[0]
 	k={
 		'margin'    :	[0,0,0,0]					,
-		'pol'     	:	'PP'						,
+		'pol'     	:	'P.P'						,
 		'w'       	:	20							,
 		'h'       	:	20							,
 		'bi'     		:	False						,
@@ -61,8 +57,7 @@ def make(namestr, **k):
 		'lbl'     	:	None						,
 		}|k|{
 		'pfx'     	:	'iBtn'					,
-		'name'      :	name							,
-		'pfx_name'  :	f'iBtn_{name}'			,
+		'name'      :	namestr							,
+
 		}
-	k|={'QtFn' : gnr.SubQWgt(k['pfx'])}
 	return QIconButton(**k)

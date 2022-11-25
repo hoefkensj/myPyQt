@@ -1,44 +1,34 @@
 #!/usr/bin/env python
 import lib.Create
-
+from static.QtLibs import QElements
 from . import gnr
 
 def QtWgt(**k):
-	def Create():
-		wgt=k['QtFn']()
-		w=lib.Create.QCreate(wgt,'Wgt',**k)
-		return w
-	def Fnx():
-		def Configure():
-			for prop in w['Cfg']:
-				if prop == 'ContentsMargins':
-					w['Set']['ContentsMargins'](*w['Cfg']['ContentsMargins'])
-				else:
-					if prop in w['Read'].keys():
-						w['Set'][prop](w['Cfg'][prop])
-		def Init(wgt):
-			Configure()
-			return wgt
+	def Cfg():
+		c={
+			'ObjectName'			:	w['Name'],
+			'ContentsMargins'	: k['margin'],
+			'SizePolicy'			:	lib.gnr.makeSizePolicy(k['pol'])
+			}
+		return c
+	def Fnx(wgt):
 		f={}
-		f['Configure']=Configure
+		f['Configure']	=	lib.gnr.Configure(wgt)
 		return f
-	w							=Create()
-	w['Cfg']			= Cfg(**k)
+	def Init(wgt):
+		wgt=wgt['Fnx']['Configure']()
+		return wgt
+	w							=	lib.Create.QCreate(QElements[k['pfx']], **k)
+	w['Cfg']			= Cfg()
 	w['Con']			= {}
-	w['Fnx']			= {}
-	return w
+	w['Fnx']			= Fnx(w)
+	return Init(w)
 
 def make(namestr,**k):
-	name=gnr.makeName(namestr)
-	pfx=gnr.makePfx(namestr)
-	k={
+	k	=     {
 		'margin'		:	[0,0,0,0]					,
-		'pol'				:	'PP'							,
-		}|k|{
-		'pfx'				:	pfx								,
-		'name'			:	name							,
-		'pfx_name'	: f'{pfx}_{name}'			,
-		}
-
-	k|={'QtFn' : gnr.SubQWgt(k['pfx'])}
+		'pol'				:	'E.E'							,
+	} |	k	|	{
+		'name'			:	namestr						,
+	}
 	return QtWgt(**k)

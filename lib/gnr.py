@@ -7,16 +7,16 @@ from static.QtLibs import QSizePolicies
 
 
 
-def SetMtd(wgt):
-	sets = wgt['Set']
-	reads=wgt['Read']
-	def setmtd(setm, *setv):
-		Set=sets[setm]
-		Set(*setv)
-		Val=reads[setm]
-		r={setm : Val()}
-		return r
-	return setmtd
+# def SetMtd(wgt):
+# 	sets = wgt['Set']
+# 	reads=wgt['Read']
+# 	def setmtd(setm, *setv):
+# 		Set=sets[setm]
+# 		Set(*setv)
+# 		Val=reads[setm]
+# 		r={setm : Val()}
+# 		return r
+# 	return setmtd
 
 def Icon(svg,wh,):
 	def icon(ico):
@@ -35,30 +35,30 @@ def Icon(svg,wh,):
 		icon = make_icon(icon,0)
 		icon = make_icon(icon,1)
 		return icon
-	size   =	makeSize( wh[0],wh[1])
+	size   =	makeSize(wh)
 	ico    =	icon(svg)
 	return {'Icon':ico,'IconSize':size,'Svg':svg}
 
 
 
 
-def NameRE(**k):
-	# pfx_NameParentnameParentmodule
-	# ibtn_EditKeyEdit
-	pfx=k.get('pfx') or '^_' #NOT _
-	sep=k.get('sep') or '_'
-	name=k.get('name') or '.*'
-	parent=k.get('parent') or '.*'
-	f'([{pfx}]*)'
-	f'([{sep}]?)'
-	f'({name})'
-	f'({name})'
-	gPFX=r'(?P<PFX>{RE})'.format(RE=PFX)
-	gSEP=r'(?P<SEP>{RE})'.format(RE=SEP)
-	gNME=r'(?P<NME>{RE})'.format(RE=NME)
-	gCON=f'^{gPFX}{gSEP}{gNME}$'
-	rex=re.compile(gCON ,re.VERBOSE)
-	return rex
+# def NameRE(**k):
+# 	# pfx_NameParentnameParentmodule
+# 	# ibtn_EditKeyEdit
+# 	pfx=k.get('pfx') or '^_' #NOT _
+# 	sep=k.get('sep') or '_'
+# 	name=k.get('name') or '.*'
+# 	parent=k.get('parent') or '.*'
+# 	f'([{pfx}]*)'
+# 	f'([{sep}]?)'
+# 	f'({name})'
+# 	f'({name})'
+# 	gPFX=r'(?P<PFX>{RE})'.format(RE=PFX)
+# 	gSEP=r'(?P<SEP>{RE})'.format(RE=SEP)
+# 	gNME=r'(?P<NME>{RE})'.format(RE=NME)
+# 	gCON=f'^{gPFX}{gSEP}{gNME}$'
+# 	rex=re.compile(gCON ,re.VERBOSE)
+# 	return rex
 
 
 def makeSize(wh):
@@ -66,7 +66,7 @@ def makeSize(wh):
 
 def makeSizePolicy(pol):
 	h,v = pol.split('.')
-	return QSizePolicies[QSizePolicies[h],QSizePolicies[v]]
+	return QSizePolicies['Pol'](QSizePolicies[h],QSizePolicies[v])
 
 
 def Element(component):
@@ -75,6 +75,9 @@ def Element(component):
 
 def Configure(wgt):
 	def configure():
+		if 'ContentsMargins' in wgt['Cfg']:
+			wgt['Set']['ContentsMargins'](*wgt['Cfg'].pop('ContentsMargins'))
+
 		for prop in wgt['Cfg']:
 			wgt['Set'][prop](wgt['Cfg'][prop])
 		return wgt
@@ -82,7 +85,8 @@ def Configure(wgt):
 
 
 
-	return {e.split('_')[1]: w['Elements'][e]for e in w['Elements']}
+
+	# return {e.split('_')[1]: w['Elements'][e]for e in w['Elements']}
 
 def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None

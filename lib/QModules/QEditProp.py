@@ -6,22 +6,21 @@ from .. import QtWgt, gnr,QWgt
 from ..QElements import QIconButton
 
 def QEditProp(**k):
-	def Create():
-		w=lib.QWgt.make(k['pfx_name'])
-		return w
 
 	def Elements():
 		parent=w['name']
+
 		e		= {}
-		e|= gnr.Element(QtWgt.make(f'lbl_Name_{parent}',pol='FF'))
-		e|= gnr.Element(QtWgt.make(f'txt_Field_{parent}',pol='EF'))
-		e|= gnr.Element(QtWgt.make(f'txt_Dupl_{parent}',pol='EF'))
-		e|= gnr.Element(QtWgt.make(f'tBtn_Set_{parent}',pol='EF', w=50, h=32))
+		e|= gnr.Element(QtWgt.make(f'Name_{parent}',pfx='lbl',pol='F.F'))
+		e|= gnr.Element(QtWgt.make(f'Field_{parent}',pfx='txtE',pol='E.F'))
+		e|= gnr.Element(QtWgt.make(f'Dupl_{parent}',pfx='txtE',pol='E.F'))
+		e|= gnr.Element(QtWgt.make(f'Set_{parent}',pfx='tBtn',pol='E.F', w=50, h=32))
 		e|= gnr.Element(QIconButton.make(f'Edit_{parent}', bi=True))
 		return e
 
 	def Fnx(w):
-		s=gnr.Short(w)
+		s={name.split('_')[1]:w['Elements'][name]for name in w['Elements']}
+
 		def txtText():
 			def txtText(text):
 				s['Field']['Set']['Text'](text)
@@ -55,7 +54,7 @@ def QEditProp(**k):
 		return f
 
 	def Con():
-		s=gnr.Short(w)
+		s={name.split('_')[1]:w['Elements'][name]for name in w['Elements']}
 		c = {}
 		c['Edit']= s['Set']['Mtd']['clicked'].connect
 		c['Set']=	s['Set']['Mtd']['clicked'].connect
@@ -68,27 +67,18 @@ def QEditProp(**k):
 		return c
 
 	def Init(w):
-		s=gnr.Short(w)
+		s={name.split('_')[1]:w['Elements'][name]for name in w['Elements']}
 		s['Name']['Set']['Text'](w['name'])
 		s['Set']['Set']['Hidden'](True)
 		s['Set']['Set']['Text']('Set')
 		s['Field']['Set']['ReadOnly'](True)
 		s['Dupl']['Set']['Hidden'](True)
 		w['Fnx']['Editable'](not k['ed'])
-		Set=w['Set']
-		Read=w['Read']
-		conf = {}
-		conf['ObjectName']				=	w['Name']
-		conf['SizePolicy']				=	gnr.sizePol(k['pol'])
-		for prop in conf:
-			Set[prop](conf[prop])
-			w['Cfg'][prop]=Read[prop]()
-		Set['ContentsMargins'](*k['margin'])
-		w['Fnx']['Generate']()
+
 		return w
 
 		
-	w 						=		Create()
+	w=lib.QWgt.make(k['name'],**k)
 	w['Elements'] = Elements()
 	w['Fnx'] 			|=	Fnx(w)
 	w['Con']			=	Con()
@@ -96,16 +86,14 @@ def QEditProp(**k):
 
 
 def make(namestr,**k):
-	name=lib.gnr.makeName(namestr)
 	k={
 		'lbl'       :	None							,
 		'ed'        :	True							,
 		'margin'    :	[0,0,0,0]					,
-		'pol'       :	'EF'							,
-		't'         :	'h'								,
-		}|k|{
+		'pol'       :	'E.F'							,
+		't'         :	'H'								,
+	}	|	k	|	{
 		'pfx'       :	'wgt'							,
-		'name'      :	name							,
-		'pfx_name'  :	f'wgt_{name}'			,
-		}
+		'name'      :	namestr							,
+	}
 	return QEditProp(**k)

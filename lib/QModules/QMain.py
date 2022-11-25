@@ -5,30 +5,30 @@ import lib.gnr
 import lib.PyQtX
 
 def QMain(**k):
-	def Create():
-		w=lib.QWgt.make(k['pfx_name'],**k)
-		return w
+
 	def Cfg():
 		c={
-			'ObjectName'			:	k['pfx_name'],
+			'ObjectName'			:	w['Name'],
 			'ContentsMargins'	: k['margin'],
+			'SizePolicy'			:	lib.gnr.makeSizePolicy(k['pol'])
 			}
 		return c
-	w=Create()
+	def Init(wgt):
+		wgt=wgt['Fnx']['Configure']()
+
+	w=lib.QWgt.make(k['name'],**k)
 	w['Cfg'] 			= Cfg()
 	w['Add']			=	w['Fnx']['Add']
 	return w
 
 
 def make(namestr,**k):
-	name=lib.gnr.makeName(namestr)
 	k={
 		'margin'    :	[0,0,0,0]					,
-		'pol'       :	'EE'							,
-		't'         :	'v'								,
-		}|k|{
+		'pol'       :	'E.E'							,
+		't'         :	'V'								,
+	}	|	k	|	{
 		'pfx'       :	'wgt'							,
-		'name'      :	name							,
-		'pfx_name'  :	f'wgt_{name}'			,
-		}
+		'name'      :	namestr							,
+	}
 	return QMain(**k)

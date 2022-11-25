@@ -1,17 +1,25 @@
 #!/usr/bin/env python
 # Auth
-
+from PyQt6 import QtWidgets,QtCore,QtSvg
 
 from lib import gui,gnr,QtWgt
 from lib.QModules import QHIncDec,QHSearch, QEditProp
 
+
+
 GUI=gui.make('TEST')
-# GUI['Main']['Elements']|= gnr.Element(QEditProp.make('Key'))
+cmb			=QtWidgets.QComboBox()
+cmb.addItems(dir(QtWidgets))
+component={'Name':'list','Wgt' : cmb}
+GUI['Elements']|=gnr.Element(component)
+
+
+GUI['Main']['Elements']|= gnr.Element(QEditProp.make('Key'))
 # GUI['Elements']|= QEditProp.make('Val')
 # GUI['Elements']|= gnr.Element(QHIncDec.make('ColEx'))
 # GUI['Elements']|= gnr.Element(QHSearch.make('Search'))
-GUI['Main']['Elements'] |= gnr.Element(QtWgt.make('iBtn_Edit'))
-GUI['Main']['Lay']['Lay'].addWidget(GUI['Main']['Elements']['iBtn_Edit']['Wgt'])
+# GUI['Main']['Elements'] |= gnr.Element(QtWgt.make('iBtn_Edit'))
+# GUI['Main']['Lay']['Lay'].addWidget(GUI['Main']['Elements']['iBtn_Edit']['Wgt'])
 GUI['Run']()
 
 

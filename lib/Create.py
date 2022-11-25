@@ -2,35 +2,33 @@
 # Auth
 
 
-def Atrs(w):
-	v = {}
-	for n in dir(w):
-		a1 = getattr(w, n)
-		if not callable(a1):
-			v[n] = a1
-	return v
-
 def Mtds(wgt):
-	all={};sets={};reads={}
+	wgt['Mtd']={}
+	wgt['Atr']={}
+	wgt['Set']={}
+	wgt['Read']={}
+	all=dir(wgt['Wgt'])
+	for mtdn in all:
+		mtd = getattr(wgt['Wgt'], mtdn)
+		if callable(mtd):
+			if mtdn.startswith('set'):
+				mtdcn		=	mtdn[3:]
+				mtdsn		=	f'{mtdcn[0].casefold()}{mtdcn[1:]}'
+				mtdin		=	f'is{mtdcn}'
+				if mtdin in all:
+					wgt['Set'][mtdcn]		=	mtd
+					wgt['Read'][mtdcn]	=	getattr(wgt['Wgt'], mtdin)
+				elif mtdsn in all:
+					wgt['Set'][mtdcn]		=	mtd
+					wgt['Read'][mtdcn]	=	getattr(wgt['Wgt'], mtdsn)
+				else:
+					wgt['Mtd'][mtdn]		=	mtd
+			else :
+				wgt['Mtd'][mtdn]		=	mtd
+		else:
+			wgt['Atr'][mtdn]		=	mtd
 
-	for n in dir(wgt):
-		m1 = getattr(wgt, n)
-		if callable(m1):
-			all[n] = m1
-
-	for mtd in all:
-		if mtd.startswith('set'):
-			setmtd		=	mtd[3:]
-			shortmtd	=	f'{setmtd[0].casefold()}{setmtd[1:]}'
-			ismtd			=	f'is{setmtd}'
-			if ismtd in all:
-				readmtd	=	all[ismtd]
-			elif shortmtd in all:
-				readmtd	=	all[shortmtd]
-			sets[setmtd]	=	all.pop(mtd)
-			reads[setmtd]	=	all.pop(readmtd)
-
-	return {'Set': sets,'Read': reads, 'Mtd': all}
+	return wgt
 
 def preCreate(pfx,name):
 	w		=		{
@@ -40,17 +38,12 @@ def preCreate(pfx,name):
 	}
 	return w
 
-def postCreate(wgt):
-	w		=		{
-							**Mtds(wgt)						,
-		'Atr'     : Atrs(wgt)						,
-	}
-	return w
-
 def QCreate(wgt,**k):
-	QWgt=wgt()
-	w	=	{
-		**preCreate(k['pfx'],k['name'])	,
-		'Wgt'     :	QWgt								,
-		**postCreate(QWgt)							,}
-	return w
+	w					=	preCreate(k['pfx'],k['name'])
+	w['Wgt']	=	wgt()
+	return Mtds(w)
+def QCreateLay(wgt,**k):
+	w					=	preCreate(k['pfx'],k['name'])
+	w['Wgt']	=	wgt
+	return Mtds(w)
+

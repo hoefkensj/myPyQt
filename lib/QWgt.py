@@ -2,7 +2,7 @@
 import lib.Create
 
 from static.QtLibs import QElements,QLayouts
-from . import gnr
+import lib.gnr
 
 
 def QWgt(**k):
@@ -10,7 +10,7 @@ def QWgt(**k):
 		c={
 			'ObjectName'			:	w['Name'],
 			'ContentsMargins'	: k['margin'],
-			'QSizePolicy'			:	gnr.makeSizePolicy(k['pol'])
+			'SizePolicy'			:	lib.gnr.makeSizePolicy(k['pol'])
 			}
 		return c
 	def Lay(wgt):
@@ -21,15 +21,12 @@ def QWgt(**k):
 			def add(component):
 				wgt['Lay']['Fnx']['Add'](component)
 			return add
-
 		f={}
-		f['Configure']	=	gnr.Configure(wgt)
+		f['Configure']	=	lib.gnr.Configure(wgt)
 		f['Add']				=	Add(wgt)
 		return f
 	def Init(wgt):
 		wgt=wgt['Fnx']['Configure']()
-		# for prop in wgt['Cfg']:
-		# 	wgt['Set'][prop](wgt['Cfg'][prop])
 		return wgt
 	w							=	lib.Create.QCreate(QElements['wgt'], **k)
 	w['Elements'] = {}
@@ -40,8 +37,8 @@ def QWgt(**k):
 
 def QLay(**k):
 	def Lay():
-		w	=	lib.Create.QCreate(QLayouts[k['t']], **k)
-		w['Wgt'](k['widget'])
+		w	=	lib.Create.QCreateLay(QLayouts[k['t']](k['widget']['Wgt']), **k)
+
 		return w
 	def Cfg():
 		c={
@@ -52,27 +49,26 @@ def QLay(**k):
 	def Fnx(wgt):
 		def Add(wgt):
 			def add(component):
-				wgt['Mtd']['addWidget'](component['Wgt'])
+				wgt['Mtd']['addWidget'](component)
 			return add
 		f={}
 		f['Add']	=	Add(wgt)
-		f['Configure'] = gnr.Configure(wgt)
 		return f
 	def Init(wgt):
-		wgt=wgt['Fnx']['Configure']()
+		# wgt=gnr.Configure(wgt)
 		return wgt
 	w							=	Lay()
 	w['Cfg']			= Cfg()
 	w['Fnx']			= Fnx(w)
 	return Init(w)
 
-def make_QWgt(name,**k):
+def make_QWgt(namestr,**k):
 	k	=     {
 		'margin'		:	[0,0,0,0]					,
 		'pol'				:	'E.E'							,
 	} |	k	|	{
 		'pfx'				:	'wgt'							,
-		'name'			:	name							,
+		'name'			:	namestr						,
 	}
 	return QWgt(**k)
 	
