@@ -37,7 +37,7 @@ def Icon(svg,wh,):
 		return icon
 	size   =	makeSize(wh)
 	ico    =	icon(svg)
-	return {'Icon':ico,'IconSize':size,'Svg':svg}
+	return {'Icon':ico,'IconSize':size}
 
 
 
@@ -65,7 +65,7 @@ def makeSize(wh):
 	return lib.PyQtX.QtCore.QSize(wh[0], wh[1])
 
 def makeSizePolicy(pol):
-	h,v = pol.split('.')
+  h,v = pol.split('.')
 	return QSizePolicies['Pol'](QSizePolicies[h],QSizePolicies[v])
 
 
@@ -90,3 +90,9 @@ def Configure(wgt):
 
 def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None
+
+def Generate(wgt):
+	def generate():
+		for element in 	wgt['Elements']:
+			wgt['Fnx']['Add'](wgt['Elements'][element]['Wgt'])
+	return generate

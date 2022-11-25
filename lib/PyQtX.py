@@ -31,12 +31,3 @@ QLabel				=QtWidgets.QLabel
 
 
 
-
-
-ToolButtonStyle=Qt.ToolButtonStyle
-ToolButtonIconOnly=ToolButtonStyle.ToolButtonIconOnly
-ToolButtonTextOnly=ToolButtonStyle.ToolButtonTextOnly
-ToolButtonFollowStyle=ToolButtonStyle.ToolButtonFollowStyle
-ToolButtonTextBesideIcon=ToolButtonStyle.ToolButtonTextBesideIcon
-ToolButtonTextUnderIcon=ToolButtonStyle.ToolButtonTextUnderIcon
-

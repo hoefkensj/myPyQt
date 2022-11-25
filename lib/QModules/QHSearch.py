@@ -1,45 +1,31 @@
 #!/usr/bin/env python
 # Auth
 import lib.Create
+import lib.gnr
+import lib.QElements.QTextButton
+import lib.QElements.QIconButton
+import lib.QtWgt
 
-from . import QHSearchCtl
-from .. import QtWgt, gnr, QWgt
 
+def QHSearch(**k):
 
-def QSearch(**k):
-	def defaults():return {
-		'pfx'   :	'shw'					,
-		'm'     :	[0,0,0,0]			,
-		'pol'   :	'EF'					,
-		'w'     :	20						,
-		'h'     :	20						,
-		'lbl'   :	None					,
-		}
-	def Create(): return lib.Create.QtCreate(QWgt.make, defaults, **k)
 	def Cfg():
-		c= gnr.ArgKwargs(defaults, **k)
-		c|={
-			'sizepolicy'    :	gnr.sizePol(c.get('pol')),
-			'margin'        :	c.get('m'),
+		c={
+			'ObjectName'				:		w['Name'],
+			'SizePolicy'				:		lib.gnr.makeSizePolicy(k['pol']),
+			'ContentsMargins'		:		k['margin'],
 		}
 		return c
 	def Elements():
 		parent=w['name']
-		n=[f'chk_RegEx_{parent}',f'txt_Field_{parent}',f'ctl_{parent}']
 		e		= {}
-		e[n[0]]= QtWgt.make(n[0],pol='PF')
-		e[n[1]]= QtWgt.make(n[1],pol='EF')
-		e[n[2]]= QHSearchCtl.make(n[2],pol='PF')
+		e|= gnr.Element(lib.QtWgt.make(f'chk_RegEx_{parent}',pfx='lbl',pol='F.F'))
+		e|= gnr.Element(lib.QtWgt.make(f'txt_Field_{parent}',pfx='txtE',pol='E.F'))
+		# e|= gnr.Element(QtWgt.make(f'ctl_{parent}',pfx='txtE',pol='E.F'))
 		return e
-	def Short():
-		parent=w['name']
-		s={}
-		s['rex']=w['Elements'][f'chk_RegEx_{parent}']
-		s['txt']=w['Elements'][f'txt_Field_{parent}']
-		s['ctl']=w['Elements'][f'wgt_Ctl_{parent}']
-		return s
+
 	def Fnx():
-		s=Short()
+
 
 		# def dispPN(wgt):
 		# 	def dispPN(show):
@@ -80,25 +66,34 @@ def QSearch(**k):
 		# c['iBtn_Prev']=ctl['iBtn_Prev']
 		# c['iBtn_Next']=ctl['iBtn_Next']
 		return c
-	def Init(w):
-		s=Short()
-		for element in w['Elements']:
-			w['Fnx']['Add'](w['Elements'][element])
-		return w
+	def Init(wgt):
+		s={name.split('_')[1]:w['Elements'][name]for name in w['Elements']}
+		s['Name']['Set']['Text'](w['name'])
+		s['Set']['Set']['Hidden'](True)
+		# s['Set']['Set']['Text']('Set')
+		s['Field']['Set']['ReadOnly'](True)
+		s['Dupl']['Set']['Hidden'](True)
+		wgt['Fnx']['Editable'](not k['ed'])
+		wgt['Fnx']['Generate']()
+		return wgt
 
-	w							=	Create()
-	w['Cfg']			=	Cfg()
+
+	w=lib.QWgt.make(k['name'],**k)
 	w['Elements'] = Elements()
-	w['Fnx'] 			|= Fnx()
-	w['Con'] 			|=Con()
+	w['Fnx'] 			|=	Fnx(w)
+	w['Con']			=	Con(w)
 	return Init(w)
 
-def make(name,**k):
-	Names=gnr.makeNames(name=name,pfx='wgt')
-	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],
-	'qt'        : gnr.PfxMap('wgt'),}
-	return QSearch(**kwargs,**k)
+
+def make(namestr,**k):
+	k={
+		'ed'        :	True							,
+		'margin'    :	[0,0,0,0]					,
+		'pol'       :	'E.F'							,
+		't'         :	'H'								,
+	} |	k	|	{
+		'pfx'       :	'wgt'							,
+		'name'      :	namestr							,
+	}
+	return  QHSearch(**k)
 

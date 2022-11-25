@@ -1,63 +1,51 @@
 #!/usr/bin/env python
 # Auth
-import assets.ico
+
 import lib.Create
 from static.QtLibs import QElements,QToolButtons
-from .. import QtWgt, gnr
+import lib.gnr
 
 def QIconButton(**k):
 	def Cfg():
-		icons=gnr.Icon(k['ico'],k['icowh'])
-		g={
-			'maxw'              :		k['w'],
-			'maxh'              : 	k['h'],
-			'ContentsMargins'   :		k['margin'],
-		}
-		QtConf={
-			'ObjectName'        :		w['Name'],
-			'SizePolicy'				:	lib.gnr.makeSizePolicy(k['pol']),
-			'Checkable'         :		k['bi'],
-			'MaximumSize'       :		gnr.makeSize([k['w'],k['h']]),
-			'ToolButtonStyle'   :		QToolButtons['I'],
-			**icons
-		}
-
 		c={
-			'Config'  : k,
-			'General' : g,
-			'QtConf' : QtConf,
+			'ObjectName'				:		w['Name'],
+			'SizePolicy'				:		lib.gnr.makeSizePolicy(k['pol']),
+			'Checkable'					:		k['bi'],
+			'MaximumSize'				:		lib.gnr.makeSize(k['wh']),
+			'ToolButtonStyle'		:		QToolButtons['I'],
+			'ContentsMargins'		:		k['margin'],
+			**lib.gnr.Icon(k['ico'], k['icowh'])
 		}
 		return c
-	def Con():
+	def Fnx(wgt):
+		f={}
+		f['Configure']	=	lib.gnr.Configure(wgt)
+		return f
+	def Con(wgt):
 		c={}
-		c['clicked'] = w['Mtd']['clicked'].connect
+		c['clicked'] = wgt['Mtd']['clicked'].connect
 		return c
-
-	def Init(w)     :
-
-		return w
-	w							=	lib.Create.QCreate(QElements[k['pfx']], **k)
+	def Init(wgt)     :
+		wgt=wgt['Fnx']['Configure']()
+		return wgt
+	w						=			lib.Create.QCreate(QElements['iBtn'], **k)
 	w['Cfg']		=			Cfg()
-	w['Fnx']		=			{}
-	w['Con']		=			Con()
+	w['Fnx']		=			Fnx(w)
+	w['Con']		=			Con(w)
 	return Init(w)
 
-
 def make(namestr, **k):
-
 	iconame=namestr.split('_')[0]
-	k={
-		'margin'    :	[0,0,0,0]					,
-		'pol'     	:	'P.P'						,
-		'w'       	:	20							,
-		'h'       	:	20							,
-		'bi'     		:	False						,
-		'ico'     	:	gnr.IconSet(iconame)	,
-		'icowh'   	:	[32,32]					,
-		'lbl'     	:	None						,
-		}|k|{
-		'pfx'     	:	'iBtn'					,
-		'name'      :	namestr							,
-
-		}
+	k	= {
+		'margin'    :	[0,0,0,0]							,
+		'pol'       :	'P.P'									,
+		'wh'        :	[20,20]								,
+		'bi'        :	False									,
+		'ico'       :	lib.gnr.IconSet(iconame)	,
+		'icowh'     :	[32,32]								,
+		'lbl'       :	None									,
+	} |	k	|	{
+		'name'      :	namestr								,
+		'pfx'       :	'iBtn'								,
+	}
 	return QIconButton(**k)

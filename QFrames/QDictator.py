@@ -11,11 +11,12 @@ GUI=gui.make('TEST')
 cmb			=QtWidgets.QComboBox()
 cmb.addItems(dir(QtWidgets))
 component={'Name':'list','Wgt' : cmb}
-GUI['Elements']|=gnr.Element(component)
+# GUI['Elements']|=gnr.Element(component)
 
 
-GUI['Main']['Elements']|= gnr.Element(QEditProp.make('Key'))
-# GUI['Elements']|= QEditProp.make('Val')
+GUI['Elements']|= gnr.Element(QEditProp.make('Key'))
+GUI['Elements']|= gnr.Element(QEditProp.make('Val'))
+
 # GUI['Elements']|= gnr.Element(QHIncDec.make('ColEx'))
 # GUI['Elements']|= gnr.Element(QHSearch.make('Search'))
 # GUI['Main']['Elements'] |= gnr.Element(QtWgt.make('iBtn_Edit'))
