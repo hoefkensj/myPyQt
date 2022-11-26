@@ -79,6 +79,7 @@ def make_Qlay(widget,**k):
 	name=widget['name']
 	k	=			{
 		'margin'    :	[0,0,0,0]					,
+		'layoutSpacing'	:	100							,
 	}	|	k	|	{
 		'pfx'				:	'lay'							,
 		'name'			:	name							,

@@ -66,7 +66,7 @@ def makeSize(wh):
 	return lib.PyQtX.QtCore.QSize(wh[0], wh[1])
 
 def makeSizePolicy(pol):
-  h,v = pol.split('.')
+	h,v = pol.split('.')
 	return QSizePolicies['Pol'](QSizePolicies[h],QSizePolicies[v])
 
 

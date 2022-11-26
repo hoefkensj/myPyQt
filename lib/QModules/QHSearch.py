@@ -2,8 +2,8 @@
 # Auth
 import lib.Create
 import lib.gnr
-import lib.QElements.QTextButton
-import lib.QElements.QIconButton
+from lib.QModules import QHSearchCtl
+
 import lib.QtWgt
 import lib.QWgt
 
@@ -21,9 +21,8 @@ def QHSearch(**k):
 		e		= {}
 		e|= lib.gnr.Element(lib.QtWgt.make(f'RegEx_{parent}',pfx='chkB',pol='F.F'))
 		e|= lib.gnr.Element(lib.QtWgt.make(f'Field_{parent}',pfx='txtE',pol='E.F'))
-		e|= lib.gnr.Element(lib.QElements.QIconButton.make(f'<_{parent}', bi=False))
-		e|= lib.gnr.Element(lib.QElements.QIconButton.make(f'>_{parent}', bi=False))
-		e|= lib.gnr.Element(lib.QElements.QIconButton.make(f'Search_{parent}', bi=False))
+		e|= lib.gnr.Element(QHSearchCtl.make(f'<_{parent}', bi=False))
+
 
 		# e|= gnr.Element(QtWgt.make(f'ctl_{parent}',pfx='txtE',pol='E.F'))
 		return e
@@ -89,6 +88,7 @@ def QHSearch(**k):
 
 
 	w=lib.QWgt.make(k['name'],**k)
+	w['Cfg']		=			Cfg()
 	w['Elements'] = Elements()
 	w['Fnx'] 			|=	Fnx(w)
 	w['Con']			=	Con(w)

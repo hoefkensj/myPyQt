@@ -94,6 +94,7 @@ def QEditProp(**k):
 
 		
 	w=lib.QWgt.make(k['name'],**k)
+	w['Cfg']		=			Cfg()
 	w['Elements'] = Elements()
 	w['Fnx'] 			|=	Fnx(w)
 	w['Con']			=	Con(w)
