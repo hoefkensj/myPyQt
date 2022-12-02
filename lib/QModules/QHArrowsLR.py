@@ -1,47 +1,42 @@
 #!/usr/bin/env python
 # Auth
-from lib import gnr,QWgt
+from lib import gnr
 from lib.QElements import QIconButton
+from Configs import QDefaults,Config
+from lib.QBases import QWidget
 
 def QHArrowsLR(**k):
-	def Cfg():
-		c={
-			'ObjectName'        :		w['Name'],
-			'SizePolicy'        :		gnr.makeSizePolicy(k['pol']),
-			'ContentsMargins'   :		k['margin'],
-			**k	}
-		return c
-	def Elements():
-		parent=w['name']
-		e		= {}
-		e|= gnr.Element(QIconButton.make(f'<_{parent}', wh=[15,20],bi=False))
-		e|= gnr.Element(QIconButton.make(f'>_{parent}', wh=[15,20],bi=False))
-		return e
+	def Elements(wgt):
+		wgt['Elements'] = wgt.get('Elements') or {}
+		parent=wgt['name']
+		wgt['Elements'] |= gnr.Element(QIconButton.make(f'<_{parent}', wh=[10,20],bi=False))
+		wgt['Elements'] |= gnr.Element(QIconButton.make(f'>_{parent}', wh=[10,20],bi=False))
+		return wgt
 	def Fnx(wgt):
 		def Init(wgt):
 			def init():
 				pass
 			return init
-		f=gnr.Fnx(w)
-		f['Init']=Init(wgt)
-		return f
+		wgt=gnr.Fnx(wgt)
+		wgt['Fnx']['Init']=Init(wgt)
+		return wgt
 	def Con(wgt):
+		wgt['Con'] = wgt.get('Con') or {}
 		s=gnr.ShortNames(wgt)
-		c = {}
-		c['<']=	s['<']['Mtd']['clicked'].connect
-		c['>']=	s['>']['Mtd']['clicked'].connect
-		return c
-	w=QWgt.make(k['name'],**k)
-	w['Cfg']		=			Cfg()
-	w['Elements'] = Elements()
-	w['Fnx'] 			|= Fnx(w)
-	w['Con']			=	Con(w)
+		wgt['Con']['<']=	s['<']['Sig']['clicked'].connect
+		wgt['Con']['>']=	s['>']['Sig']['clicked'].connect
+		return wgt
+	w= QWidget.make(k['name'], **k)
+	w		=			Config.make(w,**k)
+	w 	= 		Elements(w)
+	w		= 		Fnx(w)
+	w		=			Con(w)
 	return gnr.minInit(w)
 
 def make(namestr,**k):
 	k={
+		**QDefaults.Properties						,
 		'ed'        :	True								,
-		'margin'    :	[0,0,0,0]						,
 		'pol'       :	'F.F'								,
 		't'         :	'H'									,
 	} |	k	|	{

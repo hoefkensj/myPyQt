@@ -1,52 +1,17 @@
 #!/usr/bin/env python
-import lib.Create
-
-from ..QElements import QIconButton
-from myPyQt.lib import QtWgt, gnr,elements
-from myPyQt.lib import QWgt
+from lib.QElements import QIconButton
+from lib.QBases import QWidget
+from lib import gnr
+from Configs import Config
 
 
 def QHIncDec(**k):
-	def defaults():return {
-		'pfx'   :	'idw'				,
-		'm'     :	[5,0,5,0]			,
-		'pol'  :	'FF'					,
-		'w'     :	20						,
-		'h'     :	20						,
-		'lbl'   :	None					,
-		't'     : 'h',
-		}
-
-
-	def Cfg():
-		c=		gnr.ArgKwargs(defaults,**k)
-		c|={
-			'sizepolicy'    :	gnr.sizePol(c.get('pol')),
-			'margin'        :	c.pop('m'),
-		}
-		def Optional():return {
-			'maxw'          :	c.get('w'),
-			'maxh'          : c.get('h'),
-			'maxsize'       :	gnr.makeSize(c.get('w'),c.get('h')),
-			}
-		if c.get('w'):
-			c|=Optional()
-		return c
 	def Elements():
 		parent=w['name']
-		n=[f'Inc_{parent}',
-    f'Dec_{parent}'
-    ]
 		e		= {}
-		e[n[0]]=QIconButton.make(n[0], h=15, w=15, bi=False)
-		e[n[1]]=QIconButton.make(n[1], h=15, w=15, bi=False)
+		e|=gnr.Element(QIconButton.make(f'Inc_{parent}', h=15, w=15, bi=False))
+		e|=gnr.Element(QIconButton.make(f'Dec_{parent}', h=15, w=15, bi=False))
 		return e
-	def Short():
-		parent=w['name']
-		s={}
-		s['inc']=w['Elements'][f'Inc_{parent}']
-		s['dec']=w['Elements'][f'Dec_{parent}']
-		return s
 	def Fnx():
 		s=Short()
 		def StateInc():
@@ -67,8 +32,8 @@ def QHIncDec(**k):
 		f['IncDec'] =	Show()
 		return f
 
-	def Con():
-		s=Short()
+	def Con(wgt):
+		s=gnr.ShortNames(wgt)
 		c = {}
 		c['Inc']=	s['inc']['Mtd']['clicked'].connect
 		c['Dec']=	s['dec']['Mtd']['clicked'].connect
@@ -81,9 +46,9 @@ def QHIncDec(**k):
 		s=Short()
 		return w
 
-	w = lib.Create.QtCreate(QWgt.make, defaults, **k)
-	w							|=	{'Elements' : Elements()}
-	w							|=	{'Cfg' 			: Cfg()}
+	w= QWidget.make(k['name'], **k)
+	w	=	Config.Cfg(w,**k)
+	w['Elements']=Elements()
 	w['Fnx'] 			|=	Fnx()
 	w['Con']			|=	Con()
 	return Init(w)

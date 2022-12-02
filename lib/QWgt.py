@@ -3,14 +3,14 @@ import lib.Create
 
 from static.QtLibs import QElements,QLayouts
 import lib.gnr
-
+from Configs import QDefaults
 
 def QWgt(**k):
 	def Cfg():
 		c={
-			'ObjectName'			:	w['Name'],
-			'ContentsMargins'	: k['margin'],
-			'SizePolicy'			:	lib.gnr.makeSizePolicy(k['pol']),
+			'ObjectName'      :	w['Name'],
+			'ContentsMargins' : k['margin'],
+			'SizePolicy'      :	lib.gnr.makeSizePolicy(k['pol']),
 			**k
 			}
 		return c
@@ -24,7 +24,7 @@ def QWgt(**k):
 			return add
 		f={}
 		f['Configure']	=	lib.gnr.Configure(wgt)
-		f['Add']				=	Add(wgt)
+		f['Add'] = Add(wgt)
 		return f
 	def Init(wgt):
 		wgt=wgt['Fnx']['Configure']()
@@ -43,8 +43,8 @@ def QLay(**k):
 		return w
 	def Cfg():
 		c={
-			'ObjectName'			:	w['Name'],
-			'ContentsMargins'	: k['margin'],
+			'ObjectName'      :	w['Name'],
+			'ContentsMargins' : k['margin'],
 			**k
 			}
 		return c
@@ -54,7 +54,7 @@ def QLay(**k):
 				wgt['Mtd']['addWidget'](component)
 			return add
 		f={}
-		f['Configure']	=	lib.gnr.Configure(wgt)
+		f['Configure']	= lib.gnr.Configure(wgt)
 		f['Add']	=	Add(wgt)
 		return f
 	def Init(wgt):
@@ -67,23 +67,22 @@ def QLay(**k):
 
 def make_QWgt(namestr,**k):
 	k	=     {
-		'margin'		:	[0,0,0,0]					,
-		'pol'				:	'E.E'							,
+		'margin'    :	[0,0,0,0]					,
+		'pol'       :	'E.E'							,
 	} |	k	|	{
-		'pfx'				:	'wgt'							,
-		'name'			:	namestr						,
+		'pfx'       :	'wgt'							,
+		'name'      :	namestr						,
 	}
 	return QWgt(**k)
 	
 def make_Qlay(widget,**k):
 	name=widget['name']
-	k	=			{
-		'margin'    :	[0,0,0,0]					,
-		'layoutSpacing'	:	100							,
-	}	|	k	|	{
-		'pfx'				:	'lay'							,
-		'name'			:	name							,
-		'widget'		:	widget						,
+	k	=     {
+		**QDefaults.Properties					,
+	} |	k	|	{
+		'pfx'       :	'lay'							,
+		'name'      :	name							,
+		'widget'    :	widget						,
 	}
 	return QLay(**k)
 

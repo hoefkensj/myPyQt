@@ -1,48 +1,33 @@
 #!/usr/bin/env python
-import lib.Create
-from static.QtLibs import QElements,QToolButtons
-import lib.gnr
-def QtextButton(**k):
-	def Cfg():
-		c={
-			'ObjectName'				:		w['Name'],
-			'SizePolicy'				:		lib.gnr.makeSizePolicy(k['pol']),
-			'Checkable'					:		k['bi'],
-			'MaximumSize'				:		lib.gnr.makeSize(k['wh']),
-			'MaximumHeight'			:		20,
-			'ToolButtonStyle'		:		QToolButtons['T'],
-			'ContentsMargins'		:		k['margin'],
-			'Text'							:		w['name'].split('_')[0],
+from lib import gnr,Create
+from static.QtLibs import QElements
 
-		}
-		return c
+from Configs import QDefaults,Config
+def QtextButton(**k):
 	def Fnx(wgt):
-		f={}
-		f['Configure']	=	lib.gnr.Configure(wgt)
-		return f
+		wgt=gnr.Fnx(wgt)
+		return wgt
 	def Con(wgt):
 		c={}
-		c['clicked'] = wgt['Mtd']['clicked'].connect
+		c['clicked'] = wgt['Sig']['clicked'].connect
 		return c
 	def Init(wgt)     :
 		wgt=wgt['Fnx']['Configure']()
 		return wgt
-	w						=			lib.Create.QCreate(QElements['tBtn'], **k)
-	w['Cfg']		=			Cfg()
-	w['Fnx']		=			Fnx(w)
+	w						=			Create.QCreate(QElements['tBtn'], **k)
+	w						=			Config.make(w,**k)
+	w						=			Fnx(w)
 	w['Con']		=			Con(w)
 	return Init(w)
 
-def make(namestr, **k):
-	k	= {
-		'margin'    :	[0,0,0,0]							,
+def make(namestr,**k):
+	preset={
+		'Names'			:	['tBtn',namestr],
 		'pol'       :	'P.P'									,
 		'wh'        :	[20,20]								,
 		'bi'        :	False									,
 		'icowh'     :	[32,32]								,
-		'lbl'       :	namestr									,
-	} |	k	|	{
-		'name'      :	namestr								,
-		'pfx'       :	'iBtn'								,
+		'txt'       :	namestr									,
+		'btn'       :	'T'
 	}
-	return QtextButton(**k)
+	return QtextButton(**Config.preset(preset,**k))

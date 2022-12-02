@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import lib.Create
-from  PyQt5.QtWidgets import QLabel
-import gnr
+
+from Configs import QDefaults,Config
 def QLabel(**k):
 
 	def Wgt():
@@ -49,7 +49,46 @@ def QLabel(**k):
 	return w
 
 
-
+# def Lbl(**k):
+# 	def Wgt():
+# 		wgt = make(n=c.get('n'), t=c.get('qt'))
+# 		return wgt[c.get('n')]
+#
+# 	Mtd=     dClass('Mtds')('Wgt')
+# 	def c.get():
+# 		arg={}
+# 		arg['n']				=	k.get('n')
+# 		arg['w']				= k.get('w')	or 20
+# 		arg['h']				= k.get('h')	or 20
+# 		arg['m']				= k.get('m')	or [0,0,0,0]
+# 		arg['ico']			=	k.get('ico')
+# 		arg['lbl']			= k.get('lbl') or n
+# 		r = arg.get(a)
+# 		return r
+# 	def Fnx():
+# 		f 					= {}
+# 		return f
+# 	def Init():
+# 		# l['Wgt'] 	=sPol(l['Wgt'] , h='P', v='P')
+# 		def Init():
+# 			l['Mtd']['setObjectName'](f'lbl_{n}')
+# 			l['Mtd']['setText'](f'{lbl}')
+# 			l['Mtd']['setContentsMargins'](*m)
+# 		Init()
+# 		return Init
+# 	def Conn():
+# 		c={}
+# 		return c
+#
+# 	w={}
+# 	w['Wgt'] 		= Wgt()
+# 	w['Arg']		=	c.get()
+# 	w['Mtd']		= Mtd(l)
+# 	w['Data']		= None
+# 	w['Fnx']		= Fnx()
+# 	w['Conn']		=	Conn()
+# 	w['Init']		= Init()
+# 	return w
 
 
 

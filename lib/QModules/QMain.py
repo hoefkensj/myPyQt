@@ -1,34 +1,40 @@
 #!/usr/bin/env python
-import lib.Create
-import lib.QWgt
-import lib.gnr
-import lib.PyQtX
-
+from lib import gnr
+from lib.QBases import QWidget
+from Configs import Config
 def QMain(**k):
+	def Fnx(wgt):
+		def Init(wgt):
+			def init():
+				wgt['Fnx']['Show'](True)
+			return init
 
-	def Cfg():
-		c={
-			'ObjectName'			:	w['Name'],
-			'ContentsMargins'	: k['margin'],
-			'SizePolicy'			:	lib.gnr.makeSizePolicy(k['pol'])
-			}
-		return c
+		wgt=gnr.Fnx(wgt)
+
+		wgt['Fnx']['Init'] = Init(wgt)
+		return wgt
+
+
+
 	def Init(wgt):
-		wgt=wgt['Fnx']['Configure']()
+		wgt=gnr.minInit(wgt)
 
-	w=lib.QWgt.make(k['name'],**k)
-	w['Cfg'] 			= Cfg()
-	w['Add']			=	w['Fnx']['Add']
-	return w
+		return wgt
+
+
+
+	w						=		QWidget.make(k['name'], **k)
+	w						=		Config.make(w,**k)
+	w						=		Fnx(w)
+	w['Add']		=		w['Fnx']['Add']
+	return Init(w)
+
 
 
 def make(namestr,**k):
-	k={
-		'margin'    :	[0,0,0,0]					,
-		'pol'       :	'E.E'							,
-		't'         :	'V'								,
-	}	|	k	|	{
-		'pfx'       :	'wgt'							,
-		'name'      :	namestr							,
+	preset={
+	'Names'     :	[k['pfx'],namestr],
+	'pol'       :	'E.E'							,
+	't'         :	'V'								,
 	}
-	return QMain(**k)
+	return QMain(**Config.preset(preset,**k))

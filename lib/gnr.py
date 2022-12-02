@@ -4,7 +4,7 @@ import re
 import assets.ico
 import contextlib
 import lib.PyQtX
-from static.QtLibs import QSizePolicies
+from static.QtLibs import QSizePolicies,QCores
 
 
 
@@ -19,7 +19,7 @@ from static.QtLibs import QSizePolicies
 # 		return r
 # 	return setmtd
 
-def Icon(svg,wh,):
+def Icon(svg):
 	def icon(ico):
 		import base64
 		icon_states={
@@ -36,9 +36,7 @@ def Icon(svg,wh,):
 		icon = make_icon(icon,0)
 		icon = make_icon(icon,1)
 		return icon
-	size   =	makeSize(wh)
-	ico    =	icon(svg)
-	return {'Icon':ico,'IconSize':size}
+	return icon(svg)
 
 
 
@@ -63,28 +61,18 @@ def Icon(svg,wh,):
 
 
 def makeSize(wh):
-	return lib.PyQtX.QtCore.QSize(wh[0], wh[1])
+	return QCores['Size'](wh[0], wh[1])
 
 def makeSizePolicy(pol):
 	h,v = pol.split('.')
 	return QSizePolicies['Pol'](QSizePolicies[h],QSizePolicies[v])
 
+def makeMargins(margins):
+	return QCores['Margins'](*margins)
 
 def Element(component):
 	name=component['Name']
 	return {name : component}
-
-def Configure(wgt):
-	def configure():
-		if 'ContentsMargins' in wgt['Cfg']:
-			wgt['Set']['ContentsMargins'](*wgt['Cfg'].pop('ContentsMargins'))
-
-		for prop in wgt['Cfg']:
-			with contextlib.suppress(KeyError):
-				wgt['Set'][prop](wgt['Cfg'][prop])
-		return wgt
-
-	return configure
 
 
 
@@ -95,26 +83,74 @@ def ShortNames(wgt):
 def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None
 
+
+def Configure(wgt):
+	SET=wgt['Set']
+	MTD=wgt['Mtd']
+	def SpecialCases(wgt):
+		def HideCols(wgt):
+			cols = wgt['Cfg']['hidecols']
+			for col in cols:
+				wgt['Mtd']['hideColumn'](col)
+			return wgt
+		def Widget(wgt):
+			wgt['Cfg'].pop('widget')
+			print(f'removed widget from {wgt["Name"]} to avoid infinite nesting')
+			return wgt
+
+		Cases={
+			'hidecols'				:	HideCols			,
+			'widget'					:	Widget				,
+		}
+		for Case in Cases:
+			if Case in  wgt['Cfg']:
+				wgt=Cases[Case](wgt)
+		return wgt
+	def configure(wgt):
+		wgt=SpecialCases(wgt)
+		for prop in wgt['Cfg']:
+			with contextlib.suppress(KeyError) as e:
+				# print(e)
+				wgt['Set'][prop](wgt['Cfg'][prop])
+		return wgt
+	wgt['Fnx']['Configure']	=	configure
+	return wgt
+
+
 def Generate(wgt):
 	def generate():
 		for element in 	wgt['Elements']:
 			wgt['Fnx']['Add'](wgt['Elements'][element]['Wgt'])
-	return generate
+	wgt['Fnx']['Generate'] 	= generate
+	return wgt
 
-def Show(w):
-	def show(state):
-		w['Wgt']['Set']['Visible'](state)
-	return show
+def Show(wgt):
+	mtd={}
+	mtd[True]=wgt['Mtd']['show']
+	mtd[False]=wgt['Mtd']['hide']
+	mtd['exec']=True
+	def fn_show(*a):
+		if a:
+			mtd[a[0]]()
+			mtd['exec']=not a[0]
+		else:
+			mtd[mtd['exec']]()
+			mtd['exec']=not mtd['exec']
+	wgt['Fnx']['Show']=fn_show
+	return wgt
 
 def Fnx(wgt):
-	f = {}
-	f['Show'] 			=	Show(wgt)
-	f['Configure']	=	Configure(wgt)
-	f['Generate'] 	= Generate(wgt)
-	return f
+	wgt['Fnx'] = wgt.get('Fnx') or {}
+	wgt	=	Show(wgt)
+	wgt	= Configure(wgt)
+	if isinstance(wgt.get('Elements'),dict):
+		wgt	=	Generate(wgt)
+	return wgt
 
 def minInit(wgt):
-	wgt['Fnx']['Configure']()
-	wgt['Fnx']['Generate']()
+	wgt['Fnx']['Configure'](wgt)
+	if isinstance(wgt.get('Elements'),dict):
+		wgt['Fnx']['Generate']()
 	wgt['Fnx']['Init']()
 	return wgt
+

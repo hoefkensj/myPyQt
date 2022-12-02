@@ -1,105 +1,109 @@
 #!/usr/bin/env python
-import lib.Create
-from  PyQt5.QtWidgets import QTreeWidget
-from myPyQt.lib import gnr
 
-def Tree(**k):
+from lib import gnr,Create
+from static.QtLibs import QElements
 
-	def Wgt():
-		return QTreeWidget()
+from Configs import QDefaults,Config
+def Make_Tree():
+	def make_tree(rwgt, branches=[], **k):
+		keylist=[]
+		def make_branch(root, dct, path ,keylist=keylist):
+			for key in dct:
+				data = dct[key]
+				keylist+=[key]
+				dictpath = f"{path}['{key}']"
+				branch = QElements['TrItem']()
+				branch.setText(0, str(key))
+				branch.setText(3, dictpath)
+				keystr=''.join([f"['{key}']" for key in keylist])
+				branch.setText(4,keystr)
+				if isinstance(data, dict):
+					make_branch(branch, data, dictpath,keylist=keylist)
+				else:
+					data = str(data)
+					w =rwgt['Read']['ColumnWidth'](1)
+					data = repr(data) if callable(data) else data
+					dispdata = f'{data[:w - 4]}...' if len(data) > w - 4 else data
+					branch.setText(1, dispdata)
+					branch.setText(2, data)
+				keylist.pop(-1)
 
-	def Arg(a):
-		arg={}
-		arg['n']			= k.get("n")
-		arg['m']			= k.get("m") or [0,0,0,0]
-		r = arg.get(a)
-		return r
+				root.addChild(branch)
 
-	def Props():
-		name 		= Arg('n')
-		return locals()
+		name = rwgt['name']
+		data = k.get('data')
+		data={**data}
+		root = QElements['TrItem']()
+		root.setText(0, name)
+		root.setText(1, name)
+		make_branch(root, data, name)
+		return root
+	return make_tree
+def QTree(**k):
+	def Fnx(wgt):
+		def ResizeCols(wgt):
+			def resizecols():
+				wgt['Fnx']['expandAll']()
+				wgt['Mtd']['resizeColumnToContents'](0)
+				wgt['Mtd']['resizeColumnToContents'](1)
+				wgt['Fnx']['collapseAll']()
+			return resizecols
+		def ReadColWidth(wgt):
+			def readcolwidth():
+				w1 = wgt['Mtd']['columnWidth'](0)
+				w2 = wgt['Mtd']['columnWidth'](1)
+				return [w1, w2]
+			return readcolwidth
+		def SetColWidth(wgt):
+			def setcolwidth(col, rel=None, tot=None):
+				if rel:
+					w =wgt['Set']['ColumnWidth'](col)
+					w = w + rel
+				else:
+					w = tot
+				wgt['Set']['ColumnWidth'](col, w)
+			return setcolwidth
+		def Init(wgt):
+			def init():
 
-	def Mtd():
-		wgt = w['Wgt']
-		mtd= lib.Create.Mtds(wgt)
-		return mtd
+				wgt['Mtd']['show']()
+			return init
 
-	def Atr():
-		wgt = w['Wgt']
-		atr= lib.Create.Atrs(wgt)
-		return atr
 
-	def Fnx():
-		f={}
-		return f
-	def Init():
-		def init():
-			w['Mtd']['setObjectName'](f'tree_{Arg("n")}')
-			w['Mtd']['setContentsMargins'](*Arg('m'))
+		wgt=gnr.Fnx(wgt)
+		wgt['Fnx']['Header']					= wgt['Set']['Header']
 
-		init()
-		return init
+		wgt['Fnx']['CurrentItem']			=	wgt['Set']['CurrentItem']
+		wgt['Fnx']['TopLevelItem']		=	wgt['Mtd']['addTopLevelItem']
+		wgt['Fnx']['expandAll']				= wgt['Mtd']['expandAll']
+		wgt['Fnx']['collapseAll']			= wgt['Mtd']['collapseAll']
+		wgt['Fnx']['ResizeCols']			= ResizeCols(wgt)
+		wgt['Fnx']['ReadColWidth']		= ReadColWidth(wgt)
+		wgt['Fnx']['SetColWidth']			= SetColWidth(wgt)
+		wgt['Fnx']['Init'] = Init(wgt)
+		wgt['Fnx']['MakeTree']	= Make_Tree()
+		return wgt
 
-	w= {}
-	w['Wgt']			=	Wgt()
-	w['Prp']			= Props()
-	w['Mtd']			=	Mtd()
-	w['Atr']			= Atr()
-	w['Fnx']			=	Fnx()
-	w['Init']			=	Init()
-	return w
-	
-def Tree(**k):
-	def Wgt():
-		wgt = make(n=c.get('n'), t=c.get('qt'))
-		return wgt[c.get('n')]
+	def Con(wgt):
+		wgt['Con'] = wgt.get('Con') or {}
+		wgt['Con']['clicked'] = wgt['Sig']['itemClicked'].connect
+		return wgt
+	def Init(wgt):
+		wgt=gnr.minInit(wgt)
+		return wgt
+	w						=			Create.QCreate(QElements['trW'], **k)
+	w						=			Config.make(w,**k)
+	w						=			Fnx(w)
+	w						=			Con(w)
+	return Init(w)
 
-	def c.get():
-		arg={}
-		arg['n']				= k.get('n') or 'Tree'
-		arg['m']				= k.get('m') or [0,0,0,0]
-		r = arg.get(a)
-		return r
-	def Fnx():
-		f 					= {}
-		f['setHeader']				= t['Mtd']['setHeader']
-		f['addTopLevelItem']	=	t['Mtd']['addTopLevelItem']
-		f['setColumnWidth']		=	t['Mtd']['setColumnWidth']
-		f['setCurrentItem']		=	t['Mtd']['setCurrentItem']
-		f['expandAll']				= t['Mtd']['expandAll']
-		f['collapseAll']			= t['Mtd']['collapseAll']
-		return f
-	def Init():
-		t['Wgt'] 	=	sPol(t['Wgt'], h='E', v='mE')
-		def Init():
-			t['Mtd']['setObjectName'](f'tree{n}')
-			t['Mtd']['setAlternatingRowColors'](True)
-			t['Mtd']['setAnimated'](True)
-			t['Mtd']['setHeaderHidden'](True)
-			t['Mtd']['setColumnCount'](5)
-			t['Mtd']['hideColumn'](2)
-			t['Mtd']['hideColumn'](3)
-			t['Mtd']['hideColumn'](4)
-			t['Mtd']['setMinimumHeight'](10)
-			t['Mtd']['setAllColumnsShowFocus'](True)
-			t['Mtd']['setMinimumHeight'](50)
-			t['Mtd']['setContentsMargins'](*m)
-			Init()
-		return Init
-	def Conn():
-		c={}
-		c['itemClicked']=t['Mtd']['itemClicked'].connect
-		return c
+def make(namestr, **k):
+	preset	=	QDefaults.TreeWidget |	{
+		'Names'									:	['trw',namestr]			,
+		'pol'										:	'E.E'									,
+	}
+	return QTree(**Config.preset(preset,**k))
 
-	w={}
-	w['Wgt'] 		= Wgt()
-	w['Arg']		=	c.get()
-	w['Mtd']		= Mtd(t)
-	w['Data']		=	Data(t)
-	w['Fnx']		= Fnx()
-	w['Conn']		=	Conn()
-	w['Init']		= Init()
-	return t
 
 # def __Tree(**k):
 # 	def create():

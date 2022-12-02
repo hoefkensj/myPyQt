@@ -1,34 +1,27 @@
 #!/usr/bin/env python
 # Auth
-import lib.Create
-import lib.gnr
-import lib.QElements.QTextButton
-import lib.QElements.QIconButton
-import lib.QtWgt
-import lib.QWgt
+from lib.QElements import QTextButton,QIconButton
+from lib.QBases import QWidget
+from lib import gnr
+from lib.QElements import QtWgt
+from Configs import Config
 
 def QEditProp(**k):
-	def Cfg():
-		c={
-			'ObjectName'        :		w['Name'],
-			'SizePolicy'        :		lib.gnr.makeSizePolicy(k['pol']),
-			'ContentsMargins'   :		k['margin'],
-			**k
-		}
-		return c
-	def Elements():
-		parent=w['name']
-
-		e		= {}
-		e|= lib.gnr.Element(lib.QtWgt.make(f'Name_{parent}', pfx='lbl', pol='F.F',k=k))
-		e|= lib.gnr.Element(lib.QtWgt.make(f'Field_{parent}', pfx='txtE', pol='E.F',k=k))
-		e|= lib.gnr.Element(lib.QtWgt.make(f'Dupl_{parent}', pfx='txtE', pol='E.F',k=k))
-		e|= lib.gnr.Element(lib.QElements.QTextButton.make(f'Set_{parent}', pol='E.F', wh=[50, 32]))
-		e|= lib.gnr.Element(lib.QElements.QIconButton.make(f'Edit_{parent}', bi=True))
-		return e
+	def Elements(wgt):
+		parent=wgt['name']
+		wgt['Elements'] = wgt.get('Elements') or {}
+		wgt['Elements'] |= gnr.Element(QtWgt.make(f'Name_{parent}', pfx='lbl', pol='F.F', k=k))
+		wgt['Elements'] |= gnr.Element(QtWgt.make(f'Field_{parent}', pfx='txtE', pol='E.F', k=k))
+		wgt['Elements'] |= gnr.Element(QtWgt.make(f'Dupl_{parent}', pfx='txtE', pol='E.F', k=k))
+		wgt['Elements'] |= gnr.Element(QTextButton.make(f'Set_{parent}', pol='E.F', wh=[50, 32]))
+		wgt['Elements'] |= gnr.Element(QIconButton.make(f'Edit_{parent}', bi=True))
+		return wgt
 
 	def Fnx(wgt):
-		s={name.split('_')[1]:wgt['Elements'][name] for name in wgt['Elements']}
+		s=gnr.ShortNames(wgt)
+		def ReConfigure(wgt):
+			for element in wgt['Elements']:
+				wgt['Elements'][element]['Fnx']['ReConfigure'](element)
 		def TxtText():
 			def txtText(text):
 				s['Field']['Set']['Text'](text)
@@ -56,59 +49,49 @@ def QEditProp(**k):
 			return editable
 		def Init(wgt):
 			def init():
-				s={name.split('_')[1]:wgt['Elements'][name]for name in wgt['Elements']}
+				s=gnr.ShortNames(wgt)
 				s['Name']['Set']['Text'](w['name'].split('_')[0])
 				s['Set']['Set']['Hidden'](True)
 				s['Field']['Set']['ReadOnly'](True)
 				s['Dupl']['Set']['Hidden'](True)
 				wgt['Fnx']['Editable'](not k['ed'])
 			return init
-		f = {}
-		f['Edit'] 			=	Edit()
-		f['txtText'] 		=	TxtText()
-		f['setText']		=	SetText()
-		f['Editable'] 	=	Editable()
-		f['Configure']	=	lib.gnr.Configure(wgt)
-		f['Generate'] 	= lib.gnr.Generate(wgt)
-		f['Init']				=	Init(wgt)
-		return f
-
-	def Con(w):
-		s={name.split('_')[1]:w['Elements'][name]for name in w['Elements']}
-		c = {}
-		c['Edit']= s['Edit']['Con']['clicked']
-		c['Set']=	s['Set']['Con']['clicked']
-		c['Field']	= {}
-		c['Field']['returnPressed']= s['Field']['Mtd']['returnPressed'].connect
-
-		c['Edit'](w['Fnx']['Edit'])
-		c['Set'](w['Fnx']['txtText'])
-		c['Field']['returnPressed'](w['Fnx']['txtText'])
-		return c
-
-	def Init(wgt):
-		wgt['Fnx']['Configure']()
-		wgt['Fnx']['Generate']()
-		wgt['Fnx']['Init']()
+		wgt=gnr.Fnx(wgt)
+		wgt['Fnx']['Reconfigure'] =	ReConfigure
+		wgt['Fnx']['Edit'] 			=	Edit()
+		wgt['Fnx']['txtText'] 		=	TxtText()
+		wgt['Fnx']['setText']		=	SetText()
+		wgt['Fnx']['Editable'] 	=	Editable()
+		wgt['Fnx']['Init']				=	Init(wgt)
 		return wgt
 
-		
-	w=lib.QWgt.make(k['name'],**k)
-	w['Cfg']		=			Cfg()
-	w['Elements'] = Elements()
-	w['Fnx'] 			|=	Fnx(w)
-	w['Con']			=	Con(w)
-	return Init(w)
+	def Con(wgt):
+		s=gnr.ShortNames(w)
+		wgt['Con'] = wgt.get('Con') or {}
+		wgt['Con']['Edit']= s['Edit']['Con']['clicked']
+		wgt['Con']['Set']=	s['Set']['Con']['clicked']
+		wgt['Con']['Field']	= {}
+		# [print(mtd,s[mtd]) for mtd in s]
+		wgt['Con']['Field']['returnPressed']= s['Field']['Sig']['returnPressed'].connect
+
+		wgt['Con']['Edit'](wgt['Fnx']['Edit'])
+		wgt['Con']['Set'](wgt['Fnx']['txtText'])
+		wgt['Con']['Field']['returnPressed'](wgt['Fnx']['txtText'])
+		return wgt
+
+	w	= QWidget.make(k['name'], **k)
+	w	=	Config.make(w,**k)
+	w	=	Elements(w)
+	w	=	Fnx(w)
+	w	=	Con(w)
+	return gnr.minInit(w)
 
 
 def make(namestr,**k):
-	k={
-		'ed' 				:	True						,
-		't'					:	'H'							,
-		'margin'		:	[0,0,0,0]					,
-		'pol'				:	'E.F'							,
-	} |	k	|	{
-		'pfx'				:	'wgt'							,
-		'name'			:	f'{namestr}_Edit'		,
+	preset={
+		'Names'     :	['wgt',namestr,'Edit'],
+		'ed'        :	True						,
+		't'         :	'H'							,
+		'pol'       :	'E.F'						,
 	}
-	return QEditProp(**k)
+	return QEditProp(**Config.preset(preset,**k))
