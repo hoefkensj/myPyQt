@@ -23,7 +23,7 @@ def QWgt(**k):
 				wgt['Lay']['Fnx']['Add'](component)
 			return add
 		f={}
-		f['Configure']	=	lib.gnr.Configure(wgt)
+		f['Configure']	=	lib.gnr.makeConfigure(wgt)
 		f['Add'] = Add(wgt)
 		return f
 	def Init(wgt):
@@ -54,7 +54,7 @@ def QLay(**k):
 				wgt['Fnx']['Mtd']['addWidget'](component)
 			return add
 		f={}
-		f['Configure']	= lib.gnr.Configure(wgt)
+		f['Configure']	= lib.gnr.makeConfigure(wgt)
 		f['Add']	=	Add(wgt)
 		return f
 	def Init(wgt):

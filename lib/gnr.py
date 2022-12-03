@@ -71,7 +71,7 @@ def makeMargins(margins):
 	return QCores['Margins'](*margins)
 
 def Element(component):
-	name=component['Name']
+	name=component.get('Name')
 	return {name : component}
 
 
@@ -84,32 +84,27 @@ def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None
 
 
-def Configure(wgt):
+def makeConfigure(wgt):
 	def SpecialCases(wgt):
 		def HideCols(wgt):
 			cols = wgt['Cfg']['hidecols']
 			for col in cols:
-				wgt['Fnx']['Mtd']['hideColumn'](col)
+				print('hidecol:' ,col)
+				wgt['Fnx']['Set']['ColumnHidden'](col,True)
 			return wgt
-		def Widget(wgt):
-			wgt['Cfg'].pop('widget')
-			print(f'removed widget from {wgt["Name"]} to avoid infinite nesting')
-			return wgt
-
 		Cases={
-			'hidecols'				:	HideCols			,
-			'widget'					:	Widget				,
+			'hidecols'        :	HideCols			,
 		}
 		for Case in Cases:
 			if Case in  wgt['Cfg']:
 				wgt=Cases[Case](wgt)
 		return wgt
 	def configure(wgt):
-		wgt=SpecialCases(wgt)
 		for prop in wgt['Cfg']:
 			with contextlib.suppress(KeyError) as e:
 				# print(e)
 				wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
+		wgt=SpecialCases(wgt)
 		return wgt
 	wgt['Fnx']['Configure']	=	configure
 	return wgt
@@ -140,7 +135,7 @@ def Show(wgt):
 def Fnx(wgt):
 	wgt['Fnx'] = wgt.get('Fnx') or {}
 	wgt	=	Show(wgt)
-	wgt	= Configure(wgt)
+	wgt = makeConfigure(wgt)
 	if isinstance(wgt.get('Elements'),dict):
 		wgt	=	Generate(wgt)
 	return wgt

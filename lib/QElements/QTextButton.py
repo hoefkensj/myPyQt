@@ -23,9 +23,7 @@ def QtextButton(**k):
 def make(namestr,**k):
 	preset={
 		'pol'       :	'P.P'									,
-		'wh'        :	[20,20]								,
 		'bi'        :	False									,
-		'icowh'     :	[32,32]								,
 		'txt'       :	namestr								,
 		'btn'       :	'T'
 	}

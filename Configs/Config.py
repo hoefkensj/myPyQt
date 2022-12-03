@@ -15,6 +15,7 @@ def make(wgt,**k):
 		'isize'		:			'IconSize',
 		'txt'			:			'Text',
 		'cols'		:			'ColumnCount',
+		'widget'	:			'Widget'
 	}
 	vmapping={
 		'ObjectName'						:		'''wgt['Name']''',
@@ -27,6 +28,7 @@ def make(wgt,**k):
 		'IconSize'							:		'''gnr.makeSize(k['isize'])''',
 		'Text'									:		'''wgt['name'].split('_')[0]''',
 		'ColumnCount'						:		'''k.get('cols')''',
+		'Widget'								:		'''k.get('widget').get('Name')'''
 
 	}
 
@@ -37,6 +39,8 @@ def make(wgt,**k):
 		else:
 			c[kwarg]=k[kwarg]
 	wgt['Cfg']= wgt.get('Cfg') or {}
+	if 'widget' in k:
+		k.pop('widget')
 	wgt['Cfg']|=c
 	return wgt
 

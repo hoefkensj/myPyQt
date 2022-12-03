@@ -4,19 +4,24 @@ from sys import argv,exit
 from lib import Create
 from static.QtLibs import QElements
 from Configs import Config
+import asyncio
+import sys
 
 def QtApplication(**k):
 	def Fnx(wgt):
 		def Run(wgt):
+			async def app():
+				wgt['Fnx']['Mtd']['exec']()
 			def run():
-				exit(wgt['Fnx']['Mtd']['exec']())
+				asyncio.run(app())
 			return run
 		wgt['Fnx']['Run'] = Run(wgt)
 		return wgt
 
-	w						=			Create.QCreate(QElements['app'], **k)
-	w['Clip'] = w['Fnx']['Mtd']['clipboard']()
-	return
+	w					=			Create.QCreateApp(**k)
+	w					= 		Fnx(w)
+	w['Clip'] =			w['Fnx']['Mtd']['clipboard']()
+	return w
 
 def make(namestr,**k):
 	preset={}

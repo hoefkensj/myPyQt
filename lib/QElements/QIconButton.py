@@ -12,26 +12,22 @@ def QIconButton(**k):
 	def Con(wgt):
 		c={}
 		c['clicked'] = wgt['Fnx']['Sig']['clicked'].connect
-		return c
+		wgt['Con']=c
+		return wgt
 	def Init(wgt)     :
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
 	w						=			Create.QCreate(QElements['iBtn'], **k)
 	w						=			Config.make(w,**k)
+	w						=			Create.Mtds(w)
 	w						=			Fnx(w)
-	w['Con']		=			Con(w)
+	w						=			Con(w)
 	return Init(w)
 
 def make(namestr, **k):
 	iconame=namestr.split('_')[0]
-	preset={
-		'pol'       :	'P.P'									,
-		'wh'        :	[20,20]								,
-		'bi'        :	False									,
+	preset=QDefaults.QIconButton|{
 		'ico'       :	gnr.IconSet(iconame)	,
-		'isize'     :	[32,32]								,
-		'lbl'       :	None									,
-		'btn'       :	'I'										,
 	}
 	k=Config.preset(['iBtn',namestr],preset,**k)
 	return QIconButton(**k)

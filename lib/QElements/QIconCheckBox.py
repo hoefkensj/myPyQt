@@ -10,7 +10,7 @@ def QIconCheckBox(**k):
 			state=w['Mtd']['isChecked']
 			wgt['Fnx']['Mtd']['setChecked'](not state)
 		f 					= {}
-		f['Configure']	=gnr.Configure(wgt)
+		f['Configure']	=gnr.makeConfigure(wgt)
 		f['Toggle']	= toggle
 		return f
 	def Con():

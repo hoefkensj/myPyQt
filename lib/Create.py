@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # Auth
 import inspect
+from static import QtLibs
+import sys
+
 def isbound(m):
 	return hasattr(m, '__self__')
 def Mtds(wgt):
@@ -53,8 +56,16 @@ def QCreate(*a,**k):
 		w['Wgt']	=	a[0]()
 		w=Mtds(w)
 	return w
-def QCreateLay(wgt,**k):
+def QCreateApp(**k):
 	w					=	preCreate(k['pfx'],k['name'])
-	w['Wgt']	=	wgt
-	return Mtds(w)
+	w['Wgt']	=	QtLibs.QElements['app'](sys.argv)
+	w=Mtds(w)
+	return w
+def QCreateLay(**k):
+	wgt					=	k.pop('widget')
+	layout			=	QtLibs.QLayouts[k['t']]
+	l	=	preCreate(k['pfx'],k['name'])
+	l['Wgt']		=	layout(wgt['Wgt'])
+	l=Mtds(l)
+	return l
 

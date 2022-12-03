@@ -5,24 +5,25 @@ from lib.QElements import QtWgt
 from Configs import QDefaults,Config
 from lib.QElements import QIconButton
 from lib.QBases import QWidget
-from lib.QModules	import QHSearchCtl
+from lib.QModules	import QHSearchCtl,QHArrowsLR
 def QHSearch(**k):
 	def Elements(wgt):
 		if 'Elements' not in wgt:wgt['Elements'] = {}
 		parent=wgt['name']
 		wgt['Elements'] |= gnr.Element(QtWgt.make(f'Field_{parent}', pfx='txtE', pol='E.F'))
 		wgt['Elements'] |= gnr.Element(QIconButton.make(f'Reg_{parent}',AutoRaise=True, bi=True))
-		wgt['Elements'] |= gnr.Element(QHSearchCtl.make(f'ctl_{parent}', bi=False))
-		# e|= gnr.Element(QtWgt.make(f'ctl_{parent}',pfx='txtE',pol='E.F'))
+		wgt['Elements'] |=	gnr.Element(QHArrowsLR.make(f'<>_{parent}', bi=False))
+		wgt['Elements'] |=	gnr.Element(QIconButton.make(f'Search_{parent}', bi=False))
 		return wgt
-
+	def Els(wgt):
+		wgt['Els']=gnr.ShortNames(wgt)
+		return wgt
 	def Fnx(wgt):
-		s={name.split('_')[1]:wgt['Elements'][name] for name in wgt['Elements']}
-		# def dispPN(wgt):
-		# 	def dispPN(show):
-		# 		wgt.btnPrev.setHidden(not show)
-		# 		wgt.btnNext.setHidden(not show)
-		# 	return dispPN
+		s=gnr.ShortNames(wgt)
+		def ShowPN(wgt):
+			def showpn(show):
+				s['<>']['Fnx']['Set']['Hidden'](not show)
+			return showpn
 		# def selNext(Tree):
 		# 	def sel():
 		# 		item=wgt.Found.pop(0)
@@ -44,30 +45,35 @@ def QHSearch(**k):
 				w['Wgt']['Set']['Visible'](state)
 			return visible
 		def Init(wgt):
+			s=gnr.ShortNames(wgt)
 			def init():
-				pass
+				wgt['Fnx']['ShowPN'](False)
 			return init
 		wgt=gnr.Fnx(wgt)
-		wgt['Fnx']['Init']		=	Init(wgt)
+		wgt['Fnx']['ShowPN']	= ShowPN(wgt)
 		wgt['Fnx']['Visible'] =	Visible(wgt)
+		wgt['Fnx']['Init']		=	Init(wgt)
+		wgt['Fnx']['x']				=s['Field']['Fnx']['Mtd']['x']
+		wgt['Fnx']['y']				=s['Field']['Fnx']['Mtd']['y']
+		wgt['Fnx']['width']		=s['Field']['Fnx']['Mtd']['width']
 		return wgt
-	def Con(w):
-		s={name.split('_')[1]:w['Elements'][name]for name in w['Elements']}
+	def Con(wgt):
+		s=gnr.ShortNames(wgt)
 		c = {}
-		# c['chk_RegEx']=	rex['checkStateChecked'].connect
-		# wgt.Find		=	wgt.btnSearch.clicked.conne
-		# wgt.Next		= wgt.btnNext.clicked.connect
-		# wgt.Prev		=	wgt.btnPrev.clicked.connect
-		# c['iBtn_Search']=ctl['iBtn_Search']
-		# c['iBtn_Prev']=ctl['iBtn_Prev']
-		# c['iBtn_Next']=ctl['iBtn_Next']
-		return c
+		c['Reg']=s['Reg']['Fnx']['Sig']['toggled'].connect
+		c['Search']=s['Search']['Fnx']['Sig']['clicked'].connect
+		wgt['Con']=c
+		return wgt
+	def Init(wgt):
+		wgt=gnr.minInit(wgt)
+		return wgt
 	w						=	QWidget.make(k['name'], **k)
 	w						=	Config.make(w,**k)
 	w						= Elements(w)
+	w						=	Els(w)
 	w						=	Fnx(w)
-	w['Con']			=	Con(w)
-	return gnr.minInit(w)
+	w						=	Con(w)
+	return Init(w)
 
 
 def make(namestr,**k):
@@ -78,7 +84,7 @@ def make(namestr,**k):
 		't'         :	'H'									,
 	} |	k	|	{
 		'pfx'       :	'wgt'								,
-		'name'      :	f'{namestr}_Search'	,
+		'name'      :	f'{namestr}Search'	,
 	}
 	return  QHSearch(**k)
 

@@ -7,15 +7,14 @@ from Configs import QDefaults,Config
 
 def QLayout(**k):
 	def Lay():
-		return lib.Create.QCreateLay(QLayouts[k['t']](k['widget']['Wgt']), **k)
+		return lib.Create.QCreateLay(**k)
 	def Fnx(wgt):
-		if 'Fnx' not in wgt:wgt['Fnx'] = {}
 		def Add(wgt):
 			def add(component):
 				wgt['Fnx']['Mtd']['addWidget'](component)
 			return add
 
-		wgt	=	gnr.Configure(wgt)
+		wgt	=	gnr.makeConfigure(wgt)
 		wgt['Fnx']['Add']	=	Add(wgt)
 		return wgt
 	def Init(wgt):

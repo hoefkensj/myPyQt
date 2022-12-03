@@ -19,3 +19,12 @@ QEditProp={
 		't'         :	'H'							,
 		'pol'       :	'E.F'						,
 }
+
+QIconButton={
+		'pol'       :	'P.P'									,
+		'wh'        :	[20,20]								,
+		'bi'        :	False									,
+		'isize'     :	[32,32]								,
+		'lbl'       :	None									,
+		'btn'       :	'I'										,
+}

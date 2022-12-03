@@ -1,32 +1,29 @@
 #!/usr/bin/env python
-from lib import gnr
+from lib import gnr,Create
 from lib.QBases import QWidget
 from Configs import Config,QDefaults
+
 def QMain(**k):
 	def Fnx(wgt):
-		def Init(wgt):
-			def init():
-				wgt['Fnx']['Show'](False)
-			return init
-
+		def Run(wgt):
+			wgt['Fnx']['Generate']()
+			wgt['Fnx']['Show']()
+			return wgt
 		wgt=gnr.Fnx(wgt)
-
-		wgt['Fnx']['Init'] = Init(wgt)
+		wgt['Fnx']['Run']	=	Run
 		return wgt
-
-
 
 	def Init(wgt):
-		wgt=gnr.minInit(wgt)
+		wgt=wgt['Fnx']['Configure'](wgt)
+		return Create.Mtds(wgt)
 
-		return wgt
 
 
 
 	w						=		QWidget.make(k['name'], **k)
 	w						=		Config.make(w,**k)
 	w						=		Fnx(w)
-	w['Add']		=		w['Fnx']['Add']
+	w['Elements']={}
 	return Init(w)
 
 
