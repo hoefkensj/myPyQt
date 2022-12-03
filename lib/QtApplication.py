@@ -4,7 +4,6 @@ from sys import argv,exit
 from lib import Create
 from static.QtLibs import QElements
 from Configs import Config
-from .PyQtX import QtWidgets
 
 def QtApplication(**k):
 	def Fnx(wgt):
@@ -15,9 +14,7 @@ def QtApplication(**k):
 		wgt['Fnx']['Run'] = Run(wgt)
 		return wgt
 
-	# w						=			Create.QCreate(QElements['app'], **k)
-	w={}
-	w['Wgt']	=	QtWidgets.QApplication()
+	w						=			Create.QCreate(QElements['app'], **k)
 	w['Clip'] = w['Fnx']['Mtd']['clipboard']()
 	return
 
