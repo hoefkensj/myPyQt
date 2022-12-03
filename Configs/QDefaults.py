@@ -3,6 +3,7 @@ Properties={
 	'margin'    						:	[0,0,0,0]						,
 	'LayoutSpacing'					:	0										,
 	'Spacing'								:	0										,
+	'pol'										:'E.E'								,
 	}
 
 TreeWidget={
@@ -12,4 +13,9 @@ TreeWidget={
 			'AllColumnsShowFocus'	:	True,
 			'HeaderHidden'					:	False,
 
+}
+QEditProp={
+		'ed'        :	True						,
+		't'         :	'H'							,
+		'pol'       :	'E.F'						,
 }

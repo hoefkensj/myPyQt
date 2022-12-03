@@ -18,10 +18,7 @@ def setQtVersion(QtVersion):
 QtVersion,QtCore,QtWidgets,QtGui=setQtVersion(6)
 Qt=QtCore.Qt
 
-QApplication	=QtWidgets.QApplication
-QWidget				=QtWidgets.QWidget
-QTreeWidget		=QtWidgets.QTreeWidget
-QLabel				=QtWidgets.QLabel
+
 
 
 

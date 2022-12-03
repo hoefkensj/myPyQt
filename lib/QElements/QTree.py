@@ -21,7 +21,7 @@ def Make_Tree():
 					make_branch(branch, data, dictpath,keylist=keylist)
 				else:
 					data = str(data)
-					w =rwgt['Read']['ColumnWidth'](1)
+					w =rwgt['Fnx']['Read']['ColumnWidth'](1)
 					data = repr(data) if callable(data) else data
 					dispdata = f'{data[:w - 4]}...' if len(data) > w - 4 else data
 					branch.setText(1, dispdata)
@@ -44,39 +44,38 @@ def QTree(**k):
 		def ResizeCols(wgt):
 			def resizecols():
 				wgt['Fnx']['expandAll']()
-				wgt['Mtd']['resizeColumnToContents'](0)
-				wgt['Mtd']['resizeColumnToContents'](1)
+				wgt['Fnx']['Mtd']['resizeColumnToContents'](0)
+				wgt['Fnx']['Mtd']['resizeColumnToContents'](1)
 				wgt['Fnx']['collapseAll']()
 			return resizecols
 		def ReadColWidth(wgt):
 			def readcolwidth():
-				w1 = wgt['Mtd']['columnWidth'](0)
-				w2 = wgt['Mtd']['columnWidth'](1)
+				w1 = wgt['Fnx']['Mtd']['columnWidth'](0)
+				w2 = wgt['Fnx']['Mtd']['columnWidth'](1)
 				return [w1, w2]
 			return readcolwidth
 		def SetColWidth(wgt):
 			def setcolwidth(col, rel=None, tot=None):
 				if rel:
-					w =wgt['Set']['ColumnWidth'](col)
+					w =wgt['Fnx']['Set']['ColumnWidth'](col)
 					w = w + rel
 				else:
 					w = tot
-				wgt['Set']['ColumnWidth'](col, w)
+				wgt['Fnx']['Set']['ColumnWidth'](col, w)
 			return setcolwidth
 		def Init(wgt):
 			def init():
 
-				wgt['Mtd']['show']()
+				wgt['Fnx']['Mtd']['show']()
 			return init
 
-
 		wgt=gnr.Fnx(wgt)
-		wgt['Fnx']['Header']					= wgt['Set']['Header']
+		wgt['Fnx']['Header']					= wgt['Fnx']['Set']['Header']
 
-		wgt['Fnx']['CurrentItem']			=	wgt['Set']['CurrentItem']
-		wgt['Fnx']['TopLevelItem']		=	wgt['Mtd']['addTopLevelItem']
-		wgt['Fnx']['expandAll']				= wgt['Mtd']['expandAll']
-		wgt['Fnx']['collapseAll']			= wgt['Mtd']['collapseAll']
+		wgt['Fnx']['CurrentItem']			=	wgt['Fnx']['Set']['CurrentItem']
+		wgt['Fnx']['TopLevelItem']		=	wgt['Fnx']['Mtd']['addTopLevelItem']
+		wgt['Fnx']['expandAll']				= wgt['Fnx']['Mtd']['expandAll']
+		wgt['Fnx']['collapseAll']			= wgt['Fnx']['Mtd']['collapseAll']
 		wgt['Fnx']['ResizeCols']			= ResizeCols(wgt)
 		wgt['Fnx']['ReadColWidth']		= ReadColWidth(wgt)
 		wgt['Fnx']['SetColWidth']			= SetColWidth(wgt)
@@ -86,7 +85,7 @@ def QTree(**k):
 
 	def Con(wgt):
 		wgt['Con'] = wgt.get('Con') or {}
-		wgt['Con']['clicked'] = wgt['Sig']['itemClicked'].connect
+		wgt['Con']['clicked'] = wgt['Fnx']['Sig']['itemClicked'].connect
 		return wgt
 	def Init(wgt):
 		wgt=gnr.minInit(wgt)
@@ -98,11 +97,9 @@ def QTree(**k):
 	return Init(w)
 
 def make(namestr, **k):
-	preset	=	QDefaults.TreeWidget |	{
-		'Names'									:	['trw',namestr]			,
-		'pol'										:	'E.E'									,
-	}
-	return QTree(**Config.preset(preset,**k))
+	preset	={}
+	k=Config.preset(['trw',namestr],preset,**k)
+	return QTree(**k)
 
 
 # def __Tree(**k):

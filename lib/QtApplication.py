@@ -1,10 +1,27 @@
 #!/usr/bin/env python
 # Auth
-from sys import argv
-from .PyQtX import QApplication
+from sys import argv,exit
+from lib import Create
+from static.QtLibs import QElements
+from Configs import Config
+from .PyQtX import QtWidgets
 
-def QtApplication():
-	a = {}
-	a['QtApp'] = QApplication(argv)
-	a['Clip'] = a['QtApp'].clipboard()
-	return a
+def QtApplication(**k):
+	def Fnx(wgt):
+		def Run(wgt):
+			def run():
+				exit(wgt['Fnx']['Mtd']['exec']())
+			return run
+		wgt['Fnx']['Run'] = Run(wgt)
+		return wgt
+
+	# w						=			Create.QCreate(QElements['app'], **k)
+	w={}
+	w['Wgt']	=	QtWidgets.QApplication()
+	w['Clip'] = w['Fnx']['Mtd']['clipboard']()
+	return
+
+def make(namestr,**k):
+	preset={}
+	k=Config.preset(['app',namestr],preset,**k)
+	return QtApplication(**k)

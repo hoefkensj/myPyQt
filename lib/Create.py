@@ -4,12 +4,13 @@ import inspect
 def isbound(m):
 	return hasattr(m, '__self__')
 def Mtds(wgt):
-	wgt['Mtd']={}
-	wgt['Mtd']['Wrappers']={}
-	wgt['Atr']={}
-	wgt['Set']={}
-	wgt['Sig']={}
-	wgt['Read']={}
+	f = wgt.get('Fnx') or {}
+	f['Mtd']=wgt.get('Mtd') or {}
+	f['Mtd']['Wrappers']={}
+	f['Atr']={}
+	f['Set']={}
+	f['Sig']={}
+	f['Read']={}
 	All=dir(wgt['Wgt'])
 	for mtdn in All:
 		mtd = getattr(wgt['Wgt'], mtdn)
@@ -20,21 +21,22 @@ def Mtds(wgt):
 				mtdsn		=	f'{mtdcn[0].casefold()}{mtdcn[1:]}'
 				mtdin		=	f'is{mtdcn}'
 				if mtdin in All:
-					wgt['Set'][mtdcn]		=	mtd
-					wgt['Read'][mtdcn]	=	getattr(wgt['Wgt'], mtdin)
+					f['Set'][mtdcn]		=	mtd
+					f['Read'][mtdcn]	=	getattr(wgt['Wgt'], mtdin)
 				elif mtdsn in All:
-					wgt['Set'][mtdcn]		=	mtd
-					wgt['Read'][mtdcn]	=	getattr(wgt['Wgt'], mtdsn)
+					f['Set'][mtdcn]		=	mtd
+					f['Read'][mtdcn]	=	getattr(wgt['Wgt'], mtdsn)
 				else:
-					wgt['Mtd'][mtdn]		=	mtd
+					f['Mtd'][mtdn]		=	mtd
 			elif cls.__name__ == 'pyqtBoundSignal':
-					wgt['Sig'][mtdn]=mtd
+					f['Sig'][mtdn]=mtd
 			elif cls.__name__== 'method-wrapper':
-				wgt['Mtd']['Wrappers']=mtd
+				f['Mtd']['Wrappers'][mtdn]=mtd
 			else :
-				wgt['Mtd'][mtdn]		=	mtd
-		else:			wgt['Atr'][mtdn]		=	mtd
-
+				f['Mtd'][mtdn]		=	mtd
+		else:
+			f['Atr'][mtdn]		=	mtd
+	wgt['Fnx']=f
 	return wgt
 
 def preCreate(pfx,name):
@@ -49,7 +51,7 @@ def QCreate(*a,**k):
 	w					=	preCreate(k['pfx'],k['name'])
 	if a:
 		w['Wgt']	=	a[0]()
-		Mtds(w)
+		w=Mtds(w)
 	return w
 def QCreateLay(wgt,**k):
 	w					=	preCreate(k['pfx'],k['name'])

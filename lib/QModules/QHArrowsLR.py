@@ -23,8 +23,8 @@ def QHArrowsLR(**k):
 	def Con(wgt):
 		wgt['Con'] = wgt.get('Con') or {}
 		s=gnr.ShortNames(wgt)
-		wgt['Con']['<']=	s['<']['Sig']['clicked'].connect
-		wgt['Con']['>']=	s['>']['Sig']['clicked'].connect
+		wgt['Con']['<']=	s['<']['Fnx']['Sig']['clicked'].connect
+		wgt['Con']['>']=	s['>']['Fnx']['Sig']['clicked'].connect
 		return wgt
 	w= QWidget.make(k['name'], **k)
 	w		=			Config.make(w,**k)

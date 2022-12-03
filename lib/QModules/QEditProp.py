@@ -5,7 +5,7 @@ from lib.QBases import QWidget
 from lib import gnr
 from lib.QElements import QtWgt
 from Configs import Config
-
+from Configs import QDefaults
 def QEditProp(**k):
 	def Elements(wgt):
 		parent=wgt['name']
@@ -45,16 +45,17 @@ def QEditProp(**k):
 			return edit
 		def Editable():
 			def editable(state):
-				s['Edit']['Set']['Hidden'](state)
+				s['Edit']['Fnx']['Set']['Hidden'](state)
 			return editable
 		def Init(wgt):
 			def init():
 				s=gnr.ShortNames(wgt)
-				s['Name']['Set']['Text'](w['name'].split('_')[0])
-				s['Set']['Set']['Hidden'](True)
-				s['Field']['Set']['ReadOnly'](True)
-				s['Dupl']['Set']['Hidden'](True)
+				s['Name']['Fnx']['Set']['Text'](w['name'].split('_')[0])
+				s['Set']['Fnx']['Set']['Hidden'](True)
+				s['Field']['Fnx']['Set']['ReadOnly'](True)
+				s['Dupl']['Fnx']['Set']['Hidden'](True)
 				wgt['Fnx']['Editable'](not k['ed'])
+				return wgt
 			return init
 		wgt=gnr.Fnx(wgt)
 		wgt['Fnx']['Reconfigure'] =	ReConfigure
@@ -63,6 +64,7 @@ def QEditProp(**k):
 		wgt['Fnx']['setText']		=	SetText()
 		wgt['Fnx']['Editable'] 	=	Editable()
 		wgt['Fnx']['Init']				=	Init(wgt)
+
 		return wgt
 
 	def Con(wgt):
@@ -72,26 +74,24 @@ def QEditProp(**k):
 		wgt['Con']['Set']=	s['Set']['Con']['clicked']
 		wgt['Con']['Field']	= {}
 		# [print(mtd,s[mtd]) for mtd in s]
-		wgt['Con']['Field']['returnPressed']= s['Field']['Sig']['returnPressed'].connect
+		wgt['Con']['Field']['returnPressed']= s['Field']['Fnx']['Sig']['returnPressed'].connect
 
 		wgt['Con']['Edit'](wgt['Fnx']['Edit'])
 		wgt['Con']['Set'](wgt['Fnx']['txtText'])
 		wgt['Con']['Field']['returnPressed'](wgt['Fnx']['txtText'])
 		return wgt
-
+	def Init(wgt):
+		wgt=gnr.minInit(wgt)
+		return wgt
 	w	= QWidget.make(k['name'], **k)
 	w	=	Config.make(w,**k)
 	w	=	Elements(w)
 	w	=	Fnx(w)
 	w	=	Con(w)
-	return gnr.minInit(w)
+	return 	Init(w)
 
 
 def make(namestr,**k):
-	preset={
-		'Names'     :	['wgt',namestr,'Edit'],
-		'ed'        :	True						,
-		't'         :	'H'							,
-		'pol'       :	'E.F'						,
-	}
-	return QEditProp(**Config.preset(preset,**k))
+	preset=	QDefaults.QEditProp
+	k=Config.preset(['wgt',namestr],preset,**k)
+	return QEditProp(**k)

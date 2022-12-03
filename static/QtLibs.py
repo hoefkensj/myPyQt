@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from lib.PyQtX import QtWidgets,QtCore
+
+
 QSizePolicies		=	{
 	'Pol'			:		QtWidgets.QSizePolicy,
 	'P'				:		QtWidgets.QSizePolicy.Policy.Preferred,
@@ -19,6 +21,7 @@ QLayouts				=	{
 }
 
 QElements				=	{
+	'app'			:		QtWidgets.QApplication,
 	'lbl'	 		:		QtWidgets.QLabel,
 	'trW'	 		:		QtWidgets.QTreeWidget,
 	'txtE'		:		QtWidgets.QLineEdit,
@@ -38,7 +41,6 @@ QElements				=	{
 	'TrItem'	:		QtWidgets.QTreeWidgetItem,
 }
 
-
 QToolButtons		=	{
 	'I'				: 	QtCore.Qt.ToolButtonStyle.ToolButtonIconOnly,
 	'T'				:		QtCore.Qt.ToolButtonStyle.ToolButtonTextOnly,
@@ -46,6 +48,7 @@ QToolButtons		=	{
 	'IT'			:		QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon,
 	'It'			:		QtCore.Qt.ToolButtonStyle.ToolButtonTextUnderIcon,
 }
+
 QCores					=	{
 	'Size'		:		QtCore.QSize,
 	'Timer'		:		QtCore.QTimer,

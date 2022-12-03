@@ -51,7 +51,7 @@ def QLay(**k):
 	def Fnx(wgt):
 		def Add(wgt):
 			def add(component):
-				wgt['Mtd']['addWidget'](component)
+				wgt['Fnx']['Mtd']['addWidget'](component)
 			return add
 		f={}
 		f['Configure']	= lib.gnr.Configure(wgt)

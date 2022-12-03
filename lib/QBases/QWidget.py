@@ -31,7 +31,6 @@ def QWidget(**k):
 
 def make(namestr,**k):
 	preset={
-		'Names'     :	['wgt',namestr,'Edit'],
-		'pol'				:	'E.E'							,
-	}
-	return QWidget(**Config.preset(preset,**k))
+		'pol'				:	'E.E'							,}
+	k=Config.preset(['wgt',namestr],preset,**k)
+	return QWidget(**k)

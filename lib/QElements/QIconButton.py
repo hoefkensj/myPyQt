@@ -11,7 +11,7 @@ def QIconButton(**k):
 		return wgt
 	def Con(wgt):
 		c={}
-		c['clicked'] = wgt['Sig']['clicked'].connect
+		c['clicked'] = wgt['Fnx']['Sig']['clicked'].connect
 		return c
 	def Init(wgt)     :
 		wgt=wgt['Fnx']['Configure'](wgt)
@@ -25,7 +25,6 @@ def QIconButton(**k):
 def make(namestr, **k):
 	iconame=namestr.split('_')[0]
 	preset={
-		'Names'			:	['iBtn',namestr],
 		'pol'       :	'P.P'									,
 		'wh'        :	[20,20]								,
 		'bi'        :	False									,
@@ -34,4 +33,5 @@ def make(namestr, **k):
 		'lbl'       :	None									,
 		'btn'       :	'I'										,
 	}
-	return QIconButton(**Config.preset(preset,**k))
+	k=Config.preset(['iBtn',namestr],preset,**k)
+	return QIconButton(**k)

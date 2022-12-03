@@ -49,7 +49,6 @@ def names(*a):
 	}
 	return names
 
-def preset(preconf,**k):
-	naming=preconf.pop('Names')
-	k=QDefaults.Properties | preconf |	k	|	names(*naming)
+def preset(naming,preconf,**k):
+	k=QDefaults.Properties | preconf |	k |names(*naming)
 	return k

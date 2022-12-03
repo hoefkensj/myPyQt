@@ -12,7 +12,7 @@ def QLayout(**k):
 		if 'Fnx' not in wgt:wgt['Fnx'] = {}
 		def Add(wgt):
 			def add(component):
-				wgt['Mtd']['addWidget'](component)
+				wgt['Fnx']['Mtd']['addWidget'](component)
 			return add
 
 		wgt	=	gnr.Configure(wgt)

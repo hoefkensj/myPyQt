@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 from lib import gnr
 from lib.QBases import QWidget
-from Configs import Config
+from Configs import Config,QDefaults
 def QMain(**k):
 	def Fnx(wgt):
 		def Init(wgt):
 			def init():
-				wgt['Fnx']['Show'](True)
+				wgt['Fnx']['Show'](False)
 			return init
 
 		wgt=gnr.Fnx(wgt)
@@ -33,8 +33,6 @@ def QMain(**k):
 
 def make(namestr,**k):
 	preset={
-	'Names'     :	[k['pfx'],namestr],
-	'pol'       :	'E.E'							,
-	't'         :	'V'								,
-	}
-	return QMain(**Config.preset(preset,**k))
+	't'         :	'V'								,}
+	k=Config.preset(['wgt',namestr],preset,**k)
+	return QMain(**k)

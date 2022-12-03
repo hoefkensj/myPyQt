@@ -43,14 +43,11 @@ dct = {
 GUI=gui.make('Main')
 
 # GUI['Elements']|=gnr.Element(component)
+GUI['Elements']|= gnr.Element(QEditProp.make('Key'))
 GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
-GUI['Elements']|= gnr.Element(QHSearch.make('Tree'))
-# GUI['Elements']|= gnr.Element(QEditProp.make('Key'))
-# GUI['Elements']|= gnr.Element(QEditProp.make('Val'))
 
-# GUI['Elements']['trw_Tree']['Mtd']['hideColumn'](2)
-# GUI['Elements']['trw_Tree']['Mtd']['hideColumn'](3)
-# GUI['Elements']['trw_Tree']['Mtd']['hideColumn'](4)
+GUI['Elements']|= gnr.Element(QHSearch.make('Tree'))
+GUI['Elements']|= gnr.Element(QEditProp.make('Val'))
 # GUI['Elements']|= gnr.Element(QHIncDec.make('ColEx'))
 # GUI['Elements']|= gnr.Element(QHSearch.make('Search'))
 # GUI['Main']['Elements'] |= gnr.Element(QtWgt.make('iBtn_Edit'))
@@ -63,7 +60,7 @@ GUI['Fnx']['Show']()
 pTree(d=GUI,max=5)
 trunk= GUI['Main']['Elements']['trw_Tree']['Fnx']['MakeTree']( GUI['Main']['Elements']['trw_Tree'], name='test', data=GUI)
 
-GUI['Main']['Elements']['trw_Tree']['Mtd']['addTopLevelItem'](trunk)
+GUI['Main']['Elements']['trw_Tree']['Fnx']['Mtd']['addTopLevelItem'](trunk)
 
 GUI['Run']()
 

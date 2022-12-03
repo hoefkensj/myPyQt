@@ -23,7 +23,7 @@ def QHSearchCtl(**k):
 	def Con(wgt):
 		s=gnr.ShortNames(wgt)
 		wgt['Con'] = {}
-		wgt['Con']['Search']=	s['Search']['Sig']['clicked'].connect
+		wgt['Con']['Search']=	s['Search']['Fnx']['Sig']['clicked'].connect
 		return wgt
 	w						= QWidget.make(k['name'], **k)
 	w						=Config.make(w,**k)

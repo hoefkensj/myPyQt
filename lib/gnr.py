@@ -9,7 +9,7 @@ from static.QtLibs import QSizePolicies,QCores
 
 
 # def SetMtd(wgt):
-# 	sets = wgt['Set']
+# 	sets = wgt['Fnx']['Set']
 # 	reads=wgt['Read']
 # 	def setmtd(setm, *setv):
 # 		Set=sets[setm]
@@ -85,13 +85,11 @@ def IconSet(i):
 
 
 def Configure(wgt):
-	SET=wgt['Set']
-	MTD=wgt['Mtd']
 	def SpecialCases(wgt):
 		def HideCols(wgt):
 			cols = wgt['Cfg']['hidecols']
 			for col in cols:
-				wgt['Mtd']['hideColumn'](col)
+				wgt['Fnx']['Mtd']['hideColumn'](col)
 			return wgt
 		def Widget(wgt):
 			wgt['Cfg'].pop('widget')
@@ -111,7 +109,7 @@ def Configure(wgt):
 		for prop in wgt['Cfg']:
 			with contextlib.suppress(KeyError) as e:
 				# print(e)
-				wgt['Set'][prop](wgt['Cfg'][prop])
+				wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
 		return wgt
 	wgt['Fnx']['Configure']	=	configure
 	return wgt
@@ -126,17 +124,17 @@ def Generate(wgt):
 
 def Show(wgt):
 	mtd={}
-	mtd[True]=wgt['Mtd']['show']
-	mtd[False]=wgt['Mtd']['hide']
+	mtd[True]=wgt['Fnx']['Mtd']['show']
+	mtd[False]=wgt['Fnx']['Mtd']['hide']
 	mtd['exec']=True
-	def fn_show(*a):
+	def show(*a):
 		if a:
 			mtd[a[0]]()
 			mtd['exec']=not a[0]
 		else:
 			mtd[mtd['exec']]()
 			mtd['exec']=not mtd['exec']
-	wgt['Fnx']['Show']=fn_show
+	wgt['Fnx']['Show']=show
 	return wgt
 
 def Fnx(wgt):
