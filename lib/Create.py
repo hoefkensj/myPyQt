@@ -44,13 +44,13 @@ def Mtds(wgt):
 	wgt['Fnx']=f
 	return wgt
 
-def preCreate(pfx,name):
-	w		=		{
-		'Name'    :	f'{pfx}_{name}'			,
-		'name'		:	name								,
-		'type'		:	pfx									,
-	}
-	return w
+# def preCreate(pfx,name):
+# 	w		=		{
+# 		'Name'    :	f'{pfx}_{name}'			,
+# 		'name'		:	name								,
+# 		'type'		:	pfx									,
+# 	}
+# 	return w
 
 # def QCreate(*a,**k):
 # 	w					=	preCreate(k['pfx'],k['name'])
@@ -60,21 +60,21 @@ def preCreate(pfx,name):
 # 	w	=		Config.make(w,**k)
 # 	return w
 
-def QCreateApp(**k):
-	w					=	preCreate(k['pfx'],k['name'])
-	w['Wgt']	=	QtLibs.QElements['app'](sys.argv)
-	w=Mtds(w)
-	return w
-
-def QCreateLay(**k):
-	wgt					=	k.pop('widget')
-	layout			=	QtLibs.QLayouts[k['t']]
-	l	=	preCreate(k['pfx'],k['name'])
-	l['Wgt']		=	layout(wgt['Wgt'])
-	l=Mtds(l)
-	return l
-
-
+# def QCreateApp(**k):
+# 	w					=	preCreate(k['pfx'],k['name'])
+# 	w['Wgt']	=	QtLibs.QElements['app'](sys.argv)
+# 	w=Mtds(w)
+# 	return w
+#
+# def QCreateLay(**k):
+# 	wgt					=	k.pop('widget')
+# 	layout			=	QtLibs.QLayouts[k['t']]
+# 	l	=	preCreate(k['pfx'],k['name'])
+# 	l['Wgt']		=	layout(wgt['Wgt'])
+# 	l=Mtds(l)
+# 	return l
+#
+#
 def QCreate(fn):
 	def Pre(**k):
 		pfx			=	k['pfx']
@@ -91,8 +91,11 @@ def QCreate(fn):
 		w	=	Post(w,**k)
 		return w
 	def Post(wgt,**k):
-		wgt	=	Mtds(wgt)
 		wgt = Config.make(wgt,**k)
+		wgt['Lay']={}
+		wgt	=	Mtds(wgt)
+		wgt['Con']={}
+		wgt['Elements']={}
 		return wgt
 	return create
 

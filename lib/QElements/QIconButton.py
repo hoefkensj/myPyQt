@@ -6,21 +6,15 @@ from static.QtLibs import QElements
 
 from Configs import QDefaults,Config
 def QIconButton(**k):
-	def Fnx(wgt):
-		wgt=gnr.Fnx(wgt)
-		return wgt
 	def Con(wgt):
-		c={}
-		c['clicked'] = wgt['Fnx']['Sig']['clicked'].connect
-		wgt['Con']=c
+		wgt['Con'] = wgt.get('Con') or {}
+		wgt['Con']['clicked'] = wgt['Fnx']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt)     :
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['iBtn'], **k)
-	w						=			Config.make(w,**k)
-	w						=			Create.Mtds(w)
-	w						=			Fnx(w)
+	w						=			gnr.Fnx(w)
 	w						=			Con(w)
 	return Init(w)
 

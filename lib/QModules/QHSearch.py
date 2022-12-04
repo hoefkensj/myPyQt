@@ -11,10 +11,10 @@ def QHSearch(**k):
 		p=wgt['name']
 		wgt['Elements'] = wgt.get('Elements') or {}
 		elements=[
-			QtWgt.make(				f'Field_{p}'	, pfx='txtE'			, pol='E.F'	),
-			QIconButton.make(	f'Reg_{p}'		,	AutoRaise=True	,	bi=True		),
-			QHArrowsLR.make(	f'<>_{p}'			,	)	,
-			QIconButton.make(	f'Search_{p}'	,	)	,	]
+			QtWgt.make('Field',pfx='txtE', pol='E.F'),
+			QIconButton.make(	f'Reg'		,	AutoRaise=True	,	bi=True		),
+			QHArrowsLR.make(	f'<>'			,	)	,
+			QIconButton.make(	f'Search'	,	)	,	]
 		for e in elements:
 			wgt['Elements'] |= gnr.Element(e)
 		return wgt
@@ -60,10 +60,9 @@ def QHSearch(**k):
 		return wgt
 	def Con(wgt):
 		sfn=gnr.Short(wgt,'Fnx')
-		c = {}
-		c['Reg']=sfn['Reg']['Sig']['toggled'].connect
-		c['Search']=sfn['Search']['Sig']['clicked'].connect
-		wgt['Con']=c
+		wgt['Con'] = wgt.get('Con') or {}
+		wgt['Con']['Reg']=sfn['Reg']['Sig']['toggled'].connect
+		wgt['Con']['Search']=sfn['Search']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt):
 		wgt=gnr.minInit(wgt)

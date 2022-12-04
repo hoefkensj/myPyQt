@@ -7,7 +7,7 @@ from Configs import QDefaults,Config
 
 def QLayout(**k):
 	def Lay():
-		return lib.Create.QCreateLay(**k)
+		return lib.Create.QLayout(**k)
 	def Fnx(wgt):
 		def Add(wgt):
 			def add(component):

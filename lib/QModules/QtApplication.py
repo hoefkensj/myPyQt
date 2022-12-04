@@ -18,7 +18,7 @@ def QtApplication(**k):
 		wgt['Fnx']['Run'] = Run(wgt)
 		return wgt
 
-	w					=			Create.QCreateApp(**k)
+	w					=			Create.QApplication(**k)
 	w					= 		Fnx(w)
 	w['Clip'] =			w['Fnx']['Mtd']['clipboard']()
 	return w
