@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 from lib import gnr,Create
 from lib.QBases import QWidget
-from Configs import Config,QDefaults
-
+from Configs import Config
 def QMain(**k):
 	def Fnx(wgt):
 		def Run(wgt):
@@ -16,9 +15,6 @@ def QMain(**k):
 	def Init(wgt):
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return Create.Mtds(wgt)
-
-
-
 
 	w						=		QWidget.make(k['name'], **k)
 	w						=		Config.make(w,**k)

@@ -3,6 +3,8 @@
 import inspect
 from static import QtLibs
 import sys
+from Configs import Config
+
 
 def isbound(m):
 	return hasattr(m, '__self__')
@@ -50,17 +52,20 @@ def preCreate(pfx,name):
 	}
 	return w
 
-def QCreate(*a,**k):
-	w					=	preCreate(k['pfx'],k['name'])
-	if a:
-		w['Wgt']	=	a[0]()
-		w=Mtds(w)
-	return w
+# def QCreate(*a,**k):
+# 	w					=	preCreate(k['pfx'],k['name'])
+# 	if a:
+# 		w['Wgt']	=	a[0]()
+# 		w					=	Mtds(w)
+# 	w	=		Config.make(w,**k)
+# 	return w
+
 def QCreateApp(**k):
 	w					=	preCreate(k['pfx'],k['name'])
 	w['Wgt']	=	QtLibs.QElements['app'](sys.argv)
 	w=Mtds(w)
 	return w
+
 def QCreateLay(**k):
 	wgt					=	k.pop('widget')
 	layout			=	QtLibs.QLayouts[k['t']]
@@ -68,4 +73,45 @@ def QCreateLay(**k):
 	l['Wgt']		=	layout(wgt['Wgt'])
 	l=Mtds(l)
 	return l
+
+
+def QCreate(fn):
+	def Pre(**k):
+		pfx			=	k['pfx']
+		type		=	QtLibs.QElements.get(pfx).__name__ if QtLibs.QElements.get(pfx) else None
+		name		=	k['name']
+		w				=	{
+			'Name'    :	f'{pfx}_{name}'			,
+			'name'		:	name								,
+			'type'		:	type								,}
+		return w
+	def create(*a,**k):
+		w	=	Pre(**k)
+		w	=	fn(w,*a,**k)
+		w	=	Post(w,**k)
+		return w
+	def Post(wgt,**k):
+		wgt	=	Mtds(wgt)
+		wgt = Config.make(wgt,**k)
+		return wgt
+	return create
+
+@QCreate
+def Empty(wgt,*a,**k):
+	wgt['Wgt']	= None
+	return wgt
+@QCreate
+def Application(wgt,*a,**k):
+	wgt['Wgt']=QtLibs.QElements['app'](sys.argv)
+	return wgt
+@QCreate
+def Component(wgt,qwgt,**k):
+	wgt['Wgt']	=	qwgt()
+	return wgt
+@QCreate
+def Layout(lay,*a,**k):
+	wgt					=	k.pop('widget')
+	layout			=	QtLibs.QLayouts[k['t']]
+	lay['Wgt']	=	layout(wgt['Wgt'])
+	return lay
 
