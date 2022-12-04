@@ -7,18 +7,21 @@ Properties={
 	}
 
 TreeWidget={
-			'AlternatingRowColors'	:	True,
-			'Animated'	:	True,
-			'MinimumHeight'	:	10,
-			'AllColumnsShowFocus'	:	True,
-			'HeaderHidden'					:	False,
-
+	'AlternatingRowColors'	:	True,
+	'Animated'							:	True,
+	'MinimumHeight'					:	10,
+	'AllColumnsShowFocus'		:	True,
+	'HeaderHidden'					:	False,
 }
-QEditProp={
+
+QModule={
 		'ed'        :	True						,
 		't'         :	'H'							,
 		'pol'       :	'E.F'						,
 }
+QEditProp				=	QModule	|	{}
+QHSearch				=	QModule	|	{}
+QHArrowsLR			=	QModule	|	{'pol' :	'F.F',}
 
 QIconButton={
 		'pol'       :	'P.P'									,

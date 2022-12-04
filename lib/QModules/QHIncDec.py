@@ -33,7 +33,7 @@ def QHIncDec(**k):
 		return f
 
 	def Con(wgt):
-		s=gnr.ShortNames(wgt)
+		s=gnr.ShortFnx(wgt)
 		c = {}
 		c['Inc']=	s['inc']['Mtd']['clicked'].connect
 		c['Dec']=	s['dec']['Mtd']['clicked'].connect

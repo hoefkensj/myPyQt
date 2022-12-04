@@ -75,10 +75,20 @@ def Element(component):
 	return {name : component}
 
 
+def Short(wgt,*a):
+	s={}
+	for name in wgt['Elements']:
+		sub =wgt['Elements'][name]
+		for item in a:
+			sub=sub[item]
+		s[name.split('_')[1]]=sub
+	return s
 
-def ShortNames(wgt):
-	return {name.split('_')[1]:wgt['Elements'][name]for name in wgt['Elements']}
+# def ShortFnx(wgt):
+# 	return {name.split('_')[1]:wgt['Elements'][name]['Fnx']for name in wgt['Elements']}
 
+# def Short(wgt):
+# 	return {name.split('_')[1]:wgt['Elements'][name]for name in wgt['Elements']}
 
 def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None

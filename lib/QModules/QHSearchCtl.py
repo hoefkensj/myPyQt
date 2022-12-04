@@ -21,7 +21,7 @@ def QHSearchCtl(**k):
 		wgt['Fnx']['Init']=Init(wgt)
 		return wgt
 	def Con(wgt):
-		s=gnr.ShortNames(wgt)
+		s=gnr.ShortFnx(wgt)
 		wgt['Con'] = {}
 		wgt['Con']['Search']=	s['Search']['Fnx']['Sig']['clicked'].connect
 		return wgt

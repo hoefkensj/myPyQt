@@ -11,7 +11,7 @@ def QtWgt(**k):
 	def Init(wgt):
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
-	w							=	lib.Create.QCreate(QElements[k['pfx']], **k)
+	w							=	lib.Create.QComponent(QElements[k['pfx']], **k)
 	w							=	Config.make(w,**k)
 	w['Con']			= {}
 	w			= Fnx(w)

@@ -17,7 +17,7 @@ def QIconButton(**k):
 	def Init(wgt)     :
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
-	w						=			Create.QCreate(QElements['iBtn'], **k)
+	w						=			Create.QComponent(QElements['iBtn'], **k)
 	w						=			Config.make(w,**k)
 	w						=			Create.Mtds(w)
 	w						=			Fnx(w)

@@ -14,7 +14,7 @@ def QtextButton(**k):
 	def Init(wgt)     :
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
-	w						=			Create.QCreate(QElements['tBtn'], **k)
+	w						=			Create.QComponent(QElements['tBtn'], **k)
 	w						=			Config.make(w,**k)
 	w						=			Fnx(w)
 	w['Con']		=			Con(w)

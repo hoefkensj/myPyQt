@@ -16,70 +16,67 @@ def QEditProp(**k):
 		wgt['Elements'] |= gnr.Element(QIconButton.make(f'Edit_{parent}', bi=True))
 		return wgt
 	def Fnx(wgt):
-		s=gnr.ShortNames(wgt)
+		sfn_set=gnr.Short(wgt,'Fnx','Set')
+		sfn_get=gnr.Short(wgt,'Fnx','Read')
 		def TxtText():
 			def txtText(text):
-				s['Field']['Fnx']['Set']['Text'](text)
-				s['Dupl']['Fnx']['Set']['Text'](text)
+				sfn_set['Field']['Text'](text)
+				sfn_set['Dupl']['Text'](text)
 			return txtText
 		def SetText():
 			def setText():
-				nText= 	s['Field']['Fnx']['Read']['Text']()
-				s['Dupl']['Fnx']['Set']['Text'](nText)
-				s['Edit']['Fnx']['Set']['Checked'](False)
-				s['Set']['Fnx']['Set']['Hidden'](True)
-				# fnSet(nText)
+				nText= 	sfn_get['Field']['Text']()
+				sfn_set['Dupl']['Text'](nText)
+				sfn_set['Edit']['Checked'](False)
+				sfn_set['Set']['Hidden'](True)
+				print(nText)
 			return setText
 		def Edit():
 			def edit(state):
-				s['Edit']['Fnx']['Set']['Checked'](state)
-				s['Field']['Fnx']['Set']['ReadOnly'](not state)
-				s['Set']['Fnx']['Set']['Hidden'](not state)
+				sfn_set['Edit']['Checked'](state)
+				sfn_set['Field']['ReadOnly'](not state)
+				sfn_set['Set']['Hidden'](not state)
 				if not state:
-					s['Field']['Set']['Text'](s['Dupl']['Read']['Text']())
+					sfn_set['Field']['Text'](str(sfn_get['Dupl']['Text']()))
 			return edit
 		def Editable():
 			def editable(state):
-				s['Edit']['Fnx']['Set']['Hidden'](state)
+				sfn_set['Edit']['Hidden'](state)
 			return editable
 		def Init(wgt):
 			def init():
-				s=gnr.ShortNames(wgt)
-				s['Name']['Fnx']['Set']['Text'](w['name'].split('_')[0])
-				s['Set']['Fnx']['Set']['Hidden'](True)
-				s['Field']['Fnx']['Set']['ReadOnly'](True)
-				s['Dupl']['Fnx']['Set']['Hidden'](True)
+				sfn_set['Name']['Text'](w['name'].split('_')[0])
+				sfn_set['Set']['Hidden'](True)
+				sfn_set['Field']['ReadOnly'](True)
+				sfn_set['Dupl']['Hidden'](True)
 				wgt['Fnx']['Editable'](not k['ed'])
 				return Internals(wgt)
 			return init
 		wgt=gnr.Fnx(wgt)
-		f={}
-		f['Edit'] 			=	Edit()
-		f['txtText'] 		=	TxtText()
-		f['setText']		=	SetText()
-		f['Editable'] 	=	Editable()
-		f['Init']				=	Init(wgt)
-		wgt['Fnx']|=f
+		wgt['Fnx']['Edit'] 			=	Edit()
+		wgt['Fnx']['txtText'] 	=	TxtText()
+		wgt['Fnx']['setText']		=	SetText()
+		wgt['Fnx']['Editable'] 	=	Editable()
+		wgt['Fnx']['Init']			=	Init(wgt)
 		return wgt
 	def Internals(wgt):
 		wgt['Con']['Edit'](wgt['Fnx']['Edit'])
-		wgt['Con']['Set'](wgt['Fnx']['txtText'])
-		wgt['Con']['Field']['returnPressed'](wgt['Fnx']['txtText'])
+		wgt['Con']['Set'](wgt['Fnx']['setText'])
+		wgt['Con']['Field']['returnPressed'](wgt['Fnx']['setText'])
 		return wgt
 	def Con(wgt):
-		s=gnr.ShortNames(wgt)
-		c = wgt.get('Con') or {}
-		c['Edit']= s['Edit']['Con']['clicked']
-		c['Set']=	s['Set']['Con']['clicked']
-		c['Field']	= {}
-		c['Field']['returnPressed']= s['Field']['Fnx']['Sig']['returnPressed'].connect
-		wgt['Con']=c
+		sCon=gnr.Short(wgt,'Con')
+		sSig=gnr.Short(wgt,'Fnx','Sig')
+		wgt['Con'] = wgt.get('Con') or {}
+		wgt['Con']['Edit']= sCon['Edit']['clicked']
+		wgt['Con']['Set']=	sCon['Set']['clicked']
+		wgt['Con']['Field']	= {}
+		wgt['Con']['Field']['returnPressed']= sSig['Field']['returnPressed'].connect
 		return wgt
 	def Init(wgt):
 		wgt=gnr.minInit(wgt)
 		return wgt
 	w	= QWidget.make(k['name'], **k)
-	w	=	Config.make(w,**k)
 	w	=	Elements(w)
 	w	=	Fnx(w)
 	w	=	Con(w)

@@ -1,28 +1,29 @@
 #!/usr/bin/env python
 # Auth
 from lib import gnr
-from lib.QElements import QtWgt
+from lib.QElements import QtWgt,QIconButton
 from Configs import QDefaults,Config
-from lib.QElements import QIconButton
 from lib.QBases import QWidget
-from lib.QModules	import QHSearchCtl,QHArrowsLR
+from lib.QModules	import QHArrowsLR
+
 def QHSearch(**k):
 	def Elements(wgt):
-		if 'Elements' not in wgt:wgt['Elements'] = {}
-		parent=wgt['name']
-		wgt['Elements'] |= gnr.Element(QtWgt.make(f'Field_{parent}', pfx='txtE', pol='E.F'))
-		wgt['Elements'] |= gnr.Element(QIconButton.make(f'Reg_{parent}',AutoRaise=True, bi=True))
-		wgt['Elements'] |=	gnr.Element(QHArrowsLR.make(f'<>_{parent}', bi=False))
-		wgt['Elements'] |=	gnr.Element(QIconButton.make(f'Search_{parent}', bi=False))
+		p=wgt['name']
+		wgt['Elements'] = wgt.get('Elements') or {}
+		elements=[
+			QtWgt.make(				f'Field_{p}'	, pfx='txtE'			, pol='E.F'	),
+			QIconButton.make(	f'Reg_{p}'		,	AutoRaise=True	,	bi=True		),
+			QHArrowsLR.make(	f'<>_{p}'			,	)	,
+			QIconButton.make(	f'Search_{p}'	,	)	,	]
+		for e in elements:
+			wgt['Elements'] |= gnr.Element(e)
 		return wgt
-	def Els(wgt):
-		wgt['Els']=gnr.ShortNames(wgt)
-		return wgt
+
 	def Fnx(wgt):
-		s=gnr.ShortNames(wgt)
+		s=gnr.Short(wgt,'Fnx')
 		def ShowPN(wgt):
 			def showpn(show):
-				s['<>']['Fnx']['Set']['Hidden'](not show)
+				s['<>']['Set']['Hidden'](not show)
 			return showpn
 		# def selNext(Tree):
 		# 	def sel():
@@ -45,7 +46,7 @@ def QHSearch(**k):
 				w['Wgt']['Set']['Visible'](state)
 			return visible
 		def Init(wgt):
-			s=gnr.ShortNames(wgt)
+			s=gnr.Short(wgt,'Fnx')
 			def init():
 				wgt['Fnx']['ShowPN'](False)
 			return init
@@ -53,38 +54,29 @@ def QHSearch(**k):
 		wgt['Fnx']['ShowPN']	= ShowPN(wgt)
 		wgt['Fnx']['Visible'] =	Visible(wgt)
 		wgt['Fnx']['Init']		=	Init(wgt)
-		wgt['Fnx']['x']				=s['Field']['Fnx']['Mtd']['x']
-		wgt['Fnx']['y']				=s['Field']['Fnx']['Mtd']['y']
-		wgt['Fnx']['width']		=s['Field']['Fnx']['Mtd']['width']
+		wgt['Fnx']['x']				=s['Field']['Mtd']['x']
+		wgt['Fnx']['y']				=s['Field']['Mtd']['y']
+		wgt['Fnx']['width']		=s['Field']['Mtd']['width']
 		return wgt
 	def Con(wgt):
-		s=gnr.ShortNames(wgt)
+		sfn=gnr.Short(wgt,'Fnx')
 		c = {}
-		c['Reg']=s['Reg']['Fnx']['Sig']['toggled'].connect
-		c['Search']=s['Search']['Fnx']['Sig']['clicked'].connect
+		c['Reg']=sfn['Reg']['Sig']['toggled'].connect
+		c['Search']=sfn['Search']['Sig']['clicked'].connect
 		wgt['Con']=c
 		return wgt
 	def Init(wgt):
 		wgt=gnr.minInit(wgt)
 		return wgt
 	w						=	QWidget.make(k['name'], **k)
-	w						=	Config.make(w,**k)
 	w						= Elements(w)
-	w						=	Els(w)
 	w						=	Fnx(w)
 	w						=	Con(w)
 	return Init(w)
 
 
 def make(namestr,**k):
-	k	= {
-		**QDefaults.Properties						,
-		'ed'        :	True								,
-		'pol'       :	'E.F'								,
-		't'         :	'H'									,
-	} |	k	|	{
-		'pfx'       :	'wgt'								,
-		'name'      :	f'{namestr}Search'	,
-	}
+	preset=	QDefaults.QHSearch
+	k=Config.preset(['wgt',namestr],preset,**k)
 	return  QHSearch(**k)
 

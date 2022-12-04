@@ -22,9 +22,9 @@ def QHArrowsLR(**k):
 		return wgt
 	def Con(wgt):
 		wgt['Con'] = wgt.get('Con') or {}
-		s=gnr.ShortNames(wgt)
-		wgt['Con']['<']=	s['<']['Fnx']['Sig']['clicked'].connect
-		wgt['Con']['>']=	s['>']['Fnx']['Sig']['clicked'].connect
+		s=gnr.Short(wgt,'Fnx')
+		wgt['Con']['<']=	s['<']['Sig']['clicked'].connect
+		wgt['Con']['>']=	s['>']['Sig']['clicked'].connect
 		return wgt
 	w= QWidget.make(k['name'], **k)
 	w		=			Config.make(w,**k)
@@ -34,13 +34,6 @@ def QHArrowsLR(**k):
 	return gnr.minInit(w)
 
 def make(namestr,**k):
-	k={
-		**QDefaults.Properties						,
-		'ed'        :	True								,
-		'pol'       :	'F.F'								,
-		't'         :	'H'									,
-	} |	k	|	{
-		'pfx'       :	'wgt'								,
-		'name'      :	f'{namestr}_<>'			,
-	}
+	preset=	QDefaults.QHArrowsLR
+	k=Config.preset(['wgt',namestr],preset,**k)
 	return QHArrowsLR(**k)

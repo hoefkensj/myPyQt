@@ -99,8 +99,8 @@ def QTree(**k):
 	def Init(wgt):
 		wgt=gnr.minInit(wgt)
 		return wgt
-	w						=			Create.QCreate(QElements['trW'], **k)
-	w						=			Config.make(w,**k)
+	w						=			Create.QComponent(QElements['trW'], **k)
+	# w						=			Config.make(w,**k)
 	w						=			Fnx(w)
 	w						=			Con(w)
 	w['Data']		=			[]

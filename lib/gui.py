@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from lib import Create,QModules,QtApplication
+from lib import Create,QModules
+from lib.QModules import QtApplication,QMain
 from Configs import Config
 
 def QGui(*a,**k):
@@ -19,10 +20,10 @@ def QGui(*a,**k):
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
 
-	w 							= 	Create.Empty(**k)
-	w								=		Config.make(w,**k)
-	w['App'] 				= 	QtApplication.make(w['name'],**k)
-	w[w['name']] 	=	 	QModules.QMain.make(w['name'],**k)
+	w 							= 	Create.QEmpty(**k)
+	# w								=		Config.make(w,**k)
+	w['App'] 				= 	QModules.QtApplication.make(w['name'], **k)
+	w[w['name']] 	=	 		QModules.QMain.make(w['name'],**k)
 	w								= 	Fnx(w)
 	w['Elements']		=		w[w['name']]['Elements']
 	w['Run']				=		w['Fnx']['Run']

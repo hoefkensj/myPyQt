@@ -22,7 +22,7 @@ def QWidget(**k):
 	def Init(wgt):
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
-	w							=	Create.QCreate(QtLibs.QElements['wgt'], **k)
+	w							=	Create.QComponent(QtLibs.QElements['wgt'], **k)
 	w							=	Config.make(w,**k)
 	w['Elements'] = {}
 	w['Lay']			= Lay(w)

@@ -97,19 +97,19 @@ def QCreate(fn):
 	return create
 
 @QCreate
-def Empty(wgt,*a,**k):
+def QEmpty(wgt,*a,**k):
 	wgt['Wgt']	= None
 	return wgt
 @QCreate
-def Application(wgt,*a,**k):
+def QApplication(wgt,*a,**k):
 	wgt['Wgt']=QtLibs.QElements['app'](sys.argv)
 	return wgt
 @QCreate
-def Component(wgt,qwgt,**k):
+def QComponent(wgt,qwgt,**k):
 	wgt['Wgt']	=	qwgt()
 	return wgt
 @QCreate
-def Layout(lay,*a,**k):
+def QLayout(lay,*a,**k):
 	wgt					=	k.pop('widget')
 	layout			=	QtLibs.QLayouts[k['t']]
 	lay['Wgt']	=	layout(wgt['Wgt'])

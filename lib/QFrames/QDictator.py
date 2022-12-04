@@ -30,13 +30,15 @@ def pTree(*a, **k):
 			sys.stdout.write('  ┗━━ ' if keys == 0 else '  ┣━━ ')
 			sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
 def Update(GUI):
-	s=gnr.ShortNames(GUI)
+	s=gnr.Short(GUI)
+	sfn=gnr.Short(GUI,'Fnx')
+	sTS_sfn=gnr.Short(s['TreeSearch'],'Fnx')
 	def update():
 		GUI['Main']['Elements']['trw_Tree']['Fnx']['Add'](GUI=GUI)
-		x=s['TreeSearch']['Fnx']['x']()
-		y=s['TreeSearch']['Fnx']['y']()
-		w=s['TreeSearch']['Fnx']['width']()
-		w=s['TreeSearch']['Els']['Field']['Fnx']['Set']['MinimumWidth'](w+20)
+		x=sfn['TreeSearch']['x']()
+		y=sfn['TreeSearch']['y']()
+		w=sfn['TreeSearch']['width']()
+		w=sTS_sfn['Field']['Set']['MinimumWidth'](w+20)
 
 	return update
 
@@ -46,7 +48,7 @@ GUI=gui.make('Main')
 # GUI['Elements']|=gnr.Element(component)
 
 GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
-GUI['Elements']|= gnr.Element(QHSearch.make('Tree'))
+GUI['Elements']|= gnr.Element(QHSearch.make('TreeSearch'))
 GUI['Elements']|= gnr.Element(QEditProp.make('Key'))
 GUI['Elements']|= gnr.Element(QEditProp.make('Val'))
 GUI['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P'))

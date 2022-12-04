@@ -6,8 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="638b6880-4a88-4897-aefd-48c2526c0dfa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configs/QDefaults.py" beforeDir="false" afterPath="$PROJECT_DIR$/Configs/QDefaults.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/Create.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QModules/QMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QMain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QBases/QWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QBases/QWidget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QIconButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QElements/QIconButton.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QTextButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QElements/QTextButton.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QElements/QTree.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QtWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QElements/QtWgt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QFrames/QDictator.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QFrames/QDictator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QEditProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QEditProp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QHArrowsLR.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QHArrowsLR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QHIncDec.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QHIncDec.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QHSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QHSearch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QHSearchCtl.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QHSearchCtl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QtApplication.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QtApplication.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gnr.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gnr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +64,7 @@
     <setting file="file://$PROJECT_DIR$/README.md" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Configs/QDefaults.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lib/QElements/QSpacer.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QtApplication.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/QModules/QtApplication.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lib/QBases/QGroup.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/lib/QElements/QTree.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py" root0="FORCE_HIGHLIGHTING" />
@@ -81,7 +94,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../cpuface" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/QModules" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -99,10 +112,10 @@
       <recent name="$PROJECT_DIR$/lib/QBases" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/QModules" />
       <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$/lib/QBases" />
       <recent name="$PROJECT_DIR$/lib/QElements" />
-      <recent name="$PROJECT_DIR$/lib/QModules" />
     </key>
   </component>
   <component name="RunManager" selected="Python.QDictator (1)">
@@ -270,13 +283,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/lib/QModules/QEditProp.py</url>
-          <line>46</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-defaults>
         <breakpoint type="python-line" />
       </breakpoints-defaults>
