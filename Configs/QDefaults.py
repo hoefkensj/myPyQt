@@ -15,19 +15,30 @@ TreeWidget={
 }
 
 QModule={
-		'ed'        :	True						,
-		't'         :	'H'							,
-		'pol'       :	'E.F'						,
+	'ed'        :	True						,
+	't'         :	'H'							,
+	'pol'       :	'E.F'						,
 }
 QEditProp				=	QModule	|	{}
 QHSearch				=	QModule	|	{}
 QHArrowsLR			=	QModule	|	{'pol' :	'F.F',}
 
-QIconButton={
-		'pol'       :	'P.P'									,
-		'wh'        :	[20,20]								,
-		'bi'        :	False									,
-		'isize'     :	[32,32]								,
-		'lbl'       :	None									,
-		'btn'       :	'I'										,
+QButton={
+	'pol'       :	'P.P'									,
+	'bi'        :	False									,
 }
+QIconButton	=	QButton	| {
+	'wh'        :	[20,20]								,
+	'bi'        :	False									,
+	'isize'     :	[32,32]								,
+	'btn'       :	'I'										,
+}
+QTextButton	=	QButton	| {
+	'btn'       :	'T',
+	'txt'				:	1,
+}
+
+QLineEdit={
+	'ro'				:	False,
+	'Height'		: 20,
+	}

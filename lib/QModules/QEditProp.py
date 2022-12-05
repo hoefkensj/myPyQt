@@ -1,23 +1,27 @@
 #!/usr/bin/env python
 # Auth
-from lib.QElements import QTextButton,QIconButton
+from lib.QElements import QTextButton,QIconButton,QLineEdit
 from lib.QBases import QWidget
 from lib import gnr
 from lib.QElements import QtWgt
 from Configs import Config,QDefaults
 def QEditProp(**k):
+
+
 	def Elements(wgt):
-		parent=wgt['name']
-		wgt['Elements'] = wgt.get('Elements') or {}
-		wgt['Elements'] |= gnr.Element(QtWgt.make(f'Name_{parent}', pfx='lbl', pol='F.F', k=k))
-		wgt['Elements'] |= gnr.Element(QtWgt.make(f'Field_{parent}', pfx='txtE', pol='E.F', k=k))
-		wgt['Elements'] |= gnr.Element(QtWgt.make(f'Dupl_{parent}', pfx='txtE', pol='E.F', k=k))
-		wgt['Elements'] |= gnr.Element(QTextButton.make(f'Set_{parent}', pol='E.F', wh=[50, 32]))
-		wgt['Elements'] |= gnr.Element(QIconButton.make(f'Edit_{parent}', bi=True))
+		es=[
+		QtWgt.make('Name', pfx='lbl', pol='F.F', k=k),
+		QLineEdit.make('Field',ro=1, k=k),
+		QLineEdit.make('Dupl', k=k),
+		QTextButton.make('Set', pol='F.F',k=k),
+		QIconButton.make('Edit', bi=1,k=k)]
+		for e in es:
+			wgt['Elements'] |= gnr.Element(e)
 		return wgt
+		
 	def Fnx(wgt):
 		sfn_set=gnr.Short(wgt,'Fnx','Set')
-		sfn_get=gnr.Short(wgt,'Fnx','Read')
+		sfn_get=gnr.Short(wgt,'Fnx','Get')
 		def TxtText():
 			def txtText(text):
 				sfn_set['Field']['Text'](text)
@@ -87,3 +91,22 @@ def make(namestr,**k):
 	preset=	QDefaults.QEditProp
 	k=Config.preset(['wgt',namestr],preset,**k)
 	return QEditProp(**k)
+
+
+# def Elements(wgt):
+# 	elements=[
+# 		QLineEdit.make('Field',	ro=1, k=k,	),
+# 		QLineEdit.make('Dupl', k=k,	)	,
+# 		QTextButton.make('Set', pol='F.F'	,	k=k,	),
+# 		QIconButton.make('Edit', bi=1	,	k=k,	),
+# 	]
+# 	for e in elements:
+# 		wgt['Elements'] |= gnr.Element(e)
+# 	return wgt
+#
+# def Elements(wgt):
+# 	wgt['Elements'] |= gnr.Element(QLineEdit.make('Field', ro=1, k=k, ))
+# 	wgt['Elements'] |= gnr.Element(QLineEdit.make('Dupl', k=k,	))
+# 	wgt['Elements'] |= gnr.Element(QTextButton.make('Set', pol='F.F', k=k,	))
+# 	wgt['Elements'] |= gnr.Element(QIconButton.make('Edit', bi=1, k=k,	))
+# 	return wgt

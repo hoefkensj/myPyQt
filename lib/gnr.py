@@ -20,7 +20,6 @@ from static.QtLibs import QSizePolicies,QCores
 # 	return setmtd
 
 def Icon(svg):
-	def icon(ico):
 		import base64
 		icon_states={
 			0 : lib.PyQtX.QtGui.QIcon.State.On,
@@ -28,36 +27,32 @@ def Icon(svg):
 		icon = lib.PyQtX.QtGui.QIcon()
 		def  make_icon(icon,state):
 			with open(f'icon{state}.svg','wb') as l:
-				l.write(base64.b64decode(ico[state]))
-			icon.addPixmap(lib.PyQtX.QtGui.QPixmap(f'icon{state}.svg'), lib.PyQtX.QtGui.QIcon.Mode.Normal, icon_states[state])
+				l.write(base64.b64decode(svg[state]))
+			icon.addPixmap(
+				lib.PyQtX.QtGui.QPixmap(f'icon{state}.svg'),
+				lib.PyQtX.QtGui.QIcon.Mode.Normal,
+				icon_states[state])
 			return icon
-		# with open('icond.svg','wb') as d:
-		# 	d.write(base64.b64decode(ico[n][1]))
 		icon = make_icon(icon,0)
 		icon = make_icon(icon,1)
 		return icon
-	return icon(svg)
 
 
 
+def Size(wh):	return QCores['Size'](wh[0], wh[1])
+def SizePolicy(pol):
+	h,v = pol.split('.')
+	return QSizePolicies['Pol'](QSizePolicies[h],QSizePolicies[v])
+def Margins(margins):
+	return QCores['Margins'](*margins)
 
-# def NameRE(**k):
-# 	# pfx_NameParentnameParentmodule
-# 	# ibtn_EditKeyEdit
-# 	pfx=k.get('pfx') or '^_' #NOT _
-# 	sep=k.get('sep') or '_'
-# 	name=k.get('name') or '.*'
-# 	parent=k.get('parent') or '.*'
-# 	f'([{pfx}]*)'
-# 	f'([{sep}]?)'
-# 	f'({name})'
-# 	f'({name})'
-# 	gPFX=r'(?P<PFX>{RE})'.format(RE=PFX)
-# 	gSEP=r'(?P<SEP>{RE})'.format(RE=SEP)
-# 	gNME=r'(?P<NME>{RE})'.format(RE=NME)
-# 	gCON=f'^{gPFX}{gSEP}{gNME}$'
-# 	rex=re.compile(gCON ,re.VERBOSE)
-# 	return rex
+def make(component,*a):
+
+	comps={
+		'size' 		: Size(*a)
+		'sizpol'	: SizePolicy(*a)
+		'margins'	: Margins(*a)
+	}
 
 
 def makeSize(wh):
@@ -111,8 +106,7 @@ def makeConfigure(wgt):
 		return wgt
 	def configure(wgt):
 		for prop in wgt['Cfg']:
-			with contextlib.suppress(KeyError) as e:
-				# print(e)
+			with contextlib.suppress(KeyError):
 				wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
 		wgt=SpecialCases(wgt)
 		return wgt
@@ -143,17 +137,27 @@ def Show(wgt):
 	return wgt
 
 def Fnx(wgt):
-	wgt['Fnx'] = wgt.get('Fnx') or {}
 	wgt	=	Show(wgt)
 	wgt = makeConfigure(wgt)
 	if isinstance(wgt.get('Elements'),dict):
 		wgt	=	Generate(wgt)
 	return wgt
 
+def Clean(wgt):
+	toclean=[]
+	for section in wgt:
+		if isinstance(wgt[section],dict) and len(wgt[section])==0:
+			toclean+=[section]
+	for section in toclean:
+		wgt.pop(section)
+	return wgt
+
 def minInit(wgt):
+	wgt=Clean(wgt)
 	wgt['Fnx']['Configure'](wgt)
 	if isinstance(wgt.get('Elements'),dict):
 		wgt['Fnx']['Generate']()
-	wgt['Fnx']['Init']()
+	if callable(wgt['Fnx'].get('Init')):
+		wgt['Fnx']['Init']()
 	return wgt
 

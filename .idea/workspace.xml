@@ -5,11 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="638b6880-4a88-4897-aefd-48c2526c0dfa" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/QLib/QElements/QLineEdit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/QLib/QFrames/profile.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dumb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Create.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QBases/QWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QBases/QWidget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QElements/QIconButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QElements/QIconButton.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/QModules/QHSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/QModules/QHSearch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configs/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Configs/Config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configs/QDefaults.py" beforeDir="false" afterPath="$PROJECT_DIR$/Configs/QDefaults.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Create.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/Create.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/PyQtX.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/PyQtX.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QBases/QGroup.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QBases/QGroup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QBases/QWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QBases/QWidget.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QBases/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QBases/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QIconButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QIconButton.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QIconCheckBox.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QIconCheckBox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QLabel.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QLabel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QLayout.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QLayout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QLineEdit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QSpacer.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QSpacer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QSpacer.pyi" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QSpacer.pyi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QTextButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTextButton.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QTextCheckBox.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTextCheckBox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTree.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/QtWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QtWgt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QElements/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QFrames/QDictator.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QFrames/QDictator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QFrames/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QFrames/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QFrames/icon0.svg" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QFrames/icon0.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QFrames/icon1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QFrames/icon1.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QEditProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QEditProp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QHArrowsLR.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHArrowsLR.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QHIncDec.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHIncDec.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QHSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHSearch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QHSearchCtl.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHSearchCtl.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QMain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/QtApplication.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QtApplication.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QModules/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/QWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QWgt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gnr.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/gnr.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icon0.svg" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/icon0.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/icon1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/icon1.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/profile.json" beforeDir="false" afterPath="$PROJECT_DIR$/profile.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,35 +73,35 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/lib/QFrames/QDictator.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/Create.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/PyQtX.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QModules/QMain.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QFrames/QDictator.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/Create.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/PyQtX.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QModules/QMain.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/static/QtLibs.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QElements/QTextButton.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QElements/QTextButton.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_2.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QModules/QHSearchCtl.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QModules/QHSearch.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QModules/QHSearchCtl.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QModules/QHSearch.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Configs/Config.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QElements/QIconButton.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QBases/QWidget.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QModules/QHArrowsLR.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QElements/QIconButton.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QBases/QWidget.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QModules/QHArrowsLR.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/README.md" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Configs/QDefaults.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QElements/QSpacer.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QModules/QtApplication.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QBases/QGroup.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QElements/QTree.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QElements/QSpacer.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QModules/QtApplication.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QBases/QGroup.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QElements/QTree.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QElements/QLabel.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QWgt.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/gnr.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QElements/QLabel.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QWgt.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/gnr.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/assets/ico.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QElements/QtWgt.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QModules/QEditProp.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QElements/QLayout.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/gui.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/lib/QModules/QHIncDec.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QElements/QtWgt.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QModules/QEditProp.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QElements/QLayout.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/gui.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QModules/QHIncDec.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="2GrQxtrtKTp25JN2vSOCClq9tbH" />
   <component name="ProjectLevelVcsManager">
@@ -83,7 +120,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/QModules" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -143,7 +180,7 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lib/QFrames/QDictator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="EMULATE_TERMINAL" value="true" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
@@ -183,6 +220,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lib/QBases/QWidget.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dumb" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="myPyQt" />
+      <option name="INTERPRETER_OPTIONS" value="-m scalene --profile-all" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dumb.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -271,6 +329,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/dumb.py</url>
+          <line>10</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-defaults>
         <breakpoint type="python-line" />
       </breakpoints-defaults>

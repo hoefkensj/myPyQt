@@ -1,46 +1,34 @@
 #!/usr/bin/env python
-#def lEdit(**k):
-	def Wgt():
-		wgt = make(n=c.get('n'), t=c.get('qt'))
-		return wgt[c.get('n')]
+from lib import gnr,Create
+from static.QtLibs import QElements
 
-	def c.get():
-		arg={}
-		arg['n']				=	k.get('n')
-		arg['w']				= k.get('w')	or 20
-		arg['h']				= k.get('h')	or 20
-		arg['ro']				= k.get('ro')	or False
+from Configs import QDefaults,Config
+def QLineEdit(**k):
+	def Fnx(wgt):
+		wgt=gnr.Fnx(wgt)
+		def RO():	wgt['Fnx']['Set']['ReadOnly'](True)
+		def RW():	wgt['Fnx']['Set']['ReadOnly'](False)
+		wgt['Fnx']['Read']		=	wgt['Fnx']['Get']['Text']
+		wgt['Fnx']['Write']		=	wgt['Fnx']['Set']['Text']
+		wgt['Fnx']['RO']			=	RO
+		wgt['Fnx']['RW']			=	RW
+		wgt['Fnx']['ED']			=	wgt['Fnx']['Get']['ReadOnly']
+		return wgt
 
-		r = arg.get(a)
-		return r
-	def Fnx():
-		f 					= {}
-		f['Read']		=	l['Mtd']['text']
-		f['Write']	=	l['Mtd']['setText']
-		f['makeRO']			=	l['Mtd']['setReadOnly']
-		f['RO']					=	l['Mtd']['isReadOnly']
-		return f
-	def Init():
-		# l['Wgt'] 	=	sPol( l['Wgt'] , h='E', v='P')
-		def Init():
-			l['Mtd']['setObjectName'](f'txt{n}')
-			l['Mtd']['setReadOnly'](ro)
-		Init()
-		return Init
-	def Conn():
-		c={}
-		c['Entered']=l['Mtd']['returnPressed'].connect
-		c['Changed']=l['Mtd']['textChanged'].connect
-		c['Edited']=l['Mtd']['textEdited'].connect
-		return c
+	def Con(wgt):
+		wgt['Con']['Entered']	=wgt['Fnx']['Sig']['returnPressed'].connect
+		wgt['Con']['Changed']	=wgt['Fnx']['Sig']['textChanged'].connect
+		wgt['Con']['Edited']	=wgt['Fnx']['Sig']['textEdited'].connect
+		return wgt
+	def Init(wgt)     :
+		wgt=gnr.minInit(wgt)
+		return wgt
+	w						=			Create.QComponent(QElements['txtE'], **k)
+	w						=			Fnx(w)
+	w						=			Con(w)
+	return Init(w)
 
-	w={}
-	w['Wgt'] 		= Wgt()
-	w['Arg'] = c.get()
-	Mtd=     dClass('Mtds')('Wgt')
-	w['Mtd']		= Mtd(l)
-	w['Data']		=	Data(l)
-	w['Fnx']		= Fnx()
-	w['Conn']		=	Conn()
-	w['Init']		= Init()
-	return l
+def make(namestr, **k):
+	preset=QDefaults.QLineEdit|{}
+	k=Config.preset(['txtE',namestr],preset,**k)
+	return QLineEdit(**k)

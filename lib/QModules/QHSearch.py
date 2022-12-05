@@ -1,21 +1,20 @@
 #!/usr/bin/env python
 # Auth
 from lib import gnr
-from lib.QElements import QtWgt,QIconButton
+from lib.QElements import QtWgt,QIconButton,QLineEdit
 from Configs import QDefaults,Config
 from lib.QBases import QWidget
 from lib.QModules	import QHArrowsLR
 
 def QHSearch(**k):
 	def Elements(wgt):
-		p=wgt['name']
-		wgt['Elements'] = wgt.get('Elements') or {}
-		elements=[
-			QtWgt.make('Field',pfx='txtE', pol='E.F'),
-			QIconButton.make(	f'Reg'		,	AutoRaise=True	,	bi=True		),
-			QHArrowsLR.make(	f'<>'			,	)	,
-			QIconButton.make(	f'Search'	,	)	,	]
-		for e in elements:
+		es=[
+			# QtWgt.make('Field',pfx='txtE',pol='E.F',),
+			QLineEdit.make('Field'),
+			QIconButton.make(	'Reg',AutoRaise=1,bi=1),
+			QHArrowsLR.make('<>'),
+			QIconButton.make('Search'),]
+		for e in es:
 			wgt['Elements'] |= gnr.Element(e)
 		return wgt
 
@@ -60,7 +59,6 @@ def QHSearch(**k):
 		return wgt
 	def Con(wgt):
 		sfn=gnr.Short(wgt,'Fnx')
-		wgt['Con'] = wgt.get('Con') or {}
 		wgt['Con']['Reg']=sfn['Reg']['Sig']['toggled'].connect
 		wgt['Con']['Search']=sfn['Search']['Sig']['clicked'].connect
 		return wgt

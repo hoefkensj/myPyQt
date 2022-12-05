@@ -21,7 +21,7 @@ def Make_Tree(wgt):
 					make_branch(branch, data, dictpath,keylist=keylist)
 				else:
 					data = str(data)
-					w =wgt['Fnx']['Read']['ColumnWidth'](1)
+					w =wgt['Fnx']['Get']['ColumnWidth'](1)
 					data = repr(data) if callable(data) else data
 					dispdata = f'{data[:w - 4]}...' if len(data) > w - 4 else data
 					branch.setText(1, dispdata)
@@ -100,7 +100,6 @@ def QTree(**k):
 		wgt=gnr.minInit(wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['trW'], **k)
-	# w						=			Config.make(w,**k)
 	w						=			Fnx(w)
 	w						=			Con(w)
 	w['Data']		=			[]

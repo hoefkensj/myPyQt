@@ -15,7 +15,9 @@ def make(wgt,**k):
 		'isize'		:			'IconSize',
 		'txt'			:			'Text',
 		'cols'		:			'ColumnCount',
-		'widget'	:			'Widget'
+		'widget'	:			'Widget',
+		'lbl'			:			'Text',
+		'ro'			:			'ReadOnly',
 	}
 	vmapping={
 		'ObjectName'						:		'''wgt['Name']''',
@@ -28,7 +30,8 @@ def make(wgt,**k):
 		'IconSize'							:		'''gnr.makeSize(k['isize'])''',
 		'Text'									:		'''wgt['name'].split('_')[0]''',
 		'ColumnCount'						:		'''k.get('cols')''',
-		'Widget'								:		'''k.get('widget').get('Name')'''
+		'Widget'								:		'''k.get('widget').get('Name')''',
+		'ReadOnly'							:		'''k.get('ro')''',
 
 	}
 
@@ -43,7 +46,6 @@ def make(wgt,**k):
 		k.pop('widget')
 	wgt['Cfg']|=c
 	return wgt
-
 
 
 def names(*a):

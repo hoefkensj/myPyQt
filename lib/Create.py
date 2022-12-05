@@ -15,7 +15,7 @@ def Mtds(wgt):
 	f['Atr']={}
 	f['Set']={}
 	f['Sig']={}
-	f['Read']={}
+	f['Get']={}
 	All=dir(wgt['Wgt'])
 	for mtdn in All:
 		mtd = getattr(wgt['Wgt'], mtdn)
@@ -27,10 +27,10 @@ def Mtds(wgt):
 				mtdin		=	f'is{mtdcn}'
 				if mtdin in All:
 					f['Set'][mtdcn]		=	mtd
-					f['Read'][mtdcn]	=	getattr(wgt['Wgt'], mtdin)
+					f['Get'][mtdcn]	=	getattr(wgt['Wgt'], mtdin)
 				elif mtdsn in All:
 					f['Set'][mtdcn]		=	mtd
-					f['Read'][mtdcn]	=	getattr(wgt['Wgt'], mtdsn)
+					f['Get'][mtdcn]	=	getattr(wgt['Wgt'], mtdsn)
 				else:
 					f['Mtd'][mtdn]		=	mtd
 			elif cls.__name__ == 'pyqtBoundSignal':
