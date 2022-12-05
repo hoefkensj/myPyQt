@@ -19,9 +19,14 @@ QModule={
 	't'         :	'H'							,
 	'pol'       :	'E.F'						,
 }
+QLayout={
+}
 QEditProp				=	QModule	|	{}
 QHSearch				=	QModule	|	{}
 QHArrowsLR			=	QModule	|	{'pol' :	'F.F',}
+
+
+
 
 QButton={
 	'pol'       :	'P.P'									,

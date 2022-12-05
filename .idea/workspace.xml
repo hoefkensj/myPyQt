@@ -8,11 +8,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Configs/QDefaults.py" beforeDir="false" afterPath="$PROJECT_DIR$/Configs/QDefaults.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/Create.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/Create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QElements/QIconButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QIconButton.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QBases/QGroup.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QBases/QGroup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QBases/QWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QBases/QWidget.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/QElements/QIconCheckBox.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QIconCheckBox.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/QElements/QLabel.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QLabel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QElements/QTextButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTextButton.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QModules/QMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QMain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QElements/QLayout.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QBases/QLayout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QFrames/QDictator.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QFrames/QDictator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/gui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +67,7 @@
     <setting file="file://$PROJECT_DIR$/assets/ico.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QElements/QtWgt.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QModules/QEditProp.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/QLib/QElements/QLayout.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QBases/QLayout.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/gui.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QModules/QHIncDec.py" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -85,7 +87,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/QLib/Create.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/QLib/QBases" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -103,13 +105,14 @@
       <recent name="$PROJECT_DIR$/lib/QBases" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/QLib/QBases" />
       <recent name="$PROJECT_DIR$/lib/QModules" />
       <recent name="$PROJECT_DIR$/lib" />
       <recent name="$PROJECT_DIR$/lib/QBases" />
       <recent name="$PROJECT_DIR$/lib/QElements" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.scratch_2">
+  <component name="RunManager" selected="Python.QDictator (2)">
     <configuration name="Create" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myPyQt" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -259,8 +262,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.scratch_2" />
         <item itemvalue="Python.QDictator (2)" />
+        <item itemvalue="Python.scratch_2" />
         <item itemvalue="Python.QDictator (1)" />
         <item itemvalue="Python.QWidget" />
         <item itemvalue="Python.Create" />

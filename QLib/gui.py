@@ -1,16 +1,17 @@
 #!/usr/bin/env python
-from QLib import Create,QModules
+from QLib import Create,QModules,gnr
 from QLib.QModules import QtApplication,QMain
 from Configs import Config
 
 def QGui(*a,**k):
 	def Run(wgt):
 		def run(wgt):
-				w.pop('Elements')
-				w.pop('Wgt')
-				w.pop('Con')
-				w.pop('Lay')
-				wgt=w['App']['Fnx']['Run']()
+				# w.pop('Elements')
+				# w.pop('Wgt')
+				# w.pop('Con')
+				# w.pop('Lay')
+				wgt=gnr.Clean(wgt)
+				wgt=wgt['App']['Fnx']['Run']()
 				return wgt
 		return run
 	def Fnx(wgt):

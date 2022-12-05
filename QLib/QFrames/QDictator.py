@@ -64,7 +64,7 @@ GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
 # pTree(d=GUI,max=5000)
 upd=Update(GUI)
 GUI['Elements']['tBtn_Update']['Con']['clicked'](upd)
-GUI['Run'](GUI['Main'])
+GUI['Run'](GUI)
 
 
 

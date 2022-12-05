@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # Auth
 import contextlib
-
 from static import QtLibs
 import sys
 from Configs import Config
@@ -128,12 +127,7 @@ def Generate():
 		return wgt
 	return generate
 
-
 def Show(wgt):
-	mtd={
-			True		:	wgt['Fnx']['Mtd']['show'],
-			False		:	wgt['Fnx']['Mtd']['hide'],
-			'exec'	:	wgt['Fnx']['Get']['Hidden']}
 	def show(*a):
 		print('show ran for ',wgt['Name'])
 		if a:
@@ -141,9 +135,13 @@ def Show(wgt):
 		else:
 			state=mtd['exec']()
 			mtd[state]()
-	wgt['Fnx']['Show']=show
+	if wgt['Fnx']['Mtd'].get('show'):
+		mtd={
+				True		:	wgt['Fnx']['Mtd']['show'],
+				False		:	wgt['Fnx']['Mtd']['hide'],
+				'exec'	:	wgt['Fnx']['Get']['Hidden']}
+		wgt['Fnx']['Show']=show
 	return wgt
-
 
 def Fnx(wgt):
 	wgt = Configure(wgt)

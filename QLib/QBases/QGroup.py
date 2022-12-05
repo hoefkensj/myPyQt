@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 import QLib.Create
 from static import QtLibs
-from QLib import gnr,Create
-from Configs import QDefaults,Config
-from QLib.QElements import QLayout
+from QLib import Create
+from Configs import Config
+from QLib.QBases import QLayout
 
 def QGroup(**k):
 	def Lay(wgt):
 		if k.get('t'):
-			return QLayout.make(wgt,**k)
+			return QLayout.make(wgt, **k)
 	def Fnx(wgt):
 		def Add(wgt):
 			def add(component):

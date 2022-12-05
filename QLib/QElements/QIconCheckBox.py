@@ -16,7 +16,7 @@ def QIconCheckBox(**k):
 	def Init(wgt)     :
 		wgt=gnr.minInit(wgt)
 		return wgt
-	w						=			Create.QCreate(QElements['chkB'], **k)
+	w						=			Create.QCreate(QElements['iChk'], **k)
 	w						=			Fnx(w)
 	w['Con']		=			Con()
 	return Init(w)

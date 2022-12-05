@@ -1,49 +1,33 @@
 #!/usr/bin/env python
-import QLib.Create
-
+from QLib import gnr,Create
+from static.QtLibs import QElements
 from Configs import QDefaults,Config
 def QLabel(**k):
-	def Arg(a):
-		arg={}
-		arg['n']			= k.get("n")
-		arg['m']			= k.get("m") or [0,0,0,0]
-		r = arg.get(a)
-		return r
+	def Fnx(wgt):
+		def toggle():
+			state=wgt['Fnx']['Get']['Checked']
+			wgt['Fnx']['Set']['Checked'](not state)
+		wgt['Fnx']['Toggle']			= toggle
+		return wgt
+	def Con(wgt):
+		wgt['Con']['clicked'] = w['Wgt'].clicked.connect
+		wgt['Con']['clicked'](wgt['Fnx']['Toggle'])
+		return wgt
+	def Init(wgt)     :
+		wgt=gnr.minInit(wgt)
+		return wgt
+	w						=			Create.QCreate(QElements['lbl'], **k)
+	w						=			Fnx(w)
+	w['Con']		=			Con()
+	return Init(w)
 
-	def Props():
-		name 		= Arg('n')
-		return locals()
+def make(namestr, **k):
+	iconame=namestr.split('_')[0]
+	preset=QDefaults.QLabel|{
 
-	def Mtd():
-		wgt = w['Wgt']
-		mtd= QLib.Create.Mtds(wgt)
-		return mtd
-
-	def Atr():
-		wgt = w['Wgt']
-		atr= QLib.Create.Atrs(wgt)
-		return atr
-
-	def Fnx():
-		f={}
-		return f
-	def Init():
-		def init():
-			w['Mtd']['setObjectName'](f'lbl_{Arg("n")}')
-			w['Mtd']['setContentsMargins'](*Arg('m'))
-
-		init()
-		return init
-
-	w= {}
-	w['Wgt']			=	Wgt()
-	w['Prp']			= Props()
-	w['Mtd']			=	Mtd()
-	w['Atr']			= Atr()
-	w['Fnx']			=	Fnx()
-	w['Init']			=	Init()
-	return w
-
+	}
+	k=Config.preset(['lbl',namestr],preset,**k)
+	return QLabel(**k)
 
 # def Lbl(**k):
 # 	def Wgt():
