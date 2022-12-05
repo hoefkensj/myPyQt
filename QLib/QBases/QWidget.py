@@ -15,9 +15,11 @@ def QWidget(**k):
 				wgt['Lay']['Fnx']['Add'](component)
 			return add
 		wgt= QLib.Create.Fnx(wgt)
+		wgt= QLib.Create.Generate(wgt)
 		wgt['Fnx']['Add']				=	Add(wgt)
 		return wgt
 	def Init(wgt):
+
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
 	w							=	Create.QComponent(QtLibs.QElements['wgt'], **k)

@@ -58,7 +58,7 @@ def QCreate(fn):
 		w	=	Post(w,**k)
 		return w
 	def Post(wgt,**k):
-		wgt = Configure.make(wgt, **k)
+		wgt = Config.make(wgt, **k)
 		wgt['Lay']={}
 		wgt	=	Mtds(wgt)
 		wgt['Con']={}
@@ -101,59 +101,52 @@ def SpecialCases(wgt):
 			wgt=Cases[Case](wgt)
 	return wgt
 
-def Add(fn):
-	def add(wgt,*a,**k):
-		wgt=fn()
+def AddFnx(fn):
+	name=getattr(fn,'__name__')
+	def addfnx(wgt,*a,**k):
+		wgt['Fnx'][name]=fn()
 		return wgt
-	return add
+	return addfnx
 
+@AddFnx
+def Configure():
+	def configure(wgt):
+		for prop in wgt['Cfg']:
+				with contextlib.suppress(KeyError):
+					wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
+		wgt=SpecialCases(wgt)
+		return wgt
+	return configure
 
-@Add
-def Configure(wgt):
-	for prop in wgt['Cfg']:
-			with contextlib.suppress(KeyError):
-				wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
-	wgt=SpecialCases(wgt)
-	return wgt
-
-
-
-# def Configure(wgt):
-# 	def configure(wgt):
-# 		for prop in wgt['Cfg']:
-# 			with contextlib.suppress(KeyError):
-# 				wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
-# 		wgt=SpecialCases(wgt)
-# 		return wgt
-# 	wgt['Fnx']['Configure']	=	configure
-# 	return wgt
-
-def Generate(wgt):
-	def generate():
+@AddFnx
+def Generate():
+	def generate(wgt):
 		for element in 	wgt['Elements']:
 			wgt['Fnx']['Add'](wgt['Elements'][element]['Wgt'])
-	wgt['Fnx']['Generate'] 	= generate
-	return wgt
+		return wgt
+	return Generate
+
 
 def Show(wgt):
-	mtd={}
-	mtd[True]=wgt['Fnx']['Mtd']['show']
-	mtd[False]=wgt['Fnx']['Mtd']['hide']
-	mtd['exec']=True
-	def show(*a):
+	mtd={
+			True		:	wgt['Fnx']['Mtd']['show'],
+			False		:	wgt['Fnx']['Mtd']['hide'],
+			'exec'	:	wgt['Fnx']['Get']['Hidden']}
+	def showcore(mtd,*a):
 		if a:
 			mtd[a[0]]()
-			mtd['exec']=not a[0]
 		else:
-			mtd[mtd['exec']]()
-			mtd['exec']=not mtd['exec']
-	wgt['Fnx']['Show']=show
-	return wgt
+			state=mtd['exec']()
+			mtd[state]()
+	@AddFnx
+	def show(*a):
+		return showcore
+	return show
+
+
 def Fnx(wgt):
+	show=Show(wgt)
 
-
-	wgt	=	Show(wgt)
 	wgt = Configure(wgt)
-	if wgt['type']=='QWidget':
-		wgt	=	Generate(wgt)
+	wgt	= show(wgt)
 	return wgt
