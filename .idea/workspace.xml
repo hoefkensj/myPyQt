@@ -6,12 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="638b6880-4a88-4897-aefd-48c2526c0dfa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configs/QDefaults.py" beforeDir="false" afterPath="$PROJECT_DIR$/Configs/QDefaults.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/Create.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/Create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QFrames/icon0.svg" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QFrames/icon0.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QFrames/icon1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QFrames/icon1.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QElements/QIconButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QIconButton.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QElements/QIconCheckBox.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QIconCheckBox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QElements/QLabel.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QLabel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QElements/QTextButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTextButton.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/QModules/QMain.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QMain.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/gnr.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/gnr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/gui.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +109,7 @@
       <recent name="$PROJECT_DIR$/lib/QElements" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.QDictator (2)">
+  <component name="RunManager" selected="Python.scratch_2">
     <configuration name="Create" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myPyQt" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -258,9 +259,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.scratch_2" />
         <item itemvalue="Python.QDictator (2)" />
         <item itemvalue="Python.QDictator (1)" />
-        <item itemvalue="Python.scratch_2" />
         <item itemvalue="Python.QWidget" />
         <item itemvalue="Python.Create" />
       </list>

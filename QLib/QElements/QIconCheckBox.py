@@ -1,44 +1,30 @@
 #!/usr/bin/env python
-# Auth
-import QLib.Create
 from QLib import gnr,Create
 from static.QtLibs import QElements
-
 from Configs import QDefaults,Config
 def QIconCheckBox(**k):
 	def Fnx(wgt):
 		def toggle():
-			state=w['Mtd']['isChecked']
-			wgt['Fnx']['Mtd']['setChecked'](not state)
-		f 					= {}
-		f['Configure']	= QLib.Create.Configure(wgt)
-		f['Toggle']	= toggle
-		return f
-	def Con():
-		c={}
-		c['clicked'] = w['Wgt'].clicked.connect
-		c['clicked'](w['Mtd']['toggle'])
-		return c
+			state=wgt['Fnx']['Get']['Checked']
+			wgt['Fnx']['Set']['Checked'](not state)
+		wgt['Fnx']['Toggle']			= toggle
+		return wgt
+	def Con(wgt):
+		wgt['Con']['clicked'] = w['Wgt'].clicked.connect
+		wgt['Con']['clicked'](wgt['Fnx']['Toggle'])
+		return wgt
 	def Init(wgt)     :
-		wgt=wgt['Fnx']['Configure']()
+		wgt=gnr.minInit(wgt)
 		return wgt
 	w						=			Create.QCreate(QElements['chkB'], **k)
-	w						=			Config.make(w,**k)
-	w['Fnx']		=			Fnx(w)
+	w						=			Fnx(w)
 	w['Con']		=			Con()
 	return Init(w)
 
 def make(namestr, **k):
 	iconame=namestr.split('_')[0]
-	k	= {
-		**QDefaults.Properties							,
-		'pol'       :	'P.P'									,
-		'wh'        :	[20,20]								,
+	preset=QDefaults.QIconButton|{
 		'ico'       :	gnr.IconSet(iconame)	,
-		'isize'     :	[32,32]								,
-		'lbl'       :	None									,
-	} |	k	|	{
-		'name'      :	namestr								,
-		'pfx'       :	'chkB'								,
 	}
+	k=Config.preset(['iChk',namestr],preset,**k)
 	return QIconCheckBox(**k)

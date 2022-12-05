@@ -1,9 +1,6 @@
 #!/usr/bin/env python
-# Auth
-import QLib.Create
 from QLib import gnr,Create
 from static.QtLibs import QElements
-
 from Configs import QDefaults,Config
 def QIconButton(**k):
 	def Con(wgt):
@@ -13,7 +10,6 @@ def QIconButton(**k):
 		wgt=gnr.minInit(wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['iBtn'], **k)
-	w						=			QLib.Create.Fnx(w)
 	w						=			Con(w)
 	return Init(w)
 

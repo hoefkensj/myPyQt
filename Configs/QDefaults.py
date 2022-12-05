@@ -29,7 +29,6 @@ QButton={
 }
 QIconButton	=	QButton	| {
 	'wh'        :	[20,20]								,
-	'bi'        :	False									,
 	'isize'     :	[32,32]								,
 	'btn'       :	'I'										,
 }
@@ -41,4 +40,11 @@ QTextButton	=	QButton	| {
 QLineEdit={
 	'ro'				:	False,
 	'Height'		: 20,
-	}
+}
+QCheckBox				=	{
+		'pol'       :	'P.P'									,
+}
+QIconCheckBox		=	{
+		'wh'        :	[20,20]								,
+		'isize'     :	[32,32]								,
+}

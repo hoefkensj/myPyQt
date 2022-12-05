@@ -3,10 +3,6 @@ import QLib.Create
 
 from Configs import QDefaults,Config
 def QLabel(**k):
-
-	def Wgt():
-		return QLabel()
-
 	def Arg(a):
 		arg={}
 		arg['n']			= k.get("n")

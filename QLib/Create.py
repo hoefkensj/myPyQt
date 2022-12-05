@@ -52,17 +52,19 @@ def QCreate(fn):
 			'name'    :	name								,
 			'type'    :	type								,}
 		return w
+
 	def create(*a,**k):
 		w	=	Pre(**k)
 		w	=	fn(w,*a,**k)
 		w	=	Post(w,**k)
 		return w
+
 	def Post(wgt,**k):
 		wgt = Config.make(wgt, **k)
 		wgt['Lay']={}
 		wgt	=	Mtds(wgt)
+		wgt	= Fnx(wgt)
 		wgt['Con']={}
-
 		wgt['Elements']={}
 		return wgt
 	return create
