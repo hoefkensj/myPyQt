@@ -69,7 +69,7 @@ def minInit(wgt):
 	wgt=Clean(wgt)
 	wgt['Fnx']['Configure'](wgt)
 	if isinstance(wgt.get('Elements'),dict):
-		wgt['Fnx']['Generate']()
+		wgt['Fnx']['Generate'](wgt)
 	if callable(wgt['Fnx'].get('Init')):
 		wgt['Fnx']['Init']()
 	return wgt

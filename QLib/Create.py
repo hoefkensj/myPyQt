@@ -124,7 +124,7 @@ def Generate():
 		for element in 	wgt['Elements']:
 			wgt['Fnx']['Add'](wgt['Elements'][element]['Wgt'])
 		return wgt
-	return Generate
+	return generate
 
 
 def Show(wgt):
@@ -132,21 +132,18 @@ def Show(wgt):
 			True		:	wgt['Fnx']['Mtd']['show'],
 			False		:	wgt['Fnx']['Mtd']['hide'],
 			'exec'	:	wgt['Fnx']['Get']['Hidden']}
-	def showcore(mtd,*a):
+	def show(*a):
+		print('show ran for ',wgt['Name'])
 		if a:
 			mtd[a[0]]()
 		else:
 			state=mtd['exec']()
 			mtd[state]()
-	@AddFnx
-	def show(*a):
-		return showcore
-	return show
+	wgt['Fnx']['Show']=show
+	return wgt
 
 
 def Fnx(wgt):
-	show=Show(wgt)
-
 	wgt = Configure(wgt)
-	wgt	= show(wgt)
+	wgt	= Show(wgt)
 	return wgt

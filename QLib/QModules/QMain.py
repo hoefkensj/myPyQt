@@ -6,7 +6,7 @@ from Configs import Config
 def QMain(**k):
 	def Fnx(wgt):
 		def Run(wgt):
-			wgt['Fnx']['Generate']()
+			wgt['Fnx']['Generate'](wgt)
 			wgt['Fnx']['Show']()
 			return wgt
 		wgt= QLib.Create.Fnx(wgt)
