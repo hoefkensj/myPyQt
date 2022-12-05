@@ -1,38 +1,40 @@
 #!/usr/bin/env python
-from lib import gnr
+import Fnx
+from Fnx import make
+from QLib import gnr
+
 from static import QtLibs
 from static.QtLibs import QToolButtons
 from Configs import QDefaults
 def make(wgt,**k):
 	nmapping={
-		'Name'		: 		'ObjectName',
-		'pol'			:			'SizePolicy',
-		'bi'			:			'Checkable',
-		'wh'			:			'MaximumSize',
-		'btn'			:			'ToolButtonStyle',
-		'margin'	:			'ContentsMargins',
-		'ico'			:			'Icon',
-		'isize'		:			'IconSize',
-		'txt'			:			'Text',
-		'cols'		:			'ColumnCount',
-		'widget'	:			'Widget',
-		'lbl'			:			'Text',
-		'ro'			:			'ReadOnly',
+		'Name'    : 		'ObjectName',
+		'pol'     :			'SizePolicy',
+		'bi'      :			'Checkable',
+		'wh'      :			'MaximumSize',
+		'btn'     :			'ToolButtonStyle',
+		'margin'  :			'ContentsMargins',
+		'ico'     :			'Icon',
+		'isize'   :			'IconSize',
+		'txt'     :			'Text',
+		'cols'    :			'ColumnCount',
+		'widget'  :			'Widget',
+		'lbl'     :			'Text',
+		'ro'      :			'ReadOnly',
 	}
 	vmapping={
-		'ObjectName'						:		'''wgt['Name']''',
-		'SizePolicy'						:		'''gnr.makeSizePolicy(k.get('pol'))''',
-		'Checkable'							:		'''k.get('bi')''',
-		'MaximumSize'						:		'''gnr.makeSize(k.get('wh'))''',
-		'ToolButtonStyle'				:		'''QtLibs.QToolButtons[k.get('btn')]''',
-		'ContentsMargins'				:		'''gnr.makeMargins(k.get('margin'))''',
-		'Icon'									:		'''gnr.Icon(k['ico'])''',
-		'IconSize'							:		'''gnr.makeSize(k['isize'])''',
-		'Text'									:		'''wgt['name'].split('_')[0]''',
-		'ColumnCount'						:		'''k.get('cols')''',
-		'Widget'								:		'''k.get('widget').get('Name')''',
-		'ReadOnly'							:		'''k.get('ro')''',
-
+		'ObjectName'            :		'''wgt['Name']''',
+		'SizePolicy'            :		'''Fnx.make.SizePolicy(k.get('pol'))''',
+		'Checkable'             :		'''k.get('bi')''',
+		'MaximumSize'           :		'''Fnx.make.Size(k.get('wh'))''',
+		'ToolButtonStyle'       :		'''QtLibs.QToolButtons[k.get('btn')]''',
+		'ContentsMargins'       :		'''Fnx.make.Margins(k.get('margin'))''',
+		'Icon'                  :		'''gnr.Icon(k['ico'])''',
+		'IconSize'              :		'''Fnx.make.Size(k['isize'])''',
+		'Text'                  :		'''wgt['name'].split('_')[0]''',
+		'ColumnCount'           :		'''k.get('cols')''',
+		'Widget'                :		'''k.get('widget').get('Name')''',
+		'ReadOnly'              :		'''k.get('ro')''',
 	}
 
 	c={}

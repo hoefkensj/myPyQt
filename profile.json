@@ -1,5 +1,5 @@
 {
-    "elapsed_time_sec": 1.3833329677581787,
+    "elapsed_time_sec": 1.9254417419433594,
     "files": {
         "/home/hoefkens/Development/Code/Python/Projects_ACTIVE/myPyQt/dumb.py": {
             "functions": [],
@@ -10,32 +10,32 @@
                     "lineno": 2,
                     "memory_samples": [
                         [
-                            4377329,
-                            2.3674875756814093
+                            4920373,
+                            2.370059440456877
                         ]
                     ],
-                    "n_avg_mb": 2.3640518188476562,
+                    "n_avg_mb": 2.364696502685547,
                     "n_copy_mb_s": 0.0,
                     "n_cpu_percent_c": 0.0,
                     "n_cpu_percent_python": 0.0,
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
                     "n_gpu_percent": 0,
-                    "n_growth_mb": 2.3640518188476562,
-                    "n_malloc_mb": 2.3640518188476562,
+                    "n_growth_mb": 2.364696502685547,
+                    "n_malloc_mb": 2.364696502685547,
                     "n_mallocs": 1,
-                    "n_peak_mb": 2.3640518188476562,
-                    "n_python_fraction": 0.9990139999999998,
+                    "n_peak_mb": 2.364696502685547,
+                    "n_python_fraction": 0.9990140000000001,
                     "n_sys_percent": 0.0,
-                    "n_usage_fraction": 0.6138794027840032
+                    "n_usage_fraction": 0.6141006450181241
                 },
                 {
                     "line": "tkgui=Tk()\n",
                     "lineno": 6,
                     "memory_samples": [
                         [
-                            109065723,
-                            3.949082303908428
+                            129873371,
+                            3.9504635067269445
                         ]
                     ],
                     "n_avg_mb": 0.0,
@@ -45,13 +45,13 @@
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
                     "n_gpu_percent": 0,
-                    "n_growth_mb": 1.4869518280029297,
-                    "n_malloc_mb": 1.4869518280029297,
+                    "n_growth_mb": 1.4859695434570312,
+                    "n_malloc_mb": 1.4859695434570312,
                     "n_mallocs": 0,
-                    "n_peak_mb": 1.4869518280029297,
-                    "n_python_fraction": 0.140924,
+                    "n_peak_mb": 1.4859695434570312,
+                    "n_python_fraction": 0.13478,
                     "n_sys_percent": 0.0,
-                    "n_usage_fraction": 0.38612059721599673
+                    "n_usage_fraction": 0.3858993549818759
                 }
             ],
             "percent_cpu_time": 0.0
@@ -64,7 +64,7 @@
                     "memory_samples": [],
                     "n_avg_mb": 0.0,
                     "n_copy_mb_s": 0.0,
-                    "n_cpu_percent_c": 19.65944355683706,
+                    "n_cpu_percent_c": 6.944461657964884,
                     "n_cpu_percent_python": 0.0,
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
@@ -74,7 +74,7 @@
                     "n_mallocs": 0,
                     "n_peak_mb": 0.0,
                     "n_python_fraction": 0,
-                    "n_sys_percent": 47.00722310982953,
+                    "n_sys_percent": 59.7222050087017,
                     "n_usage_fraction": 0.0
                 }
             ],
@@ -86,7 +86,7 @@
                     "memory_samples": [],
                     "n_avg_mb": 0.0,
                     "n_copy_mb_s": 0.0,
-                    "n_cpu_percent_c": 19.65944355683706,
+                    "n_cpu_percent_c": 6.944461657964884,
                     "n_cpu_percent_python": 0.0,
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
@@ -96,11 +96,11 @@
                     "n_mallocs": 0,
                     "n_peak_mb": 0.0,
                     "n_python_fraction": 0,
-                    "n_sys_percent": 47.00722310982953,
+                    "n_sys_percent": 59.7222050087017,
                     "n_usage_fraction": 0.0
                 }
             ],
-            "percent_cpu_time": 66.6666666666666
+            "percent_cpu_time": 66.66666666666659
         },
         "/usr/lib/python3.10/tkinter/__init__.py": {
             "functions": [
@@ -110,8 +110,8 @@
                     "memory_samples": [],
                     "n_avg_mb": 0.0,
                     "n_copy_mb_s": 0.0,
-                    "n_cpu_percent_c": 0.02647570446949754,
-                    "n_cpu_percent_python": 1.0122055733671151,
+                    "n_cpu_percent_c": 0.008074557954026083,
+                    "n_cpu_percent_python": 0.9554525251982415,
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
                     "n_gpu_percent": 0,
@@ -120,7 +120,7 @@
                     "n_mallocs": 0,
                     "n_peak_mb": 0.0,
                     "n_python_fraction": 0,
-                    "n_sys_percent": 12.857961451195775,
+                    "n_sys_percent": 22.841561549432,
                     "n_usage_fraction": 0.0
                 },
                 {
@@ -129,8 +129,8 @@
                     "memory_samples": [],
                     "n_avg_mb": 0.0,
                     "n_copy_mb_s": 0.0,
-                    "n_cpu_percent_c": 11.605075341256448,
-                    "n_cpu_percent_python": 1.5682191567863244,
+                    "n_cpu_percent_c": 4.90173003359688,
+                    "n_cpu_percent_python": 0.6315714162035903,
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
                     "n_gpu_percent": 0,
@@ -139,7 +139,7 @@
                     "n_mallocs": 1,
                     "n_peak_mb": 0.0,
                     "n_python_fraction": 0,
-                    "n_sys_percent": 1.0465213510659785,
+                    "n_sys_percent": 1.3604496439009344,
                     "n_usage_fraction": 0.0
                 },
                 {
@@ -148,8 +148,8 @@
                     "memory_samples": [],
                     "n_avg_mb": 0.0,
                     "n_copy_mb_s": 0.0,
-                    "n_cpu_percent_c": 1.3208267784895975,
-                    "n_cpu_percent_python": 1.2251502615121403,
+                    "n_cpu_percent_c": 0.4656809373384787,
+                    "n_cpu_percent_python": 0.34542514536783864,
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
                     "n_gpu_percent": 0,
@@ -158,7 +158,7 @@
                     "n_mallocs": 0,
                     "n_peak_mb": 0.0,
                     "n_python_fraction": 0,
-                    "n_sys_percent": 0.9718254483947812,
+                    "n_sys_percent": 1.036534290209078,
                     "n_usage_fraction": 0.0
                 }
             ],
@@ -170,8 +170,8 @@
                     "memory_samples": [],
                     "n_avg_mb": 0.0,
                     "n_copy_mb_s": 0.0,
-                    "n_cpu_percent_c": 0.02647570446949754,
-                    "n_cpu_percent_python": 1.0122055733671151,
+                    "n_cpu_percent_c": 0.008074557954026083,
+                    "n_cpu_percent_python": 0.9554525251982415,
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
                     "n_gpu_percent": 0,
@@ -180,26 +180,7 @@
                     "n_mallocs": 0,
                     "n_peak_mb": 0.0,
                     "n_python_fraction": 0,
-                    "n_sys_percent": 12.857961451195775,
-                    "n_usage_fraction": 0.0
-                },
-                {
-                    "line": "class Tk(Misc, Wm):\n",
-                    "lineno": 2274,
-                    "memory_samples": [],
-                    "n_avg_mb": 0.0,
-                    "n_copy_mb_s": 0.0,
-                    "n_cpu_percent_c": 0.0062427791284733105,
-                    "n_cpu_percent_python": 1.6855520502386516,
-                    "n_gpu_avg_memory_mb": 0.0,
-                    "n_gpu_peak_memory_mb": 0.0,
-                    "n_gpu_percent": 0,
-                    "n_growth_mb": 0.0,
-                    "n_malloc_mb": 0.0,
-                    "n_mallocs": 0,
-                    "n_peak_mb": 0.0,
-                    "n_python_fraction": 0,
-                    "n_sys_percent": 0.0072774374285414336,
+                    "n_sys_percent": 22.841561549432,
                     "n_usage_fraction": 0.0
                 },
                 {
@@ -208,8 +189,8 @@
                     "memory_samples": [],
                     "n_avg_mb": 0.0,
                     "n_copy_mb_s": 0.0,
-                    "n_cpu_percent_c": 11.605075341256448,
-                    "n_cpu_percent_python": 1.5682191567863244,
+                    "n_cpu_percent_c": 4.90173003359688,
+                    "n_cpu_percent_python": 0.6315714162035903,
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
                     "n_gpu_percent": 0,
@@ -218,7 +199,7 @@
                     "n_mallocs": 1,
                     "n_peak_mb": 0.0,
                     "n_python_fraction": 0,
-                    "n_sys_percent": 1.0465213510659785,
+                    "n_sys_percent": 1.3604496439009344,
                     "n_usage_fraction": 0.0
                 },
                 {
@@ -227,8 +208,8 @@
                     "memory_samples": [],
                     "n_avg_mb": 0.0,
                     "n_copy_mb_s": 0.0,
-                    "n_cpu_percent_c": 1.3208267784895975,
-                    "n_cpu_percent_python": 1.2251502615121403,
+                    "n_cpu_percent_c": 0.4656809373384787,
+                    "n_cpu_percent_python": 0.34542514536783864,
                     "n_gpu_avg_memory_mb": 0.0,
                     "n_gpu_peak_memory_mb": 0.0,
                     "n_gpu_percent": 0,
@@ -237,28 +218,28 @@
                     "n_mallocs": 0,
                     "n_peak_mb": 0.0,
                     "n_python_fraction": 0,
-                    "n_sys_percent": 0.9718254483947812,
+                    "n_sys_percent": 1.036534290209078,
                     "n_usage_fraction": 0.0
                 }
             ],
-            "percent_cpu_time": 33.33333333333333
+            "percent_cpu_time": 32.546480099201055
         }
     },
     "gpu": true,
-    "growth_rate": 107.34170036675937,
+    "growth_rate": 107.34234403806508,
     "max_footprint_fname": "/home/hoefkens/Development/Code/Python/Projects_ACTIVE/myPyQt/dumb.py",
     "max_footprint_lineno": 6,
-    "max_footprint_mb": 4.133732795715332,
+    "max_footprint_mb": 4.133395195007324,
     "memory": true,
     "program": "/home/hoefkens/Development/Code/Python/Projects_ACTIVE/myPyQt/dumb.py",
     "samples": [
         [
-            4313456,
-            2.3667528912679376
+            4866859,
+            2.3678009803685383
         ],
         [
-            109020987,
-            4.172735047189844
+            129826180,
+            4.13462879510344
         ]
     ]
 }
