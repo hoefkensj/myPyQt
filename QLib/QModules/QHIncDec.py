@@ -2,18 +2,15 @@
 from QLib.QElements import QIconButton
 from QLib.QBases import QWidget
 from QLib import gnr
-from Configs import Config
-
+from Configs import Config,QDefaults
 
 def QHIncDec(**k):
-	def Elements():
-		parent=w['name']
-		e		= {}
-		e|=gnr.Element(QIconButton.make(f'Inc_{parent}', h=15, w=15, bi=False))
-		e|=gnr.Element(QIconButton.make(f'Dec_{parent}', h=15, w=15, bi=False))
-		return e
-	def Fnx():
-		s=Short()
+	def Elements(wgt):
+		wgt['Elements'] |=gnr.Element(QIconButton.make(f'Inc', h=15, w=15, bi=False))
+		wgt['Elements'] |=gnr.Element(QIconButton.make(f'Dec', h=15, w=15, bi=False))
+		return wgt
+	def Fnx(wgt):
+		s=gnr.Short()
 		def StateInc():
 			def stateinc(state):
 				s['inc']['Set']['Enabled'](state)
@@ -26,39 +23,24 @@ def QHIncDec(**k):
 			def show(state):
 				w['Wgt']['Set']['Visible'](state)
 				return show
-		f = {}
-		f['Inc'] 		=	StateInc()
-		f['Dec'] 		= StateDec()
-		f['IncDec'] =	Show()
-		return f
-
+		wgt['Fnx']['Inc'] 		=	StateInc()
+		wgt['Fnx']['Dec'] 		=	StateDec()
+		wgt['Fnx']['IncDec'] 	=	Show()
+		return wgt
 	def Con(wgt):
 		s=gnr.ShortFnx(wgt)
-		c = {}
-		c['Inc']=	s['inc']['Mtd']['clicked'].connect
-		c['Dec']=	s['dec']['Mtd']['clicked'].connect
-		return c
-
-
+		wgt['Con']['Inc']=	s['inc']['Mtd']['clicked'].connect
+		wgt['Con']['Dec']=	s['dec']['Mtd']['clicked'].connect
+		return wgt
 	def Init(w):
-		for element in w['Elements']:
-			w['Fnx']['Add'](w['Elements'][element])
-		s=Short()
-		return w
+		return gnr.QWgtInit(w)
 
-	w= QWidget.make(k['name'], **k)
-	w	=	Config.Cfg(w,**k)
-	w['Elements']=Elements()
-	w['Fnx'] 			|=	Fnx()
-	w['Con']			|=	Con()
+	w	= QWidget.make(k['name'], **k)
+	w	|=	Elements(w)
+	w 	|=	Fnx(w)
+	w	|=	Con(w)
 	return Init(w)
-
-def make(name,pfx='wgt',**k):
-	Names=gnr.makeNames(name=name,pfx=pfx)
-	kwargs={
-	'pfx_name'  :	Names['pfx_name'],
-	'pfx'       :	Names['pfx'],
-	'name'      :	Names['name'],
-	'qt'        : gnr.PfxMap(pfx),}
-	k|=kwargs
+def make(namestr,**k):
+	preset=	QDefaults.QHIncDec
+	k=Config.preset(['wgt',namestr],preset,**k)
 	return QHIncDec(**k)

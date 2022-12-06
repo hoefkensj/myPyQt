@@ -10,7 +10,7 @@ def QHSearchCtl(**k):
 	def Elements(wgt):
 		if 'Elements' not in wgt:wgt['Elements'] = {}
 		parent=wgt['name']
-		wgt['Elements'] |=	gnr.Element(QHArrowsLR.make(f'<>_{parent}', bi=False))
+		wgt['Elements'] |=	gnr.Element(QHArrowsLR.make(f'<>', bi=False))
 		wgt['Elements'] |=	gnr.Element(QIconButton.make(f'Search_{parent}', bi=False))
 		return wgt
 	def Fnx(wgt):
@@ -26,11 +26,10 @@ def QHSearchCtl(**k):
 		wgt['Con'] = {}
 		wgt['Con']['Search']=	s['Search']['Fnx']['Sig']['clicked'].connect
 		return wgt
-	w						= QWidget.make(k['name'], **k)
-	w						=Config.make(w,**k)
-	w						= Elements(w)
-	w						=	Fnx(w)
-	w			=	Con(w)
+	w		= QWidget.make(k['name'], **k)
+	w		=	 Elements(w)
+	w		=	Fnx(w)
+	w		=	Con(w)
 	return gnr.QWgtInit(w)
 
 def make(namestr,**k):

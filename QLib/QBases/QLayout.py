@@ -6,8 +6,6 @@ from QLib import gnr
 from Configs import QDefaults,Config
 
 def QLayout(**k):
-	def Lay():
-		return
 	def Fnx(wgt):
 		def Add(wgt):
 			def add(component):
@@ -18,7 +16,7 @@ def QLayout(**k):
 	def Init(wgt):
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
-	w			=	QLib.Create.QLayout(**k)
+	w			= QLib.Create.QLayout(**k)
 	w			= Fnx(w)
 	return Init(w)
 

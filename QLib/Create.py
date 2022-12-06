@@ -82,8 +82,8 @@ def QComponent(wgt,qwgt,**k):
 	return wgt
 @QCreate
 def QLayout(lay,*a,**k):
-	wgt					=	k.pop('widget')
-	layout			=	QtLibs.QLayouts[k['t']]
+	wgt			=	k.pop('widget')
+	layout		=	QtLibs.QLayouts[k['t']]
 	lay['Wgt']	=	layout(wgt['Wgt'])
 	return lay
 

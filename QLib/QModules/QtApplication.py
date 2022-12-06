@@ -4,8 +4,10 @@ from sys import argv,exit
 from QLib import Create
 from static.QtLibs import QElements
 from Configs import Config
-import asyncio
-import sys
+import asyncio,os
+import qdarkstyle
+argv += ['-platform', 'windows:darkmode=2']
+os.environ['QT_API'] = 'pyqt6'
 
 def QtApplication(**k):
 	def Fnx(wgt):
@@ -17,9 +19,8 @@ def QtApplication(**k):
 			return run
 		wgt['Fnx']['Run'] = Run(wgt)
 		return wgt
-
-	w					=			Create.QApplication(**k)
-	w					= 		Fnx(w)
+	w					=	Create.QApplication(**k)
+	w					= 	Fnx(w)
 	w['Clip'] =			w['Fnx']['Mtd']['clipboard']()
 	return w
 

@@ -9,14 +9,10 @@ from QLib.QModules	import QHArrowsLR
 
 def QHSearch(**k):
 	def Elements(wgt):
-		es=[
-			# QtWgt.make('Field',pfx='txtE',pol='E.F',),
-			QLineEdit.make('Field',k=k),
-			QIconButton.make( 'Reg',AutoRaise=1,bi=1,k=k),
-			QHArrowsLR.make('<>',k=k),
-			QIconButton.make('Search',k=k),]
-		for e in es:
-			wgt['Elements'] |= gnr.Element(e)
+		wgt['Elements'] |=gnr.Element(QLineEdit.make('Field',k=k))
+		wgt['Elements'] |=gnr.Element(QIconButton.make( 'Reg',AutoRaise=1,bi=1,k=k))
+		wgt['Elements'] |=gnr.Element(QHArrowsLR.make('<>',k=k))
+		wgt['Elements'] |=gnr.Element(QIconButton.make('Search',k=k))
 		return wgt
 
 	def Fnx(wgt):
@@ -66,12 +62,11 @@ def QHSearch(**k):
 	def Init(wgt):
 		wgt=gnr.QWgtInit(wgt)
 		return wgt
-	w						=	QWidget.make(k['name'], **k)
-	w						= Elements(w)
-	w						=	Fnx(w)
-	w						=	Con(w)
+	w	=	QWidget.make(k['name'], **k)
+	w	= 	Elements(w)
+	w	=	Fnx(w)
+	w	=	Con(w)
 	return Init(w)
-
 
 def make(namestr,**k):
 	preset=	QDefaults.QHSearch

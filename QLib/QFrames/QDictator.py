@@ -54,16 +54,13 @@ def Allign(GUI):
 GUI=gui.make('Main')
 
 # GUI['Elements']|=gnr.Element(component)
-
 GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
+# GUI['Elements']|= gnr.Element(QHIncDec.make('ColEx',pol='P.P'))
 GUI['Elements']|= gnr.Element(QHSearch.make('TreeSearch',))
 GUI['Elements']|= gnr.Element(QEditProp.make('Key',))
 GUI['Elements']|= gnr.Element(QEditProp.make('Val',))
 GUI['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P',))
-# GUI['Elements']|= gnr.Element(QHSearch.make('Search'))
-# GUI['Main']['Elements'] |= gnr.Element(QtWgt.make('iBtn_Edit'))
-# GUI['Main']['Lay']['Lay'].addWidget(GUI['Main']['Elements']['iBtn_Edit']['Wgt'])
-# pTree(d=GUI)+
+
 
 GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
 # GUI['Fnx']['Configure'](GUI['Main'])
