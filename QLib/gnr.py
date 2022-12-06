@@ -40,7 +40,7 @@ def IconSet(i):
 def Clean(wgt):
 	toclean=[]
 	for section in wgt:
-		if isinstance(wgt[section],dict) and len(wgt[section])==0:
+		if isinstance(wgt[section],dict) and not section:
 			toclean+=[section]
 	for section in toclean:
 		wgt.pop(section)
@@ -65,11 +65,11 @@ def Init(fn):
 	return init
 @Init
 def QWgtInit(wgt):
-	wgt=Clean(wgt)
 	wgt['Fnx']['Generate'](wgt)
 	return wgt
 @Init
 def QElementInit(wgt):
+	wgt=Clean(wgt)
 	return wgt
 
 

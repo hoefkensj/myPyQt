@@ -6,6 +6,8 @@ Properties={
 	'pol'										:'E.E'								,
 	}
 
+QWidget=Properties|{}
+
 TreeWidget={
 	'AlternatingRowColors'	:	True,
 	'Animated'							:	True,

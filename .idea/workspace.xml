@@ -5,23 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="638b6880-4a88-4897-aefd-48c2526c0dfa" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/QLib/QBases/QModule.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configs/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Configs/Config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Configs/QDefaults.py" beforeDir="false" afterPath="$PROJECT_DIR$/Configs/QDefaults.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/Create.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/Create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QElements/QIconButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QIconButton.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QElements/QIconCheckBox.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QIconCheckBox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QBases/QWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QBases/QWidget.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/QElements/QLabel.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QLabel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QElements/QLineEdit.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QLineEdit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QElements/QTextButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTextButton.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QElements/QTextCheckBox.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTextCheckBox.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QElements/QTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTree.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QElements/QtWgt.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QtWgt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/QFrames/QDictator.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QFrames/QDictator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/QModules/QEditProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QEditProp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QModules/QHArrowsLR.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHArrowsLR.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QModules/QHSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHSearch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QModules/QHSearchCtl.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHSearchCtl.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/gnr.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/gnr.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,6 +60,7 @@
     <setting file="file://$PROJECT_DIR$/QLib/QElements/QIconCheckBox.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QBases/QGroup.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QElements/QTree.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/QLib/QBases/QModule.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QElements/QLabel.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QWgt.py" root0="FORCE_HIGHLIGHTING" />
@@ -78,6 +69,7 @@
     <setting file="file://$PROJECT_DIR$/QLib/QElements/QtWgt.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QModules/QEditProp.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QBases/QLayout.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Fnx/make.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/gui.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QModules/QHIncDec.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/QLib/QElements/QTextCheckBox.py" root0="FORCE_HIGHLIGHTING" />

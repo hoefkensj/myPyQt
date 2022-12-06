@@ -5,9 +5,7 @@ from Configs import QDefaults,Config
 def QLabel(**k):
 	def Fnx(wgt):
 		def Width():
-			state=wgt['Fnx']['Get']['Checked']
-			wgt['Fnx']['Set']['Checked'](not state)
-			return wgt['Fnx']['Mtd']['Width']()
+			return wgt['Fnx']['Mtd']['width']()
 		wgt['Fnx']['Width']=Width
 		return wgt
 	def Con(wgt):
