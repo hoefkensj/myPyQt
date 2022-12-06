@@ -91,7 +91,6 @@ def SpecialCases(wgt):
 	def HideCols(wgt):
 		cols = wgt['Cfg']['hidecols']
 		for col in cols:
-			print('hidecol:' ,col)
 			wgt['Fnx']['Set']['ColumnHidden'](col,True)
 		return wgt
 	Cases={
@@ -129,7 +128,6 @@ def Generate():
 
 def Show(wgt):
 	def show(*a):
-		print('show ran for ',wgt['Name'])
 		if a:
 			mtd[a[0]]()
 		else:

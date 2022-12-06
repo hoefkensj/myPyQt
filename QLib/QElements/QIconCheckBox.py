@@ -14,7 +14,7 @@ def QIconCheckBox(**k):
 		wgt['Con']['clicked'](wgt['Fnx']['Toggle'])
 		return wgt
 	def Init(wgt)     :
-		wgt=gnr.minInit(wgt)
+		wgt=gnr.QElementInit(wgt)
 		return wgt
 	w						=			Create.QCreate(QElements['iChk'], **k)
 	w						=			Fnx(w)

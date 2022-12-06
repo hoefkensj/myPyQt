@@ -11,10 +11,10 @@ def QHSearch(**k):
 	def Elements(wgt):
 		es=[
 			# QtWgt.make('Field',pfx='txtE',pol='E.F',),
-			QLineEdit.make('Field'),
-			QIconButton.make( 'Reg',AutoRaise=1,bi=1),
-			QHArrowsLR.make('<>'),
-			QIconButton.make('Search'),]
+			QLineEdit.make('Field',k=k),
+			QIconButton.make( 'Reg',AutoRaise=1,bi=1,k=k),
+			QHArrowsLR.make('<>',k=k),
+			QIconButton.make('Search',k=k),]
 		for e in es:
 			wgt['Elements'] |= gnr.Element(e)
 		return wgt
@@ -64,7 +64,7 @@ def QHSearch(**k):
 		wgt['Con']['Search']=sfn['Search']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt):
-		wgt=gnr.minInit(wgt)
+		wgt=gnr.QWgtInit(wgt)
 		return wgt
 	w						=	QWidget.make(k['name'], **k)
 	w						= Elements(w)

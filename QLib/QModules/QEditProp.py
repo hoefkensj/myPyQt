@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Auth
 import QLib.Create
-from QLib.QElements import QTextButton,QIconButton,QLineEdit
+from QLib.QElements import QTextButton,QIconButton,QLineEdit,QLabel
 from QLib.QBases import QWidget
 from QLib import gnr
 from QLib.QElements import QtWgt
@@ -11,16 +11,18 @@ def QEditProp(**k):
 
 	def Elements(wgt):
 		es=[
-		QtWgt.make('Name', pfx='lbl', pol='F.F', k=k),
-		QLineEdit.make('Field',ro=1, k=k),
-		QLineEdit.make('Dupl', k=k),
-		QTextButton.make('Set', pol='F.F',k=k),
-		QIconButton.make('Edit', bi=1,k=k)]
+		QLabel.make('Name',**k|{'pol':'P.P'}),
+		# QtWgt.make('Name', pfx='lbl', pol='F.F', k=k),
+		QLineEdit.make('Field',ro=1, **k|{'pol':'E.F'}),
+		QLineEdit.make('Dupl', **k),
+		QTextButton.make('Set', **k|{'pol':'P.P'}),
+		QIconButton.make('Edit', bi=1,**k)]
 		for e in es:
 			wgt['Elements'] |= gnr.Element(e)
 		return wgt
 		
 	def Fnx(wgt):
+		# sfn_mdt=gnr.Short(wgt,'Fnx','Mdt')
 		sfn_set=gnr.Short(wgt,'Fnx','Set')
 		sfn_get=gnr.Short(wgt,'Fnx','Get')
 		def TxtText():
@@ -34,7 +36,6 @@ def QEditProp(**k):
 				sfn_set['Dupl']['Text'](nText)
 				sfn_set['Edit']['Checked'](False)
 				sfn_set['Set']['Hidden'](True)
-				print(nText)
 			return setText
 		def Edit():
 			def edit(state):
@@ -48,9 +49,13 @@ def QEditProp(**k):
 			def editable(state):
 				sfn_set['Edit']['Hidden'](state)
 			return editable
+		def Allign(max):
+			sfn_set['Name']['Width'](max)
+		# def WLbl():
+			# return sfn_mdt['Name']['Width']()
 		def Init(wgt):
 			def init():
-				sfn_set['Name']['Text'](w['name'].split('_')[0])
+				sfn_set['Name']['Text'](sfn_get['Name']['Text']())
 				sfn_set['Set']['Hidden'](True)
 				sfn_set['Field']['ReadOnly'](True)
 				sfn_set['Dupl']['Hidden'](True)
@@ -62,6 +67,8 @@ def QEditProp(**k):
 		wgt['Fnx']['txtText'] 	=	TxtText()
 		wgt['Fnx']['setText']		=	SetText()
 		wgt['Fnx']['Editable'] 	=	Editable()
+		# wgt['Fnx']['WLbl']			= WLbl
+		wgt['Fnx']['Allign']		= Allign
 		wgt['Fnx']['Init']			=	Init(wgt)
 		return wgt
 	def Internals(wgt):
@@ -79,7 +86,7 @@ def QEditProp(**k):
 		wgt['Con']['Field']['returnPressed']= sSig['Field']['returnPressed'].connect
 		return wgt
 	def Init(wgt):
-		wgt=gnr.minInit(wgt)
+		wgt=gnr.QWgtInit(wgt)
 		return wgt
 	w	= QWidget.make(k['name'], **k)
 	w	=	Elements(w)

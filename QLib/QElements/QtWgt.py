@@ -8,8 +8,8 @@ def QtWgt(**k):
 	def Fnx(wgt):
 		wgt= QLib.Create.Fnx(wgt)
 		return wgt
-	def Init(wgt):
-		wgt=wgt['Fnx']['Configure'](wgt)
+	def Init(wgt)     :
+		wgt=gnr.QElementInit(wgt)
 		return wgt
 	w							=	QLib.Create.QComponent(QElements[k['pfx']], **k)
 	w							=	Config.make(w,**k)

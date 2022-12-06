@@ -9,8 +9,8 @@ from QLib.QBases import QWidget
 def QHArrowsLR(**k):
 	def Elements(wgt):
 		parent=wgt['name']
-		wgt['Elements'] |= gnr.Element(QIconButton.make(f'<_{parent}', wh=[10,20],bi=False))
-		wgt['Elements'] |= gnr.Element(QIconButton.make(f'>_{parent}', wh=[10,20],bi=False))
+		wgt['Elements'] |= gnr.Element(QIconButton.make(f'<_{parent}', wh=[10,20],bi=False,k=k))
+		wgt['Elements'] |= gnr.Element(QIconButton.make(f'>_{parent}', wh=[10,20],bi=False,k=k))
 		return wgt
 	def Fnx(wgt):
 		def Init(wgt):
@@ -26,7 +26,7 @@ def QHArrowsLR(**k):
 		wgt['Con']['>']=	s['>']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt):
-		wgt=gnr.minInit(wgt)
+		wgt=gnr.QWgtInit(wgt)
 		return wgt
 	w= QWidget.make(k['name'], **k)
 	w		=			Config.make(w,**k)

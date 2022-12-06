@@ -39,7 +39,9 @@ def chkBox(**k):
 		c['clicked'] = w['Wgt'].clicked.connect
 		c['clicked'](w['Mtd']['toggle'])
 		return c
-
+def Init(wgt)     :
+		wgt=gnr.QElementInit(wgt)
+		return wgt
 	w={}
 	w['Wgt'] 		= Wgt()
 	w['Arg']		=	c.get()

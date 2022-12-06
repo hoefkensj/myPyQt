@@ -31,7 +31,7 @@ def make(wgt,**k):
 		'ContentsMargins'       :		'''Fnx.make.Margins(k.get('margin'))''',
 		'Icon'                  :		'''gnr.Icon(k['ico'])''',
 		'IconSize'              :		'''Fnx.make.Size(k['isize'])''',
-		'Text'                  :		'''wgt['name'].split('_')[0]''',
+		'Text'                  :		'''k.get('lbl')''',
 		'ColumnCount'           :		'''k.get('cols')''',
 		'Widget'                :		'''k.get('widget').get('Name')''',
 		'ReadOnly'              :		'''k.get('ro')''',

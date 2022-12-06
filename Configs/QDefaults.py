@@ -40,11 +40,17 @@ QIconButton	=	QButton	| {
 QTextButton	=	QButton	| {
 	'btn'       :	'T',
 	'txt'				:	1,
+	'Height'		: 20,
 }
-
+QLabel={
+	'pol'				:'P.F'					,
+	'Height'		: 20,
+}
 QLineEdit={
 	'ro'				:	False,
+	'pol'				:	'E.F',
 	'Height'		: 20,
+
 }
 QCheckBox				=	{
 		'pol'       :	'P.P'									,

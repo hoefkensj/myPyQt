@@ -3,6 +3,7 @@ import QLib.Create
 from QLib import gnr,Create
 from static.QtLibs import QElements
 from Configs import Config,QDefaults
+from time import sleep,perf_counter_ns
 
 def Make_Tree(wgt):
 	def make_tree(branches=[], **k):
@@ -38,6 +39,7 @@ def Make_Tree(wgt):
 		return root
 	return make_tree
 def QTree(**k):
+	global t0,t3
 	def Fnx(wgt):
 		def Add(wgt):
 			def add(**k):
@@ -75,40 +77,41 @@ def QTree(**k):
 					addTLI(trunk)
 				wgt['Fnx']['ResizeCols']()
 			return update
-		def Init(wgt):
-			def init():
-				wgt['Fnx']['ResizeCols']()
-			return init
-
-		wgt= QLib.Create.Fnx(wgt)
-		f={}
-		f['ResizeCols']			= ResizeCols(wgt)
-		f['ReadColWidth']		= ReadColWidth(wgt)
-		f['SetColWidth']		= SetColWidth(wgt)
-		f['MakeTree']	= Make_Tree(wgt)
-		f['Add']			=	Add(wgt)
-		f['Init'] 		= Init(wgt)
-		f['Update']		=	Update(wgt)
-		wgt['Fnx']|=f
+		wgt['Fnx']['ResizeCols']			= ResizeCols(wgt)
+		wgt['Fnx']['ReadColWidth']		= ReadColWidth(wgt)
+		wgt['Fnx']['SetColWidth']			= SetColWidth(wgt)
+		wgt['Fnx']['MakeTree']				= Make_Tree(wgt)
+		wgt['Fnx']['Add']							=	Add(wgt)
+		wgt['Fnx']['Update']					=	Update(wgt)
 		return wgt
 
 	def Con(wgt):
-		wgt['Con'] = wgt.get('Con') or {}
 		wgt['Con']['clicked'] = wgt['Fnx']['Sig']['itemClicked'].connect
 		return wgt
-	def Init(wgt):
-		wgt=gnr.minInit(wgt)
+
+	def Init(wgt)     :
+		wgt=gnr.QElementInit(wgt)
 		return wgt
+
 	w						=			Create.QComponent(QElements['trW'], **k)
 	w						=			Fnx(w)
 	w						=			Con(w)
+
 	w['Data']		=			[]
-	return Init(w)
+
+	t1=perf_counter_ns()
+	w=Init(w)
+	t2=perf_counter_ns();print('Tree(a): ',t2-t1)
+
+	return w
 
 def make(namestr, **k):
+	global t0,t3
+	t0=perf_counter_ns()
 	preset	= QDefaults.TreeWidget
 	k=Config.preset(['trw',namestr],preset,**k)
-	return QTree(**k)
+	tree=QTree(**k)
+	return tree
 
 
 # def __Tree(**k):

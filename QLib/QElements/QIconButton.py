@@ -7,7 +7,7 @@ def QIconButton(**k):
 		wgt['Con']['clicked'] = wgt['Fnx']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt)     :
-		wgt=gnr.minInit(wgt)
+		wgt=gnr.QElementInit(wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['iBtn'], **k)
 	w						=			Con(w)

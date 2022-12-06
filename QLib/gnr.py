@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Auth
+
 import assets.ico
 import QLib.PyQtX
 
@@ -21,28 +21,9 @@ def Icon(svg):
 		icon = make_icon(icon,1)
 		return icon
 
-
-
-# def Size(wh):	return QCores['Size'](wh[0], wh[1])
-# def SizePolicy(pol):
-# 	h,v = pol.split('.')
-# 	return QSizePolicies['Pol'](QSizePolicies[h],QSizePolicies[v])
-# def Margins(margins):
-# 	return QCores['Margins'](*margins)
-#
-# def make(component,*a):
-#
-# 	comps={
-# 		'size'    : Size(*a)
-# 		'sizpol'  : SizePolicy(*a)
-# 		'margins' : Margins(*a)
-# 	}
-
-
 def Element(component):
 	name=component.get('Name')
 	return {name : component}
-
 
 def Short(wgt,*a):
 	s={}
@@ -65,12 +46,31 @@ def Clean(wgt):
 		wgt.pop(section)
 	return wgt
 
-def minInit(wgt):
+def Init(fn):
+	def Pre(wgt,*a,**k):
+		return wgt['Fnx']['Configure'](wgt)
+
+	def init(wgt,*a,**k):
+		wgt	=	Pre(wgt,*a,**k)
+		wgt	=	fn(wgt,*a,**k)
+		wgt	=	Post(wgt,*a,**k)
+		return wgt
+
+	def Post(wgt,*a,**k):
+		# if callable(wgt['Fnx'].get('Init')):
+		if 'Init' in wgt['Fnx']:
+			wgt['Fnx']['Init']()
+		return wgt
+
+	return init
+@Init
+def QWgtInit(wgt):
 	wgt=Clean(wgt)
-	wgt['Fnx']['Configure'](wgt)
-	if isinstance(wgt.get('Elements'),dict):
-		wgt['Fnx']['Generate'](wgt)
-	if callable(wgt['Fnx'].get('Init')):
-		wgt['Fnx']['Init']()
+	wgt['Fnx']['Generate'](wgt)
 	return wgt
+@Init
+def QElementInit(wgt):
+	return wgt
+
+
 

@@ -5,7 +5,7 @@ from QLib import gui,gnr
 from static.QtLibs import QElements
 from QLib.QModules import QHIncDec,QHSearch, QEditProp
 from QLib.QElements import QTree,QTextButton
-from time import sleep
+from time import sleep,perf_counter_ns
 
 def pTree(*a, **k):
 	d = k.get('d')
@@ -41,18 +41,31 @@ def Update(GUI):
 		w=sTS_sfn['Field']['Set']['MinimumWidth'](w+20)
 
 	return update
+def Allign(GUI):
+	s=gnr.Short(GUI)
+	sEdKey=s['Key']['Fnx']
+	sEdVal=s['Val']['Fnx']
+	# wkey=sEdKey['WLbl']()
+	# wval=sEdVal['WLbl']()
+	# print(wkey,wval)
+	# sEdVal_sfn=gnr.Short(s['Val'],'Fnx')
 
 
+# t0=perf_counter_ns()
 GUI=gui.make('Main')
-
+# t1=perf_counter_ns();print(t1-t0)
 # GUI['Elements']|=gnr.Element(component)
 
 GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
-GUI['Elements']|= gnr.Element(QHSearch.make('TreeSearch'))
-GUI['Elements']|= gnr.Element(QEditProp.make('Key'))
-GUI['Elements']|= gnr.Element(QEditProp.make('Val'))
-GUI['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P'))
-
+# t2=perf_counter_ns();print(t2-t1)
+GUI['Elements']|= gnr.Element(QHSearch.make('TreeSearch',))
+# t3=perf_counter_ns();print(t3-t2)
+GUI['Elements']|= gnr.Element(QEditProp.make('Key',))
+# t4=perf_counter_ns();print(t4-t3)
+GUI['Elements']|= gnr.Element(QEditProp.make('Val',))
+# t5=perf_counter_ns();print(t5-t4)
+GUI['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P',))
+# t6=perf_counter_ns();print(t6-t5)
 # GUI['Elements']|= gnr.Element(QHSearch.make('Search'))
 # GUI['Main']['Elements'] |= gnr.Element(QtWgt.make('iBtn_Edit'))
 # GUI['Main']['Lay']['Lay'].addWidget(GUI['Main']['Elements']['iBtn_Edit']['Wgt'])
@@ -62,11 +75,10 @@ GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
 
 # GUI['Fnx']['Configure'](GUI['Main'])
 # pTree(d=GUI,max=5000)
+Allign(GUI)
 upd=Update(GUI)
 GUI['Elements']['tBtn_Update']['Con']['clicked'](upd)
 GUI['Run'](GUI)
-
-
 
 
 

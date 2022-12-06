@@ -6,7 +6,6 @@ from static.QtLibs import QElements
 from Configs import QDefaults,Config
 def QLineEdit(**k):
 	def Fnx(wgt):
-		wgt= QLib.Create.Fnx(wgt)
 		def RO():	wgt['Fnx']['Set']['ReadOnly'](True)
 		def RW():	wgt['Fnx']['Set']['ReadOnly'](False)
 		wgt['Fnx']['Read']		=	wgt['Fnx']['Get']['Text']
@@ -22,7 +21,7 @@ def QLineEdit(**k):
 		wgt['Con']['Edited']	=wgt['Fnx']['Sig']['textEdited'].connect
 		return wgt
 	def Init(wgt)     :
-		wgt=gnr.minInit(wgt)
+		wgt=gnr.QElementInit(wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['txtE'], **k)
 	w						=			Fnx(w)

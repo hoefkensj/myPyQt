@@ -31,7 +31,7 @@ def QHSearchCtl(**k):
 	w						= Elements(w)
 	w						=	Fnx(w)
 	w			=	Con(w)
-	return gnr.minInit(w)
+	return gnr.QWgtInit(w)
 
 def make(namestr,**k):
 	k	= QDefaults.Properties	|	{
