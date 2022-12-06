@@ -9,6 +9,7 @@ def QLabel(**k):
 		wgt['Fnx']['Width']=Width
 		return wgt
 	def Con(wgt):
+		wgt['Con']={'test','ikkl'}
 		return wgt
 	def Init(wgt)     :
 		wgt=gnr.QElementInit(wgt)

@@ -40,7 +40,7 @@ def IconSet(i):
 def Clean(wgt):
 	toclean=[]
 	for section in wgt:
-		if isinstance(wgt[section],dict) and not section:
+		if not wgt[section]:
 			toclean+=[section]
 	for section in toclean:
 		wgt.pop(section)

@@ -8,16 +8,10 @@ from QLib.QElements import QtWgt
 from Configs import Config,QDefaults
 
 def Clean(**k):
-	c={}
-	for item in k:
-		print(item,'\t',k[item])
-		if item not in Config.QDefaults.Properties:
-			c[item]=k.get(item)
+	c={item : k.get(item) for item in k if item not in Config.QDefaults.Properties}
 	return c
 
 def QEditProp(**k):
-
-
 	def Elements(wgt):
 		l=Clean(**k)
 		wgt['Elements'] |= gnr.Element(QLabel.make('Name', **l, ))

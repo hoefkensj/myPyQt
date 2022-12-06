@@ -42,8 +42,10 @@ def QTree(**k):
 	global t0,t3
 	def Fnx(wgt):
 		def Add(wgt):
+
 			def add(**k):
 				kv = k.popitem()
+				wgt['Data']= wgt.get('Data') or []
 				wgt['Data']+=[{'name':kv[0],'data': kv[1]}]
 				wgt['Fnx']['Update']()
 			return add
@@ -97,7 +99,6 @@ def QTree(**k):
 	w						=			Fnx(w)
 	w						=			Con(w)
 
-	w['Data']		=			[]
 
 	t1=perf_counter_ns()
 	w=Init(w)

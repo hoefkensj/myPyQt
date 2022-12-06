@@ -21,6 +21,7 @@ def QWidget(**k):
 	w['Elements'] = {}
 	w['Lay']			= Lay(w)
 	w							=	Fnx(w)
+	w['Con']			= {}
 	return  Init(w)
 
 def make(namestr,**k):
