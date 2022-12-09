@@ -14,8 +14,6 @@ def QWidget(**k):
 	def Fnx(wgt):
 		wgt= QLib.Create.Fnx(wgt)
 		wgt= QLib.Create.Generate(wgt)
-		for item in wgt['Lay']:
-			print(item)
 		wgt['Fnx']['Add']		=	wgt['Lay']['Fnx']['Add']
 		return wgt
 	def Init(wgt):

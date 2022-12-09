@@ -7,9 +7,7 @@ def QGui(*a,**k):
 	def Run(wgt):
 		def run(wgt):
 				# w.pop('Elements')
-				# w.pop('Wgt')
-				# w.pop('Con')
-				# w.pop('Lay')
+
 				wgt=gnr.Clean(wgt)
 				wgt=wgt['App']['Fnx']['Run']()
 				return wgt
@@ -21,6 +19,9 @@ def QGui(*a,**k):
 		return wgt
 	def Init(wgt):
 		wgt=wgt['Fnx']['Configure'](wgt)
+		wgt.pop('Wgt')
+		wgt.pop('Con')
+		wgt.pop('Lay')
 		return wgt
 	w 							= 	Create.QEmpty(**k)
 	w['App'] 				= 	QModules.QtApplication.make(w['name'], **k)

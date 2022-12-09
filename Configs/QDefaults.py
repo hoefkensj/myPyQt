@@ -1,49 +1,47 @@
 #!/usr/bin/env python
-import qdarkstyle
-qdark=qdarkstyle.load_stylesheet()
-Properties={
-	'margin'    				:	[0,0,0,0]						,
-	'LayoutSpacing'				:	0								,
-	'Spacing'					:	0								,
-	'pol'						:	'E.E'							,
-	'StyleSheet'				: 	qdark
-	}
+Properties	=	{
+	'margin'    						:		[0,0,0,0]				,
+	'LayoutSpacing'					:		0								,
+	'Spacing'								:		0								,
+	'pol'										:		'E.E'						,
+}
 
 QWidget=Properties|{}
 
-TreeWidget={
-	'AlternatingRowColors'	:	True,
-	'Animated'				:	True,
-	'MinimumHeight'			:	10,
-	'AllColumnsShowFocus'	:	True,
-	'HeaderHidden'			:	False,
+TreeWidget=Properties|{
+	'AlternatingRowColors'		:	True,
+	'Animated'								:	True,
+	'MinimumHeight'						:	10,
+	'AllColumnsShowFocus'			:	True,
+	'HeaderHidden'						:	False,
 }
+QLayout=Properties|{}
 
-QModule={
+QModule=Properties|{
 	'ed'        :	True			,
 	't'         :	'H'				,
 	'pol'       :	'E.F'			,
 }
-QLayout={}
+
+
 QEditProp			=	QModule	|	{}
 QHSearch			=	QModule	|	{}
-QHArrowsLR			=	QModule	|	{'pol' :	'F.F',}
-
-QHIncDec={}
+QHArrowsLR		=	QModule	|	{'pol' :	'F.F',}
+QHIncDec			=	QModule	|	{'pol' :	'P.P',}
 
 QButton={
-	'pol'       :	'P.P'					,
-	'bi'        :	False					,
+	'pol'										:	'P.P'					,
+	'bi'										:	False					,
 }
 QIconButton	=	QButton	| {
-	'wh'        :	[20,20]					,
-	'isize'     :	[32,32]					,
-	'btn'       :	'I'						,
+	'wh'										:	[20,20]					,
+	'isize'									:	[32,32]					,
+	'btn'										:	'I'						,
 }
 QTextButton	=	QButton	| {
-	'btn'      			:	'T',
-	'txt'				:	1,
-	'Height'			:	 20,
+	'btn'										:	'T',
+	'txt'										:	1,
+	'Height'								:	20,
 }
 QLabel={
 	'pol'				:'P.F'					,
@@ -56,7 +54,7 @@ QLineEdit={
 
 }
 QCheckBox				=	{
-	'pol'       	:	'P.P'					,
+	'pol'					:	'P.P'					,
 }
 QIconCheckBox			=	{
 	'wh'       		 :	[20,20]					,

@@ -1,13 +1,7 @@
 #!/usr/bin/env python
-# Auth
-from sys import argv,exit
 from QLib import Create
-from static.QtLibs import QElements
 from Configs import Config
-import asyncio,os
-import qdarkstyle
-argv += ['-platform', 'windows:darkmode=2']
-os.environ['QT_API'] = 'pyqt6'
+import asyncio
 
 def QtApplication(**k):
 	def Fnx(wgt):
@@ -21,7 +15,7 @@ def QtApplication(**k):
 		return wgt
 	w					=	Create.QApplication(**k)
 	w					= 	Fnx(w)
-	w['Clip'] =			w['Fnx']['Mtd']['clipboard']()
+	w['Clip'] =		w['Fnx']['Mtd']['clipboard']()
 	return w
 
 def make(namestr,**k):
