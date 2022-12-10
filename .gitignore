@@ -1,9 +1,6 @@
 # Default ignored files
-/shelf/
 /workspace.xml
 __pycache__/
-
-
 .firmware
 .eric6project/
 .eric7project/
@@ -18,6 +15,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.bak
+*.swp
 *.rej
 *.orig
 *.DS_Store
