@@ -62,35 +62,12 @@ def QCreate(fn):
 		wgt = Config.make(wgt, **k)
 		wgt['Lay']={}
 		wgt	=	Mtds(wgt)
-		wgt	= QElemntFnx(wgt)
+		wgt	= Fnx(wgt)
 		wgt['Con']={}
 		wgt['Elements']={}
 		return wgt
 	return create
 
-def LCreate(fn):
-	def Pre(**k):
-		pfx			=	k['pfx']
-		type		=	QtLibs.QElements.get(pfx).__name__ if QtLibs.QElements.get(pfx) else None
-		name		=	k['name']
-		w				=	{
-			'Name'    :	f'{pfx}_{name}'			,
-			'name'    :	name								,
-			'type'    :	type								,}
-		return w
-
-	def create(*a,**k):
-		w	=	Pre(**k)
-		w	=	fn(w,*a,**k)
-		w	=	Post(w,**k)
-		return w
-
-	def Post(wgt,**k):
-		wgt = Config.make(wgt, **k)
-		wgt	=	Mtds(wgt)
-		wgt	= QElemntFnx(wgt)
-		return wgt
-	return create
 @QCreate
 def QEmpty(wgt,*a,**k):
 	wgt['Wgt']	= None
@@ -103,13 +80,26 @@ def QApplication(wgt,*a,**k):
 def QComponent(wgt,qwgt,**k):
 	wgt['Wgt']	=	qwgt()
 	return wgt
-
-@LCreate
+@QCreate
 def QLayout(lay,*a,**k):
 	wgt			=	k.pop('widget')
 	layout		=	QtLibs.QLayouts[k['t']]
 	lay['Wgt']	=	layout(wgt['Wgt'])
 	return lay
+
+def SpecialCases(wgt):
+	def HideCols(wgt):
+		cols = wgt['Cfg']['hidecols']
+		for col in cols:
+			wgt['Fnx']['Set']['ColumnHidden'](col,True)
+		return wgt
+	Cases={
+		'hidecols'        :	HideCols			,
+	}
+	for Case in Cases:
+		if Case in  wgt['Cfg']:
+			wgt=Cases[Case](wgt)
+	return wgt
 
 def AddFnx(fn):
 	name=getattr(fn,'__name__')
@@ -122,13 +112,9 @@ def AddFnx(fn):
 def Configure():
 	def configure(wgt):
 		for prop in wgt['Cfg']:
-			if prop in wgt['Fnx']['Set']:
-				wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
-			elif prop in wgt['Fnx']['Mtd']:
-				wgt['Fnx']['Mtd'][prop](wgt['Cfg'][prop])
-			else:
 				with contextlib.suppress(KeyError):
-					wgt['Fnx'][prop](wgt['Cfg'][prop])
+					wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
+		wgt=SpecialCases(wgt)
 		return wgt
 	return configure
 
@@ -155,13 +141,7 @@ def Show(wgt):
 		wgt['Fnx']['Show']=show
 	return wgt
 
-def QElemntFnx(wgt):
-	wgt = Configure(wgt)
-	wgt	= Generate(wgt)
-	wgt	= Show(wgt)
-	return wgt
-
-def QModuleFnx(wgt):
+def Fnx(wgt):
 	wgt = Configure(wgt)
 	wgt	= Show(wgt)
 	return wgt

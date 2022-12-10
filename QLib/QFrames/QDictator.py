@@ -9,20 +9,20 @@ from QLib.QElements import QTree,QTextButton
 from QLib.QBases import QModule
 
 def mod_TreeCtl(name):
-	Elements={}
-	Elements|=gnr.Element(QHIncDec.make('ColEx',wh=[20,20]))
-	Elements|=gnr.Element(QHSearch.make('TreeSearch',))
-	w=QModule.make(name,Elements=Elements)
+	w=QModule.make(name)
+	w['Elements']|=gnr.Element(QHIncDec.make('ColEx',wh=[20,20]))
+	w['Elements']|=gnr.Element(QHSearch.make('TreeSearch',))
+	w=w['Fnx']['Run'](w)
 	sfn=gnr.Short(w,'Con')
 	w['Con']['+']=sfn['ColEx']['Inc']
 	w['Con']['-']=sfn['ColEx']['Dec']
 	return w
 def mod_AppCtl(name):
-	Elements={}
-	Elements|= gnr.Element(QTextButton.make('Update',pol='E.P',))
-	Elements|= gnr.Element(QTextButton.make('Print',pol='E.P',))
-	Elements|= gnr.Element(QTextButton.make('Exit',pol='E.P',))
-	w=QModule.make(name,Elements=Elements)
+	w=QModule.make(name)
+	w['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P',))
+	w['Elements']|= gnr.Element(QTextButton.make('Print',pol='E.P',))
+	w['Elements']|= gnr.Element(QTextButton.make('Exit',pol='E.P',))
+	w=w['Fnx']['Run'](w)
 	sfn=gnr.Short(w,'Con','clicked')
 	w['Con']['Update']=sfn['Update']
 	w['Con']['Print']=sfn['Print']
@@ -82,7 +82,11 @@ GUI=gui.make('Main')
 
 # GUI['Elements']|=gnr.Element(component)
 <<<<<<< HEAD
+<<<<<<< HEAD
 GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,HideCols=[2,3,4]))
+=======
+GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
+>>>>>>> parent of 5545eeb... Update workspace.xml, QDefaults.py, and 27 more files...
 GUI['Elements']|= gnr.Element(mod_TreeCtl('TreeCtl'))
 =======
 GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
@@ -94,6 +98,7 @@ GUI['Elements']|= gnr.Element(QEditProp.make('Val',))
 GUI['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P',))
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 GUI['Main']['Fnx']['Show']()
 
@@ -110,6 +115,12 @@ GUI['Run'](GUI)
 >>>>>>> parent of 8640264... Update workspace.xml, QDefaults.py, and 47 more files...
 
 
+=======
+GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
+
+Allign(GUI)
+GUI['Run'](GUI)
+>>>>>>> parent of 5545eeb... Update workspace.xml, QDefaults.py, and 27 more files...
 
 # GUI['Elements'](QSearch.make_QSearch('SearchTree'))
 # GUI['Elements'](QSearch.make_QSearchCtl('Search'))
