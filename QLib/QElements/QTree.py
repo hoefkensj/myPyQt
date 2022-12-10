@@ -21,9 +21,8 @@ def Make_Tree(wgt):
 					make_branch(branch, data, dictpath,keylist=keylist)
 				else:
 					data = str(data)
-					w =wgt['Fnx']['Get']['ColumnWidth'](1)
 					data = repr(data) if callable(data) else data
-					dispdata = f'{data[:w - 4]}...' if len(data) > w - 4 else data
+					dispdata = data
 					branch.setText(1, dispdata)
 					branch.setText(2, data)
 				keylist.pop(-1)
@@ -66,6 +65,11 @@ def Print_Tree(wgt):
 	return print_tree
 def QTree(**k):
 	def Fnx(wgt):
+		def HideCols(wgt):
+			def hidecols(cols):
+				for col in cols:
+					wgt['Fnx']['Set']['ColumnHidden'](col,True)
+			return hidecols
 		def Add(wgt):
 			def add(**k):
 				kv = k.popitem()
@@ -111,6 +115,7 @@ def QTree(**k):
 		wgt['Fnx']['PrintTree']				= Print_Tree(wgt)
 		wgt['Fnx']['Add']							=	Add(wgt)
 		wgt['Fnx']['Update']					=	Update(wgt)
+		wgt['Fnx']['HideCols']				= HideCols(wgt)
 		return wgt
 
 	def Con(wgt):

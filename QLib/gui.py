@@ -5,22 +5,21 @@ from Configs import Config
 
 def QGui(*a,**k):
 	def Run(wgt):
-		def run(wgt):
-				# w.pop('Elements')
-
-				wgt=gnr.Clean(wgt)
-				wgt=wgt['App']['Fnx']['Run']()
-				return wgt
+		def run():
+			wgt['Fnx']['Run']()
+			wgt['App']['Fnx']['Run']()
+			return
 		return run
+
 	def Fnx(wgt):
 		wgt['Fnx']={}
 		wgt['Fnx']['Configure']	=		wgt[w['name']]['Fnx']['Configure']
 		wgt['Fnx']['Add']				=		wgt[w['name']]['Fnx']['Add']
+		wgt['Fnx']['Show']			=		wgt[w['name']]['Fnx']['Show']
+		wgt['Fnx']['Run']				=		wgt[w['name']]['Fnx']['Run']
 		return wgt
 	def Init(wgt):
-		wgt=wgt['Fnx']['Configure'](wgt)
 		wgt.pop('Wgt')
-		wgt.pop('Con')
 		wgt.pop('Lay')
 		return wgt
 	w 							= 	Create.QEmpty(**k)

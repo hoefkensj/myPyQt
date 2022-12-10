@@ -66,10 +66,11 @@ def Init(fn):
 @Init
 def QWgtInit(wgt):
 	wgt['Fnx']['Generate'](wgt)
+
 	return wgt
 @Init
 def QElementInit(wgt):
-	wgt=Clean(wgt)
+
 	return wgt
 
 

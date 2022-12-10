@@ -7,20 +7,20 @@ from QLib.QElements import QTree,QTextButton
 from QLib.QBases import QModule
 
 def mod_TreeCtl(name):
-	w=QModule.make(name)
-	w['Elements']|=gnr.Element(QHIncDec.make('ColEx',wh=[20,20]))
-	w['Elements']|=gnr.Element(QHSearch.make('TreeSearch',))
-	w=w['Fnx']['Run'](w)
+	Elements={}
+	Elements|=gnr.Element(QHIncDec.make('ColEx',wh=[20,20]))
+	Elements|=gnr.Element(QHSearch.make('TreeSearch',))
+	w=QModule.make(name,Elements=Elements)
 	sfn=gnr.Short(w,'Con')
 	w['Con']['+']=sfn['ColEx']['Inc']
 	w['Con']['-']=sfn['ColEx']['Dec']
 	return w
 def mod_AppCtl(name):
-	w=QModule.make(name)
-	w['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P',))
-	w['Elements']|= gnr.Element(QTextButton.make('Print',pol='E.P',))
-	w['Elements']|= gnr.Element(QTextButton.make('Exit',pol='E.P',))
-	w=w['Fnx']['Run'](w)
+	Elements={}
+	Elements|= gnr.Element(QTextButton.make('Update',pol='E.P',))
+	Elements|= gnr.Element(QTextButton.make('Print',pol='E.P',))
+	Elements|= gnr.Element(QTextButton.make('Exit',pol='E.P',))
+	w=QModule.make(name,Elements=Elements)
 	sfn=gnr.Short(w,'Con','clicked')
 	w['Con']['Update']=sfn['Update']
 	w['Con']['Print']=sfn['Print']
@@ -43,7 +43,7 @@ def Allign(GUI):
 	s['Val']['Fnx']['Allign'](wMax)
 GUI=gui.make('Main')
 # GUI['Elements']|=gnr.Element(component)
-GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
+GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,HideCols=[2,3,4]))
 GUI['Elements']|= gnr.Element(mod_TreeCtl('TreeCtl'))
 GUI['Elements']|= gnr.Element(QEditProp.make('Key',))
 GUI['Elements']|= gnr.Element(QEditProp.make('Val',))
@@ -55,10 +55,10 @@ sFnx=gnr.Short(GUI,'Fnx')
 sCon['TreeCtl']['+'](sFnx['Tree']['Mtd']['expandAll'])
 sCon['TreeCtl']['-'](sFnx['Tree']['Mtd']['collapseAll'])
 
-GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
+GUI['Main']['Fnx']['Show']()
 
 Allign(GUI)
-GUI['Run'](GUI)
+GUI['Run']()
 
 print('After')
 

@@ -46,7 +46,6 @@ def QHSearch(**k):
 			def init():
 				wgt['Fnx']['ShowPN'](False)
 			return init
-		wgt= QLib.Create.Fnx(wgt)
 		wgt['Fnx']['ShowPN']	= ShowPN(wgt)
 		wgt['Fnx']['Visible'] =	Visible(wgt)
 		wgt['Fnx']['Init']		=	Init(wgt)

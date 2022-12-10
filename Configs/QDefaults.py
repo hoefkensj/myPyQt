@@ -43,7 +43,7 @@ QTextButton	=	QButton	| {
 	'txt'										:	1,
 	'Height'								:	20,
 }
-QLabel={
+QLabel=Properties|{
 	'pol'				:'P.F'					,
 	'Height'			: 20,
 }

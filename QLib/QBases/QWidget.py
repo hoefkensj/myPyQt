@@ -12,8 +12,8 @@ def QWidget(**k):
 			wgt['Lay']=QLayout.make(wgt, **k)
 		return wgt
 	def Fnx(wgt):
-		wgt= QLib.Create.Fnx(wgt)
-		wgt= QLib.Create.Generate(wgt)
+		wgt= QLib.Create.QModuleFnx(wgt)
+
 		wgt['Fnx']['Add']		=	wgt['Lay']['Fnx']['Add']
 		return wgt
 	def Init(wgt):

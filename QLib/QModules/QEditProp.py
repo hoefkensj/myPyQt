@@ -7,18 +7,14 @@ from QLib import gnr
 from QLib.QElements import QtWgt
 from Configs import Config,QDefaults
 
-def Clean(**k):
-	c={item : k.get(item) for item in k if item not in Config.QDefaults.Properties}
-	return c
 
 def QEditProp(**k):
 	def Elements(wgt):
-		l=Clean(**k)
-		wgt['Elements'] |= gnr.Element(QLabel.make('Name', **l, ))
-		wgt['Elements'] |= gnr.Element(QLineEdit.make('Field', ro=1,  **l,  ))
-		wgt['Elements'] |= gnr.Element(QLineEdit.make('Dupl',  **l, 	))
-		wgt['Elements'] |= gnr.Element(QTextButton.make('Set', pol='F.F',  **l, 	))
-		wgt['Elements'] |= gnr.Element(QIconButton.make('Edit', bi=1,  **l, 	))
+		wgt['Elements'] |= gnr.Element(QLabel.make('Name'))
+		wgt['Elements'] |= gnr.Element(QLineEdit.make('Field', ro=1,  ))
+		wgt['Elements'] |= gnr.Element(QLineEdit.make('Dupl',	))
+		wgt['Elements'] |= gnr.Element(QTextButton.make('Set', pol='F.F',))
+		wgt['Elements'] |= gnr.Element(QIconButton.make('Edit', bi=1, ))
 		return wgt
 		
 	def Fnx(wgt):
@@ -60,7 +56,6 @@ def QEditProp(**k):
 				wgt['Fnx']['Editable'](not k['ed'])
 				return Internals(wgt)
 			return init
-		wgt= QLib.Create.Fnx(wgt)
 		wgt['Fnx']['Edit'] 			=	Edit()
 		wgt['Fnx']['txtText'] 	=	TxtText()
 		wgt['Fnx']['setText']		=	SetText()
