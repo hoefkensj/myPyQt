@@ -1,5 +1,5 @@
 # Default ignored files
-/workspace.xml
+workspace.xml
 __pycache__/
 .firmware
 .eric6project/
