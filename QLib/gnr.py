@@ -46,30 +46,15 @@ def Clean(wgt):
 		wgt.pop(section)
 	return wgt
 
-def Init(fn):
-	def Pre(wgt,*a,**k):
-		return wgt['Fnx']['Configure'](wgt)
 
-	def init(wgt,*a,**k):
-		wgt	=	Pre(wgt,*a,**k)
-		wgt	=	fn(wgt,*a,**k)
-		wgt	=	Post(wgt,*a,**k)
-		return wgt
-
-	def Post(wgt,*a,**k):
-		# if callable(wgt['Fnx'].get('Init')):
-		if 'Init' in wgt['Fnx']:
-			wgt['Fnx']['Init']()
-		return wgt
-
-	return init
-@Init
 def QWgtInit(wgt):
 	wgt['Fnx']['Generate'](wgt)
+	wgt['Fnx']['Configure'](wgt)
 	return wgt
-@Init
+
+
 def QElementInit(wgt):
-	wgt=Clean(wgt)
+	wgt['Fnx']['Configure'](wgt)
 	return wgt
 
 

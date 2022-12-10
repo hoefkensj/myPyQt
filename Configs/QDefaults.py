@@ -19,13 +19,13 @@ TreeWidget={
 	'HeaderHidden'			:	False,
 }
 
-QModule={
-	'ed'        :	True			,
+QModule=Properties|{
 	't'         :	'H'				,
 	'pol'       :	'E.F'			,
 }
-QLayout={}
-QEditProp			=	QModule	|	{}
+
+
+QEditProp			=	QModule	|	{	'ed'        :	True			,}
 QHSearch			=	QModule	|	{}
 QHArrowsLR			=	QModule	|	{'pol' :	'F.F',}
 
@@ -51,9 +51,8 @@ QLabel={
 }
 QLineEdit={
 	'ro'				:	False,
-	'pol'				:	'E.F',
-	'Height'			: 	20,
-
+	'pol'				:	'E.P',
+	'height'			: 	200,
 }
 QCheckBox				=	{
 	'pol'       	:	'P.P'					,

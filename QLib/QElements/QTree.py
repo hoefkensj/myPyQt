@@ -6,9 +6,14 @@ from Configs import Config,QDefaults
 from time import sleep,perf_counter_ns
 
 def Make_Tree(wgt):
-	def make_tree(branches=[], **k):
+	def make_tree(limit,branches=[], **k):
 		keylist=[]
-		def make_branch(root, dct, path ,keylist=keylist):
+		l=0
+		i=0
+		def make_branch(root, dct, path ,keylist=keylist,limit=limit, l=l):
+			nonlocal i
+			l=l+1
+			i=i+1
 			for key in dct:
 				data = dct[key]
 				keylist+=[key]
@@ -18,15 +23,24 @@ def Make_Tree(wgt):
 				branch.setText(3, dictpath)
 				keystr=''.join([f"['{key}']" for key in keylist])
 				branch.setText(4,keystr)
+				branch.setText(5, str(l))
+				branch.setText(6, str(i))
 				if isinstance(data, dict):
-					make_branch(branch, data, dictpath,keylist=keylist)
+					if l != limit:
+						make_branch(branch, data, dictpath,keylist=keylist,limit=limit,l=l)
+					else:
+						branch.setText(1, f'+{len(data)} Items')
 				else:
+					i=i+1
 					data = str(data)
 					w =wgt['Fnx']['Get']['ColumnWidth'](1)
 					data = repr(data) if callable(data) else data
 					dispdata = f'{data[:w - 4]}...' if len(data) > w - 4 else data
 					branch.setText(1, dispdata)
 					branch.setText(2, data)
+					branch.setText(5, str(l))
+					branch.setText(6, str(i))
+				print(l)
 				keylist.pop(-1)
 
 				root.addChild(branch)
@@ -35,9 +49,36 @@ def Make_Tree(wgt):
 		root = QElements['TrItem']()
 		root.setText(0, name)
 		root.setText(1, name)
-		make_branch(root, data, name)
+		make_branch(root, data, name,limit=limit,l=l)
 		return root
 	return make_tree
+def Print_Tree(wgt):
+	def pTree(*a, **k):
+		d = k.get('d')
+		indent = k.get('indent') or 0
+		keys=len(d.keys())
+		for key in d:
+			dkey=f'\x1b[32m{d[key]}()\x1b[0m' if callable(d[key]) else str(d[key])
+			keys-=1
+			if isinstance(d[key], dict):
+				sys.stdout.write('  ┃  ' * (indent))
+				sys.stdout.write('  ┗━━ ' if keys == 0 else '  ┣━━ ')
+				sys.stdout.write(f'\x1b[1;34m{str(key)}:\x1b[0m\t')
+				if len(d[key]) > 1000:
+					sys.stdout.write(f'\x1b[1;31m(+ {len(d[key])} items)' + '\x1b[0m\n')
+				else:
+					sys.stdout.write('\n')
+					if indent <= k.get('max'):
+
+						pTree(d=d[key], indent=indent + 1,max=k.get('max'))
+			else:
+				sys.stdout.write('  ┃  ' * (indent))
+				sys.stdout.write('  ┗━━ ' if keys == 0 else '  ┣━━ ')
+				sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
+	def print_tree():
+		for element in wgt['Data']:
+			pTree(d=element['data'],max=10)
+	return print_tree
 def QTree(**k):
 	global t0,t3
 	def Fnx(wgt):
@@ -47,7 +88,6 @@ def QTree(**k):
 				kv = k.popitem()
 				wgt['Data']= wgt.get('Data') or []
 				wgt['Data']+=[{'name':kv[0],'data': kv[1]}]
-				wgt['Fnx']['Update']()
 			return add
 		def ResizeCols(wgt):
 			def resizecols():
@@ -75,9 +115,8 @@ def QTree(**k):
 			addTLI=wgt['Fnx']['Mtd']['addTopLevelItem']
 			def update():
 				for element in wgt['Data']:
-					trunk=wgt['Fnx']['MakeTree'](name=element['name'], data=element['data'])
+					trunk=wgt['Fnx']['MakeTree'](25,name=element['name'], data=element['data'])
 					addTLI(trunk)
-				wgt['Fnx']['ResizeCols']()
 			return update
 		wgt['Fnx']['ResizeCols']			= ResizeCols(wgt)
 		wgt['Fnx']['ReadColWidth']		= ReadColWidth(wgt)

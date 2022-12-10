@@ -18,14 +18,7 @@ def QWidget(**k):
 
 =======
 		wgt= QLib.Create.Fnx(wgt)
-		wgt= QLib.Create.Generate(wgt)
-		for item in wgt['Lay']:
-			print(item)
->>>>>>> parent of 8640264... Update workspace.xml, QDefaults.py, and 47 more files...
-=======
-		wgt= QLib.Create.Fnx(wgt)
-		wgt= QLib.Create.Generate(wgt)
->>>>>>> parent of 5545eeb... Update workspace.xml, QDefaults.py, and 27 more files...
+		wgt['Fnx']['Generate']=QLib.Create.Generate()
 		wgt['Fnx']['Add']		=	wgt['Lay']['Fnx']['Add']
 		return wgt
 	def Init(wgt):

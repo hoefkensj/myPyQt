@@ -18,6 +18,7 @@ def mod_TreeCtl(name):
 	w['Con']['-']=sfn['ColEx']['Dec']
 	return w
 def mod_AppCtl(name):
+
 	w=QModule.make(name)
 	w['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P',))
 	w['Elements']|= gnr.Element(QTextButton.make('Print',pol='E.P',))
@@ -28,7 +29,6 @@ def mod_AppCtl(name):
 	w['Con']['Print']=sfn['Print']
 	w['Con']['Exit']=sfn['Exit']
 	w['Con']['Exit'](sys.exit)
-	w['Con']['Update'](Update(GUI))
 	return w
 =======
 from time import sleep,perf_counter_ns
@@ -51,74 +51,35 @@ def pTree(*a, **k):
 				sys.stdout.write('\n')
 				if indent <= k.get('max'):
 
-					pTree(d=d[key], indent=indent + 1,max=k.get('max'))
-		else:
-			sys.stdout.write('  ┃  ' * (indent))
-			sys.stdout.write('  ┗━━ ' if keys == 0 else '  ┣━━ ')
-			sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
-def Update(GUI):
-	s=gnr.Short(GUI)
-	sfn=gnr.Short(GUI,'Fnx')
-	sTS_sfn=gnr.Short(s['TreeSearch'],'Fnx')
-	def update():
-		GUI['Main']['Elements']['trw_Tree']['Fnx']['Add'](GUI=GUI)
-		x=sfn['TreeSearch']['x']()
-		y=sfn['TreeSearch']['y']()
-		w=sfn['TreeSearch']['width']()
-		w=sTS_sfn['Field']['Set']['MinimumWidth'](w+20)
+def ADD(MAIN):
+		MAIN['Elements']['trw_Tree']['Fnx']['Add'](GUI=GUI)
+def Allign(MAIN):
+	s=gnr.Short(MAIN,'Fnx')
+	wMax = max(s['Key']['wLbl'](), s['Val']['wLbl']())+10
 
-	return update
-def Allign(GUI):
-	s=gnr.Short(GUI)
-	wkey=s['Key']['Fnx']['wLbl']()
-	wval=s['Val']['Fnx']['wLbl']()
-	wMax=max(wkey,wval)+10
-	s['Key']['Fnx']['Allign'](wMax)
-	s['Val']['Fnx']['Allign'](wMax)
-
-
-
+	s['Key']['Allign'](wMax)
+	s['Val']['Allign'](wMax)
 GUI=gui.make('Main')
-
+MAIN=GUI['Main']
 # GUI['Elements']|=gnr.Element(component)
-<<<<<<< HEAD
-<<<<<<< HEAD
-GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,HideCols=[2,3,4]))
-=======
-GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
->>>>>>> parent of 5545eeb... Update workspace.xml, QDefaults.py, and 27 more files...
-GUI['Elements']|= gnr.Element(mod_TreeCtl('TreeCtl'))
-=======
-GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
-# GUI['Elements']|= gnr.Element(QHIncDec.make('ColEx',pol='P.P'))
-GUI['Elements']|= gnr.Element(QHSearch.make('TreeSearch',))
->>>>>>> parent of 8640264... Update workspace.xml, QDefaults.py, and 47 more files...
-GUI['Elements']|= gnr.Element(QEditProp.make('Key',))
-GUI['Elements']|= gnr.Element(QEditProp.make('Val',))
-GUI['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P',))
+MAIN['Elements']|= gnr.Element(QTree.make('Tree',cols=7,hidecols=[2,3,4,5,6]))
+MAIN['Elements']|= gnr.Element(mod_TreeCtl('TreeCtl'))
+MAIN['Elements']|= gnr.Element(QEditProp.make('Key',))
+MAIN['Elements']|= gnr.Element(QEditProp.make('Val',))
+MAIN['Elements']|= gnr.Element(mod_AppCtl('AppCtl'))
 
+sCon=gnr.Short(MAIN,'Con')
+sFnx=gnr.Short(MAIN,'Fnx')
+sCon['TreeCtl']['+'](sFnx['Tree']['Mtd']['expandAll'])
+sCon['TreeCtl']['-'](sFnx['Tree']['Mtd']['collapseAll'])
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-GUI['Main']['Fnx']['Show']()
-
-Allign(GUI)
-GUI['Run']()
-=======
-GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
-# GUI['Fnx']['Configure'](GUI['Main'])
-# pTree(d=GUI,max=5000)
-Allign(GUI)
-upd=Update(GUI)
-GUI['Elements']['tBtn_Update']['Con']['clicked'](upd)
-GUI['Run'](GUI)
->>>>>>> parent of 8640264... Update workspace.xml, QDefaults.py, and 47 more files...
-
-
-=======
-GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
-
-Allign(GUI)
+# sCon['AppCtl']['Update']()
+ADD(MAIN)
+sCon['AppCtl']['Print'](MAIN['Elements']['trw_Tree']['Fnx']['PrintTree'])
+sCon['AppCtl']['Update'](MAIN['Elements']['trw_Tree']['Fnx']['Update'])
+# GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
+GUI['Fnx']['Main']()
+Allign(MAIN)
 GUI['Run'](GUI)
 >>>>>>> parent of 5545eeb... Update workspace.xml, QDefaults.py, and 27 more files...
 
