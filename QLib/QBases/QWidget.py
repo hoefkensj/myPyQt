@@ -12,8 +12,15 @@ def QWidget(**k):
 			wgt['Lay']=QLayout.make(wgt, **k)
 		return wgt
 	def Fnx(wgt):
+<<<<<<< HEAD
 		wgt= QLib.Create.QModuleFnx(wgt)
 
+=======
+		wgt= QLib.Create.Fnx(wgt)
+		wgt= QLib.Create.Generate(wgt)
+		for item in wgt['Lay']:
+			print(item)
+>>>>>>> parent of 8640264... Update workspace.xml, QDefaults.py, and 47 more files...
 		wgt['Fnx']['Add']		=	wgt['Lay']['Fnx']['Add']
 		return wgt
 	def Init(wgt):

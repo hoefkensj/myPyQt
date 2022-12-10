@@ -1,8 +1,9 @@
 #!/usr/bin/env python
+import QLib.Create
 from QLib import gnr,Create
 from static.QtLibs import QElements
 from Configs import Config,QDefaults
-import sys
+from time import sleep,perf_counter_ns
 
 def Make_Tree(wgt):
 	def make_tree(branches=[], **k):
@@ -36,34 +37,8 @@ def Make_Tree(wgt):
 		make_branch(root, data, name)
 		return root
 	return make_tree
-def Print_Tree(wgt):
-	def pTree(*a, **k):
-		d = k.get('d')
-		indent = k.get('indent') or 0
-		keys=len(d.keys())
-		for key in d:
-			dkey=f'\x1b[32m{d[key]}()\x1b[0m' if callable(d[key]) else str(d[key])
-			keys-=1
-			if isinstance(d[key], dict):
-				sys.stdout.write('  ┃  ' * (indent))
-				sys.stdout.write('  ┗━━ ' if keys == 0 else '  ┣━━ ')
-				sys.stdout.write(f'\x1b[1;34m{str(key)}:\x1b[0m\t')
-				if len(d[key]) > 200:
-					sys.stdout.write(f'\x1b[1;31m(+ {len(d[key])} items)' + '\x1b[0m\n')
-				else:
-					sys.stdout.write('\n')
-					if indent <= k.get('max'):
-
-						pTree(d=d[key], indent=indent + 1,max=k.get('max'))
-			else:
-				sys.stdout.write('  ┃  ' * (indent))
-				sys.stdout.write('  ┗━━ ' if keys == 0 else '  ┣━━ ')
-				sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
-	def print_tree():
-		for element in wgt['Data']:
-			pTree(d=element['data'],max=5000)
-	return print_tree
 def QTree(**k):
+	global t0,t3
 	def Fnx(wgt):
 		def HideCols(wgt):
 			def hidecols(cols):
@@ -71,6 +46,7 @@ def QTree(**k):
 					wgt['Fnx']['Set']['ColumnHidden'](col,True)
 			return hidecols
 		def Add(wgt):
+
 			def add(**k):
 				kv = k.popitem()
 				wgt['Data']= wgt.get('Data') or []
@@ -80,16 +56,15 @@ def QTree(**k):
 		def ResizeCols(wgt):
 			def resizecols():
 				wgt['Fnx']['Mtd']['expandAll']()
-				for col in range(wgt['Fnx']['Get']['ColumnCount']()):
-					wgt['Fnx']['Mtd']['resizeColumnToContents'](col)
+				wgt['Fnx']['Mtd']['resizeColumnToContents'](0)
+				wgt['Fnx']['Mtd']['resizeColumnToContents'](1)
 				wgt['Fnx']['Mtd']['collapseAll']()
 			return resizecols
 		def ReadColWidth(wgt):
 			def readcolwidth():
-				w=[]
-				for col in range(wgt['Fnx']['Get']['ColumnCount']()):
-					w+=[wgt['Fnx']['Get']['ColumnWidth'](col)]
-				return w
+				w1 = wgt['Fnx']['Mtd']['columnWidth'](0)
+				w2 = wgt['Fnx']['Mtd']['columnWidth'](1)
+				return [w1, w2]
 			return readcolwidth
 		def SetColWidth(wgt):
 			def setcolwidth(col, rel=None, tot=None):
@@ -112,7 +87,6 @@ def QTree(**k):
 		wgt['Fnx']['ReadColWidth']		= ReadColWidth(wgt)
 		wgt['Fnx']['SetColWidth']			= SetColWidth(wgt)
 		wgt['Fnx']['MakeTree']				= Make_Tree(wgt)
-		wgt['Fnx']['PrintTree']				= Print_Tree(wgt)
 		wgt['Fnx']['Add']							=	Add(wgt)
 		wgt['Fnx']['Update']					=	Update(wgt)
 		wgt['Fnx']['HideCols']				= HideCols(wgt)
@@ -130,12 +104,20 @@ def QTree(**k):
 	w						=			Fnx(w)
 	w						=			Con(w)
 
-	return Init(w)
+
+	t1=perf_counter_ns()
+	w=Init(w)
+	t2=perf_counter_ns();print('Tree(a): ',t2-t1)
+
+	return w
 
 def make(namestr, **k):
+	global t0,t3
+	t0=perf_counter_ns()
 	preset	= QDefaults.TreeWidget
 	k=Config.preset(['trw',namestr],preset,**k)
-	return QTree(**k)
+	tree=QTree(**k)
+	return tree
 
 
 # def __Tree(**k):

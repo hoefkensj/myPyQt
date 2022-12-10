@@ -5,10 +5,21 @@ from Configs import Config
 
 def QGui(*a,**k):
 	def Run(wgt):
+<<<<<<< HEAD
 		def run():
 			wgt['Fnx']['Run']()
 			wgt['App']['Fnx']['Run']()
 			return
+=======
+		def run(wgt):
+				# w.pop('Elements')
+				# w.pop('Wgt')
+				# w.pop('Con')
+				# w.pop('Lay')
+				wgt=gnr.Clean(wgt)
+				wgt=wgt['App']['Fnx']['Run']()
+				return wgt
+>>>>>>> parent of 8640264... Update workspace.xml, QDefaults.py, and 47 more files...
 		return run
 
 	def Fnx(wgt):
@@ -19,8 +30,12 @@ def QGui(*a,**k):
 		wgt['Fnx']['Run']				=		wgt[w['name']]['Fnx']['Run']
 		return wgt
 	def Init(wgt):
+<<<<<<< HEAD
 		wgt.pop('Wgt')
 		wgt.pop('Lay')
+=======
+		wgt=wgt['Fnx']['Configure'](wgt)
+>>>>>>> parent of 8640264... Update workspace.xml, QDefaults.py, and 47 more files...
 		return wgt
 	w 							= 	Create.QEmpty(**k)
 	w['App'] 				= 	QModules.QtApplication.make(w['name'], **k)
