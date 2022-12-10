@@ -61,7 +61,6 @@ def QCreate(fn):
 	def Post(wgt,**k):
 		wgt = Config.make(wgt, **k)
 		wgt['Lay']={}
-		wgt	=	Mtds(wgt)
 		wgt	= Fnx(wgt)
 		wgt['Con']={}
 		wgt['Elements']={}
@@ -108,7 +107,7 @@ def AddFnx(fn):
 		return wgt
 	return addfnx
 
-@AddFnx
+
 def Configure():
 	def configure(wgt):
 		for prop in wgt['Cfg']:
@@ -118,7 +117,7 @@ def Configure():
 		return wgt
 	return configure
 
-@AddFnx
+
 def Generate():
 	def generate(wgt):
 		for element in 	wgt['Elements']:
@@ -142,6 +141,7 @@ def Show(wgt):
 	return wgt
 
 def Fnx(wgt):
-	wgt = Configure(wgt)
-	wgt	= Show(wgt)
+	wgt['Fnx']=wgt.get('Fnx') or {}
+	wgt	=	Mtds(wgt)
+	wgt['Fnx']['Configure']=Configure()
 	return wgt

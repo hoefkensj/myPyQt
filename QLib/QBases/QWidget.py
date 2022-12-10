@@ -13,7 +13,7 @@ def QWidget(**k):
 		return wgt
 	def Fnx(wgt):
 		wgt= QLib.Create.Fnx(wgt)
-		wgt= QLib.Create.Generate(wgt)
+		wgt['Fnx']['Generate']=QLib.Create.Generate()
 		wgt['Fnx']['Add']		=	wgt['Lay']['Fnx']['Add']
 		return wgt
 	def Init(wgt):

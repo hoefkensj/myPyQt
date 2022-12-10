@@ -18,13 +18,12 @@ TreeWidget=Properties|{
 QLayout=Properties|{}
 
 QModule=Properties|{
-	'ed'        :	True			,
 	't'         :	'H'				,
 	'pol'       :	'E.F'			,
 }
 
 
-QEditProp			=	QModule	|	{}
+QEditProp			=	QModule	|	{	'ed'        :	True			,}
 QHSearch			=	QModule	|	{}
 QHArrowsLR		=	QModule	|	{'pol' :	'F.F',}
 QHIncDec			=	QModule	|	{'pol' :	'P.P',}
@@ -49,9 +48,8 @@ QLabel={
 }
 QLineEdit={
 	'ro'				:	False,
-	'pol'				:	'E.F',
-	'Height'			: 	20,
-
+	'pol'				:	'E.P',
+	'height'			: 	200,
 }
 QCheckBox				=	{
 	'pol'					:	'P.P'					,

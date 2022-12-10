@@ -16,6 +16,7 @@ def mod_TreeCtl(name):
 	w['Con']['-']=sfn['ColEx']['Dec']
 	return w
 def mod_AppCtl(name):
+
 	w=QModule.make(name)
 	w['Elements']|= gnr.Element(QTextButton.make('Update',pol='E.P',))
 	w['Elements']|= gnr.Element(QTextButton.make('Print',pol='E.P',))
@@ -26,38 +27,38 @@ def mod_AppCtl(name):
 	w['Con']['Print']=sfn['Print']
 	w['Con']['Exit']=sfn['Exit']
 	w['Con']['Exit'](sys.exit)
-	w['Con']['Update'](Update(GUI))
 	return w
 
 
-def Update(GUI):
-	s=gnr.Short(GUI)
-	sfn=gnr.Short(GUI,'Fnx')
-	def update():
-		GUI['Main']['Elements']['trw_Tree']['Fnx']['Add'](GUI=GUI)
-	return update
-def Allign(GUI):
-	s=gnr.Short(GUI['Main'])
-	wMax = max(s['Key']['Fnx']['wLbl'](), s['Val']['Fnx']['wLbl']()) + 10
-	s['Key']['Fnx']['Allign'](wMax)
-	s['Val']['Fnx']['Allign'](wMax)
-GUI=gui.make('Main')
-# GUI['Elements']|=gnr.Element(component)
-GUI['Elements']|= gnr.Element(QTree.make('Tree',cols=5,hidecols=[2,3,4]))
-GUI['Elements']|= gnr.Element(mod_TreeCtl('TreeCtl'))
-GUI['Elements']|= gnr.Element(QEditProp.make('Key',))
-GUI['Elements']|= gnr.Element(QEditProp.make('Val',))
-GUI['Elements']|= gnr.Element(mod_AppCtl('AppCtl'))
+def ADD(MAIN):
+		MAIN['Elements']['trw_Tree']['Fnx']['Add'](GUI=GUI)
+def Allign(MAIN):
+	s=gnr.Short(MAIN,'Fnx')
+	wMax = max(s['Key']['wLbl'](), s['Val']['wLbl']())+10
 
-s=gnr.Short(GUI)
-sCon=gnr.Short(GUI,'Con')
-sFnx=gnr.Short(GUI,'Fnx')
+	s['Key']['Allign'](wMax)
+	s['Val']['Allign'](wMax)
+GUI=gui.make('Main')
+MAIN=GUI['Main']
+# GUI['Elements']|=gnr.Element(component)
+MAIN['Elements']|= gnr.Element(QTree.make('Tree',cols=7,hidecols=[2,3,4,5,6]))
+MAIN['Elements']|= gnr.Element(mod_TreeCtl('TreeCtl'))
+MAIN['Elements']|= gnr.Element(QEditProp.make('Key',))
+MAIN['Elements']|= gnr.Element(QEditProp.make('Val',))
+MAIN['Elements']|= gnr.Element(mod_AppCtl('AppCtl'))
+
+sCon=gnr.Short(MAIN,'Con')
+sFnx=gnr.Short(MAIN,'Fnx')
 sCon['TreeCtl']['+'](sFnx['Tree']['Mtd']['expandAll'])
 sCon['TreeCtl']['-'](sFnx['Tree']['Mtd']['collapseAll'])
 
-GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
-
-Allign(GUI)
+# sCon['AppCtl']['Update']()
+ADD(MAIN)
+sCon['AppCtl']['Print'](MAIN['Elements']['trw_Tree']['Fnx']['PrintTree'])
+sCon['AppCtl']['Update'](MAIN['Elements']['trw_Tree']['Fnx']['Update'])
+# GUI['Main']=GUI['Main']['Fnx']['Run'](GUI['Main'])
+GUI['Fnx']['Main']()
+Allign(MAIN)
 GUI['Run'](GUI)
 
 print('After')

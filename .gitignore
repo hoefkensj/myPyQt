@@ -1,0 +1,22 @@
+# Default ignored files
+workspace.xml
+__pycache__/
+.firmware
+.eric6project/
+.eric7project/
+.ropeproject/
+.jedi/
+.directory/
+.old/
+.idea/
+.build/
+
+*~
+*.pyc
+*.pyo
+*.bak
+*.swp
+*.rej
+*.orig
+*.DS_Store
+nohup.out

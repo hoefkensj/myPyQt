@@ -13,16 +13,15 @@ def Clean(**k):
 
 def QEditProp(**k):
 	def Elements(wgt):
-		l=Clean(**k)
-		wgt['Elements'] |= gnr.Element(QLabel.make('Name', **l, ))
-		wgt['Elements'] |= gnr.Element(QLineEdit.make('Field', ro=1,  **l,  ))
-		wgt['Elements'] |= gnr.Element(QLineEdit.make('Dupl',  **l, 	))
-		wgt['Elements'] |= gnr.Element(QTextButton.make('Set', pol='F.F',  **l, 	))
-		wgt['Elements'] |= gnr.Element(QIconButton.make('Edit', bi=1,  **l, 	))
+		wgt['Elements'] |= gnr.Element(QLabel.make('Name'))
+		wgt['Elements'] |= gnr.Element(QLineEdit.make('Field',**k|{'ro':1 ,'pol':'E.F'}))
+		wgt['Elements'] |= gnr.Element(QLineEdit.make('Dupl',**k))
+		wgt['Elements'] |= gnr.Element(QTextButton.make('Set',**k|{'pol':'F.F'}))
+		wgt['Elements'] |= gnr.Element(QIconButton.make('Edit',**k|{'bi':1}))
 		return wgt
 		
 	def Fnx(wgt):
-		s=gnr.Short(wgt,'Fnx')
+		sfn_mtd=gnr.Short(wgt,'Fnx','Mtd')
 		sfn_set=gnr.Short(wgt,'Fnx','Set')
 		sfn_get=gnr.Short(wgt,'Fnx','Get')
 		def TxtText():
@@ -49,25 +48,29 @@ def QEditProp(**k):
 			def editable(state):
 				sfn_set['Edit']['Hidden'](state)
 			return editable
-		def Allign(max):
-			sfn_set['Name']['MinimumWidth'](max)
-		def Init(wgt):
+		def Allign():
+			def allign(max):
+				sfn_set['Name']['MinimumWidth'](max)
+			return allign
+		def Init():
 			def init():
-				sfn_set['Name']['Text'](sfn_get['Name']['Text']())
+				lbl='{n} :'.format(n=wgt['name'])
+				sfn_set['Name']['Text'](lbl)
 				sfn_set['Set']['Hidden'](True)
 				sfn_set['Field']['ReadOnly'](True)
 				sfn_set['Dupl']['Hidden'](True)
 				wgt['Fnx']['Editable'](not k['ed'])
-				return Internals(wgt)
+				return wgt
 			return init
-		wgt= QLib.Create.Fnx(wgt)
+		wgt['Fnx']['Generate']=QLib.Create.Generate()
+		wgt['Fnx']['Configure']=QLib.Create.Configure()
 		wgt['Fnx']['Edit'] 			=	Edit()
 		wgt['Fnx']['txtText'] 	=	TxtText()
 		wgt['Fnx']['setText']		=	SetText()
 		wgt['Fnx']['Editable'] 	=	Editable()
-		wgt['Fnx']['wLbl']			= s['Name']['Width']
-		wgt['Fnx']['Allign']		= Allign
-		wgt['Fnx']['Init']			=	Init(wgt)
+		wgt['Fnx']['wLbl']			= sfn_mtd['Name']['width']
+		wgt['Fnx']['Allign']		= Allign()
+		wgt['Fnx']['Init']			=	Init()
 		return wgt
 	def Internals(wgt):
 		wgt['Con']['Edit'](wgt['Fnx']['Edit'])
@@ -75,18 +78,20 @@ def QEditProp(**k):
 		wgt['Con']['Field']['returnPressed'](wgt['Fnx']['setText'])
 		return wgt
 	def Con(wgt):
-		s=gnr.Short(wgt)
-		# [print(a) for a in wgt]
 		sCon=gnr.Short(wgt,'Con')
 		sSig=gnr.Short(wgt,'Fnx','Sig')
 		wgt['Con'] = wgt.get('Con') or {}
-		wgt['Con']['Edit']= sCon['Edit']['clicked']
-		wgt['Con']['Set']=	sCon['Set']['clicked']
+		wgt['Con']['Edit']=sCon['Edit']['clicked']
+		wgt['Con']['Set']=sCon['Set']['clicked']
 		wgt['Con']['Field']	= {}
 		wgt['Con']['Field']['returnPressed']= sSig['Field']['returnPressed'].connect
+		wgt=Internals(wgt)
 		return wgt
 	def Init(wgt):
-		wgt=gnr.QWgtInit(wgt)
+		fn=wgt['Fnx']
+		wgt=fn['Generate'](wgt)
+		wgt=fn['Configure'](wgt)
+		wgt=fn['Init']()
 		return wgt
 	w	= QWidget.make(k['name'], **k)
 	w	=	Elements(w)

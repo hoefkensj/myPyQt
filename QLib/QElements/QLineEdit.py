@@ -21,7 +21,7 @@ def QLineEdit(**k):
 		wgt['Con']['Edited']	=wgt['Fnx']['Sig']['textEdited'].connect
 		return wgt
 	def Init(wgt)     :
-		wgt=gnr.QElementInit(wgt)
+		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['txtE'], **k)
 	w						=			Fnx(w)
@@ -29,6 +29,6 @@ def QLineEdit(**k):
 	return Init(w)
 
 def make(namestr, **k):
-	preset=QDefaults.QLineEdit|{}
+	preset=QDefaults.QLineEdit
 	k=Config.preset(['txtE',namestr],preset,**k)
 	return QLineEdit(**k)

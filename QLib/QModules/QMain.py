@@ -6,11 +6,14 @@ from Configs import Config
 def QMain(**k):
 	def Fnx(wgt):
 		def Run(wgt):
-			wgt['Fnx']['Generate'](wgt)
-			wgt['Fnx']['Show']()
-			return wgt
+			def run():
+				wgt['Fnx']['Generate'](wgt)
+				wgt['Fnx']['Show']()
+				return wgt
+			return run
 		wgt= QLib.Create.Fnx(wgt)
-		wgt['Fnx']['Run']	=	Run
+		wgt=QLib.Create.Show(wgt)
+		wgt['Fnx']['Run']	=	Run(wgt)
 		return wgt
 	def Init(wgt):
 		wgt=wgt['Fnx']['Configure'](wgt)

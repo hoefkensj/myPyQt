@@ -32,15 +32,17 @@ def QHIncDec(**k):
 		wgt['Con']['Inc']=	s['Inc']['clicked']
 		wgt['Con']['Dec']=	s['Dec']['clicked']
 		return wgt
-	def Init(w):
-		return gnr.QWgtInit(w)
+	def Init(wgt):
+		wgt['Fnx']['Generate'](wgt)
+		wgt['Fnx']['Configure'](wgt)
+		return wgt
 
-	w		= QWidget.make(k['name'], **k)
-	w 	= 		Elements(w)
-	w		= 		Fnx(w)
-	w		=			Con(w)
+	w	=		QWidget.make(k['name'], **k)
+	w = 	Elements(w)
+	w	= 	Fnx(w)
+	w	=		Con(w)
 	return Init(w)
-	return Init(w)
+
 def make(namestr,**k):
 	preset=	QDefaults.QHIncDec
 	k=Config.preset(['wgt',namestr],preset,**k)
