@@ -20,11 +20,11 @@ def Make_Tree(wgt):
 				dictpath = f"{path}['{key}']"
 				branch = QElements['TrItem']()
 				branch.setText(0, str(key))
-				branch.setText(3, dictpath)
+				branch.setText(2, dictpath)
 				keystr=''.join([f"['{key}']" for key in keylist])
-				branch.setText(4,keystr)
-				branch.setText(5, str(l))
-				branch.setText(6, str(i))
+				branch.setText(3,keystr)
+				branch.setText(4, str(l))
+				branch.setText(5, str(i))
 				if isinstance(data, dict):
 					if l != limit:
 						make_branch(branch, data, dictpath,keylist=keylist,limit=limit,l=l)
@@ -33,13 +33,11 @@ def Make_Tree(wgt):
 				else:
 					i=i+1
 					data = str(data)
-					w =wgt['Fnx']['Get']['ColumnWidth'](1)
+
 					data = repr(data) if callable(data) else data
-					dispdata = f'{data[:w - 4]}...' if len(data) > w - 4 else data
-					branch.setText(1, dispdata)
-					branch.setText(2, data)
-					branch.setText(5, str(l))
-					branch.setText(6, str(i))
+					branch.setText(1, data)
+					branch.setText(4, str(l))
+					branch.setText(5, str(i))
 				print(l)
 				keylist.pop(-1)
 
@@ -127,7 +125,7 @@ def QTree(**k):
 		return wgt
 
 	def Con(wgt):
-		wgt['Con']['clicked'] = wgt['Fnx']['Sig']['itemClicked'].connect
+		wgt['Con']['Item'] = wgt['Fnx']['Sig']['itemClicked'].connect
 		return wgt
 
 	def Init(wgt)     :
