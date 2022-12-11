@@ -32,7 +32,7 @@ def QDictator(**k):
 			w['Con']['Exit'](sys.exit)
 			return w
 		# GUI['Elements']|=gnr.Element(component)
-		m['Elements']	|= gnr.Element(QTree.make('Tree',cols=7,))##hidecols=[2,3,4,5,6]
+		m['Elements']	|= gnr.Element(QTree.make('Tree',cols=7,hidecols=[2,3,4,5,6]))
 		m['Elements']	|= gnr.Element(mod_TreeCtl('TreeCtl'))
 		m['Elements']	|= gnr.Element(QEditProp.make('Key',))
 		m['Elements']	|= gnr.Element(QEditProp.make('Val',))

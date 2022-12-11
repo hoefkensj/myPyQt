@@ -37,7 +37,6 @@ def Make_Tree(wgt):
 					branch.setText(1, data)
 					branch.setText(4, str(l))
 					branch.setText(5, str(i))
-				print(l)
 				keylist.pop(-1)
 
 				root.addChild(branch)
