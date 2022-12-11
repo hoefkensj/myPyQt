@@ -37,9 +37,10 @@ def QDictator(**k):
 		m['Elements']	|= gnr.Element(QEditProp.make('Key',))
 		m['Elements']	|= gnr.Element(QEditProp.make('Val',))
 		m['Elements']	|= gnr.Element(mod_AppCtl('AppCtl'))
+		return m
 	def Fnx(m):
 		def Select(*a,**k):
-			sFnx=gnr.Short(MAIN,'Fnx')
+			sFnx=gnr.Short(m,'Fnx')
 			txtBox = [sFnx['Key']['txtText'], sFnx['Val']['txtText']]
 			def select(data):
 				for idx, txtbox in zip([0, 1, 2], txtBox):
@@ -55,35 +56,39 @@ def QDictator(**k):
 			wMax = max(s['Key']['wLbl'](), s['Val']['wLbl']())+10
 			s['Key']['Allign'](wMax)
 			s['Val']['Allign'](wMax)
-		m['Fnx']={}
 		m['Fnx']['Select']=Select
 		m['Fnx']['AddDict']=AddDict(m)
 		m['Fnx']['Allign']=Allign
 		return m
 	def Con(m):
-		select=Select(m)
+		select=m['Fnx']['Select'](m)
 		sCon=gnr.Short(m,'Con')
 		sFnx=gnr.Short(m,'Fnx')
+
 		sCon['TreeCtl']['+'](sFnx['Tree']['Mtd']['expandAll'])
 		sCon['TreeCtl']['-'](sFnx['Tree']['Mtd']['collapseAll'])
 		sCon['AppCtl']['Print'](m['Elements']['trw_Tree']['Fnx']['PrintTree'])
 		sCon['AppCtl']['Update'](m['Elements']['trw_Tree']['Fnx']['Update'])
 		sCon['Tree']['Item'](select)
 		return m
-
+	def Init(g):
+		g['Main']['Fnx']['Allign'](g['Main'])
+		return GUI['Run'](GUI)
 
 	GUI=gui.make('Main')
 	MAIN=GUI['Main']
+	MAIN=Elements(MAIN)
 	MAIN=Fnx(MAIN)
 	MAIN=Con(MAIN)
+	GUI['Add']=MAIN['Fnx']['AddDict']
 	GUI['Fnx']['Main']()
+	return Init(GUI),GUI,GUI['Add']
 
 
-addDict(MAIN)
-Allign(MAIN)
-GUI['Run'](GUI)
 
-print('After')
+RUN,GUI,ADD=QDictator()
+ADD(GUI=GUI)
+RUN()
 
 		# def saveDialog():
 		# 	def saveDialog():

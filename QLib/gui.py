@@ -7,10 +7,13 @@ from static import QtLibs
 def QGui(*a,**k):
 	def Run(wgt):
 		def run(wgt):
-			wgt=gnr.Clean(wgt)
-			wgt['App']['Fnx']['Run']()
-			return wgt
+			def Execute():
+				wgt['App']['Fnx']['Run']()
+			return Execute
 		return run
+
+
+
 
 	def Fnx(wgt):
 		wgt['Fnx']={}
