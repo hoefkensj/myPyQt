@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 
 import assets.ico
-import QLib.PyQtX
+import Qt.PyQtX
 
 def Icon(svg):
 		import base64
 		icon_states={
-			0 : QLib.PyQtX.QtGui.QIcon.State.On,
-			1 :	QLib.PyQtX.QtGui.QIcon.State.Off,	}
-		icon = QLib.PyQtX.QtGui.QIcon()
+			0 : Qt.PyQtX.QtGui.QIcon.State.On,
+			1 :	Qt.PyQtX.QtGui.QIcon.State.Off,	}
+		icon = Qt.PyQtX.QtGui.QIcon()
 		def  make_icon(icon,state):
 			with open(f'icon{state}.svg','wb') as l:
 				l.write(base64.b64decode(svg[state]))
 			icon.addPixmap(
-				QLib.PyQtX.QtGui.QPixmap(f'icon{state}.svg'),
-				QLib.PyQtX.QtGui.QIcon.Mode.Normal,
+				Qt.PyQtX.QtGui.QPixmap(f'icon{state}.svg'),
+				Qt.PyQtX.QtGui.QIcon.Mode.Normal,
 				icon_states[state])
 			return icon
 		icon = make_icon(icon,0)

@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # Auth
 import sys
-from QLib import gui,gnr
+from QLib import gnr
+from QLib.QModules import QGui
 from QLib.QModules import QHIncDec,QHSearch, QEditProp
 from QLib.QElements import QTree,QTextButton
 from QLib.QBases import QModule
@@ -75,7 +76,7 @@ def QDictator(**k):
 		g['Main']['Fnx']['Allign'](g['Main'])
 		return GUI['Run'](GUI)
 
-	GUI=gui.make('Main')
+	GUI= QGui.make('Main')
 	MAIN=GUI['Main']
 	MAIN=Elements(MAIN)
 	MAIN=Fnx(MAIN)
@@ -90,11 +91,7 @@ RUN,GUI,ADD=QDictator()
 ADD(GUI=GUI)
 RUN()
 
-		# def saveDialog():
-		# 	def saveDialog():
-		# 		Path, Type =QtWidgets.QFileDialog.getSaveFileName(QtWidgets.QWidget(),"Save As","","All Files (*)")
-		# 		return Path
-		# 	return saveDialog()
+
 
 
 

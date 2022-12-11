@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from QLib.PyQtX import QtWidgets, QtCore
+from Qt.PyQtX import QtWidgets, QtCore
 
 QSizePolicies = {
 	'Pol': QtWidgets.QSizePolicy,

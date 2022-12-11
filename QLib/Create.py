@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Auth
 import contextlib
-from static import QtLibs
+from Qt import QtLibs
 import sys
 from Configs import Config
 
@@ -73,7 +73,7 @@ def QEmpty(wgt,*a,**k):
 	return wgt
 @QCreate
 def QApplication(wgt,*a,**k):
-	wgt['Wgt']=QtLibs.QElements['app'](sys.argv)
+	wgt['Wgt']= QtLibs.QElements['app'](sys.argv)
 	return wgt
 @QCreate
 def QComponent(wgt,qwgt,**k):
@@ -134,9 +134,9 @@ def Show(wgt):
 			mtd[state]()
 	if wgt['Fnx']['Mtd'].get('show'):
 		mtd={
-				True		:	wgt['Fnx']['Mtd']['show'],
-				False		:	wgt['Fnx']['Mtd']['hide'],
-				'exec'	:	wgt['Fnx']['Get']['Hidden']}
+				True    :	wgt['Fnx']['Mtd']['show'],
+				False   :	wgt['Fnx']['Mtd']['hide'],
+				'exec'  :	wgt['Fnx']['Get']['Hidden']}
 		wgt['Fnx']['Show']=show
 	return wgt
 

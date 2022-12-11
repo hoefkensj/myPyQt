@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-import QLib.Create
-from QLib import gnr,Create
-from static.QtLibs import QElements
+from QLib import Create
+from Qt.QtLibs import QElements
 
 from Configs import QDefaults,Config
 def QLineEdit(**k):

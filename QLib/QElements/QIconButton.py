@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from QLib import gnr,Create
-from static.QtLibs import QElements
+from Qt.QtLibs import QElements
 from Configs import QDefaults,Config
 def QIconButton(**k):
 	def Con(wgt):

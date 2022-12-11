@@ -1,11 +1,5 @@
 #!/usr/bin/env python
-import Fnx
-from Fnx import make
-from QLib import gnr
 
-from static import QtLibs
-from static.QtLibs import QToolButtons
-from Configs import QDefaults
 def make(wgt,**k):
 	nmapping={
 		'Name'    : 		'ObjectName',
