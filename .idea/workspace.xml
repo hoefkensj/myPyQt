@@ -5,20 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="638b6880-4a88-4897-aefd-48c2526c0dfa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/myPyQt.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/myPyQt.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configs/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Configs/Config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Fnx/make.py" beforeDir="false" afterPath="$PROJECT_DIR$/Fnx/make.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QBases/QModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QBases/QModule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QBases/QWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QBases/QWidget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QDialogs/QSave.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QDialogs/QSave.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/Create.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/Create.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QElements/QIconButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QIconButton.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QElements/QLineEdit.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QLineEdit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QElements/QTextButton.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTextButton.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QLib/QElements/QTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QElements/QTree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/QFrames/QDictator.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QFrames/QDictator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/QModules/QEditProp.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QEditProp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QModules/QHArrowsLR.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHArrowsLR.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/QModules/QHIncDec.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHIncDec.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QLib/QModules/QHSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/QModules/QHSearch.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/QLib/gnr.py" beforeDir="false" afterPath="$PROJECT_DIR$/QLib/gnr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Qt/QtLibs.py" beforeDir="false" afterPath="$PROJECT_DIR$/Qt/QtLibs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,27 +185,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="QWidget" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="myPyQt" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lib/QBases" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lib/QBases/QWidget.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="dumb" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="myPyQt" />
       <option name="INTERPRETER_OPTIONS" value="-m scalene --profile-all" />
@@ -223,6 +198,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dumb.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="gnr" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="myPyQt" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/QLib" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/QLib/gnr.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -276,10 +272,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.QDictator (2)" />
+        <item itemvalue="Python.gnr" />
         <item itemvalue="Python.scratch_5" />
         <item itemvalue="Python.scratch_2" />
         <item itemvalue="Python.QDictator (1)" />
-        <item itemvalue="Python.QWidget" />
       </list>
     </recent_temporary>
   </component>

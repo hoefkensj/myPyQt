@@ -113,12 +113,13 @@ def QDictator(**k):
 		select=m['Fnx']['Select'](m)
 		sCon=gnr.ShortEl(m, 'Con')
 		sFnx=gnr.ShortEl(m,'Fnx')
-		sACc=gnr.ShortCon(m,'AppCtl','clicked')
+		sTCc=gnr.ShortModCon(m,'TreeCtl','ColEx')
+		sACc=gnr.ShortModCon(m,'AppCtl','clicked')
 		m['Con']['TreeCtl']['ColEx']['Inc'](sFnx['Tree']['Mtd']['expandAll'])
 		# sCon['TreeCtl']['+'](sFnx['Tree']['Mtd']['expandAll'])
 		# sCon['TreeCtl']['-'](sFnx['Tree']['Mtd']['collapseAll'])
-		sCon['AppCtl']['Print'](m['Elements']['trw_Tree']['Fnx']['PrintTree'])
-		sCon['AppCtl']['Update'](m['Elements']['trw_Tree']['Fnx']['Update'])
+		sACc['Print'](m['Elements']['trw_Tree']['Fnx']['PrintTree'])
+		sACc['Update'](m['Elements']['trw_Tree']['Fnx']['Update'])
 		sCon['Tree']['Item'](select)
 		return m
 	def Init(g):

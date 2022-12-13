@@ -56,11 +56,28 @@ def ShortEl(wgt, *a):
 def ShortCon(wgt, *a):
 	s={}
 	for name in wgt['Con']:
-
 		sub =wgt['Con'][name]
 		for item in a:
 			sub=sub[item]
 		s[name.split('_')[1]]=sub
+	return s
+def ModCon(wgt):
+	elements=wgt.get('Elements')
+	for element in elements:
+		cons=element['con']
+	def GetCon(w):
+		con=w.get('Con')
+
+	def unpack(w):
+		for key in w:
+			i
+
+	s={}
+	for name in wgt['Con'][a[0]]:
+		sub =wgt['Con'][a[0]][name]
+		for item in a[1:]:
+			sub=sub[item]
+		s[name]=sub
 	return s
 
 def IconSet(i):

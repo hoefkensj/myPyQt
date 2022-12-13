@@ -4,7 +4,6 @@ from Qt.QtLibs import QElements
 from Configs import QDefaults,Config
 def QIconButton(**k):
 	def Con(wgt):
-		wgt['Con']['clicked'] = wgt['Fnx']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt)     :
 		wgt=gnr.QElementInit(wgt)

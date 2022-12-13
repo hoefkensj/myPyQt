@@ -123,7 +123,7 @@ def QTree(**k):
 		return wgt
 
 	def Con(wgt):
-		wgt['Con']['Item'] = wgt['Fnx']['Sig']['itemClicked'].connect
+
 		return wgt
 
 	def Init(wgt)     :

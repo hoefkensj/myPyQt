@@ -29,8 +29,6 @@ def QHIncDec(**k):
 		return wgt
 	def Con(wgt):
 		s=gnr.ShortEl(wgt, 'Con')
-		wgt['Con']['Inc']=	s['Inc']['clicked']
-		wgt['Con']['Dec']=	s['Dec']['clicked']
 		return wgt
 	def Init(wgt):
 		wgt['Fnx']['Generate'](wgt)

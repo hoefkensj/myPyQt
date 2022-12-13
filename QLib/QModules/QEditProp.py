@@ -81,8 +81,8 @@ def QEditProp(**k):
 		sCon=gnr.ShortEl(wgt, 'Con')
 		sSig=gnr.ShortEl(wgt, 'Fnx', 'Sig')
 		wgt['Con'] = wgt.get('Con') or {}
-		wgt['Con']['Edit']=sCon['Edit']['clicked']
-		wgt['Con']['Set']=sCon['Set']['clicked']
+		wgt['Con']['Edit']=sCon['Edit']
+		wgt['Con']['Set']=sCon['Set']
 		wgt['Con']['Field']	= {}
 		wgt['Con']['Field']['returnPressed']= sSig['Field']['returnPressed'].connect
 		wgt=Internals(wgt)

@@ -5,39 +5,55 @@ from Qt import QtLibs
 import sys
 from Configs import Config
 
+def isQtSignal(mtd):
+	cls=getattr(mtd,'__class__')
+	return cls.__name__ == 'pyqtBoundSignal'
+
+def isMethodWrapper(mtd):
+	cls=getattr(mtd,'__class__')
+	return cls.__name__ == 'method-wrapper'
+def isSetGetPair(mtd,pool):
+		mtdcn		= mtd[3:]
+		mtdsn		=	f'{mtdcn[0].casefold()}{mtdcn[1:]}'
+		mtdin		=	f'is{mtdcn}'
+		mtdsn=mtdsn*(mtdsn in pool)
+		mtdin=mtdin*(mtdin in pool)
+		getmtd=(mtdsn and mtdin) or mtdsn or mtdin
+		return  (mtdcn,getmtd)
+
 def Mtds(wgt):
 	f = wgt.get('Fnx') or {}
 	f['Mtd']=wgt.get('Mtd') or {}
 	f['Mtd']['Wrappers']={}
 	f['Atr']={}
 	f['Set']={}
+	f['set']={}
 	f['Sig']={}
 	f['Get']={}
-	All=dir(wgt['Wgt'])
-	for mtdn in All:
+	DirWgt=dir(wgt['Wgt'])
+	for mtdn in DirWgt:
 		mtd = getattr(wgt['Wgt'], mtdn)
-		if callable(mtd):
-			cls=getattr(mtd,'__class__')
-			if mtdn.startswith('set'):
-				mtdcn		= mtdn[3:]
-				mtdsn		=	f'{mtdcn[0].casefold()}{mtdcn[1:]}'
-				mtdin		=	f'is{mtdcn}'
-				if mtdin in All:
-					f['Set'][mtdcn]		=	mtd
-					f['Get'][mtdcn]	=	getattr(wgt['Wgt'], mtdin)
-				elif mtdsn in All:
-					f['Set'][mtdcn]		=	mtd
-					f['Get'][mtdcn]	=	getattr(wgt['Wgt'], mtdsn)
-				else:
-					f['Mtd'][mtdn]		=	mtd
-			elif cls.__name__ == 'pyqtBoundSignal':
-					f['Sig'][mtdn]=mtd
-			elif cls.__name__== 'method-wrapper':
+		if not callable(mtd):
+			continue
+		cls=getattr(mtd,'__class__')
+		if not mtdn.startswith('set') and \
+				not isQtSignal(mtd) and \
+			 		not isMethodWrapper(mtdn):
+			f['Mtd'][mtdn] =	mtd
+			continue
+		if isQtSignal(mtd):
+				f['Sig'][mtdn]=mtd
+				continue
+		elif isMethodWrapper(mtdn):
 				f['Mtd']['Wrappers'][mtdn]=mtd
-			else :
-				f['Mtd'][mtdn]		=	mtd
-		else:
-			f['Atr'][mtdn]		=	mtd
+				continue
+		elif mtdn.startswith('set'):
+			# print(isSetGetPair(mtdn,DirWgt))
+			shortmtd,getmtd=isSetGetPair(mtdn,DirWgt)
+			if getmtd:
+				f['Set'][shortmtd]	=	mtd
+				f['Get'][shortmtd]	= getattr(wgt['Wgt'], getmtd)
+
 	wgt['Fnx']=f
 	return wgt
 
@@ -62,7 +78,7 @@ def QCreate(fn):
 		wgt = Config.make(wgt, **k)
 		wgt['Lay']={}
 		wgt	= Fnx(wgt)
-		wgt['Con']={}
+		wgt['Con']=Con(wgt)
 		wgt['Elements']={}
 		return wgt
 	return create
@@ -113,7 +129,6 @@ def Configure():
 		for prop in wgt['Cfg']:
 				with contextlib.suppress(KeyError):
 					wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
-		wgt=SpecialCases(wgt)
 		return wgt
 	return configure
 
@@ -145,3 +160,6 @@ def Fnx(wgt):
 	wgt	=	Mtds(wgt)
 	wgt['Fnx']['Configure']=Configure()
 	return wgt
+
+def Con(wgt):
+	wgt['Con']={con:wgt['Fnx']['Sig'][con].connect for con in wgt['Fnx']['Sig']}
