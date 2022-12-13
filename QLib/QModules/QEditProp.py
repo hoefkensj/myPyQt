@@ -21,9 +21,9 @@ def QEditProp(**k):
 		return wgt
 		
 	def Fnx(wgt):
-		sfn_mtd=gnr.Short(wgt,'Fnx','Mtd')
-		sfn_set=gnr.Short(wgt,'Fnx','Set')
-		sfn_get=gnr.Short(wgt,'Fnx','Get')
+		sfn_mtd=gnr.ShortEl(wgt, 'Fnx', 'Mtd')
+		sfn_set=gnr.ShortEl(wgt, 'Fnx', 'Set')
+		sfn_get=gnr.ShortEl(wgt, 'Fnx', 'Get')
 		def TxtText():
 			def txtText(text):
 				sfn_set['Field']['Text'](text)
@@ -78,8 +78,8 @@ def QEditProp(**k):
 		wgt['Con']['Field']['returnPressed'](wgt['Fnx']['setText'])
 		return wgt
 	def Con(wgt):
-		sCon=gnr.Short(wgt,'Con')
-		sSig=gnr.Short(wgt,'Fnx','Sig')
+		sCon=gnr.ShortEl(wgt, 'Con')
+		sSig=gnr.ShortEl(wgt, 'Fnx', 'Sig')
 		wgt['Con'] = wgt.get('Con') or {}
 		wgt['Con']['Edit']=sCon['Edit']['clicked']
 		wgt['Con']['Set']=sCon['Set']['clicked']

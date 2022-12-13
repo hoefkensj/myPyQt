@@ -16,15 +16,16 @@ def QModule(**k):
 		return wgt
 	def Init(wgt):
 		wgt=wgt['Fnx']['Configure'](wgt)
-		wgt=gnr.QWgtInit(wgt)
-		return Create.Mtds(wgt)
+		wgt=Create.Mtds(wgt)
+		return wgt
 	w	= QWidget.make(k['name'], **k)
 	w	=	Elements(w)
 	w	=	Fnx(w)
+	w['Compile']=w['Fnx']['Run']
 	return 	Init(w)
 
 
 def make(namestr,**k):
 	preset=	QDefaults.QEditProp
-	k=Config.preset(['wgt',namestr],preset,**k)
+	k=Config.preset(['mod',namestr],preset,**k)
 	return QModule(**k)

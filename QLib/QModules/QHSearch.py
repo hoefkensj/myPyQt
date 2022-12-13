@@ -16,7 +16,7 @@ def QHSearch(**k):
 		return wgt
 
 	def Fnx(wgt):
-		s=gnr.Short(wgt,'Fnx')
+		s=gnr.ShortEl(wgt, 'Fnx')
 		def ShowPN(wgt):
 			def showpn(show):
 				s['<>']['Set']['Hidden'](not show)
@@ -42,7 +42,7 @@ def QHSearch(**k):
 				w['Wgt']['Set']['Visible'](state)
 			return visible
 		def Init(wgt):
-			s=gnr.Short(wgt,'Fnx')
+			s=gnr.ShortEl(wgt, 'Fnx')
 			def init():
 				wgt['Fnx']['ShowPN'](False)
 			return init
@@ -55,7 +55,7 @@ def QHSearch(**k):
 		wgt['Fnx']['width']		=s['Field']['Mtd']['width']
 		return wgt
 	def Con(wgt):
-		sfn=gnr.Short(wgt,'Fnx')
+		sfn=gnr.ShortEl(wgt, 'Fnx')
 		wgt['Con']['Reg']=sfn['Reg']['Sig']['toggled'].connect
 		wgt['Con']['Search']=sfn['Search']['Sig']['clicked'].connect
 		return wgt

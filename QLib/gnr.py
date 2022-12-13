@@ -2,7 +2,7 @@
 
 import assets.ico
 import Qt.PyQtX
-
+from QLib.QBases import QModule
 def Icon(svg):
 		import base64
 		icon_states={
@@ -25,10 +25,39 @@ def Element(component):
 	name=component.get('Name')
 	return {name : component}
 
-def Short(wgt,*a):
+def Module(name,*elements,**k):
+	def Elements(wgt):
+		for element in elements:
+			wgt['Elements']|= Element(element)
+		return wgt
+
+	def Connect(wgt):
+		s=ShortEl(wgt);sCon=ShortEl(wgt, 'Con')
+		for element in s:
+			if not s[element].get('Con'):
+				continue
+			wgt['Con'][element]={con:sCon[element][con] for con in sCon[element]}
+		return wgt
+
+	w=QModule.make(name)
+	w=Elements(w)
+	w=w['Compile'](w)
+	w=Connect(w)
+	return Element(w)
+
+def ShortEl(wgt, *a):
 	s={}
 	for name in wgt['Elements']:
 		sub =wgt['Elements'][name]
+		for item in a:
+			sub=sub[item]
+		s[name.split('_')[1]]=sub
+	return s
+def ShortCon(wgt, *a):
+	s={}
+	for name in wgt['Con']:
+
+		sub =wgt['Con'][name]
 		for item in a:
 			sub=sub[item]
 		s[name.split('_')[1]]=sub

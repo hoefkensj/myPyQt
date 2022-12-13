@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+import Fnx
+from Fnx import make
+from QLib import gnr
+from Qt import QtLibs
+from Qt.QtLibs import QToolButtons
+from Configs import QDefaults
 
 def make(wgt,**k):
 	nmapping={

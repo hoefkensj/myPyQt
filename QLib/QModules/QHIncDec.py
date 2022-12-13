@@ -10,7 +10,7 @@ def QHIncDec(**k):
 		wgt['Elements'] |=gnr.Element(QIconButton.make(f'Dec', h=15, w=15, bi=False))
 		return wgt
 	def Fnx(wgt):
-		s=gnr.Short(wgt)
+		s=gnr.ShortEl(wgt)
 		def StateInc():
 			def stateinc(state):
 				s['inc']['Set']['Enabled'](state)
@@ -28,7 +28,7 @@ def QHIncDec(**k):
 		wgt['Fnx']['IncDec'] 	=	Show()
 		return wgt
 	def Con(wgt):
-		s=gnr.Short(wgt,'Con')
+		s=gnr.ShortEl(wgt, 'Con')
 		wgt['Con']['Inc']=	s['Inc']['clicked']
 		wgt['Con']['Dec']=	s['Dec']['clicked']
 		return wgt

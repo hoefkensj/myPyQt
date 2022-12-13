@@ -2,7 +2,7 @@
 import QLib.Create
 from Qt import QtLibs
 from QLib import Create,gnr
-from Configs import Config
+from Configs import Config,QDefaults
 from QLib.QBases import QLayout
 
 
@@ -26,6 +26,6 @@ def QWidget(**k):
 	return  Init(w)
 
 def make(namestr,**k):
-	preset=Config.QDefaults.QWidget
+	preset=QDefaults.QWidget
 	k=Config.preset(['wgt',namestr],preset,**k)
 	return QWidget(**k)

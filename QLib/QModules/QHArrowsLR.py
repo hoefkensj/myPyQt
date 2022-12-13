@@ -21,7 +21,7 @@ def QHArrowsLR(**k):
 		wgt['Fnx']['Init']=Init(wgt)
 		return wgt
 	def Con(wgt):
-		s=gnr.Short(wgt,'Fnx')
+		s=gnr.ShortEl(wgt, 'Fnx')
 		wgt['Con']['<']=	s['<']['Sig']['clicked'].connect
 		wgt['Con']['>']=	s['>']['Sig']['clicked'].connect
 		return wgt
