@@ -122,17 +122,12 @@ def QTree(**k):
 		wgt['Fnx']['Update']					=	Update(wgt)
 		return wgt
 
-	def Con(wgt):
-
-		return wgt
-
 	def Init(wgt)     :
 		wgt=gnr.QElementInit(wgt)
 		return wgt
 
 	w						=			Create.QComponent(QElements['trW'], **k)
 	w						=			Fnx(w)
-	w						=			Con(w)
 
 	return Init(w)
 

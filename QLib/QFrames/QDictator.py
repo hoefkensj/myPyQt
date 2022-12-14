@@ -102,23 +102,25 @@ def QDictator(**k):
 		m['Fnx']['AddDict']=AddDict(m)
 		m['Fnx']['Allign']=Allign
 		return m
-	def Connect(wgt):
-		s=gnr.ShortEl(wgt);sCon=gnr.ShortEl(wgt,'Con')
-		for element in s:
-			if not s[element].get('Con'):
-				continue
-			wgt['Con'][element]={con:sCon[element][con] for con in sCon[element]}
-		return wgt
+	# def Connect(wgt):
+	# 	s=gnr.ShortEl(wgt);sCon=gnr.ShortEl(wgt,'Con')
+	# 	for element in s:
+	# 		if not s[element].get('Con'):
+	# 			continue
+	# 		wgt['Con'][element]={con:sCon[element][con] for con in sCon[element]}
+	# 	return wgt
 	def Con(m):
 		select=m['Fnx']['Select'](m)
 		sCon=gnr.ShortEl(m, 'Con')
 		sFnx=gnr.ShortEl(m,'Fnx')
-		sTCc=gnr.ShortModCon(m,'TreeCtl','ColEx')
-		sACc=gnr.ShortModCon(m,'AppCtl','clicked')
-		m['Con']['TreeCtl']['ColEx']['Inc'](sFnx['Tree']['Mtd']['expandAll'])
+		sClk=gnr.sCon(m,'clicked')
+		sACc=gnr.sCon(m,'itemSelected')
+		for key in sClk:
+			print(key)
+		#['Inc'](sFnx['Tree']['Mtd']['expandAll'])
 		# sCon['TreeCtl']['+'](sFnx['Tree']['Mtd']['expandAll'])
 		# sCon['TreeCtl']['-'](sFnx['Tree']['Mtd']['collapseAll'])
-		sACc['Print'](m['Elements']['trw_Tree']['Fnx']['PrintTree'])
+		sClk['Print'](m['Elements']['trw_Tree']['Fnx']['PrintTree'])
 		sACc['Update'](m['Elements']['trw_Tree']['Fnx']['Update'])
 		sCon['Tree']['Item'](select)
 		return m
@@ -130,8 +132,7 @@ def QDictator(**k):
 	MAIN=GUI['Main']
 	MAIN=Elements(MAIN)
 	MAIN=Fnx(MAIN)
-	MAIN=Connect(MAIN)
-	print(MAIN['Con'])
+	# MAIN=Connect(MAIN)
 	MAIN=Con(MAIN)
 	GUI['Add']=MAIN['Fnx']['AddDict']
 	GUI['Fnx']['Main']()

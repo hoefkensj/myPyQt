@@ -73,18 +73,25 @@ def QEditProp(**k):
 		wgt['Fnx']['Init']			=	Init()
 		return wgt
 	def Internals(wgt):
-		wgt['Con']['Edit'](wgt['Fnx']['Edit'])
-		wgt['Con']['Set'](wgt['Fnx']['setText'])
+		sClk=gnr.sCon(wgt,'clicked')
+		sClk['Edit'](wgt['Fnx']['Edit'])
+		sClk['Set'](wgt['Fnx']['setText'])
 		wgt['Con']['Field']['returnPressed'](wgt['Fnx']['setText'])
 		return wgt
 	def Con(wgt):
-		sCon=gnr.ShortEl(wgt, 'Con')
+		#
+		# sCon=gnr.ShortEl(wgt, 'Con')
 		sSig=gnr.ShortEl(wgt, 'Fnx', 'Sig')
 		wgt['Con'] = wgt.get('Con') or {}
-		wgt['Con']['Edit']=sCon['Edit']
-		wgt['Con']['Set']=sCon['Set']
-		wgt['Con']['Field']	= {}
-		wgt['Con']['Field']['returnPressed']= sSig['Field']['returnPressed'].connect
+		wgt=gnr.ModCon(wgt)
+		# for el in wgt['Con']:
+		# 	print(el)
+		# 	for con in wgt['Con'][el]:
+		# 		print('\t',con)
+		# # wgt['Con']['Edit']=sCon['Edit']
+		# # wgt['Con']['Set']=sCon['Set']
+		# # wgt['Con']['Field']	= {}
+		# # wgt['Con']['Field']['returnPressed']= sSig['Field']['returnPressed'].connect
 		wgt=Internals(wgt)
 		return wgt
 	def Init(wgt):
@@ -105,21 +112,3 @@ def make(namestr,**k):
 	k=Config.preset(['wgt',namestr],preset,**k)
 	return QEditProp(**k)
 
-
-# def Elements(wgt):
-# 	elements=[
-# 		QLineEdit.make('Field',	ro=1, k=k,	),
-# 		QLineEdit.make('Dupl', k=k,	)	,
-# 		QTextButton.make('Set', pol='F.F'	,	k=k,	),
-# 		QIconButton.make('Edit', bi=1	,	k=k,	),
-# 	]
-# 	for e in elements:
-# 		wgt['Elements'] |= gnr.Element(e)
-# 	return wgt
-# #
-# def Elements(wgt):
-# 	wgt['Elements'] |= gnr.Element(QLineEdit.make('Field', ro=1, k=k, ))
-# 	wgt['Elements'] |= gnr.Element(QLineEdit.make('Dupl', k=k,	))
-# 	wgt['Elements'] |= gnr.Element(QTextButton.make('Set', pol='F.F', k=k,	))
-# 	wgt['Elements'] |= gnr.Element(QIconButton.make('Edit', bi=1, k=k,	))
-# 	return wgt

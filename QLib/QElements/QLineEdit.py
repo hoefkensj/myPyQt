@@ -15,14 +15,12 @@ def QLineEdit(**k):
 		wgt['Fnx']['ED']			=	wgt['Fnx']['Get']['ReadOnly']
 		return wgt
 
-	def Con(wgt):
-		return wgt
 	def Init(wgt)     :
 		wgt=wgt['Fnx']['Configure'](wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['txtE'], **k)
 	w						=			Fnx(w)
-	w						=			Con(w)
+
 	return Init(w)
 
 def make(namestr, **k):

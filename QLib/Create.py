@@ -57,37 +57,47 @@ def Mtds(wgt):
 	wgt['Fnx']=f
 	return wgt
 
-def QCreate(fn):
-	def Pre(**k):
-		pfx			=	k['pfx']
-		type		=	QtLibs.QElements.get(pfx).__name__ if QtLibs.QElements.get(pfx) else None
-		name		=	k['name']
-		w				=	{
-			'Name'    :	f'{pfx}_{name}'			,
-			'name'    :	name								,
-			'type'    :	type								,}
-		return w
 
-	def create(*a,**k):
-		w	=	Pre(**k)
-		w	=	fn(w,*a,**k)
-		w	=	Post(w,**k)
-		return w
-
-	def Post(wgt,**k):
-		wgt = Config.make(wgt, **k)
-		wgt['Lay']={}
-		wgt	= Fnx(wgt)
-		wgt['Con']=Con(wgt)
-		wgt['Elements']={}
+def QCreatePre(**k):
+	pfx			=	k['pfx']
+	type		=	QtLibs.QElements.get(pfx).__name__ if QtLibs.QElements.get(pfx) else None
+	name		=	k['name']
+	w				=	{
+		'Name'    :	f'{pfx}_{name}'			,
+		'name'    :	name								,
+		'type'    :	type								,}
+	return w
+def QCreatePost(wgt,*selected,**k):
+	wgt = Config.make(wgt, **k)
+	wgt	= Fnx(wgt)
+	if not selected:
+		sel='W'
+	else:
+		sel=selected[0]
+	if selected =='L':
 		return wgt
+	elif selected == 'W':
+		wgt=Con(wgt)
+		wgt['Lay']={}
+		wgt['Elements']={}
+
+	return wgt
+
+def QCreate(fn,type):
+	def create(*a,**k):
+		w	=	QCreatePre(**k)
+		w	=	fn(w,*a,**k)
+		w	=	QCreatePost(w,**k)
+		return w
+
+
 	return create
 
-@QCreate
+@QCreate()
 def QEmpty(wgt,*a,**k):
 	wgt['Wgt']	= None
 	return wgt
-@QCreate
+@QCreate('W')
 def QApplication(wgt,*a,**k):
 	wgt['Wgt']= QtLibs.QElements['app'](sys.argv)
 	return wgt
@@ -95,7 +105,7 @@ def QApplication(wgt,*a,**k):
 def QComponent(wgt,qwgt,**k):
 	wgt['Wgt']	=	qwgt()
 	return wgt
-@QCreate
+@QCreate('L')
 def QLayout(lay,*a,**k):
 	wgt			=	k.pop('widget')
 	layout		=	QtLibs.QLayouts[k['t']]
@@ -160,6 +170,19 @@ def Fnx(wgt):
 	wgt	=	Mtds(wgt)
 	wgt['Fnx']['Configure']=Configure()
 	return wgt
+def sprint():
+	def pr():
+		print('success')
+	return pr
 
 def Con(wgt):
-	wgt['Con']={con:wgt['Fnx']['Sig'][con].connect for con in wgt['Fnx']['Sig']}
+	name=wgt['name']
+	wgt['Con']={}
+	# wgt['Con'][name]={con:wgt['Fnx']['Sig'][con].connect for con in wgt['Fnx']['Sig']}
+	print('#'*50)
+	print(name)
+	for key in wgt['Fnx']['Sig']:
+		wgt['Con'][name][key]=wgt['Fnx']['Sig'][key]
+		print('\t',key,' : ',wgt['Con'][name][key])
+
+	return wgt

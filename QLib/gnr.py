@@ -53,32 +53,23 @@ def ShortEl(wgt, *a):
 			sub=sub[item]
 		s[name.split('_')[1]]=sub
 	return s
-def ShortCon(wgt, *a):
-	s={}
+
+def sCon(wgt, conn):
+	def addcon(name,s):
+		s[name]=wgt['Con'][name].get(conn)
+		return s
+
+	s = {}
 	for name in wgt['Con']:
-		sub =wgt['Con'][name]
-		for item in a:
-			sub=sub[item]
-		s[name.split('_')[1]]=sub
+		if conn :
+			if conn in wgt['Con'][name]:
+				s=addcon(name,s)
 	return s
 def ModCon(wgt):
-	elements=wgt.get('Elements')
-	for element in elements:
-		cons=element['con']
-	def GetCon(w):
-		con=w.get('Con')
-
-	def unpack(w):
-		for key in w:
-			i
-
-	s={}
-	for name in wgt['Con'][a[0]]:
-		sub =wgt['Con'][a[0]][name]
-		for item in a[1:]:
-			sub=sub[item]
-		s[name]=sub
-	return s
+	s=ShortEl(wgt)
+	for element in s:
+		wgt['Con'][element]=s[element]['Con']
+	return wgt
 
 def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None
