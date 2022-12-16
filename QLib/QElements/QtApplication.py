@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from QLib import Create
 from Configs import Config
-import asyncio
+import asyncio,multiprocessing
 
 def QtApplication(**k):
 	def Fnx(wgt):
@@ -22,3 +22,11 @@ def make(namestr,**k):
 	preset={}
 	k=Config.preset(['app',namestr],preset,**k)
 	return QtApplication(**k)
+
+
+
+
+def main():
+
+    p = multiprocessing.Process(target=fun, args=('Peter',))
+    p.start()

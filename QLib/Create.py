@@ -83,7 +83,7 @@ def QCreatePost(wgt,*selected,**k):
 
 	return wgt
 
-def QCreate(fn,type):
+def QCreate(fn):
 	def create(*a,**k):
 		w	=	QCreatePre(**k)
 		w	=	fn(w,*a,**k)
@@ -93,11 +93,11 @@ def QCreate(fn,type):
 
 	return create
 
-@QCreate()
+@QCreate
 def QEmpty(wgt,*a,**k):
 	wgt['Wgt']	= None
 	return wgt
-@QCreate('W')
+@QCreate
 def QApplication(wgt,*a,**k):
 	wgt['Wgt']= QtLibs.QElements['app'](sys.argv)
 	return wgt
@@ -105,7 +105,7 @@ def QApplication(wgt,*a,**k):
 def QComponent(wgt,qwgt,**k):
 	wgt['Wgt']	=	qwgt()
 	return wgt
-@QCreate('L')
+@QCreate
 def QLayout(lay,*a,**k):
 	wgt			=	k.pop('widget')
 	layout		=	QtLibs.QLayouts[k['t']]

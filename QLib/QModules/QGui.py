@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from QLib import QModules
-from QLib.QModules import QtApplication,QMain
+from QLib.QModules import QMain
 from Configs import Config
 
 def QGui(*a,**k):
@@ -26,7 +26,7 @@ def QGui(*a,**k):
 	w['Name']				=		f'{pfx}_{name}'
 	w['name']				=		name
 	w['type']				= 	'QGui'
-	w['App'] 				= 	QModules.QtApplication.make(w['name'], **k)
+	w['App'] 				= 	QLib.QElements.QtApplication.make(w['name'], **k)
 	w['Main'] 			=	 	QModules.QMain.make(w['name'],**k)
 	w 							= 	Config.make(w, **k)
 	w['Fnx']				= 	Fnx(w)
