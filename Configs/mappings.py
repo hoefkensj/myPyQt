@@ -19,12 +19,14 @@ SizeAliasses={
 	}
 
 Makes={
-
-		'MaximumSize'           :		'''make.Size(k.get('wh'))''',
-		'SizePolicy'            :		'''make.SizePolicy(k.get('pol'))''',
-		'ContentsMargins'       :		'''make.Margins(k.get('margin'))''',
-		'IconSize'              :		'''make.Size(k['isize'])''',
-		'ToolButtonStyle'       :		'''make.ToolButtonStyle(k.get('btn')])''',
+		'MaximumSize'           :		'''make.Size({MAKE})''',
+		'MinimumSize'           :		'''make.Size({MAKE})''',
+		'SizePolicy'            :		'''make.SizePolicy('{MAKE}')''',
+		'ContentsMargins'       :		'''make.Margins({MAKE})''',
+		'IconSize'              :		'''make.Size({MAKE})''',
+		'ToolButtonStyle'       :		'''make.ToolButtonStyle({MAKE})''',
+		'Icon'                  :		'''make.Icon({MAKE})'''
+		}
 
 def mapAlias(**k):
 	l={}
@@ -37,39 +39,18 @@ def mapAlias(**k):
 		for key in SizeAliasses:
 			if m.get(key):
 				l[SizeAliasses[key]]=m.get(key)
+	return l|k
 
-
-
+def mapMakes(**k):
+	l={}
+	for key in Makes:
+		if key in k:
+			MAKE=k.get(key)
+			print(key)
+			l[key]=Makes[key].format(MAKE=MAKE)
+			print(key,Makes[key].format(MAKE=MAKE))
 	return l
-
-def mapMake(**k)
-
-mappings={
-	'n': {
-
-
-
-
-
-
-		'widget'  :			'Widget',
-
-
-	},
-	'v': {
-		'Widget'                :		'''k['widget'].get('Name')''',
-
-		'Icon'                  :		'''gnr.Icon(k['ico'])''',
-
-
-	}
-	return n,v
-
 def make(**k):
-	c={}
-	for kwarg in k:
-		if kwarg in nmapping:
-			c[nmapping[kwarg]]=vmapping[nmapping[kwarg]]
-		else:
-			c[kwarg]=k[kwarg]
-	return c
+	k=mapAlias(**k)
+	k=mapMakes(**k)
+	return k

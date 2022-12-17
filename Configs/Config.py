@@ -1,26 +1,23 @@
 #!/usr/bin/env python
-import Fnx
+
 from Fnx import make
-from QLib import gnr
-from QStatic import QtLibs
-from QStatic.QtLibs import QToolButtons
-from Configs import QDefaults
+
+from Configs import QDefaults,mappings
+
+def isMake(setval):
+	return setval.startswith('make.')
 
 
+def Config(wgt,**k):
+	k=mappings.mapAlias(**k)
+	m=mappings.mapMakes(**k)
+	for setting in m:
+		k[setting]=eval(m[setting])
 
-	def config(wgt,**k):
-		c=make(**k)
-		for setting in c:
-			print(setting,c[setting])
-			if setting not in vmapping:
-				wgt['Cfg'][setting]=c[setting]
-				continue
-			wgt['Cfg'][setting]=eval(c[setting])
-
-		return wgt
-
-	return config
-
+	for setting in k:
+		print(setting,k[setting])
+		wgt['Cfg'][setting]=k[setting]
+	return wgt
 
 
 

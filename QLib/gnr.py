@@ -1,25 +1,7 @@
 #!/usr/bin/env python
 
-import assets.ico
-import QStatic.PyQtX
+
 from QLib.QBases import QModule
-def Icon(svg):
-		import base64
-		icon_states={
-			0 : QStatic.PyQtX.QtGui.QIcon.State.On,
-			1 :	QStatic.PyQtX.QtGui.QIcon.State.Off,	}
-		icon = QStatic.PyQtX.QtGui.QIcon()
-		def  make_icon(icon,state):
-			with open(f'icon{state}.svg','wb') as l:
-				l.write(base64.b64decode(svg[state]))
-			icon.addPixmap(
-				QStatic.PyQtX.QtGui.QPixmap(f'icon{state}.svg'),
-				QStatic.PyQtX.QtGui.QIcon.Mode.Normal,
-				icon_states[state])
-			return icon
-		icon = make_icon(icon,0)
-		icon = make_icon(icon,1)
-		return icon
 
 def Element(component):
 	name=component.get('name')
@@ -71,8 +53,6 @@ def ModCon(wgt):
 		wgt['Con'][element]=s[element]['Con']
 	return wgt
 
-def IconSet(i):
-	return assets.ico.get(i) if i in  assets.ico.names() else None
 
 def Clean(wgt):
 	toclean=[]

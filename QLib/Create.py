@@ -93,7 +93,7 @@ def QCreatePre(**k):
 
 def QCreatePost(wgt,**k):
 	wgt = Generate(wgt)
-	wgt['Gen']['Config']=wgt['Gen']['Config']()
+	wgt=wgt['Gen']['Config'](wgt,**k)
 	wgt['Gen']['Fnxs'](wgt)
 	return wgt
 
