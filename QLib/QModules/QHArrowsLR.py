@@ -17,13 +17,14 @@ def QHArrowsLR(**k):
 			def init():
 				pass
 			return init
-		wgt= QLib.Create.Fnx(wgt)
+
 		wgt['Fnx']['Init']=Init(wgt)
 		return wgt
 	def Con(wgt):
-		s=gnr.ShortEl(wgt, 'Fnx')
-		wgt['Con']['<']=	s['<']['Sig']['clicked'].connect
-		wgt['Con']['>']=	s['>']['Sig']['clicked'].connect
+		wgt['Gen']['ConnectElements'](wgt)
+			# s=gnr.ShortEl(wgt, 'Fnx')
+			# wgt['Con']['<']=	s['<']['Sig']['clicked'].connect
+			# wgt['Con']['>']=	s['>']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt):
 		wgt=gnr.QWgtInit(wgt)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import QLib.Create
-from Qt.QtLibs import QElements
+from QStatic.QtLibs import QElements
 from QLib import gnr
 
 from Configs import QDefaults,Config

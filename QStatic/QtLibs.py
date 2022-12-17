@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from Qt.PyQtX import QtWidgets, QtCore
+from QStatic.PyQtX import QtWidgets, QtCore
 
 QSizePolicies = {
 	'Pol': QtWidgets.QSizePolicy,
@@ -12,12 +12,12 @@ QSizePolicies = {
 	'F'       :		QtWidgets.QSizePolicy.Policy.Fixed,
 }
 QDialogs={
-	'file'		:		QtWidgets.QFileDialog,
+	'file'    :		QtWidgets.QFileDialog,
 	'progress':		QtWidgets.QProgressDialog,
-	'dialog'	:		QtWidgets.QDialog,
-	'font'		:		QtWidgets.QFontDialog,
-	'color'		:		QtWidgets.QColorDialog,
-	'input'		:		QtWidgets.QInputDialog,
+	'dialog'  :		QtWidgets.QDialog,
+	'font'    :		QtWidgets.QFontDialog,
+	'color'   :		QtWidgets.QColorDialog,
+	'input'   :		QtWidgets.QInputDialog,
 }
 QLayouts				=	{
 	'H'       :		QtWidgets.QHBoxLayout,

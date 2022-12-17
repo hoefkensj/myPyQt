@@ -7,17 +7,15 @@ def QMain(**k):
 	def Fnx(wgt):
 		def Run(wgt):
 			def run():
-				wgt['Fnx']['Generate'](wgt)
+				wgt['Gen']['Assemble'](wgt)
 				wgt['Fnx']['Show']()
 				return wgt
 			return run
-		wgt= QLib.Create.Fnx(wgt)
 		wgt=QLib.Create.Show(wgt)
 		wgt['Fnx']['Run']	=	Run(wgt)
 		return wgt
 	def Init(wgt):
-		wgt=wgt['Fnx']['Configure'](wgt)
-		return Create.Mtds(wgt)
+		return wgt
 	w							=		QWidget.make(k['name'], **k)
 	w							=		Fnx(w)
 	w['Elements']	=		{}

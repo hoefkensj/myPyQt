@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Auth
 import contextlib
-from Qt import QtLibs
+from QStatic import QtLibs
 import sys
 from Configs import Config
 
@@ -20,67 +20,81 @@ def isSetGetPair(mtd,pool):
 		mtdin=mtdin*(mtdin in pool)
 		getmtd=(mtdsn and mtdin) or mtdsn or mtdin
 		return  (mtdcn,getmtd)
+def Entry(fn):
+	name=getattr(fn,'__name__')
+	return {name: fn}
+
+def Generate(wgt):
+	wgt['Gen']|=Entry(Config.Config)
+	wgt['Gen']|=Entry(Fnxs)
+	wgt['Gen']|=Entry(Assemble)
+	wgt['Gen']|=Entry(Configure)
+	wgt['Gen']|=Entry(ConnectElements)
+	return wgt
 
 def Mtds(wgt):
-	f = wgt.get('Fnx') or {}
-	f['Mtd']=wgt.get('Mtd') or {}
-	f['Mtd']['Wrappers']={}
-	f['Atr']={}
-	f['Set']={}
-	f['set']={}
-	f['Sig']={}
-	f['Get']={}
+	wgt['Fnx'] = wgt.get('Fnx') or {}
+	wgt['Con'] = wgt.get('Con') or {}
+	wgt['Fnx']['Mtd']=wgt.get('Mtd') or {}
+	wgt['Fnx']['Mtd']['Wrappers']={}
+	wgt['Fnx']['Mtd']['Atr']={}
+	wgt['Fnx']['Set']={}
+	wgt['Fnx']['Get']={}
+	wgt['Fnx']['Sig']={}
+	wgt['Fnx']['set']={}
+
+
 	DirWgt=dir(wgt['Wgt'])
 	for mtdn in DirWgt:
 		mtd = getattr(wgt['Wgt'], mtdn)
 		if not callable(mtd):
+			wgt['Fnx']['Mtd']['Atr'][mtdn]=mtd
 			continue
 		cls=getattr(mtd,'__class__')
 		if not mtdn.startswith('set') and \
 				not isQtSignal(mtd) and \
 			 		not isMethodWrapper(mtdn):
-			f['Mtd'][mtdn] =	mtd
+			wgt['Fnx']['Mtd'][mtdn] =	mtd
 			continue
 		if isQtSignal(mtd):
-				f['Sig'][mtdn]=mtd
+				wgt['Fnx']['Sig'][mtdn]=mtd
+				wgt['Con'][mtdn]=mtd.connect
+
 				continue
 		elif isMethodWrapper(mtdn):
-				f['Mtd']['Wrappers'][mtdn]=mtd
+				wgt['Fnx']['Mtd']['Wrappers'][mtdn]=mtd
 				continue
 		elif mtdn.startswith('set'):
 			# print(isSetGetPair(mtdn,DirWgt))
 			shortmtd,getmtd=isSetGetPair(mtdn,DirWgt)
 			if getmtd:
-				f['Set'][shortmtd]	=	mtd
-				f['Get'][shortmtd]	= getattr(wgt['Wgt'], getmtd)
-
-	wgt['Fnx']=f
+				wgt['Fnx']['Set'][shortmtd]	=	mtd
+				wgt['Fnx']['Get'][shortmtd]	= getattr(wgt['Wgt'], getmtd)
+			else:
+				wgt['Fnx']['set'][shortmtd]	=	mtd
 	return wgt
 
 
 def QCreatePre(**k):
-	pfx			=	k['pfx']
-	type		=	QtLibs.QElements.get(pfx).__name__ if QtLibs.QElements.get(pfx) else None
-	name		=	k['name']
-	w				=	{
-		'Name'    :	f'{pfx}_{name}'			,
-		'name'    :	name								,
-		'type'    :	type								,}
+	pfx				=	k['pfx']
+	wgttype		=	QtLibs.QElements.get(pfx).__name__ if QtLibs.QElements.get(pfx) else None
+	name			=	k['name']
+	w							=	{}
+	w['Name']			=	f'{pfx}_{name}'
+	w['name']			=	name
+	w['type'] 		=	wgttype
+	w['Wgt']			=	''
+	w['Cfg']			= {}
+	w['Gen']			=	{}
+	w['Fnx']			=	{}
+	w['Con']			=	{}
+	w['Elements']	=	{}
 	return w
-def QCreatePost(wgt,*selected,**k):
-	wgt = Config.make(wgt, **k)
-	wgt	= Fnx(wgt)
-	if not selected:
-		sel='W'
-	else:
-		sel=selected[0]
-	if selected =='L':
-		return wgt
-	elif selected == 'W':
-		wgt=Con(wgt)
-		wgt['Lay']={}
-		wgt['Elements']={}
 
+def QCreatePost(wgt,**k):
+	wgt = Generate(wgt)
+	wgt['Gen']['Config']=wgt['Gen']['Config']()
+	wgt['Gen']['Fnxs'](wgt)
 	return wgt
 
 def QCreate(fn):
@@ -89,66 +103,80 @@ def QCreate(fn):
 		w	=	fn(w,*a,**k)
 		w	=	QCreatePost(w,**k)
 		return w
-
-
 	return create
 
 @QCreate
 def QEmpty(wgt,*a,**k):
 	wgt['Wgt']	= None
 	return wgt
-@QCreate
-def QApplication(wgt,*a,**k):
-	wgt['Wgt']= QtLibs.QElements['app'](sys.argv)
+
+def QApplication(*a,**k):
+	@QCreate
+	def qapplication(wgt,*a,**k):
+		wgt['Wgt']= QtLibs.QElements['app'](sys.argv)
+		return wgt
+	wgt=qapplication(*a,**k)
+	wgt['Gen']['Config'](wgt,**k)
 	return wgt
-@QCreate
-def QComponent(wgt,qwgt,**k):
-	wgt['Wgt']	=	qwgt()
+
+def QBase(qwgt,**k):
+	@QCreate
+	def qbase(wgt,*a,**k):
+		wgt['Wgt']	=	qwgt()
+		return wgt
+	wgt=qbase(qwgt,**k)
 	return wgt
-@QCreate
-def QLayout(lay,*a,**k):
-	wgt			=	k.pop('widget')
-	layout		=	QtLibs.QLayouts[k['t']]
-	lay['Wgt']	=	layout(wgt['Wgt'])
+
+def QComponent(qwgt,**k):
+	@QCreate
+	def qcomponent(wgt,qwgt,**k):
+		wgt['Wgt']	=	qwgt()
+		return wgt
+	wgt=qcomponent(qwgt,**k)
+	wgt=wgt['Gen']['Configure'](wgt)
+	return wgt
+
+
+def QLayout(*a,**k):
+	@QCreate
+	def qlayout(lay,*a,**k):
+		wgt			=	k.pop('widget')
+		layout		=	QtLibs.QLayouts[k['t']]
+		lay['Wgt']	=	layout(wgt['Wgt'])
+		return lay
+	lay=qlayout(*a,**k)
+	lay.pop('Elements')
+	lay.pop('Con')
 	return lay
 
-def SpecialCases(wgt):
-	def HideCols(wgt):
-		cols = wgt['Cfg']['hidecols']
-		for col in cols:
-			wgt['Fnx']['Set']['ColumnHidden'](col,True)
-		return wgt
-	Cases={
-		'hidecols'        :	HideCols			,
-	}
-	for Case in Cases:
-		if Case in  wgt['Cfg']:
-			wgt=Cases[Case](wgt)
+
+
+
+
+def Assemble(wgt):
+	for element in 	wgt['Elements']:
+		wgt['Fnx']['Add'](wgt['Elements'][element]['Wgt'])
 	return wgt
 
-def AddFnx(fn):
-	name=getattr(fn,'__name__')
-	def addfnx(wgt,*a,**k):
-		wgt['Fnx'][name]=fn()
-		return wgt
-	return addfnx
+def Fnxs(wgt):
+	wgt	=	Mtds(wgt)
+	return wgt
+
+def Configure(wgt):
+	for prop in wgt['Cfg']:
+		with contextlib.suppress(KeyError):
+			wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
+	return wgt
 
 
-def Configure():
-	def configure(wgt):
-		for prop in wgt['Cfg']:
-				with contextlib.suppress(KeyError):
-					wgt['Fnx']['Set'][prop](wgt['Cfg'][prop])
-		return wgt
-	return configure
+def ConnectElements(wgt):
+	for element in wgt['Elements']:
+		wgt['Con'][element]=wgt['Elements'][element]['Con']
+
+	return wgt
 
 
-def Generate():
-	def generate(wgt):
-		for element in 	wgt['Elements']:
-			wgt['Fnx']['Add'](wgt['Elements'][element]['Wgt'])
-		return wgt
-	return generate
+
 
 def Show(wgt):
 	def show(*a):
@@ -165,11 +193,7 @@ def Show(wgt):
 		wgt['Fnx']['Show']=show
 	return wgt
 
-def Fnx(wgt):
-	wgt['Fnx']=wgt.get('Fnx') or {}
-	wgt	=	Mtds(wgt)
-	wgt['Fnx']['Configure']=Configure()
-	return wgt
+
 def sprint():
 	def pr():
 		print('success')
@@ -182,7 +206,7 @@ def Con(wgt):
 	print('#'*50)
 	print(name)
 	for key in wgt['Fnx']['Sig']:
-		wgt['Con'][name][key]=wgt['Fnx']['Sig'][key]
+		wgt['Con'][name][key]=wgt['Fnx']['Sig'][key].connect
 		print('\t',key,' : ',wgt['Con'][name][key])
 
 	return wgt

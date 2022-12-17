@@ -62,8 +62,6 @@ def QEditProp(**k):
 				wgt['Fnx']['Editable'](not k['ed'])
 				return wgt
 			return init
-		wgt['Fnx']['Generate']=QLib.Create.Generate()
-		wgt['Fnx']['Configure']=QLib.Create.Configure()
 		wgt['Fnx']['Edit'] 			=	Edit()
 		wgt['Fnx']['txtText'] 	=	TxtText()
 		wgt['Fnx']['setText']		=	SetText()
@@ -92,12 +90,13 @@ def QEditProp(**k):
 		# # wgt['Con']['Set']=sCon['Set']
 		# # wgt['Con']['Field']	= {}
 		# # wgt['Con']['Field']['returnPressed']= sSig['Field']['returnPressed'].connect
-		wgt=Internals(wgt)
+		# wgt=Internals(wgt)
 		return wgt
 	def Init(wgt):
 		fn=wgt['Fnx']
-		wgt=fn['Generate'](wgt)
-		wgt=fn['Configure'](wgt)
+		gn=wgt['Gen']
+		wgt=gn['Assemble'](wgt)
+		wgt=gn['Configure'](wgt)
 		wgt=fn['Init']()
 		return wgt
 	w	= QWidget.make(k['name'], **k)

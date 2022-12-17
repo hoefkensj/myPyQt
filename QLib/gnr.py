@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 
 import assets.ico
-import Qt.PyQtX
+import QStatic.PyQtX
 from QLib.QBases import QModule
 def Icon(svg):
 		import base64
 		icon_states={
-			0 : Qt.PyQtX.QtGui.QIcon.State.On,
-			1 :	Qt.PyQtX.QtGui.QIcon.State.Off,	}
-		icon = Qt.PyQtX.QtGui.QIcon()
+			0 : QStatic.PyQtX.QtGui.QIcon.State.On,
+			1 :	QStatic.PyQtX.QtGui.QIcon.State.Off,	}
+		icon = QStatic.PyQtX.QtGui.QIcon()
 		def  make_icon(icon,state):
 			with open(f'icon{state}.svg','wb') as l:
 				l.write(base64.b64decode(svg[state]))
 			icon.addPixmap(
-				Qt.PyQtX.QtGui.QPixmap(f'icon{state}.svg'),
-				Qt.PyQtX.QtGui.QIcon.Mode.Normal,
+				QStatic.PyQtX.QtGui.QPixmap(f'icon{state}.svg'),
+				QStatic.PyQtX.QtGui.QIcon.Mode.Normal,
 				icon_states[state])
 			return icon
 		icon = make_icon(icon,0)
@@ -22,10 +22,10 @@ def Icon(svg):
 		return icon
 
 def Element(component):
-	name=component.get('Name')
+	name=component.get('name')
 	return {name : component}
 
-def Module(name,*elements,**k):
+def Module(name,elements,**k):
 	def Elements(wgt):
 		for element in elements:
 			wgt['Elements']|= Element(element)
@@ -51,10 +51,10 @@ def ShortEl(wgt, *a):
 		sub =wgt['Elements'][name]
 		for item in a:
 			sub=sub[item]
-		s[name.split('_')[1]]=sub
+		s[name]=sub
 	return s
 
-def sCon(wgt, conn):
+def sCon(wgt, *conn):
 	def addcon(name,s):
 		s[name]=wgt['Con'][name].get(conn)
 		return s
@@ -62,7 +62,7 @@ def sCon(wgt, conn):
 	s = {}
 	for name in wgt['Con']:
 		if conn :
-			if conn in wgt['Con'][name]:
+			if conn[0] in wgt['Con']:
 				s=addcon(name,s)
 	return s
 def ModCon(wgt):
@@ -85,13 +85,12 @@ def Clean(wgt):
 
 
 def QWgtInit(wgt):
-	wgt['Fnx']['Generate'](wgt)
-	wgt['Fnx']['Configure'](wgt)
+	wgt['Gen']['Config'](wgt)
 	return wgt
 
 
 def QElementInit(wgt):
-	wgt['Fnx']['Configure'](wgt)
+	wgt['Gen']['Configure'](wgt)
 	return wgt
 
 

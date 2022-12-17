@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from QLib import gnr,Create
-from Qt.QtLibs import QElements
+from QStatic.QtLibs import QElements
 from Configs import QDefaults,Config
 def QLabel(**k):
 	def Fnx(wgt):

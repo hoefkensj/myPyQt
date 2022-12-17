@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from QLib import QModules
 from QLib.QModules import QMain
+from QLib.QElements import QtApplication
 from Configs import Config
 
 def QGui(*a,**k):
@@ -10,14 +10,16 @@ def QGui(*a,**k):
 				wgt['App']['Fnx']['Run']()
 			return Execute
 		return run
+
 	def Fnx(wgt):
-		wgt['Fnx']={}
-		wgt['Fnx']['Configure']	=		wgt[w['name']]['Fnx']['Configure']
-		wgt['Fnx']['Add']				=		wgt[w['name']]['Fnx']['Add']
-		wgt['Fnx']['Main']	=				wgt[w['name']]['Fnx']['Run']
+		wgt['Fnx']							=		{}
+		wgt['Fnx']['Configure']	=		wgt['Main']['Gen']['Config']
+		wgt['Fnx']['Add']				=		wgt['Main']['Fnx']['Add']
+		wgt['Fnx']['Main']			=		wgt['Main']['Fnx']['Run']
 		return wgt['Fnx']
+
 	def Init(wgt):
-		wgt=wgt['Fnx']['Configure'](wgt)
+		wgt['Main']=wgt['Fnx']['Configure'](wgt['Main'],**k)
 		return wgt
 
 	w								=		{}
@@ -26,9 +28,8 @@ def QGui(*a,**k):
 	w['Name']				=		f'{pfx}_{name}'
 	w['name']				=		name
 	w['type']				= 	'QGui'
-	w['App'] 				= 	QLib.QElements.QtApplication.make(w['name'], **k)
-	w['Main'] 			=	 	QModules.QMain.make(w['name'],**k)
-	w 							= 	Config.make(w, **k)
+	w['App'] 				= 	QtApplication.make(w['name'], **k)
+	w['Main'] 			=	 	QMain.make(w['name'],**k)
 	w['Fnx']				= 	Fnx(w)
 	w['Run']				=		Run(w)
 	return Init(w)

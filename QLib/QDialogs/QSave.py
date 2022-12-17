@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from Qt.QtLibs import QDialogs,QElements
+from QStatic.QtLibs import QDialogs,QElements
 
 def saveDialog():
 	config=[
@@ -9,6 +9,6 @@ def saveDialog():
 		"All Files (*)",
 	]
 	def saveDialog():
-		Path, Type =QDialogs['file'].getSaveFileName(*config)
+    Path, Type =QDialogs['file'].getSaveFileName(*config)
 		return Path
 	return saveDialog()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from QLib import Create
-from Qt.QtLibs import QElements
+from QStatic.QtLibs import QElements
 
 from Configs import QDefaults,Config
 def QLineEdit(**k):
@@ -16,7 +16,7 @@ def QLineEdit(**k):
 		return wgt
 
 	def Init(wgt)     :
-		wgt=wgt['Fnx']['Configure'](wgt)
+		wgt=wgt['Gen']['Configure'](wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['txtE'], **k)
 	w						=			Fnx(w)

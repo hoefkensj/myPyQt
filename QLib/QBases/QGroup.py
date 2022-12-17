@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import QLib.Create
-from Qt import QtLibs
+from QStatic import QtLibs
 from QLib import Create
 from Configs import Config
 from QLib.QBases import QLayout

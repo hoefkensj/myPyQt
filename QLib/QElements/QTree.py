@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from QLib import gnr,Create
-from Qt.QtLibs import QElements
+from QStatic.QtLibs import QElements
 from Configs import Config,QDefaults
 import sys
 
@@ -73,7 +73,7 @@ def Print_Tree(wgt):
 				sys.stdout.write(f'{str(key)}\t:\t{dkey}\n')
 	def print_tree():
 		for element in wgt['Data']:
-			pTree(d=element['data'],max=10)
+			pTree(d=element,max=10)
 	return print_tree
 def QTree(**k):
 	def Fnx(wgt):

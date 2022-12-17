@@ -10,7 +10,6 @@ def QHIncDec(**k):
 		wgt['Elements'] |=gnr.Element(QIconButton.make(f'Dec', h=15, w=15, bi=False))
 		return wgt
 	def Fnx(wgt):
-		s=gnr.ShortEl(wgt)
 		def StateInc():
 			def stateinc(state):
 				s['inc']['Set']['Enabled'](state)
@@ -28,11 +27,11 @@ def QHIncDec(**k):
 		wgt['Fnx']['IncDec'] 	=	Show()
 		return wgt
 	def Con(wgt):
-		s=gnr.ShortEl(wgt, 'Con')
+		s=gnr.sCon(wgt)
 		return wgt
 	def Init(wgt):
-		wgt['Fnx']['Generate'](wgt)
-		wgt['Fnx']['Configure'](wgt)
+		wgt['Gen']['Assemble'](wgt)
+		wgt['Gen']['Configure'](wgt)
 		return wgt
 
 	w	=		QWidget.make(k['name'], **k)

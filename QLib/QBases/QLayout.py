@@ -11,10 +11,12 @@ def QLayout(**k):
 		wgt['Fnx']['Add']	=	Add(wgt)
 		return wgt
 	def Init(wgt):
-		wgt=wgt['Fnx']['Configure'](wgt)
+		wgt=wgt['Gen']['Configure'](wgt)
 		return wgt
-	w			= QLib.Create.QLayout(**k)
-	w			= Fnx(w)
+	wgt=k.pop('widget')
+	wgt['Lay']= QLib.Create.QLayout(**k)
+
+	l			= Fnx(w)
 	return Init(w)
 
 def make(widget,**k):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Auth
-from Qt.QtLibs import QCores
-from Qt.QtLibs import QSizePolicies
+from QStatic.QtLibs import QCores
+from QStatic.QtLibs import QSizePolicies
 
 def Size(wh):
 	return QCores['Size'](wh[0], wh[1])
@@ -12,3 +12,5 @@ def SizePolicy(pol):
 
 def Margins(margins):
 	return QCores['Margins'](*margins)
+
+def ToolButtonStyle()
