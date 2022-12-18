@@ -178,46 +178,31 @@ def Mtds(wgt):
 # 	for key in matchless:
 # 		Mtd[key]=getattr(wgt['Wgt'], key)
 # 	return wgt
+def Naming(w,**k):
+	pfx					=	k['pfx']
+	name				=	k['name']
+	w['Name']			=	f'{pfx}_{name}'
+	w['name']			=	name
+	return w
 
 def QCreate(fn):
-	def QCreatePre(**k):
-		pfx				=	k['pfx']
-		wgttype		=	QtLibs.QElements.get(pfx).__name__ if QtLibs.QElements.get(pfx) else None
-		name			=	k['name']
-		w							=	{}
-		w['Name']			=	f'{pfx}_{name}'
-		w['name']			=	name
-		w['type'] 		=	wgttype
-		w['Wgt']			=	''
-		w['Cfg']			= {}
-		w['Fnx']			=	{}
-		w['Fnx']['Gen']			=	{}
-		w['Fnx']['Qt']			=	{}
-		w['Con']			=	{}
 
-		w['Elements']	=	{}
-		return w
 
 	def QCreatePost(wgt,**k):
 		wgt = Generate(wgt)
 		wgt=wgt['Fnx']['Gen']['Config'](wgt,**k)
-
 		wgt['Fnx']['Gen']['Fnxs'](wgt)
 		return wgt
 
-	def create(*a,**k):
-		w	=	QCreatePre(**k)
+	def create(w,**k):
+		w =	Naming(w,**k)
+
 		w	=	fn(w,*a,**k)
 		w	=	QCreatePost(w,**k)
 		return w
 	return create
 
-def QEmpty(*a,**k):
-	@QCreate
-	def qempty(wgt,*a,**k):
-		wgt['Wgt']	= None
-		return wgt
-	return qempty
+
 
 def QApplication(*a,**k):
 	@QCreate
@@ -245,16 +230,18 @@ def QComponent(qwgt,**k):
 	wgt=wgt['Fnx']['Gen']['Configure'](wgt)
 	return wgt
 
-def QLayout(*a,**k):
+def QLayout(wgt,**k):
 	@QCreate
 	def qlayout(lay,*a,**k):
-		wgt			=	k.pop('widget')
-		layout		=	QtLibs.QLayouts[k['t']]
+
+
 		lay['Wgt']	=	layout(wgt['Wgt'])
 		return lay
-	lay=qlayout(*a,**k)
-	lay.pop('Elements')
-	lay.pop('Con')
+	widget		=	k.pop('widget')
+	layout		=	QtLibs.QLayouts[k['t']]
+	w=qlayout(*a,**k)
+
+
 	lay=lay['Fnx']['Gen']['Configure'](lay)
 	return lay
 

@@ -4,19 +4,10 @@ from QLib.QBases import QWidget
 from QLib import gnr,Create
 from Configs import Config,QDefaults
 def QModule(**k):
-	def Fnx(wgt):
-		def Run(wgt):
-			wgt['Fnx']['Gen']['Assemble'](wgt)
-			return wgt
 
-		wgt['Fnx']['Run']	=	Run
-		return wgt
-	def Init(wgt):
-		return wgt
 	w	= QWidget.make(k['name'], **k)
-	w	=	Fnx(w)
-	w['Compile']=w['Fnx']['Run']
-	return 	Init(w)
+
+	return w
 
 
 def make(namestr,**k):

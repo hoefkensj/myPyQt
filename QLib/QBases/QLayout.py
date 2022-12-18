@@ -1,21 +1,16 @@
 #!/usr/bin/env python
 import QLib.Create
 from Configs import QDefaults,Config
+from Configs import skel
 
 def QLayout(**k):
 	def Fnx(wgt):
-		def Add(wgt):
-			def add(component):
-				wgt['Fnx']['Qt']['Mtd']['addWidget'](component)
-			return add
-		wgt['Fnx']['Add']	=	Add(wgt)
+		wgt['Fnx']['Add']	= wgt['Fnx']['Qt']['Mtd']['addWidget']
 		return wgt
-	def Init(wgt):
-		wgt=wgt['Fnx']['Gen']['Configure'](wgt)
-		return wgt
-	l= QLib.Create.QLayout(**k)
+	w			= skel.QLayout
+	w			= QLib.Create.QLayout(w,**k)
 	l			= Fnx(l)
-	return Init(l)
+	return l
 
 def make(widget,**k):
 	namestr=widget['name']

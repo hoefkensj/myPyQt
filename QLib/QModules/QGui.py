@@ -14,7 +14,7 @@ def QGui(*a,**k):
 	def Fnx(wgt):
 		wgt['Fnx']							=		{}
 		wgt['Fnx']['Configure']	=		wgt['Main']['Fnx']['Gen']['Configure']
-		wgt['Fnx']['Add']				=		wgt['Main']['Fnx']['Add']
+
 		wgt['Fnx']['Main']			=		wgt['Main']['Fnx']['Run']
 		return wgt['Fnx']
 
