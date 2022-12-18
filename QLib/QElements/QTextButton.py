@@ -7,7 +7,7 @@ def QtextButton(**k):
 
 		return wgt
 	def Init(wgt)     :
-		wgt=gnr.QElementInit(wgt)
+
 		return wgt
 	w						=			Create.QComponent(QElements['tBtn'], **k)
 	w						=			Con(w)

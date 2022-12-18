@@ -2,11 +2,11 @@
 from QLib import gnr,Create
 from QStatic.QtLibs import QElements
 from Configs import QDefaults,Config
+import Fnx
 def QIconButton(**k):
 	def Con(wgt):
 		return wgt
 	def Init(wgt)     :
-		wgt=gnr.QElementInit(wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['iBtn'], **k)
 	w						=			Con(w)
@@ -15,7 +15,7 @@ def QIconButton(**k):
 def make(namestr, **k):
 	iconame=namestr.split('_')[0]
 	preset=QDefaults.QIconButton|{
-		'ico'       :	gnr.IconSet(iconame)	,
+		'ico'       :	Fnx.make.IconSet(iconame)	,
 	}
 	k=Config.preset(['iBtn',namestr],preset,**k)
 	return QIconButton(**k)

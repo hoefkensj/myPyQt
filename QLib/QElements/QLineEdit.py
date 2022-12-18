@@ -5,18 +5,18 @@ from QStatic.QtLibs import QElements
 from Configs import QDefaults,Config
 def QLineEdit(**k):
 	def Fnx(wgt):
-		def RO():	wgt['Fnx']['Set']['ReadOnly'](True)
-		def RW():	wgt['Fnx']['Set']['ReadOnly'](False)
-		wgt['Fnx']['Write']		=	wgt['Fnx']['Set']['Text']
-		wgt['Fnx']['Read']		=	wgt['Fnx']['Get']['Text']
+		def RO():	wgt['Fnx']['Qt']['Set']['ReadOnly'](True)
+		def RW():	wgt['Fnx']['Qt']['Set']['ReadOnly'](False)
+		wgt['Fnx']['Write']		=	wgt['Fnx']['Qt']['Set']['Text']
+		wgt['Fnx']['Read']		=	wgt['Fnx']['Qt']['Get']['Text']
 
 		wgt['Fnx']['RO']			=	RO
 		wgt['Fnx']['RW']			=	RW
-		wgt['Fnx']['ED']			=	wgt['Fnx']['Get']['ReadOnly']
+		wgt['Fnx']['ED']			=	wgt['Fnx']['Qt']['Get']['ReadOnly']
 		return wgt
 
 	def Init(wgt)     :
-		wgt=wgt['Gen']['Configure'](wgt)
+		wgt=wgt['Fnx']['Gen']['Configure'](wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['txtE'], **k)
 	w						=			Fnx(w)

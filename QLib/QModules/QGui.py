@@ -13,13 +13,14 @@ def QGui(*a,**k):
 
 	def Fnx(wgt):
 		wgt['Fnx']							=		{}
-		wgt['Fnx']['Configure']	=		wgt['Main']['Gen']['Config']
+		wgt['Fnx']['Configure']	=		wgt['Main']['Fnx']['Gen']['Configure']
 		wgt['Fnx']['Add']				=		wgt['Main']['Fnx']['Add']
 		wgt['Fnx']['Main']			=		wgt['Main']['Fnx']['Run']
 		return wgt['Fnx']
 
 	def Init(wgt):
-		wgt['Main']=wgt['Fnx']['Configure'](wgt['Main'],**k)
+		wgt['Main']=wgt['Fnx']['Configure'](wgt['Main'])
+
 		return wgt
 
 	w								=		{}
@@ -29,7 +30,7 @@ def QGui(*a,**k):
 	w['name']				=		name
 	w['type']				= 	'QGui'
 	w['App'] 				= 	QtApplication.make(w['name'], **k)
-	w['Main'] 			=	 	QMain.make(w['name'],**k)
+	w['Main'] 			=	 	QMain.make('Main',**k)
 	w['Fnx']				= 	Fnx(w)
 	w['Run']				=		Run(w)
 	return Init(w)

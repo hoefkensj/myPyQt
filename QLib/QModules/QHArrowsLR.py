@@ -21,13 +21,12 @@ def QHArrowsLR(**k):
 		wgt['Fnx']['Init']=Init(wgt)
 		return wgt
 	def Con(wgt):
-		wgt['Gen']['ConnectElements'](wgt)
+		wgt['Fnx']['Gen']['ConnectElements'](wgt)
 			# s=gnr.ShortEl(wgt, 'Fnx')
 			# wgt['Con']['<']=	s['<']['Sig']['clicked'].connect
 			# wgt['Con']['>']=	s['>']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt):
-		wgt=gnr.QWgtInit(wgt)
 		return wgt
 	w		= QWidget.make(k['name'], **k)
 	w 	= 		Elements(w)

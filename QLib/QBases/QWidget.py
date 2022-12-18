@@ -12,16 +12,24 @@ def QWidget(**k):
 			wgt['Lay']=QLayout.make(wgt, **k)
 		return wgt
 	def Fnx(wgt):
-		wgt['Fnx']['Add']		=	wgt['Lay']['Fnx']['Add']
+		def Add(wgt):
+			def add(component):
+				cmpWgt=component['Wgt']
+				wgt['Lay']['Fnx']['Add'](cmpWgt)
+				wgt['Fnx'][component['name']]=component['Fnx']
+				wgt['Con'][component['name']]=component['Con']
+				return wgt
+			return add
+		wgt['Fnx']['Add']		= Add(wgt)
+
 		return wgt
-	def Init(wgt):
-		return gnr.QWgtInit(wgt)
+
 	w				=	Create.QBase(QtLibs.QElements['wgt'], **k)
 	w['Elements']	=	{}
 	w				=	Lay(w)
 	w				=	Fnx(w)
 	w['Con']		=	{}
-	return  Init(w)
+	return  w
 
 def make(namestr,**k):
 	preset=QDefaults.QWidget

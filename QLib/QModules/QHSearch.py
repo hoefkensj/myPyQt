@@ -16,7 +16,7 @@ def QHSearch(**k):
 		return wgt
 
 	def Fnx(wgt):
-		s=gnr.ShortEl(wgt, 'Fnx')
+#SHORT
 		def ShowPN(wgt):
 			def showpn(show):
 				s['<>']['Set']['Hidden'](not show)
@@ -42,27 +42,28 @@ def QHSearch(**k):
 				w['Wgt']['Set']['Visible'](state)
 			return visible
 		def Init(wgt):
-			s=gnr.ShortEl(wgt, 'Fnx')
+#SHORT
 			def init():
 				wgt['Fnx']['ShowPN'](False)
 			return init
+
 		wgt['Fnx']['ShowPN']	= ShowPN(wgt)
 		wgt['Fnx']['Visible'] =	Visible(wgt)
 		wgt['Fnx']['Init']		=	Init(wgt)
-		wgt['Fnx']['x']				=s['Field']['Mtd']['x']
-		wgt['Fnx']['y']				=s['Field']['Mtd']['y']
-		wgt['Fnx']['width']		=s['Field']['Mtd']['width']
+		wgt['Fnx']['x']				=wgt['Fnx']['Field']['Qt']['Mtd']['x']
+		wgt['Fnx']['y']				=wgt['Fnx']['Field']['Qt']['Mtd']['y']
+		wgt['Fnx']['width']		=wgt['Fnx']['Field']['Qt']['Mtd']['width']
 		return wgt
 	def Con(wgt):
-		sfn=gnr.ShortEl(wgt, 'Fnx')
-		wgt['Con']['Reg']=sfn['Reg']['Sig']['toggled'].connect
-		wgt['Con']['Search']=sfn['Search']['Sig']['clicked'].connect
+#SHORT
+		# wgt['Con']['Reg']=sfn['Reg']['Sig']['toggled'].connect
+		# wgt['Con']['Search']=sfn['Search']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt):
-		wgt=gnr.QWgtInit(wgt)
 		return wgt
 	w	=	QWidget.make(k['name'], **k)
-	w	= 	Elements(w)
+	w	= Elements(w)
+	w	=	w['Fnx']['Gen']['Assemble'](w)
 	w	=	Fnx(w)
 	w	=	Con(w)
 	return Init(w)

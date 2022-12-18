@@ -27,11 +27,10 @@ def QHIncDec(**k):
 		wgt['Fnx']['IncDec'] 	=	Show()
 		return wgt
 	def Con(wgt):
-		s=gnr.sCon(wgt)
 		return wgt
 	def Init(wgt):
-		wgt['Gen']['Assemble'](wgt)
-		wgt['Gen']['Configure'](wgt)
+		wgt['Fnx']['Gen']['Assemble'](wgt)
+		wgt['Fnx']['Gen']['Configure'](wgt)
 		return wgt
 
 	w	=		QWidget.make(k['name'], **k)

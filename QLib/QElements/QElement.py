@@ -9,10 +9,10 @@ def QElement(**k):
 	w['Cfg']								= {}
 	w['Fnx']								=	{}
 
-	w['Fnx']['Set']					=	{}
-	w['Fnx']['Get']					=	{}
+	w['Fnx']['Qt']['Set']					=	{}
+	w['Fnx']['Qt']['Get']					=	{}
 	w['Fnx']['Sig']					=	{}
-	w['Fnx']['Mtd']					=	{}
+	w['Fnx']['Qt']['Mtd']					=	{}
 	w['Fnx']['Atr']					=	{}
 	w['Con']								=	{}
 	w['Elements']						=	{}

@@ -7,7 +7,8 @@ def QMain(**k):
 	def Fnx(wgt):
 		def Run(wgt):
 			def run():
-				wgt['Gen']['Assemble'](wgt)
+				print('running')
+				wgt['Fnx']['Gen']['Assemble'](wgt)
 				wgt['Fnx']['Show']()
 				return wgt
 			return run

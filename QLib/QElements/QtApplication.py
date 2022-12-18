@@ -7,7 +7,7 @@ def QtApplication(**k):
 	def Fnx(wgt):
 		def Run(wgt):
 			async def app():
-				wgt['Fnx']['Mtd']['exec']()
+				wgt['Fnx']['Qt']['Mtd']['exec']()
 			def run():
 				asyncio.run(app())
 			return run
@@ -15,7 +15,7 @@ def QtApplication(**k):
 		return wgt
 	w					=	Create.QApplication(**k)
 	w					= 	Fnx(w)
-	w['Clip'] =		w['Fnx']['Mtd']['clipboard']()
+	w['Clip'] =		w['Fnx']['Qt']['Mtd']['clipboard']()
 	return w
 
 def make(namestr,**k):

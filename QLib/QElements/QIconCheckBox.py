@@ -5,8 +5,8 @@ from Configs import QDefaults,Config
 def QIconCheckBox(**k):
 	def Fnx(wgt):
 		def toggle():
-			state=wgt['Fnx']['Get']['Checked']
-			wgt['Fnx']['Set']['Checked'](not state)
+			state=wgt['Fnx']['Qt']['Get']['Checked']
+			wgt['Fnx']['Qt']['Set']['Checked'](not state)
 		wgt['Fnx']['Toggle']			= toggle
 		return wgt
 	def Con(wgt):

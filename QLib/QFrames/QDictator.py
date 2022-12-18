@@ -15,8 +15,8 @@ def module(name,*elements):
 		return wgt
 
 	def Connect(wgt):
-		s=gnr.ShortEl(wgt)
-		sCon = gnr.ShortEl(wgt, 'Con')
+#SHORT
+		#SHORT
 		for element in s:
 			if element.get('Con'):
 				for con in sCon[element]:
@@ -24,8 +24,8 @@ def module(name,*elements):
 		return wgt
 
 	def Connect2(wgt):
-		s=gnr.ShortEl(wgt)
-		sCon=gnr.ShortEl(wgt, 'Con')
+		#SHORT
+		#SHORT
 		for element in s:
 			if not element.get('Con'):
 				continue
@@ -44,7 +44,7 @@ def mod_TreeCtl(name):
 	w['Elements']|=gnr.Element(QHIncDec.make('ColEx',wh=[20,20]))
 	w['Elements']|=gnr.Element(QHSearch.make('TreeSearch',))
 	w=w['Fnx']['Run'](w)
-	sfn=gnr.ShortEl(w, 'Con')
+	#SHORT
 	w['Con']['+']=sfn['ColEx']['Inc']
 	w['Con']['-']=sfn['ColEx']['Dec']
 	w['Con']['search']=sfn['TreeSearch']['Search']
@@ -56,7 +56,7 @@ def mod_AppCtl(name):
 	w['Elements']|= gnr.Element(QTextButton.make('Print',pol='E.P',))
 	w['Elements']|= gnr.Element(QTextButton.make('Exit',pol='E.P',))
 	w=w['Fnx']['Run'](w)
-	sfn=gnr.ShortEl(w, 'Con', 'clicked')
+#SHORT
 	w['Con']['Update']=sfn['Update']
 	w['Con']['Print']=sfn['Print']
 	w['Con']['Exit']=sfn['Exit']
@@ -70,9 +70,9 @@ def QDictator(**k):
 	def Elements(m):
 		# GUI['Elements']|=gnr.Element(component)
 		m['Elements']	|= gnr.Element(QTree.make('Tree',cols=7,hidecols=[2,3,4,5,6]))
-		# m['Elements']	|= gnr.Module('TreeCtl',[
-    #                   QHIncDec.make('ColEx',wh=[20,20]),
-    #                   QHSearch.make('TreeSearch',)])
+		m['Elements']	|= gnr.Module('TreeCtl',[
+                      QHIncDec.make('ColEx',wh=[20,20]),
+                      QHSearch.make('TreeSearch',)])
 		# m['Elements']	|= gnr.Element(QEditProp.make('Key',))
 		# m['Elements']	|= gnr.Element(QEditProp.make('Val',))
 		m['Elements']	|= gnr.Module('AppCtl',[
@@ -82,7 +82,7 @@ def QDictator(**k):
 		return m
 	def Fnx(m):
 		def Select(*a,**k):
-			sFnx=gnr.ShortEl(m,'Fnx')
+#SHORT
 			txtBox = [sFnx['Key']['txtText'], sFnx['Val']['txtText']]
 			def select(data):
 				for idx, txtbox in zip([0, 1, 2], txtBox):
@@ -94,7 +94,7 @@ def QDictator(**k):
 				m['Elements']['Tree']['Fnx']['Add'](**k)
 			return adddict
 		def Allign(m):
-			s=gnr.ShortEl(m,'Fnx')
+#SHORT
 			wMax = max(s['Key']['wLbl'](), s['Val']['wLbl']())+10
 			s['Key']['Allign'](wMax)
 			s['Val']['Allign'](wMax)
@@ -111,9 +111,7 @@ def QDictator(**k):
 	# 	return wgt
 	def Con(m):
 		select=m['Fnx']['Select'](m)
-		sCon=gnr.ShortEl(m, 'Con')
-		sFnx=gnr.ShortEl(m,'Fnx')
-		sClk=gnr.sCon(m,'clicked')
+#SHORT
 		sACc=gnr.sCon(m,'itemSelected')
 		for key in sClk:
 			print(key)
@@ -125,14 +123,14 @@ def QDictator(**k):
 		# sCon['Tree']['Item'](select)
 		return m
 	def Init(g):
-		g['Main']['Fnx']['Allign'](g['Main'])
+		# g['Main']['Fnx']['Allign'](g['Main'])
 		return GUI['Run'](GUI)
 
 	GUI= QGui.make('Main')
 	MAIN=GUI['Main']
 	MAIN=Elements(MAIN)
 	MAIN=Fnx(MAIN)
-	STDTree=pTree(d=MAIN,max=3000)
+
 
 
 	# MAIN=Connect(MAIN)
@@ -166,6 +164,8 @@ def pTree(*a, **k):
 
 RUN,GUI=QDictator()
 # ADD(GUI=GUI)
+STDTree=pTree(d={**GUI},max=5)
+print('################### DONE')
 RUN()
 
 

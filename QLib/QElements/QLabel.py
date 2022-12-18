@@ -5,7 +5,7 @@ from Configs import QDefaults,Config
 def QLabel(**k):
 	def Fnx(wgt):
 		def Width():
-			return wgt['Fnx']['Mtd']['width']()
+			return wgt['Fnx']['Qt']['Mtd']['width']()
 		wgt['Fnx']['Width']=Width
 		return wgt
 	def Init(wgt)     :

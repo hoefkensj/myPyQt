@@ -21,9 +21,7 @@ def QEditProp(**k):
 		return wgt
 		
 	def Fnx(wgt):
-		sfn_mtd=gnr.ShortEl(wgt, 'Fnx', 'Mtd')
-		sfn_set=gnr.ShortEl(wgt, 'Fnx', 'Set')
-		sfn_get=gnr.ShortEl(wgt, 'Fnx', 'Get')
+#SHORT#SHORT#SHORT
 		def TxtText():
 			def txtText(text):
 				sfn_set['Field']['Text'](text)
@@ -79,7 +77,7 @@ def QEditProp(**k):
 	def Con(wgt):
 		#
 		# sCon=gnr.ShortEl(wgt, 'Con')
-		sSig=gnr.ShortEl(wgt, 'Fnx', 'Sig')
+#SHORT
 		wgt['Con'] = wgt.get('Con') or {}
 		wgt=gnr.ModCon(wgt)
 		# for el in wgt['Con']:
@@ -94,7 +92,7 @@ def QEditProp(**k):
 		return wgt
 	def Init(wgt):
 		fn=wgt['Fnx']
-		gn=wgt['Gen']
+		gn=wgt['Fnx']['Gen']
 		wgt=gn['Assemble'](wgt)
 		wgt=gn['Configure'](wgt)
 		wgt=fn['Init']()
