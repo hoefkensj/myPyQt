@@ -3,8 +3,9 @@
 import contextlib
 import Configs.Config
 from Fnx import isTest
-from QLib.QStatic import QtLibs,PyQtX
+from QLib.QStatic import QtLibs,PyQtX,skel
 import assets.ico
+import sys
 
 def Size(wh):
 	return QtLibs.QCores['Size'](wh[0], wh[1])
@@ -48,21 +49,21 @@ def Assemble(wgt):
 	return assemble
 
 def Config(**k):
-	def config(**k):
-		j= Configs.Config.mapMakeAlias(**k)
-		for setting in j:
-			k[setting]=eval(j[setting])
-		k= Configs.Config.mapAlias(**k)
-		return {setting: k[setting] for setting in k}
+	j= Configs.Config.mapMakeAlias(**k)
+	for setting in j:
+		k[setting]=eval(j[setting])
+	k= Configs.Config.mapAlias(**k)
+	return {setting: k[setting] for setting in k}
 
-	def Configure(wgt):
-		wgt['Cfg']=config(**k)
+def Configure(wgt):
+	for prop in wgt['Cfg']:
+		with contextlib.suppress(KeyError):
+			wgt['Qt']['Set'][prop](wgt['Cfg'][prop])
 		for prop in wgt['Cfg']:
 			with contextlib.suppress(KeyError):
-				wgt['Qt']['Set'][prop](wgt['Cfg'][prop])
-		return wgt
-	return Configure
+				wgt=wgt['Fnx'][prop](wgt['Cfg'][prop])
 
+	return wgt
 
 def Connect(wgt):
 	def connect(wgt):
@@ -74,17 +75,12 @@ def Connect(wgt):
 		return wgt
 	return connect
 
-
-
-
 def Entry(fn,wgt):
 	return {(getattr(fn, '__name__')): fn(wgt)}
+
 def Element(component):
 	name=component.get('QID')
 	return {name : component}
-
-
-
 
 def Qt(w):
 	# fnx_Qt=importlib.import_module('.skell')
@@ -109,3 +105,10 @@ def Qt(w):
 		else:
 			QtMtd['Mtd']|={item:mtdMap[item]}
 	return QtMtd
+
+def Construct(Fnx,**k):
+	w = {**skel.pyQt[k['SKL']]}
+	for key in w:
+		w[key]=eval(w[key].format(**k['WGT']))
+	w=QMake.Configure(w)
+	return w

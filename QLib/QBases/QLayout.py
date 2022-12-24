@@ -20,7 +20,6 @@ def QLayout(**k):
 	for key in w:
 		w[key]=eval(w[key].format(**k['QLAY']))
 	w['Fnx']=	Fnx(w)
-	w=w['Cfg'](w)
 	return  w
 
 

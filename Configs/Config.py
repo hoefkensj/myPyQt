@@ -23,8 +23,8 @@ def mapAlias(**k):
 	return k
 
 
-def preset(preconf,**k):
-	k= preconf |	k
+def preset(preconf,name,**k):
+	k= preconf|k|{'Name':name}
 	return k
 
 

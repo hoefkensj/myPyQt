@@ -94,6 +94,12 @@ def QTree(**k):
 					wgt['Qt']['Mtd']['resizeColumnToContents'](col)
 				wgt['Qt']['Mtd']['collapseAll']()
 			return resizecols
+		def HideCols(wgt):
+			def hidecols(cols):
+				for col in cols:
+					wgt['Qt']['Set']['ColumnHidden'](col,True)
+				return wgt
+			return hidecols
 		def ReadColWidth(wgt):
 			def readcolwidth():
 				w=[]
@@ -118,6 +124,7 @@ def QTree(**k):
 					addTLI(trunk)
 			return update
 		wgt['Fnx']={}
+		wgt['Fnx']['HideCols']				= HideCols(wgt)
 		wgt['Fnx']['ResizeCols']			= ResizeCols(wgt)
 		wgt['Fnx']['ReadColWidth']		= ReadColWidth(wgt)
 		wgt['Fnx']['SetColWidth']			= SetColWidth(wgt)
@@ -129,11 +136,11 @@ def QTree(**k):
 	QTRW={'GROUP' : 'Elements','TYPE'	: 'trW','ARGS'	: '' }
 
 	w = {**skel.QElement}
-	for key in w:	w[key]=eval(w[key].format(**QTRW))
-	# breakpoint()
+	for key in w:
+			w[key]=eval(w[key].format(**QTRW))
+	w=QMake.Configure(w)
 	# w={key: eval(skel.QElement[key].format(**QTRW)) for key in skel.QElement}
-	w=w['Cfg'](w)
-	# breakpoint()
+
 	return  w
 
 

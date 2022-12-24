@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-
-
 from Configs import QDefaults
 from QLib.QBases import QLayout
 from QLib.QStatic import QtLibs,skel
@@ -29,18 +27,8 @@ def QWidget(**k):
 		return wgt['Fnx']
 	def Mod():
 		return {}
-
-
-	# Generate.Configure(Cfg,Qt['Set'])
-	w = {**skel.QBase}
-	for key in w:
-		w[key]=eval(w[key].format(**k['QWGT']))
-
-	# w['Fnx']=	Fnx(w)
-	w=w['Cfg'](w)
+	w=QMake.Construct(**k)
 	return  w
 
 def make(namestr,**k):
-	preset=QDefaults.QWidget
-	k= Config.preset(preset, **k) | {'Name':namestr}
-	return QWidget(**k)
+	return QWidget(**(QDefaults.QWidget|k|{'Name':namestr}))

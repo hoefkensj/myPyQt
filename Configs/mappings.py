@@ -16,5 +16,6 @@ MakeAliases={
 	'sz_max'		:	[	'MaximumSize'			 , 	'''Size({VAL})'''							],
 	'sz_min'		:	[	'MinimumSize'			 , 	'''Size({VAL})'''							],
 	'sz_ico'		:	[	'IconSize'				 , 	'''Size({VAL})'''							],
+
 }
 

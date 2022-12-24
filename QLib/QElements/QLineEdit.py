@@ -15,13 +15,14 @@ def QLineEdit(**k):
 		wgt['Fnx']['RO']			=	RO
 		wgt['Fnx']['RW']			=	RW
 		wgt['Fnx']['ED']			=	wgt['Fnx']['Qt']['Get']['ReadOnly']
-		return wgt
+		wgt['Fnx']
 
-	def Init(wgt)     :
-		wgt=wgt['Fnx']['Gen']['Configure'](wgt)
-		return wgt
-	w						=			Create.QComponent(QElements['txtE'], **k)
-	w						=			Fnx(w)
+
+	def Construct(**k):
+		w = {**skel}
+		for key in w:
+			w[key]=eval(w[key].format(**k['WGT']))
+		w=QMake.Configure(w)
 
 	return Init(w)
 
