@@ -1,36 +1,46 @@
 #!/usr/bin/env python
-import QLib.Create
-from static import QtLibs
-from QLib import Create,gnr
-from Configs import Config
+
+
+from Configs import QDefaults
 from QLib.QBases import QLayout
+from QLib.QStatic import QtLibs,skel
+from Configs import Config
+from Fnx import QMake
 
 
 def QWidget(**k):
-	def Lay(wgt):
-		if k.get('t'):
-			wgt['Lay']=QLayout.make(wgt, **k)
-		return wgt
 	def Fnx(wgt):
-<<<<<<< HEAD
-<<<<<<< HEAD
-		wgt= QLib.Create.QModuleFnx(wgt)
+		def Add(wgt):
+			def add(component):
+				wgt['Lay']['Fnx']['Add'](component['Wgt'])
+				wgt['Fnx'][component['QID']]=component['Fnx']
+				# wgt['Con'][component['QID']]=component['Con']
+				return wgt
+			return add
+		def Show(wgt):
+			def show():
+				if Qt['Get']['Hidden']():	Qt['Set']['Show'](True)
+				elif Qt['Get']['Visible']():	Qt['Set']['Hidden'](True)
+				return wgt
+			return show
+		wgt['Fnx'] = {}
+		wgt['Fnx'] |= QMake.Entry(Add, wgt)
+		wgt['Fnx'] |= QMake.Entry(Show, wgt)
+		return wgt['Fnx']
+	def Mod():
+		return {}
 
-=======
-		wgt= QLib.Create.Fnx(wgt)
-		wgt['Fnx']['Generate']=QLib.Create.Generate()
-		wgt['Fnx']['Add']		=	wgt['Lay']['Fnx']['Add']
-		return wgt
-	def Init(wgt):
-		return gnr.QWgtInit(wgt)
-	w				=	Create.QComponent(QtLibs.QElements['wgt'], **k)
-	w['Elements']	=	{}
-	w				=	Lay(w)
-	w				=	Fnx(w)
-	w['Con']		=	{}
-	return  Init(w)
+
+	# Generate.Configure(Cfg,Qt['Set'])
+	w = {**skel.QBase}
+	for key in w:
+		w[key]=eval(w[key].format(**k['QWGT']))
+
+	# w['Fnx']=	Fnx(w)
+	w=w['Cfg'](w)
+	return  w
 
 def make(namestr,**k):
-	preset=Config.QDefaults.QWidget
-	k=Config.preset(['wgt',namestr],preset,**k)
+	preset=QDefaults.QWidget
+	k= Config.preset(preset, **k) | {'Name':namestr}
 	return QWidget(**k)

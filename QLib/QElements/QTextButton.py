@@ -1,13 +1,15 @@
 #!/usr/bin/env python
-from QLib import gnr,Create
-from static.QtLibs import QElements
-from Configs import QDefaults,Config
+from QLib import Create
+from QLib.QStatic import QElements
+from Configs import QDefaults
+from Configs import Config
+
 def QtextButton(**k):
 	def Con(wgt):
-		wgt['Con']['clicked'] = wgt['Fnx']['Sig']['clicked'].connect
+
 		return wgt
 	def Init(wgt)     :
-		wgt=gnr.QElementInit(wgt)
+
 		return wgt
 	w						=			Create.QComponent(QElements['tBtn'], **k)
 	w						=			Con(w)
@@ -16,5 +18,5 @@ def QtextButton(**k):
 def make(namestr,**k):
 	preset=QDefaults.QTextButton
 	k=k|{'lbl'       :	namestr								,	}
-	k=Config.preset(['tBtn',namestr],preset,**k)
+	k= Config.preset(['tBtn', namestr], preset, **k)
 	return QtextButton(**k)

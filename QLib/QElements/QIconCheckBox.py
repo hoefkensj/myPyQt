@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 from QLib import gnr,Create
-from static.QtLibs import QElements
-from Configs import QDefaults,Config
+from QLib.QStatic import QElements
+from Configs import QDefaults
+from Configs import Config
+
 def QIconCheckBox(**k):
 	def Fnx(wgt):
 		def toggle():
-			state=wgt['Fnx']['Get']['Checked']
-			wgt['Fnx']['Set']['Checked'](not state)
+			state=wgt['Fnx']['Qt']['Get']['Checked']
+			wgt['Fnx']['Qt']['Set']['Checked'](not state)
 		wgt['Fnx']['Toggle']			= toggle
 		return wgt
 	def Con(wgt):
@@ -26,5 +28,5 @@ def make(namestr, **k):
 	preset=QDefaults.QIconButton|{
 		'ico'       :	gnr.IconSet(iconame)	,
 	}
-	k=Config.preset(['iChk',namestr],preset,**k)
+	k= Config.preset(['iChk', namestr], preset, **k)
 	return QIconCheckBox(**k)

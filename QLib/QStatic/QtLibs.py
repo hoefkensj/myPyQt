@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from QLib.PyQtX import QtWidgets, QtCore
+from QLib.QStatic.PyQtX import QtWidgets, QtCore
 
 QSizePolicies = {
 	'Pol': QtWidgets.QSizePolicy,
@@ -11,7 +11,14 @@ QSizePolicies = {
 	'mE'      :		QtWidgets.QSizePolicy.Policy.MinimumExpanding,
 	'F'       :		QtWidgets.QSizePolicy.Policy.Fixed,
 }
-
+QDialogs={
+	'file'    :		QtWidgets.QFileDialog,
+	'progress':		QtWidgets.QProgressDialog,
+	'dialog'  :		QtWidgets.QDialog,
+	'font'    :		QtWidgets.QFontDialog,
+	'color'   :		QtWidgets.QColorDialog,
+	'input'   :		QtWidgets.QInputDialog,
+}
 QLayouts				=	{
 	'H'       :		QtWidgets.QHBoxLayout,
 	'V'       :		QtWidgets.QVBoxLayout,
@@ -39,6 +46,7 @@ QElements				=	{
 	'wgt'     :		QtWidgets.QWidget,
 	'TrItem'  :		QtWidgets.QTreeWidgetItem,
 }
+
 
 QToolButtons		=	{
 	'I'       : 	QtCore.Qt.ToolButtonStyle.ToolButtonIconOnly,

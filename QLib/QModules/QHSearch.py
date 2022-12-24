@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # Auth
-import QLib.Create
 from QLib import gnr
-from QLib.QElements import QtWgt,QIconButton,QLineEdit
-from Configs import QDefaults,Config
+from QLib.QElements import QIconButton,QLineEdit
+from Configs import QDefaults
+from Configs import Config
 from QLib.QBases import QWidget
 from QLib.QModules	import QHArrowsLR
 
@@ -16,7 +16,7 @@ def QHSearch(**k):
 		return wgt
 
 	def Fnx(wgt):
-		s=gnr.Short(wgt,'Fnx')
+#SHORT
 		def ShowPN(wgt):
 			def showpn(show):
 				s['<>']['Set']['Hidden'](not show)
@@ -42,34 +42,34 @@ def QHSearch(**k):
 				w['Wgt']['Set']['Visible'](state)
 			return visible
 		def Init(wgt):
-			s=gnr.Short(wgt,'Fnx')
+#SHORT
 			def init():
 				wgt['Fnx']['ShowPN'](False)
 			return init
-		wgt= QLib.Create.Fnx(wgt)
+
 		wgt['Fnx']['ShowPN']	= ShowPN(wgt)
 		wgt['Fnx']['Visible'] =	Visible(wgt)
 		wgt['Fnx']['Init']		=	Init(wgt)
-		wgt['Fnx']['x']				=s['Field']['Mtd']['x']
-		wgt['Fnx']['y']				=s['Field']['Mtd']['y']
-		wgt['Fnx']['width']		=s['Field']['Mtd']['width']
+		wgt['Fnx']['x']				=wgt['Fnx']['Field']['Qt']['Mtd']['x']
+		wgt['Fnx']['y']				=wgt['Fnx']['Field']['Qt']['Mtd']['y']
+		wgt['Fnx']['width']		=wgt['Fnx']['Field']['Qt']['Mtd']['width']
 		return wgt
 	def Con(wgt):
-		sfn=gnr.Short(wgt,'Fnx')
-		wgt['Con']['Reg']=sfn['Reg']['Sig']['toggled'].connect
-		wgt['Con']['Search']=sfn['Search']['Sig']['clicked'].connect
+#SHORT
+		# wgt['Con']['Reg']=sfn['Reg']['Sig']['toggled'].connect
+		# wgt['Con']['Search']=sfn['Search']['Sig']['clicked'].connect
 		return wgt
 	def Init(wgt):
-		wgt=gnr.QWgtInit(wgt)
 		return wgt
-	w	=	QWidget.make(k['name'], **k)
-	w	= 	Elements(w)
+	w	=	QWidget.QMake(k['name'], **k)
+	w	= Elements(w)
+	w	=	w['Fnx']['Gen']['Assemble'](w)
 	w	=	Fnx(w)
 	w	=	Con(w)
 	return Init(w)
 
 def make(namestr,**k):
 	preset=	QDefaults.QHSearch
-	k=Config.preset(['wgt',namestr],preset,**k)
+	k= Config.preset(['wgt', namestr], preset, **k)
 	return  QHSearch(**k)
 

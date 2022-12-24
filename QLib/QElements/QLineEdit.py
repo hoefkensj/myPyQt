@@ -1,34 +1,31 @@
 #!/usr/bin/env python
-import QLib.Create
-from QLib import gnr,Create
-from static.QtLibs import QElements
+from QLib import Create
+from QLib.QStatic import QElements
 
-from Configs import QDefaults,Config
+from Configs import QDefaults
+from Configs import Config
+
 def QLineEdit(**k):
 	def Fnx(wgt):
-		def RO():	wgt['Fnx']['Set']['ReadOnly'](True)
-		def RW():	wgt['Fnx']['Set']['ReadOnly'](False)
-		wgt['Fnx']['Read']		=	wgt['Fnx']['Get']['Text']
-		wgt['Fnx']['Write']		=	wgt['Fnx']['Set']['Text']
+		def RO():	wgt['Fnx']['Qt']['Set']['ReadOnly'](True)
+		def RW():	wgt['Fnx']['Qt']['Set']['ReadOnly'](False)
+		wgt['Fnx']['Write']		=	wgt['Fnx']['Qt']['Set']['Text']
+		wgt['Fnx']['Read']		=	wgt['Fnx']['Qt']['Get']['Text']
+
 		wgt['Fnx']['RO']			=	RO
 		wgt['Fnx']['RW']			=	RW
-		wgt['Fnx']['ED']			=	wgt['Fnx']['Get']['ReadOnly']
+		wgt['Fnx']['ED']			=	wgt['Fnx']['Qt']['Get']['ReadOnly']
 		return wgt
 
-	def Con(wgt):
-		wgt['Con']['Entered']	=wgt['Fnx']['Sig']['returnPressed'].connect
-		wgt['Con']['Changed']	=wgt['Fnx']['Sig']['textChanged'].connect
-		wgt['Con']['Edited']	=wgt['Fnx']['Sig']['textEdited'].connect
-		return wgt
 	def Init(wgt)     :
-		wgt=wgt['Fnx']['Configure'](wgt)
+		wgt=wgt['Fnx']['Gen']['Configure'](wgt)
 		return wgt
 	w						=			Create.QComponent(QElements['txtE'], **k)
 	w						=			Fnx(w)
-	w						=			Con(w)
+
 	return Init(w)
 
 def make(namestr, **k):
 	preset=QDefaults.QLineEdit
-	k=Config.preset(['txtE',namestr],preset,**k)
+	k= Config.preset(['txtE', namestr], preset, **k)
 	return QLineEdit(**k)

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # Auth
-from Configs import QDefaults,Config
 def SpcEx(**k):
 	def Wgt():
 		wgt = make(n=c.get('n'), t=c.get('qt'))

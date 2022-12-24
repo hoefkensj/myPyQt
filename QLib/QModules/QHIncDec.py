@@ -2,15 +2,15 @@
 from QLib.QElements import QIconButton
 from QLib.QBases import QWidget
 from QLib import gnr
-from Configs import Config,QDefaults
+from Configs import QDefaults
+from Configs import Config
 
 def QHIncDec(**k):
 	def Elements(wgt):
-		wgt['Elements'] |=gnr.Element(QIconButton.make(f'Inc', h=15, w=15, bi=False))
-		wgt['Elements'] |=gnr.Element(QIconButton.make(f'Dec', h=15, w=15, bi=False))
+		wgt['Mod'] |=gnr.Element(QIconButton.make(f'Inc', h=15, w=15, bi=False))
+		wgt['Mod'] |=gnr.Element(QIconButton.make(f'Dec', h=15, w=15, bi=False))
 		return wgt
 	def Fnx(wgt):
-		s=gnr.Short()
 		def StateInc():
 			def stateinc(state):
 				s['inc']['Set']['Enabled'](state)
@@ -28,16 +28,13 @@ def QHIncDec(**k):
 		wgt['Fnx']['IncDec'] 	=	Show()
 		return wgt
 	def Con(wgt):
-		s=gnr.ShortFnx(wgt)
-		wgt['Con']['Inc']=	s['inc']['Mtd']['clicked'].connect
-		wgt['Con']['Dec']=	s['dec']['Mtd']['clicked'].connect
 		return wgt
 	def Init(wgt):
-		wgt['Fnx']['Generate'](wgt)
-		wgt['Fnx']['Configure'](wgt)
+		wgt['Gen']['Assemble']()
+		wgt['Gen']['Configure']()
 		return wgt
 
-	w	=		QWidget.make(k['name'], **k)
+	w	=		QWidget.QMake(k['name'], **k)
 	w = 	Elements(w)
 	w	= 	Fnx(w)
 	w	=		Con(w)
@@ -45,5 +42,5 @@ def QHIncDec(**k):
 
 def make(namestr,**k):
 	preset=	QDefaults.QHIncDec
-	k=Config.preset(['wgt',namestr],preset,**k)
+	k= Config.preset(['wgt', namestr], preset, **k)
 	return QHIncDec(**k)

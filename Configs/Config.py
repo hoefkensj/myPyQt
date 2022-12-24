@@ -1,62 +1,30 @@
 #!/usr/bin/env python
-import Fnx
-from Fnx import make
-from QLib import gnr
+from Configs import mappings
 
-from static import QtLibs
-from static.QtLibs import QToolButtons
-from Configs import QDefaults
-def make(wgt,**k):
-	nmapping={
-		'Name'    : 		'ObjectName',
-		'pol'     :			'SizePolicy',
-		'bi'      :			'Checkable',
-		'wh'      :			'MaximumSize',
-		'btn'     :			'ToolButtonStyle',
-		'margin'  :			'ContentsMargins',
-		'ico'     :			'Icon',
-		'isize'   :			'IconSize',
-		'txt'     :			'Text',
-		'cols'    :			'ColumnCount',
-		'widget'  :			'Widget',
-		'lbl'     :			'Text',
-		'ro'      :			'ReadOnly',
-	}
-	vmapping={
-		'ObjectName'            :		'''wgt['Name']''',
-		'SizePolicy'            :		'''Fnx.make.SizePolicy(k.get('pol'))''',
-		'Checkable'             :		'''k.get('bi')''',
-		'MaximumSize'           :		'''Fnx.make.Size(k.get('wh'))''',
-		'ToolButtonStyle'       :		'''QtLibs.QToolButtons[k.get('btn')]''',
-		'ContentsMargins'       :		'''Fnx.make.Margins(k.get('margin'))''',
-		'Icon'                  :		'''gnr.Icon(k['ico'])''',
-		'IconSize'              :		'''Fnx.make.Size(k['isize'])''',
-		'Text'                  :		'''k.get('lbl')''',
-		'ColumnCount'           :		'''k.get('cols')''',
-		'Widget'                :		'''k.get('widget').get('Name')''',
-		'ReadOnly'              :		'''k.get('ro')''',
-	}
+def Alias(keymap,k,l):
+	l={ keymap[key] : k.pop(key) for key in keymap if key in k}
+	return k,l
 
-	c={}
-	for kwarg in k:
-		if kwarg in nmapping:
-			c[nmapping[kwarg]]=eval(vmapping[nmapping[kwarg]])
-		else:
-			c[kwarg]=k[kwarg]
-	wgt['Cfg']= wgt.get('Cfg') or {}
-	if 'widget' in k:
-		k.pop('widget')
-	wgt['Cfg']|=c
-	return wgt
+def mapMakeAlias(**k):
+	mapa=mappings.MakeAliases
+	l={}
+	for item in mapa:
+		if item in k:
+			VAL=k.pop(item)
+			l[mapa[item][0]]=mapa[item][1].format(VAL=VAL)
+	return l
 
-
-def names(*a):
-	names={
-			'pfx'    :	f'{a[0]}'								,
-			'name'   :	f'{a[1]}{"_" if len(a)>2 else ""}{a[-1]if len(a)>2 else ""}',
-	}
-	return names
-
-def preset(naming,preconf,**k):
-	k= preconf |	k |names(*naming)
+def mapAlias(**k):
+	mapb=mappings.Aliasses
+	for item in mapb:
+		if item in k:
+			VAL=k.pop(item)
+			k[mapb[item]]=VAL
 	return k
+
+
+def preset(preconf,**k):
+	k= preconf |	k
+	return k
+
+

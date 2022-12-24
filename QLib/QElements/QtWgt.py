@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 import QLib.Create
-from static.QtLibs import QElements
+from QLib.QStatic import QElements
 from QLib import gnr
 
-from Configs import QDefaults,Config
+from Configs import QDefaults
+from Configs import Config
+
 def QtWgt(**k):
 	def Fnx(wgt):
 		wgt= QLib.Create.Fnx(wgt)
@@ -12,7 +14,7 @@ def QtWgt(**k):
 		wgt=gnr.QElementInit(wgt)
 		return wgt
 	w							=	QLib.Create.QComponent(QElements[k['pfx']], **k)
-	w							=	Config.make(w,**k)
+	w							=	Config.make(w, **k)
 	w['Con']			= {}
 	w			= Fnx(w)
 	return Init(w)
