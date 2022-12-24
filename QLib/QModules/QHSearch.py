@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # Auth
-import QLib.Create
 from QLib import gnr
-from QLib.QElements import QtWgt,QIconButton,QLineEdit
-from Configs import QDefaults,Config
+from QLib.QElements import QIconButton,QLineEdit
+from Configs import QDefaults
+from Configs import Config
 from QLib.QBases import QWidget
 from QLib.QModules	import QHArrowsLR
 
@@ -61,7 +61,7 @@ def QHSearch(**k):
 		return wgt
 	def Init(wgt):
 		return wgt
-	w	=	QWidget.make(k['name'], **k)
+	w	=	QWidget.QMake(k['name'], **k)
 	w	= Elements(w)
 	w	=	w['Fnx']['Gen']['Assemble'](w)
 	w	=	Fnx(w)
@@ -70,6 +70,6 @@ def QHSearch(**k):
 
 def make(namestr,**k):
 	preset=	QDefaults.QHSearch
-	k=Config.preset(['wgt',namestr],preset,**k)
+	k= Config.preset(['wgt', namestr], preset, **k)
 	return  QHSearch(**k)
 

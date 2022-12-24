@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from QStatic.QtLibs import QDialogs,QElements
+from QLib.QStatic import QDialogs,QElements
 
 def saveDialog():
 	config=[

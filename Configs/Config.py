@@ -22,25 +22,9 @@ def mapAlias(**k):
 			k[mapb[item]]=VAL
 	return k
 
-def Config(wgt,**k):
-	from Fnx import make
-	j=mapMakeAlias(**k)
-	for setting in j:
-		k[setting]=eval(j[setting])
-	k=mapAlias(**k)
-	for setting in k:
-		wgt['Cfg'][setting]=k[setting]
-	return wgt
 
-def names(*a):
-	names={
-			'pfx'    :	f'{a[0]}'								,
-			'name'   :	f'{a[1]}{"_" if len(a)>2 else ""}{a[-1]if len(a)>2 else ""}',
-	}
-	return names
-
-def preset(naming,preconf,**k):
-	k= preconf |	k |names(*naming)
+def preset(preconf,**k):
+	k= preconf |	k
 	return k
 
 

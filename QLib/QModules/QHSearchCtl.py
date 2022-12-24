@@ -5,7 +5,9 @@ from QLib import gnr
 from QLib.QElements import QIconButton
 from QLib.QBases import QWidget
 from QLib.QModules import QHArrowsLR
-from Configs import QDefaults,Config
+from Configs import QDefaults
+from Configs import Config
+
 def QHSearchCtl(**k):
 	def Elements(wgt):
 		if 'Elements' not in wgt:wgt['Elements'] = {}
@@ -26,17 +28,17 @@ def QHSearchCtl(**k):
 		wgt['Con'] = {}
 		wgt['Con']['Search']=	s['Search']['Fnx']['Sig']['clicked'].connect
 		return wgt
-	w		= QWidget.make(k['name'], **k)
+	w		= QWidget.QMake(k['name'], **k)
 	w		=	 Elements(w)
 	w		=	Fnx(w)
 	w		=	Con(w)
 	return gnr.QWgtInit(w)
 
 def make(namestr,**k):
-	k	= QDefaults.Properties	|	{
+	k	= QDefaults.Properties | {
 		'pol'       :	'P.P'								,
 		't'         :	'H'									,
-	} |	k	|	Config.names('wgt',namestr,'SCtl')
+	} | k | Config.names('wgt', namestr, 'SCtl')
 	return QHSearchCtl(**k)
 
 

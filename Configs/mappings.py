@@ -9,12 +9,12 @@ Aliasses={
 		}
 
 MakeAliases={
-	'ico'     	:	[	'Icon'						 , 	'''make.Icon({VAL})''' 							],
-	'btnstyle' 	:	[	'ToolButtonStyle'	 , 	'''make.ToolButtonStyle({VAL})'''		],
-	'margins'  	:	[	'ContentsMargins'	 , 	'''make.Margins({VAL})''' 					], 
-	'pol'     	:	[	'SizePolicy'			 , 	'''make.SizePolicy('{VAL}')'''			], 	
-	'sz_max'		:	[	'MaximumSize'			 , 	'''make.Size({VAL})'''							], 
-	'sz_min'		:	[	'MinimumSize'			 , 	'''make.Size({VAL})'''							], 
-	'sz_ico'		:	[	'IconSize'				 , 	'''make.Size({VAL})'''							], 	
+	'ico'     	:	[	'Icon'						 , 	'''Icon({VAL})''' 							],
+	'btnstyle' 	:	[	'ToolButtonStyle'	 , 	'''ToolButtonStyle({VAL})'''		],
+	'margins'  	:	[	'ContentsMargins'	 , 	'''Margins({VAL})''' 					],
+	'pol'     	:	[	'SizePolicy'			 , 	'''SizePolicy('{VAL}')'''			],
+	'sz_max'		:	[	'MaximumSize'			 , 	'''Size({VAL})'''							],
+	'sz_min'		:	[	'MinimumSize'			 , 	'''Size({VAL})'''							],
+	'sz_ico'		:	[	'IconSize'				 , 	'''Size({VAL})'''							],
 }
 

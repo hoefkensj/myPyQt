@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # Auth
-import QLib.Create
 from QLib.QElements import QTextButton,QIconButton,QLineEdit,QLabel
 from QLib.QBases import QWidget
 from QLib import gnr
-from QLib.QElements import QtWgt
-from Configs import Config,QDefaults
+from Configs import QDefaults
+from Configs import Config
 
 def Clean(**k):
 	c={item : k.get(item) for item in k if item not in Config.QDefaults.Properties}
@@ -97,7 +96,7 @@ def QEditProp(**k):
 		wgt=gn['Configure'](wgt)
 		wgt=fn['Init']()
 		return wgt
-	w	= QWidget.make(k['name'], **k)
+	w	= QWidget.QMake(k['name'], **k)
 	w	=	Elements(w)
 	w	=	Fnx(w)
 	w	=	Con(w)
@@ -106,6 +105,6 @@ def QEditProp(**k):
 
 def make(namestr,**k):
 	preset=	QDefaults.QEditProp
-	k=Config.preset(['wgt',namestr],preset,**k)
+	k= Config.preset(['wgt', namestr], preset, **k)
 	return QEditProp(**k)
 

@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 from QLib import Create
-from QStatic.QtLibs import QElements
+from QLib.QStatic import QElements
 
-from Configs import QDefaults,Config
+from Configs import QDefaults
+from Configs import Config
+
 def QLineEdit(**k):
 	def Fnx(wgt):
 		def RO():	wgt['Fnx']['Qt']['Set']['ReadOnly'](True)
@@ -25,5 +27,5 @@ def QLineEdit(**k):
 
 def make(namestr, **k):
 	preset=QDefaults.QLineEdit
-	k=Config.preset(['txtE',namestr],preset,**k)
+	k= Config.preset(['txtE', namestr], preset, **k)
 	return QLineEdit(**k)

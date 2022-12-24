@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # Auth
-import QLib.Create
 from QLib import gnr
 from QLib.QElements import QIconButton
-from Configs import QDefaults,Config
+from Configs import QDefaults
+from Configs import Config
 from QLib.QBases import QWidget
 
 def QHArrowsLR(**k):
@@ -28,7 +28,7 @@ def QHArrowsLR(**k):
 		return wgt
 	def Init(wgt):
 		return wgt
-	w		= QWidget.make(k['name'], **k)
+	w		= QWidget.QMake(k['name'], **k)
 	w 	= 		Elements(w)
 	w		= 		Fnx(w)
 	w		=			Con(w)
@@ -36,5 +36,5 @@ def QHArrowsLR(**k):
 
 def make(namestr,**k):
 	preset=	QDefaults.QHArrowsLR
-	k=Config.preset(['wgt',namestr],preset,**k)
+	k= Config.preset(['wgt', namestr], preset, **k)
 	return QHArrowsLR(**k)

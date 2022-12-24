@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 from QLib import gnr,Create
-from QStatic.QtLibs import QElements
-from Configs import QDefaults,Config
+from QLib.QStatic import QElements
+from Configs import QDefaults
+from Configs import Config
+
 def QLabel(**k):
 	def Fnx(wgt):
 		def Width():
@@ -20,5 +22,5 @@ def make(namestr, **k):
 	preset=QDefaults.QLabel|{
 		'lbl'       :	f'{k.get("name")}'								,
 	}
-	k=Config.preset(['lbl',namestr],preset,**k)
+	k= Config.preset(['lbl', namestr], preset, **k)
 	return QLabel(**k)

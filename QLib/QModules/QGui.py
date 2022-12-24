@@ -1,7 +1,11 @@
 #!/usr/bin/env python
-from QLib.QModules import QMain
-from QLib.QElements import QtApplication
+from QLib.QElements import QApplication
+from Fnx import QMake
 from Configs import Config
+from QLib.QStatic import QtLibs
+from QLib.QStatic import skel
+from Structures import Generate
+from Fnx.tools import Name
 
 def QGui(*a,**k):
 	def Run(wgt):
@@ -12,30 +16,20 @@ def QGui(*a,**k):
 		return run
 
 	def Fnx(wgt):
-		wgt['Fnx']							=		{}
-		wgt['Fnx']['Configure']	=		wgt['Main']['Fnx']['Gen']['Configure']
-
-		wgt['Fnx']['Main']			=		wgt['Main']['Fnx']['Run']
-		return wgt['Fnx']
-
-	def Init(wgt):
-		wgt['Main']=wgt['Fnx']['Configure'](wgt['Main'])
-
 		return wgt
 
-	w								=		{}
-	pfx							=		'gui'
-	name						=		k['name']
-	w['Name']				=		f'{pfx}_{name}'
-	w['name']				=		name
-	w['type']				= 	'QGui'
-	w['App'] 				= 	QtApplication.make(w['name'], **k)
-	w['Main'] 			=	 	QMain.make('Main',**k)
-	w['Fnx']				= 	Fnx(w)
+
+
+	w = skel.QBase
+	w= Name(w, **k)
+	w['App'] 				= 	QApplication.make(w['Name'], **k)
+	w['Wgt']				= 	QtLibs.QElements['wgt']()
+	w['Gen']				= 	Generate.make(w)
+	w['Cfg']				= 	QMake.Config(**k)
 	w['Run']				=		Run(w)
-	return Init(w)
+	return w
 
 def make(namestr,**k):
-	preset={}
-	k=Config.preset(['gui',namestr],preset,**k)
+	preset={}|{'Name' :namestr}
+	k= Config.preset(preset, **k)
 	return QGui(**k)

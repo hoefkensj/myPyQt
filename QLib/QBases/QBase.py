@@ -1,35 +1,48 @@
 #!/usr/bin/env python
-from QStatic import QtLibs
-from QLib import Create,gnr
-from Configs import Config,QDefaults
-from QLib.QBases import QLayout
+from QLib import Create
+from Configs import QDefaults
+from Configs import Config
+from QLib.QStatic import skel
+
+# from QLib.QBases import QLayout
+
+
+def Lay(wgt,**k):
+	if k.get('t'):
+		wgt['Lay']=QLayout.make(wgt, **k)
+	return wgt
+
+def Add(wgt):
+	def add(component):
+		cmpWgt=component['Wgt']
+		wgt['Lay']['Fnx']['Add'](cmpWgt)
+		return wgt
+	return add
+
+
 
 def QBase(**k):
-	def Lay(wgt):
-		if k.get('t'):
-			wgt['Lay']=QLayout.make(wgt, **k)
-		return wgt
 	def Fnx(wgt):
-		def Add(wgt):
-			def add(component):
-				cmpWgt=component['Wgt']
-				wgt['Lay']['Fnx']['Add'](cmpWgt)
-				wgt['Fnx'][component['name']]=component['Fnx']
-				wgt['Con'][component['name']]=component['Con']
-				return wgt
-			return add
-		wgt['Fnx']['Add']		= Add(wgt)
+		wgt['Fnx']['Wgt']['Local']['Add']		= Add(wgt)
 
 		return wgt
 
-	w				=	Create.QBase(QtLibs.QElements['wgt'], **k)
-	w['Elements']	=	{}
-	w				=	Lay(w)
-	w				=	Fnx(w)
-	w['Con']		=	{}
+	w 			= skel.QBase
+	w= Name(w, **k)
+	w				=	Create.QBase('wgt', **k)
+
+
+
+
+
+	w['Wgt']= QtLibs.QElements[qwgt]()
+	w['Gen']= Generate.make(w)
+	w['Cfg']|=w['Gen']['Config'](**k)
+	w=w['Gen']['Fnx']['Qt']()
+	return w
 	return  w
 
 def make(namestr,**k):
 	preset=QDefaults.QWidget
-	k=Config.preset(['wgt',namestr],preset,**k)
+	k= Config.preset(preset, **k)
 	return QWidge

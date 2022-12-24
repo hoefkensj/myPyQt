@@ -127,7 +127,7 @@ def QDictator(**k):
 		return GUI['Run'](GUI)
 
 	GUI= QGui.make('Main')
-	MAIN=GUI['Main']
+	MAIN=GUI['Wgt']
 	MAIN=Elements(MAIN)
 	MAIN=Fnx(MAIN)
 

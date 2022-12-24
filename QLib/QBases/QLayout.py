@@ -1,20 +1,31 @@
 #!/usr/bin/env python
-import QLib.Create
-from Configs import QDefaults,Config
-from Configs import skel
-
+from Configs import QDefaults
+from Configs import Config
+from QLib.QStatic import QtLibs,skel
+from Fnx import QMake
+import contextlib
 def QLayout(**k):
 	def Fnx(wgt):
-		wgt['Fnx']['Add']	= wgt['Fnx']['Qt']['Mtd']['addWidget']
-		return wgt
-	w			= skel.QLayout
-	w			= QLib.Create.QLayout(w,**k)
-	l			= Fnx(l)
-	return l
+		wgt['Fnx']={}
+		wgt['Fnx']['Add']	= wgt['Qt']['Mtd']['addWidget']
+		return wgt['Fnx']
+
+	# Name  = k.get('Name')
+	Widget=k.pop('widget')
+	Layout=	QtLibs.QLayouts[k['t']]
+
+	# Con		= {'Wgt' : {sig:Qt['Sig'][sig].connect for sig in Qt['Sig']}}
+
+	w = {**skel.QLayout}
+	for key in w:
+		w[key]=eval(w[key].format(**k['QLAY']))
+	w['Fnx']=	Fnx(w)
+	w=w['Cfg'](w)
+	return  w
+
 
 def make(widget,**k):
-	namestr=widget['name']
 	preset=QDefaults.QLayout|{
 		'widget'    :	widget	,	}
-	k=Config.preset(['lay',namestr],preset,**k)
+	k= Config.preset(preset, **k)
 	return QLayout(**k)

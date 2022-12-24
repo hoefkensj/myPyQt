@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-import QLib.Create
-from QStatic import QtLibs
+from QLib.QStatic import QtLibs
 from QLib import Create
 from Configs import Config
 from QLib.QBases import QLayout
@@ -20,4 +19,4 @@ def make(namestr,**k):
 		'Names'     :	['wgt',namestr,'Edit'],
 		'pol'       :	'E.E'							,
 	}
-	return QGroup(**Config.preset(preset,**k))
+	return QGroup(**Config.preset(preset, **k))

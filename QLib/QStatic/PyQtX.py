@@ -2,13 +2,13 @@
 # Auth
 from inspect import getmodulename
 from importlib import import_module
-from QStatic import QtModules
+from QLib.QStatic import QtModules
 
 Available={
 	'PyQt'	: {
-		'v'			:	[],
-		'mask'	:	'PyQt{version}',
-		'smod'	:    [
+		'v'     :	[],
+		'mask'  :	'PyQt{version}',
+		'smod'  :    [
 
     ],}}
 compat={**Available}
@@ -25,7 +25,7 @@ def importPyQt(**k):
 	version=k.get('v') or Available['PyQt']['v'][-1]
 	mod=Available['PyQt']['mask'].format(version=version)
 	smods=[k.get('module')]
-	smods=k.get('modules') or QtModules.QModules
+	smods= k.get('modules') or QtModules.QModules
 	PyQt= import_module(mod)
 	QtCore,QtWidgets,QtGui=[import_module(f'{PyQt.__name__}.{smod}') for smod in smods]
 	return PyQt,QtCore,QtWidgets,QtGui

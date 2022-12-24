@@ -1,8 +1,11 @@
 #!/usr/bin/env python
-from QLib import gnr,Create
-from QStatic.QtLibs import QElements
-from Configs import Config,QDefaults
+from QLib import QElements
 import sys
+from QLib.QStatic import QtLibs
+from QLib.QStatic import skel
+from Configs import QDefaults
+from Configs import Config
+from Fnx import QMake
 
 def Make_Tree(wgt):
 	def make_tree(limit,branches=[], **k):
@@ -75,6 +78,7 @@ def Print_Tree(wgt):
 		for element in wgt['Data']:
 			pTree(d=element,max=10)
 	return print_tree
+
 def QTree(**k):
 	def Fnx(wgt):
 		def Add(wgt):
@@ -85,10 +89,10 @@ def QTree(**k):
 			return add
 		def ResizeCols(wgt):
 			def resizecols():
-				wgt['Fnx']['Qt']['Mtd']['expandAll']()
+				wgt['Qt']['Mtd']['expandAll']()
 				for col in range(wgt['Fnx']['Qt']['Get']['ColumnCount']()):
-					wgt['Fnx']['Qt']['Mtd']['resizeColumnToContents'](col)
-				wgt['Fnx']['Qt']['Mtd']['collapseAll']()
+					wgt['Qt']['Mtd']['resizeColumnToContents'](col)
+				wgt['Qt']['Mtd']['collapseAll']()
 			return resizecols
 		def ReadColWidth(wgt):
 			def readcolwidth():
@@ -107,12 +111,13 @@ def QTree(**k):
 				wgt['Fnx']['Qt']['Set']['ColumnWidth'](col, w)
 			return setcolwidth
 		def Update(wgt):
-			addTLI=wgt['Fnx']['Qt']['Mtd']['addTopLevelItem']
+			addTLI=wgt['Qt']['Mtd']['addTopLevelItem']
 			def update():
 				for element in wgt['Data']:
 					trunk=wgt['Fnx']['MakeTree'](25,name=element['name'], data=element['data'])
 					addTLI(trunk)
 			return update
+		wgt['Fnx']={}
 		wgt['Fnx']['ResizeCols']			= ResizeCols(wgt)
 		wgt['Fnx']['ReadColWidth']		= ReadColWidth(wgt)
 		wgt['Fnx']['SetColWidth']			= SetColWidth(wgt)
@@ -120,19 +125,21 @@ def QTree(**k):
 		wgt['Fnx']['PrintTree']				= Print_Tree(wgt)
 		wgt['Fnx']['Add']							=	Add(wgt)
 		wgt['Fnx']['Update']					=	Update(wgt)
-		return wgt
+		return wgt['Fnx']
+	QTRW={'GROUP' : 'Elements','TYPE'	: 'trW','ARGS'	: '' }
 
-	def Init(wgt)     :
-		return wgt
+	w = {**skel.QElement}
+	for key in w:	w[key]=eval(w[key].format(**QTRW))
+	# breakpoint()
+	# w={key: eval(skel.QElement[key].format(**QTRW)) for key in skel.QElement}
+	w=w['Cfg'](w)
+	# breakpoint()
+	return  w
 
-	w						=			Create.QComponent(QElements['trW'], **k)
-	w						=			Fnx(w)
-
-	return Init(w)
 
 def make(namestr, **k):
 	preset	= QDefaults.TreeWidget
-	k=Config.preset(['trw',namestr],preset,**k)
+	k= Config.preset(preset, **k) | {'Name':namestr}
 	return QTree(**k)
 
 
