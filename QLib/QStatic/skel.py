@@ -14,7 +14,7 @@ Mod	=	{'Mod' 		: 'Mod()'}
 
 pyQt={
 	'QBase'					:	Qid|Wgt|Cfg|Lay|Qtm|Fnx|Con|Asm|Mod,
-	'QApplication'	:	Qid|Wgt|Cfg|Qtm|Fnx|Con,
+	'QApplication'	:	Qid|Wgt|Cfg|Qtm|Con,
 	'QElement'			:	Qid|Wgt|Cfg|Qtm|Fnx|Con,
 	'QModule'				:	Qid|Wgt|Cfg|Lay|Qtm|Fnx|Con|Asm|Mod,
 	'QLayout'				:	Qid|Wly|Cfg|Qtm|Fnx,

@@ -28,6 +28,7 @@ def QWidget(**k):
 	def Mod():
 		return {}
 	w=QMake.Construct(**k)
+	w=QMake.Configure(w)
 	return  w
 
 def make(namestr,**k):

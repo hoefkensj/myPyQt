@@ -16,15 +16,9 @@ def QLayout(**k):
 
 	# Con		= {'Wgt' : {sig:Qt['Sig'][sig].connect for sig in Qt['Sig']}}
 
-	w = {**skel.QLayout}
-	for key in w:
-		w[key]=eval(w[key].format(**k['QLAY']))
-	w['Fnx']=	Fnx(w)
-	return  w
+	w=QMake.Construct(**k)
+	w=QMake.Configure(w)
 
 
 def make(widget,**k):
-	preset=QDefaults.QLayout|{
-		'widget'    :	widget	,	}
-	k= Config.preset(preset, **k)
-	return QLayout(**k)
+	return QLayout(**(QDefaults.QLayout|k|{'Name':k['Name'],'widget':widget}))

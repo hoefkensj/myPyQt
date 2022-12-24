@@ -23,7 +23,8 @@ def QtApplication(**k):
 		return wgt['Fnx']
 
 
-	w=QMake.Construct(Fnx,**k)
+	w=QMake.Construct(**k)
+	w=QMake.Configure(w)
 	return  w
 
 def make(namestr,**k):

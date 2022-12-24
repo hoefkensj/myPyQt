@@ -3,13 +3,15 @@
 from QLib.QStatic.PyQtX import QtWidgets, QtCore
 
 QSizePolicies = {
-	'Pol': QtWidgets.QSizePolicy,
+	'Pol'			: 	QtWidgets.QSizePolicy,
+
 	'P'       :		QtWidgets.QSizePolicy.Policy.Preferred,
 	'M'       :		QtWidgets.QSizePolicy.Policy.Maximum,
 	'm'       :		QtWidgets.QSizePolicy.Policy.Minimum,
 	'E'       :		QtWidgets.QSizePolicy.Policy.Expanding,
 	'mE'      :		QtWidgets.QSizePolicy.Policy.MinimumExpanding,
 	'F'       :		QtWidgets.QSizePolicy.Policy.Fixed,
+
 }
 QDialogs={
 	'file'    :		QtWidgets.QFileDialog,

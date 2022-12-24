@@ -6,7 +6,7 @@ from Fnx import isTest
 from QLib.QStatic import QtLibs,PyQtX,skel
 import assets.ico
 import sys
-
+from QLib.QBases import QLayout
 def Size(wh):
 	return QtLibs.QCores['Size'](wh[0], wh[1])
 
@@ -106,9 +106,8 @@ def Qt(w):
 			QtMtd['Mtd']|={item:mtdMap[item]}
 	return QtMtd
 
-def Construct(Fnx,**k):
+def Construct(**k):
 	w = {**skel.pyQt[k['SKL']]}
 	for key in w:
 		w[key]=eval(w[key].format(**k['WGT']))
-	w=QMake.Configure(w)
 	return w
