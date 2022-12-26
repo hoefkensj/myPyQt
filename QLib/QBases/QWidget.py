@@ -27,9 +27,15 @@ def QWidget(**k):
 		return wgt['Fnx']
 	def Mod():
 		return {}
-	w=QMake.Construct(**k)
+	w={}
+	for fn in QMake.Construct('QBase',**k):
+		breakpoint()
+		w=fn(w)
+
 	w=QMake.Configure(w)
 	return  w
 
 def make(namestr,**k):
-	return QWidget(**(QDefaults.QWidget|k|{'Name':namestr}))
+	k={**(QDefaults.QWidget|k|{'Name':namestr})}
+
+	return QWidget(**k)

@@ -22,8 +22,10 @@ def QtApplication(**k):
 		wgt['Fnx']['Clip'] =		wgt['Qt']['Mtd']['clipboard']()
 		return wgt['Fnx']
 
-
-	w=QMake.Construct(**k)
+	w={}
+	for fn in QMake.Construct('QApp',**k):
+		breakpoint()
+		w=fn(w)
 	w=QMake.Configure(w)
 	return  w
 

@@ -21,4 +21,6 @@ def QLayout(**k):
 
 
 def make(widget,**k):
+	for key in k :
+		print(key)
 	return QLayout(**(QDefaults.QLayout|k|{'Name':k['Name'],'widget':widget}))

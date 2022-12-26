@@ -1,18 +1,24 @@
 #!/usr/bin/env python
 # Auth
-import contextlib
+import contextlib,inspect,functools
 import Configs.Config
 from Fnx import isTest
 from QLib.QStatic import QtLibs,PyQtX,skel
 import assets.ico
 import sys
 from QLib.QBases import QLayout
+import PyQt6.QtCore
+from  PyQt6.QtWidgets import QSizePolicy
 def Size(wh):
 	return QtLibs.QCores['Size'](wh[0], wh[1])
 
 def SizePolicy(pol):
-	h,v = pol.split('.')
-	return QtLibs.QSizePolicies['Pol'](QtLibs.QSizePolicies[h], QtLibs.QSizePolicies[v])
+	QSPols=QtLibs.QSizePolicies
+	QSPol=QSPols['Pol']
+	h=(h:=QtLibs.QSizePolicies[ pol.split('.')[0]])
+	v=(v:=QtLibs.QSizePolicies[ pol.split('.')[1]])
+
+	return 	''
 
 def Margins(margins):
 	return QtLibs.QCores['Margins'](*margins)
@@ -20,7 +26,7 @@ def Margins(margins):
 def ToolButtonStyle(style):
 		return QtLibs.QToolButtons.get(style)
 
-def Icon(svg):
+def svgIcon(svg):
 		import base64
 		icon_states={
 			0 : PyQtX.QtGui.QIcon.State.On,
@@ -36,7 +42,7 @@ def Icon(svg):
 			return icon
 		icon = make_icon(icon,0)
 		icon = make_icon(icon,1)
-		return icon
+		return iconQSizePolicies['Pol'](QtLibs.QSizePolicies[h], QtLibs.QSizePolicies[v])
 
 def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None
@@ -49,10 +55,12 @@ def Assemble(wgt):
 	return assemble
 
 def Config(**k):
-	j= Configs.Config.mapMakeAlias(**k)
-	for setting in j:
-		k[setting]=eval(j[setting])
-	k= Configs.Config.mapAlias(**k)
+	l= Configs.Config.mapAlias(**k)
+	m= Configs.Config.mapFnAlias(**k,**l)
+	for setting in m:
+		k[setting]=eval(m[setting])
+
+
 	return {setting: k[setting] for setting in k}
 
 def Configure(wgt):
@@ -82,13 +90,13 @@ def Element(component):
 	name=component.get('QID')
 	return {name : component}
 
-def Qt(w):
+def Qt(widget):
 	# fnx_Qt=importlib.import_module('.skell')
-	wgt=w['Wgt']
+
 	QtMtd={'Mtd':{},'Get':{},'Set':{},'Sig':{}}
-	DirWgt=dir(wgt)
-	mtdMap={item: val for item in DirWgt if callable(val:=getattr(wgt,item))}
-	clsMap={item: getattr(getattr(getattr(wgt,item),'__class__'),'__name__') for item in DirWgt}
+	DirWgt=dir(widget)
+	mtdMap={item: val for item in DirWgt if callable(val:=getattr(widget,item))}
+	clsMap={item: getattr(getattr(getattr(widget,item),'__class__'),'__name__') for item in DirWgt}
 	pool=[*DirWgt]
 	pool=[item for item in pool if item in mtdMap]
 	for item in pool:
@@ -106,8 +114,75 @@ def Qt(w):
 			QtMtd['Mtd']|={item:mtdMap[item]}
 	return QtMtd
 
-def Construct(**k):
-	w = {**skel.pyQt[k['SKL']]}
-	for key in w:
-		w[key]=eval(w[key].format(**k['WGT']))
-	return w
+def Construct(wgttype,*widget,**k):
+	def Qid(w):	
+		w['Qid']= k["Name"]
+		return w
+	def Wgt(w):	
+		if wgttype == 'QApp':
+			Base=QtLibs.QElements.get('app')
+			Q=Base(sys.argv)
+		elif wgttype == 'QLayout':
+			wgtLayout=QtLibs.QLayouts.get(k['t'])
+			Q=wgtLayout(widget)
+		elif wgttype == 'QBase':
+			Base=QtLibs.QElements.get('wgt')
+			Q=Base()
+		else:
+			Base=QtLibs.QElements.get(wgttype)	
+			Q=Base()
+		w['Wgt']=Q
+		return w
+	def Cfg(w):
+		w['Cfg']=Config(**k)
+		return  w
+	def Lay(w):
+		w['Lay']=QLayout.make(w, **k)
+		return w
+	def Qtm(w):
+		w['Qtm']=Qt(w['Wgt'])
+		return w
+	def Fnx(w):
+		w['Fnx']={}
+		w['Fnx']['Gen']=''
+		return w
+	def Con(w):
+		w['Con']={}
+		w['Con']['Gen']=Connect
+		return 	w
+	def Asm(w):
+		w['Asm']={}
+		w['Asm']['Gen']=Assemble
+		return w	
+	def Mod(w):
+		w['Mod']={}
+		return 	w
+
+
+	pyQt={
+		'QBase'					:	[Qid,Wgt,Cfg,Lay,Qtm,Fnx,Con,Asm,Mod,],
+		'QApp'					:	[Qid,Wgt,Cfg,Qtm,Con,],
+		'QElement'			:	[Qid,Wgt,Cfg,Qtm,Fnx,Con,],
+		'QModule'				:	[Qid,Wgt,Cfg,Lay,Qtm,Fnx,Con,Asm,Mod,],
+		'QLayout'				:	[Qid,Wgt,Cfg,Qtm,Fnx,]
+	}
+	
+	return pyQt.get(wgttype)
+
+#
+# 	'ico'     	:			'{Icon:svgIcon({VAL})}'							,
+# 	'btnstyle' 	:			'ToolButtonStyle'		,
+# 	'margins'  	:			'ContentsMargins'		,
+# 	'pol'     	:			'SizePolicy'				,
+# 	'sz_max'		:			'MaximumSize'				,
+# 	'sz_min'		:			'MinimumSize'				,
+# 	'sz_ico'		:			'IconSize'					,
+# }
+# FnAliasses={
+# 'Icon'						: '''Icon({VAL})'''                ,
+# 'ToolButtonStyle'	: '''ToolButtonStyle({VAL})'''     ,
+# 'ContentsMargins'	: '''Margins({VAL})'''             ,
+# 'SizePolicy'			: '''SizePolicy('{VAL}')'''        ,
+# 'MaximumSize'			: '''Size({VAL})'''                ,
+# 'MinimumSize'			: '''Size({VAL})'''                ,
+# 'IconSize'				: '''Size({VAL})'''           		 , }

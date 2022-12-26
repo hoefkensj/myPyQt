@@ -6,19 +6,20 @@ PKGPATH={
 	'QAPP'	: {'GROUP' : 'Elements',	'TYPE'	: 'app',		'ARGS'	: 'sys.argv' ,}
 }
 
-ZeroSpc = {
+SPOL={	'pol'						:		'E.E'						}
+
+SPACING = {
 	'Spacing'				:		0 ,
 	'LayoutSpacing'	:		0	,
 	}
-Properties	=	{
-	'margin'				:		[0,0,0,0]				,
-	'pol'						:		'E.E'						,
-	**ZeroSpc
-}
-QApplication	=	{**Properties}|{'WGT':PKGPATH['QAPP']}|{'SKL' : 'QApplication'}
-QWidget				= {**Properties}|{'WGT':PKGPATH['QWGT']}|{'SKL' : 'QBase'}
-QLayout				=	{**Properties}|{'WGT':PKGPATH['QLAY']}|{'SKL' : 'QLayout'}
-TreeWidget 		= {**Properties}|{'WGT':PKGPATH['QTRW']}|{'SKL' : 'QElement'}| {
+MARGIN	=	{'margin'				:		[0,0,0,0]	}
+
+WIDGET				=	{**SPOL}|{**MARGIN}|{**SPACING}
+
+QApplication	=	{'WGT':PKGPATH['QAPP']}|{'SKL' : 'QApplication'}
+QWidget				= {**WIDGET}|{'WGT':PKGPATH['QWGT']}|{'SKL' : 'QBase'}
+QLayout				=	{**MARGIN}|{**SPACING}|{'WGT':PKGPATH['QLAY']}|{'SKL' : 'QLayout'}
+TreeWidget 		= {**WIDGET}|{'WGT':PKGPATH['QTRW']}|{'SKL' : 'QElement'}| {
 	'AlternatingRowColors'    : True,
 	'Animated'                : True,
 	'MinimumHeight'           :	10,
@@ -27,9 +28,9 @@ TreeWidget 		= {**Properties}|{'WGT':PKGPATH['QTRW']}|{'SKL' : 'QElement'}| {
 	'SKL'											: 'QElement',
 }
 
-QModule				=	{**Properties}|{
+QModule				=	{**WIDGET}|{
 	't'         :	'H'				,
-	'pol'       :	'E.F'			,
+	'pol'       :	'E.E'			,
 }
 QEditProp			= {**QModule}	|	{	'ed'  :	True			,}
 QHSearch			= {**QModule}	|	{}

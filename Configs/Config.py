@@ -5,22 +5,15 @@ def Alias(keymap,k,l):
 	l={ keymap[key] : k.pop(key) for key in keymap if key in k}
 	return k,l
 
-def mapMakeAlias(**k):
-	mapa=mappings.MakeAliases
-	l={}
-	for item in mapa:
-		if item in k:
-			VAL=k.pop(item)
-			l[mapa[item][0]]=mapa[item][1].format(VAL=VAL)
+def mapFnAlias(**k):
+	FnValMap={**mappings.FnAliasses}
+	for item in k:
+		l={item:(_:=FnValMap.get(item)).format(VAL) for item in FnValMap if (VAL:=k.get(item))}
 	return l
 
 def mapAlias(**k):
-	mapb=mappings.Aliasses
-	for item in mapb:
-		if item in k:
-			VAL=k.pop(item)
-			k[mapb[item]]=VAL
-	return k
+	AliasMap=mappings.Aliasses
+	return {AliasMap[item] :k[item]for item in AliasMap if item in k}
 
 
 def preset(preconf,name,**k):

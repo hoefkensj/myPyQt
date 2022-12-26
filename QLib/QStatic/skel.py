@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 Qid =	{'QID'		:	'k["Name"]'}
-Wgt	= {'Wgt' 		: 'QtLibs.Q{GROUP}.get(\'{TYPE}\')({ARGS})'}
+Wgt	= {'Wgt' 		: 'wgt'}
 Wly	=	{'Wgt'		:	'Layout(Widget)'}
 Cfg = {'Cfg'		:	'Config(**k)'}
 Lay	= {'Lay'		:	'QLayout.make(w[\'Wgt\'], **k)'}
