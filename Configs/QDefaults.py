@@ -17,9 +17,9 @@ MARGIN	=	{'margin'				:		[0,0,0,0]	}
 WIDGET				=	{**SPOL}|{**MARGIN}|{**SPACING}
 
 QApplication	=	{}
-QWidget				= {**WIDGET}|{'WGT':PKGPATH['QWGT']}|{'SKL' : 'QBase'}
-QLayout				=	{**MARGIN}|{**SPACING}|{'WGT':PKGPATH['QLAY']}|{'SKL' : 'QLayout'}
-TreeWidget 		= {**WIDGET}|{'WGT':PKGPATH['QTRW']}|{'SKL' : 'QElement'}| {
+QWidget				= {**WIDGET}|{'WGT':PKGPATH['QWGT']}
+QLayout				=	{**MARGIN}|{**SPACING}|{'WGT':PKGPATH['QLAY']}
+QTreeWidget 		= {**WIDGET}|{'WGT':PKGPATH['QTRW']}| {
 	'AlternatingRowColors'    : True,
 	'Animated'                : True,
 	'MinimumHeight'           :	10,

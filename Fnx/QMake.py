@@ -9,6 +9,10 @@ import sys
 from QLib.QBases import QLayout
 import PyQt6.QtCore
 from  PyQt6.QtWidgets import QSizePolicy
+from Fnx.debug import DebDec
+
+
+
 def Size(wh):
 	return QtLibs.QCores['Size'](wh[0], wh[1])
 
@@ -47,12 +51,11 @@ def svgIcon(svg):
 def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None
 
-def Assemble(wgt):
-	def assemble():
-		for element in 	wgt['Mod']:
-			wgt['Fnx']['Add'](wgt['Mod'][element])
-		return wgt
-	return assemble
+def Assemble(w):
+	for element in 	w['Mod']:
+		w['Fnx']['Add'](w['Mod'][element])
+	return w
+
 
 def Config(w,**k):
 	l= Configs.Config.mapAlias(**k)
@@ -84,7 +87,7 @@ def Entry(fn,wgt):
 	return {(getattr(fn, '__name__')): fn(wgt)}
 
 def Element(component):
-	name=component.get('QID')
+	name=component.get('Qid')
 	return {name : component}
 
 def Qt(wgt):
@@ -111,59 +114,37 @@ def Qt(wgt):
 			QtMtd['Mtd']|={item:mtdMap[item]}
 	wgt['Qtm']=QtMtd
 	return wgt
-
-
-
-def Qid(w,**k):	
-	w['Qid']= k["Name"]
+def Modules(w,**k):
+	mod=k.pop('mod')
+	w=mod(w)
 	return w
-def Wgt(w,**k):
-	w['Wgt']=eval('Q')
-	return w
-def Cfg(w,**k):
-	w=Config(w,**k)
-	return  w
-def Lay(w,**k):
-	w['Lay']=QLayout.make(w, **k)
-	return w
-def Qtm(w,**k):
-	w['Qtm']=Qt(w)
-	return w
-def Fnx(w,**k):
+def Functions(w,**k):
 	w['Fnx']={}
-	w['Fnx']['Gen']=functions
-	return w
-def Con(w,**k):
-	w=Connect(w)
-	return 	w
-def Mod(w,**k):
-	w['Mod']={}
-	return 	w
-def Asm(w,**k):
-	w=Assemble(w)
+	fn=k.get('fn')
+	w['Fnx']=fn(w,)
+	w['Fnx']['Asm']=Assemble
 	return w
 
+def Construct():
+	def construct(type):
+		def Qid(Qt,**k):return {'Qid': k["Name"],'Wgt': Qt,}
+		def Mod(w,**k): return Modules(w,**k)
+		def Cfg(w,**k):	return Config(w,**k)
+		def Lay(w,**k):	return QLayout.make(w, **k)
+		def Qtm(w,**k):	return Qt(w)
+		def Fnx(w,**k):	return Functions(w,**k)
+		def Con(w,**k):	return Connects(w)
 
-def Construct(wgttype):
-
-	def Qid(Qt,**k):return {'Qid': k["Name"],'Wgt': Qt,}
-	def Cfg(w,**k):	return Config(w,**k)
-	def Lay(w,**k):	return {**w,'Lay':QLayout.make(w, **k)}
-	def Qtm(w,**k):	return Qt(w)
-	def Fnx(w,**k):	return Functions(w)
-	def Con(w,**k):	return Connects(w)
-	def Mod(w,**k): return Modules(w)
-	def Asm(w,**k):	return Assemble(w)
-	pyQt={
-		'QApp'			:	[Qid,Cfg,Qtm,Con,],
-		'QBse'			:	[Qid,Cfg,Lay,Qtm,Fnx,Con,Asm,Mod,],
-		'QMdl'			:	[Qid,Cfg,Lay,Qtm,Fnx,Con,Mod,Asm,],
-		'QLay'			:	[Qid,Cfg,Qtm,Fnx,],
-		'QElm'			:	[Qid,Cfg,Qtm,Fnx,Con,],
-	}
-
-	return pyQt.get(wgttype)
-
+		def Asm(w,**k):	return Assemble(w)
+		pyQt={
+			'QApp'			:	[Qid,Cfg,Qtm,Fnx,Con,],
+			'QBse'			:	[Qid,Mod,Cfg,Lay,Qtm,Fnx,Con],
+			'QMdl'			:	[Qid,Mod,Cfg,Lay,Qtm,Fnx,Con,Asm,],
+			'QLay'			:	[Qid,Cfg,Qtm,Fnx,],
+			'QElm'			:	[Qid,Cfg,Qtm,Fnx,Con,],
+		}
+		return pyQt[type]
+	return construct
 #
 # 	'ico'     	:			'{Icon:svgIcon({VAL})}'							,
 # 	'btnstyle' 	:			'ToolButtonStyle'		,

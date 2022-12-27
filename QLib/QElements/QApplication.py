@@ -3,29 +3,31 @@ from Configs import Config,QDefaults
 from QLib.QStatic import QtLibs
 from Fnx import QMake
 import asyncio,multiprocessing,sys
+from Fnx.debug import DebDec
 
-
-def QtApplication(**k):
+def QApplication(**k):
 	def Fnx(wgt):
 		def Run(wgt):
 			async def app():
-				wgt['Qt']['Mtd']['exec']()
+				wgt['Qtm']['Mtd']['exec']()
 			def run():
 				asyncio.run(app())
 			return run
 		wgt['Fnx']={}
 		wgt['Fnx']['Run'] = Run(wgt)
-		wgt['Fnx']['Clip'] =		wgt['Qt']['Mtd']['clipboard']()
-		return wgt['Fnx']
+		wgt['Fnx']['Clip'] =		wgt['Qtm']['Mtd']['clipboard']()
+		return wgt
 
+
+	Constructs=QMake.Construct()
 	w=QtLibs.QElements.get('app')(sys.argv)
-	w=(w:={construct(w,**k)	for construct in QMake.Construct('QApp')})
-
+	for construct in Constructs('QApp'):
+		w=construct(w,fn=Fnx,**k)
 
 	return  w
 
-def make(namestr,**k):
-	return QtApplication(**(QDefaults.QApplication|k|{'Name':namestr}))
+def make(name,**k):
+	return QApplication(**(QDefaults.QApplication|k|{'Name':name}))
 
 	# w=QMake.Configure(w)
 
@@ -34,12 +36,3 @@ def make(namestr,**k):
 #
 #     p = multiprocessing.Process(target=fun, args=('Peter',))
 #     p.start()
-
-def build_modifierset1(**k):
-	w='modset1specific_startvalue'
-	for modifier in modifiers('set1'): #would be a list of functions {'set1' : [mod1,mod2,mod5,mod99]}
-		w=modifier(w,**k)
-
-def mod1(x,**k): return {'id': x.__name__,'x' :initmodifier(x)}
-
-def mod2(w,**k): return modfunction2(w)

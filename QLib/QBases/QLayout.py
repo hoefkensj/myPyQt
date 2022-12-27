@@ -4,24 +4,24 @@ from Configs import Config
 from QLib.QStatic import QtLibs,skel
 from Fnx import QMake
 import contextlib
-def QLayout(**k):
+from Fnx.debug import DebDec
 
+
+def QLayout(**k):
 	def Fnx(wgt):
 		wgt['Fnx']={}
-		wgt['Fnx']['Add']	= wgt['Qt']['Mtd']['addWidget']
-		return wgt['Fnx']
-
-	# Name  = k.get('Name')
+		wgt['Fnx']['Add']	= wgt['Qtm']['Mtd']['addWidget']
+		return wgt
 	Widget=k.pop('widget')
-	Layout=	QtLibs.QLayouts[k['t']]
-
-	# Con		= {'Wgt' : {sig:Qt['Sig'][sig].connect for sig in Qt['Sig']}}
-
-	w=QMake.Construct(**k)
-	w=QMake.Configure(w)
+	l=QtLibs.QLayouts[k['t']](Widget['Wgt'])
+	for construct in QMake.Construct('QLay'):
+		if construct.__name__=='Fnx':
+			l=construct(l,fn=Fnx)
+			continue
+		l=construct(l,**k)
+	Widget['Lay']=l
+	return Widget
 
 
 def make(widget,**k):
-	for key in k :
-		print(key)
 	return QLayout(**(QDefaults.QLayout|k|{'Name':k['Name'],'widget':widget}))

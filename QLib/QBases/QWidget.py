@@ -4,6 +4,8 @@ from QLib.QBases import QLayout
 from QLib.QStatic import QtLibs,skel
 from Configs import Config
 from Fnx import QMake
+from Fnx.debug import DebDec
+
 
 def QWidget(**k):
 	def Fnx(wgt):
@@ -20,18 +22,20 @@ def QWidget(**k):
 				elif Qt['Get']['Visible']():	Qt['Set']['Hidden'](True)
 				return wgt
 			return show
-		wgt['Fnx'] = {}
-		wgt['Fnx'] |= QMake.Entry(Add, wgt)
-		wgt['Fnx'] |= QMake.Entry(Show, wgt)
-		return wgt['Fnx']
-	def Mod():
-		return {}
-
+		fnx['Wgt'] = {}
+		fnx['Wgt'] |= QMake.Entry(Add, wgt)
+		fnx['Wgt'] |= QMake.Entry(Show, wgt)
+		wgt['Fnx']=fnx
+		return wgt
+	def Mod(wgt):
+		wgt['Mod']={}
+		return wgt
+	Constructs=QMake.Construct()
 	w=QtLibs.QElements.get('wgt')()
-	for construct in QMake.Construct('QBase'):
-		w=construct(w,**k)
+	for construct in Constructs('QBse'):
+		w=construct(w,fn=Fnx,mod=Mod,**k)
 
-def make(namestr,**k):
-	k={**(QDefaults.QWidget|k|{'Name':namestr})}
+	return w
 
-	return QWidget(**k)
+def make(name,**k):
+	return QWidget(**(QDefaults.QWidget|k|{'Name':name}))
