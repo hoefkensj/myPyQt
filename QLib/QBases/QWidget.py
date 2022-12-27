@@ -5,7 +5,6 @@ from QLib.QStatic import QtLibs,skel
 from Configs import Config
 from Fnx import QMake
 
-
 def QWidget(**k):
 	def Fnx(wgt):
 		def Add(wgt):
@@ -27,13 +26,10 @@ def QWidget(**k):
 		return wgt['Fnx']
 	def Mod():
 		return {}
-	w={}
-	for fn in QMake.Construct('QBase',**k):
-		breakpoint()
-		w=fn(w)
 
-	w=QMake.Configure(w)
-	return  w
+	w=QtLibs.QElements.get('wgt')()
+	for construct in QMake.Construct('QBase'):
+		w=construct(w,**k)
 
 def make(namestr,**k):
 	k={**(QDefaults.QWidget|k|{'Name':namestr})}

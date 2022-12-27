@@ -16,7 +16,7 @@ MARGIN	=	{'margin'				:		[0,0,0,0]	}
 
 WIDGET				=	{**SPOL}|{**MARGIN}|{**SPACING}
 
-QApplication	=	{'WGT':PKGPATH['QAPP']}|{'SKL' : 'QApplication'}
+QApplication	=	{}
 QWidget				= {**WIDGET}|{'WGT':PKGPATH['QWGT']}|{'SKL' : 'QBase'}
 QLayout				=	{**MARGIN}|{**SPACING}|{'WGT':PKGPATH['QLAY']}|{'SKL' : 'QLayout'}
 TreeWidget 		= {**WIDGET}|{'WGT':PKGPATH['QTRW']}|{'SKL' : 'QElement'}| {

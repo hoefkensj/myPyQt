@@ -8,7 +8,7 @@ def Alias(keymap,k,l):
 def mapFnAlias(**k):
 	FnValMap={**mappings.FnAliasses}
 	for item in k:
-		l={item:(_:=FnValMap.get(item)).format(VAL) for item in FnValMap if (VAL:=k.get(item))}
+		l={item:(_:=FnValMap.get(item)).format(VAL=VAL) for item in FnValMap if (VAL:=k.get(item))}
 	return l
 
 def mapAlias(**k):

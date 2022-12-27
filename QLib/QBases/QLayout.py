@@ -5,6 +5,7 @@ from QLib.QStatic import QtLibs,skel
 from Fnx import QMake
 import contextlib
 def QLayout(**k):
+
 	def Fnx(wgt):
 		wgt['Fnx']={}
 		wgt['Fnx']['Add']	= wgt['Qt']['Mtd']['addWidget']
