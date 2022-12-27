@@ -33,8 +33,7 @@ def QWidget(**k):
 	Constructs=QMake.Construct()
 	w=QtLibs.QElements.get('wgt')()
 	for construct in Constructs('QBse'):
-		w=construct(w,fn=Fnx,mod=Mod,**k)
-
+		w=construct(w,Fnx,Mod,**k)
 	return w
 
 def make(name,**k):
