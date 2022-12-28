@@ -22,7 +22,7 @@ def QApplication(**k):
 	Constructs=QMake.Construct()
 	w=QtLibs.QElements.get('app')(sys.argv)
 	for construct in Constructs('QApp'):
-		w=construct(w,fn=Fnx,**k)
+		w=construct(w,Fnx,**k)
 
 	return  w
 

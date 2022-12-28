@@ -3,6 +3,7 @@
 from QLib.QElements import  QApplication,QTree
 from QLib.QBases import QWidget
 from Fnx import QMake
+from QLib.QStatic import QtLibs
 from Fnx.debug import DebDec
 
 
@@ -15,24 +16,22 @@ def lFn(w,construct,**k):
 
 
 def QElements(**k):
-	def Mod(m):
+	def Mod():
 		# GUI['Elements']|=gnr.Element(component)
-		m['Mod']	|= QMake.Element(QTree.make('Tree',cols=7,HideCols=[2,4,5,6]))
-		return m
+		mod={}
+		mod	|= QMake.Element(QTree.make('Tree',cols=7,HideCols=[2,4,5,6]))
+		return mod
 	app=	QApplication.make('QElements',**k)
+	breakpoint()
 	wgt= QWidget.make('Main',**k)
-	wgt=Mod(wgt)
 
-	w=QtLibs.QElements.get('wgt')()
-	for construct in QMake.Construct('QBse'):
-		w=lFn(w,construct,fn=[Mod,])
+	wgt['Mod']=Mod()
+	wgt=wgt['Fnx']['Asm'](wgt)
+	breakpoint()
 
-		if construct.__name__=='Mod':
-			w=construct(w,fn=Mod)
-			continue
+
 
 	wgt['Qtm']['Mtd']['show']()
-	breakpoint()
 	app['Fnx']['Run']()
 
 

@@ -53,7 +53,10 @@ def IconSet(i):
 
 def Assemble(w,*a,**k):
 	for element in 	w['Mod']:
-		w['Fnx']['Add'](w['Mod'][element])
+		w['Fnx']['Wgt']['Add'](w['Mod'][element])
+	w=w['Fnx']['Mod'](w)
+	w=w['Con']['Mod'](w)
+	w=w['Cfg']['Configure'](w)
 	return w
 
 
@@ -75,15 +78,6 @@ def Configure(w):
 			w['Fnx'][prop](w['Cfg'][prop])
 	return w
 
-def ConnectMod(w):
-	w['Con']={}
-	w['Con']['Wgt']=w['Qtm'].get('Sig')
-	if isinstance(w.get('Mod'), dict) and len(w.get('Mod')) > 0:
-		for element in w['Mod']:
-			w['Con'][element]=w['Mod'][element]['Con']['Wgt']
-	return w
-def ConnectElm(w):	
-	return {'Con': w['Qtm'].get('Sig')}
 
 def Entry(fn,wgt):
 	return {(getattr(fn, '__name__')): fn(wgt)}
@@ -95,7 +89,7 @@ def Element(component):
 def Qt(wgt):
 	# fnx_Qt=importlib.import_module('.skell')
 	widget=wgt['Wgt']
-	QtMtd={'Mtd':{},'Get':{},'Set':{},'Sig':{}}
+	QtMtd={'Wrp':{},'Mtd':{},'Get':{},'Set':{},'Sig':{}}
 	DirWgt=dir(widget)
 	mtdMap={item: val for item in DirWgt if callable(val:=getattr(widget,item))}
 	clsMap={item: getattr(getattr(getattr(widget,item),'__class__'),'__name__') for item in DirWgt}
@@ -104,9 +98,9 @@ def Qt(wgt):
 	for item in pool:
 		setmtdname=isTest.isSetMtd(item)
 		ismtdname=isTest.isIsMtd(item)
-		if  isTest.isMethodWrapper(item):
+		if isTest.isMethodWrapper(clsMap[item]):
 			QtMtd['Wrp']|={item:mtdMap[item]}
-		elif isTest.isQtSignal(item):
+		elif isTest.isQtSignal(clsMap[item]):
 			QtMtd['Sig']|={item:mtdMap[item]}
 		elif setmtdname:
 			QtMtd['Set']|={setmtdname:mtdMap[item]}
@@ -116,34 +110,54 @@ def Qt(wgt):
 			QtMtd['Mtd']|={item:mtdMap[item]}
 	wgt['Qtm']=QtMtd
 	return wgt
-def Modules(w,**k):
-	mod=k.pop('mod')
-	w=mod(w)
+def Modules(*a,**k):
+	mod=a[2]
+	w=mod(a[0])
 	return w
-def Functions(w,**k):
-	w['Fnx']={}
-	fn=k.get('fn')
-	w['Fnx']=fn(w,)
-	w['Fnx']['Asm']=Assemble
+
+def FunctionsMod(w,fnx,**k):
+	def FnxMod():
+		def fnxmod(w):
+			w['Fnx']|={w['Mod'][mod]['Qid']:w['Mod'][mod]['Fnx'] for mod in w['Mod']}
+			return w
+		return fnxmod
+	Fnx={'Wgt': fnx(w)}
+	Fnx['Mod']=FnxMod()
+	Fnx['Asm']=Assemble
+	w['Fnx']=Fnx
 	return w
+def ConnectMod(w,con,**k):
+	def ConMod():
+		def conmod(w):
+			w['Con']|={w['Mod'][mod]['Qid']:w['Mod'][mod]['Con'] for mod in w['Mod']}
+			return w
+		return conmod
+	Con={}
+	Con['Wgt']=w['Qtm'].get('Sig')
+	Con['Mod']=ConMod()
+	w['Con']=Con
+	return w
+def ConnectElm(*a,**k):
+	return {**a[0],'Con': a[0]['Qtm'].get('Sig')}
 
 def Construct():
 	def construct(type):
-		def Qid(*a,**k):	return {'Qid': k["Name"],'Wgt': Qt,}
+		def Qid(*a,**k):	return {'Qid': k["Name"],'Wgt': a[0],}
 		def Mod(*a,**k):	return Modules(*a,**k)
 		def Cfg(*a,**k):	return Config(*a,**k)
-		def Lay(*a,**k):	return QLayout.make(*a, **k)
-		def Qtm(*a,**k):	return Qt(*a)
-		def Fnx(*a,**k):	return Functions(*a,**k)
-		def CMd(*a,**k):	return ConnectMod(*a,**k)
+		def Lay(*a,**k):	return QLayout.make(a[0], **k)
+		def Qtm(*a,**k):	return Qt(a[0])
+		def FEl(*a,**k):	return a[1](a[0])
+		def FMd(*a,**k):	return FunctionsMod(a[0],a[1],**k)
+		def CMd(*a,**k):	return ConnectMod(a[0],a[2],**k)
 		def CEl(*a,**k):	return ConnectElm(*a,**k)
 		def Asm(*a,**k):	return Assemble(*a)
 		pyQt={
-			'QApp'			:	[Qid,Cfg,Qtm,Fnx,CEl,],
-			'QBse'			:	[Qid,Mod,Cfg,Lay,Qtm,Fnx,CMd],
-			'QMdl'			:	[Qid,Mod,Cfg,Lay,Qtm,Fnx,CMd,Asm,],
-			'QLay'			:	[Qid,Cfg,Qtm,Fnx,],
-			'QElm'			:	[Qid,Cfg,Qtm,Fnx,CEl,],
+			'QApp'			:	[Qid,Cfg,Qtm,FEl,CEl,],
+			'QBse'			:	[Qid,Cfg,Lay,Qtm,FMd,CMd,Mod],
+			'QMdl'			:	[Qid,Mod,Cfg,Lay,Qtm,FMd,CMd,Asm,],
+			'QLay'			:	[Qid,Cfg,Qtm,FEl,],
+			'QElm'			:	[Qid,Cfg,Qtm,FEl,CEl,],
 		}
 		return pyQt[type]
 	return construct

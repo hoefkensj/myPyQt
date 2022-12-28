@@ -12,7 +12,7 @@ def QWidget(**k):
 		def Add(wgt):
 			def add(component):
 				wgt['Lay']['Fnx']['Add'](component['Wgt'])
-				wgt['Fnx'][component['QID']]=component['Fnx']
+				wgt['Fnx'][component['Qid']]=component['Fnx']
 				# wgt['Con'][component['QID']]=component['Con']
 				return wgt
 			return add
@@ -22,13 +22,11 @@ def QWidget(**k):
 				elif Qt['Get']['Visible']():	Qt['Set']['Hidden'](True)
 				return wgt
 			return show
-		fnx['Wgt'] = {}
-		fnx['Wgt'] |= QMake.Entry(Add, wgt)
-		fnx['Wgt'] |= QMake.Entry(Show, wgt)
-		wgt['Fnx']=fnx
-		return wgt
+		fnx = {}
+		fnx|= QMake.Entry(Add, wgt)
+		fnx|= QMake.Entry(Show, wgt)
+		return fnx
 	def Mod(wgt):
-		wgt['Mod']={}
 		return wgt
 	Constructs=QMake.Construct()
 	w=QtLibs.QElements.get('wgt')()

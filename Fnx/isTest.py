@@ -5,13 +5,14 @@ from Fnx.tools import RE_QTMTD
 
 def isQtSignal(mtd):
 	pyqtsig='pyqtBoundSignal'
-	cls=getattr(mtd,'__class__')
-	return cls.__name__ == pyqtsig
+	# cls=getattr(mtd,'__class__')
+	# print(cls.__name__)
+	return mtd == pyqtsig
 
 def isMethodWrapper(mtd):
 	mtdwrap='method-wrapper'
-	cls=getattr(mtd,'__class__')
-	return cls.__name__ == mtdwrap
+	# cls=getattr(mtd,'__class__')
+	return mtd == mtdwrap
 
 def isIsMtd(mtd):
 	isIsMtd=RE_QTMTD('IS')

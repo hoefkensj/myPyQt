@@ -15,12 +15,8 @@ def QLayout(**k):
 	Widget=k.pop('widget')
 	l=QtLibs.QLayouts[k['t']](Widget['Wgt'])
 	Constructs=QMake.Construct()
-
 	for construct in Constructs('QLay'):
-		if construct.__name__=='Fnx':
-			l=construct(l,fn=Fnx,**k)
-			continue
-		l=construct(l,**k)
+		l=construct(l,Fnx,**k)
 	Widget['Lay']=l
 	return Widget
 
