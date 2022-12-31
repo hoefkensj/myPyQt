@@ -2,21 +2,15 @@
 from QLib import Create
 from Configs import QDefaults
 from Configs import Config
-import Fnx
-def QIconButton(**k):
-	def Con(wgt):
-		return wgt
-	def Init(wgt)     :
-		return wgt
-	w						=			Create.QComponent('iBtn', **k)
-	w						=			Con(w)
-	return Init(w)
+from Fnx import QMake
+from assets import ico
 
-def make(namestr, **k):
-	iconame=namestr.split('_')[0]
-	preset=QDefaults.QIconButton|{
-		'ico'       :	Fnx.qmake.IconSet(iconame)	,
-		'Name'      : namestr,
-	}
-	k = Config.preset(preset, **k)
-	return QIconButton(**k)
+def QIconButton(**k):
+	def Fnx(w):
+		w['Fnx']={}
+		return w
+	return QMake.QBuild('QElm','iBtn',Fnx,**k)
+
+def make(name, **k):
+	icons={'ico': QMake.IconSet(name)}
+	return QIconButton(**(QDefaults.QIconButton|k|{**icons}|{'Name':name}))

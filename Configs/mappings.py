@@ -7,7 +7,7 @@ Aliasses={
 	'cols'    	:			'ColumnCount'				,
 	'ro'      	:			'ReadOnly'					,
 	'ico'     	:			'Icon'							,
-	'btnstyle' 	:			'ToolButtonStyle'		,
+	'btn' 			:			'ToolButtonStyle'		,
 	'margins'  	:			'ContentsMargins'		,
 	'pol'     	:			'SizePolicy'				,
 	'sz_max'		:			'MaximumSize'				,
@@ -16,7 +16,7 @@ Aliasses={
 }
 
 FnAliasses={
-'Icon'						: '''Icon({VAL})'''                ,
+'Icon'						: '''svgIcon({VAL})'''                ,
 'ToolButtonStyle'	: '''ToolButtonStyle({VAL})'''     ,
 'ContentsMargins'	: '''Margins({VAL})'''             ,
 'SizePolicy'			: '''SizePolicy('{VAL}')'''        ,

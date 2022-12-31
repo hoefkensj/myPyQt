@@ -19,12 +19,12 @@ def QApplication(**k):
 		return wgt
 
 
-	Constructs=QMake.Construct()
+
 	w=QtLibs.QElements.get('app')(sys.argv)
-	for construct in Constructs('QApp'):
+	for construct in QMake.Constructs('QApp'):
 		w=construct(w,Fnx,**k)
 
-	return  w
+	return w
 
 def make(name,**k):
 	return QApplication(**(QDefaults.QApplication|k|{'Name':name}))

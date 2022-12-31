@@ -133,12 +133,7 @@ def QTree(**k):
 		wgt['Fnx']['Add']							=	Add(wgt)
 		wgt['Fnx']['Update']					=	Update(wgt)
 		return wgt
-
-	Constructs=QMake.Construct()
-	w=QtLibs.QElements.get('trW')()
-	for construct in Constructs('QElm'):
-		w=construct(w,Fnx,**k)
-	return w
+	return QMake.QBuild('QElm','trW',Fnx,**k)
 
 
 def make(name, **k):

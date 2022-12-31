@@ -1,69 +1,29 @@
-#!/usr/bin/env python
-PKGPATH={
-	'QWGT'	: {'GROUP' : 'Elements',	'TYPE'	: 'wgt',		'ARGS'	: '' ,	},
-	'QLAY'	:	{'GROUP' : 'Elements',	'TYPE'	: 'lay',		'ARGS'	: '' ,	},
-	'QTRW'	:	{'GROUP' : 'Elements',	'TYPE'	: 'TrW',		'ARGS'	: '' ,	},
-	'QAPP'	: {'GROUP' : 'Elements',	'TYPE'	: 'app',		'ARGS'	: 'sys.argv' ,}
-}
+#!/usr/bin/envpython
 
-SPOL={	'pol'						:		'E.E'						}
+SPACING={'Spacing':0,'LayoutSpacing':0,}
+MARGIN={'margin':[0,0,0,0]}
+SIZEPOL={'pol':'E.E'}
+BUTTON={**MARGIN}|{**SPACING}|{'pol':'P.F','bi':False,}
+WIDGET={**MARGIN}|{**SPACING}|{**SIZEPOL}
 
-SPACING = {
-	'Spacing'				:		0 ,
-	'LayoutSpacing'	:		0	,
-	}
-MARGIN	=	{'margin'				:		[0,0,0,0]	}
 
-WIDGET				=	{**SPOL}|{**MARGIN}|{**SPACING}
+QApplication={**WIDGET}
+QWidget={**WIDGET}
+QLayout={**WIDGET}
+QTreeWidget={**WIDGET}|{'AlternatingRowColors':True,'Animated':True,'MinimumHeight':10,'AllColumnsShowFocus':True,'HeaderHidden':False,}
 
-QApplication	=	{}
-QWidget				= {**WIDGET}|{'WGT':PKGPATH['QWGT']}
-QLayout				=	{**MARGIN}|{**SPACING}|{'WGT':PKGPATH['QLAY']}
-QTreeWidget 		= {**WIDGET}|{'WGT':PKGPATH['QTRW']}| {
-	'AlternatingRowColors'    : True,
-	'Animated'                : True,
-	'MinimumHeight'           :	10,
-	'AllColumnsShowFocus'     :	True,
-	'HeaderHidden'            :	False,
-	'SKL'											: 'QElement',
-}
 
-QModule				=	{**WIDGET}|{
-	't'         :	'H'				,
-	'pol'       :	'E.E'			,
-}
-QEditProp			= {**QModule}	|	{	'ed'  :	True			,}
-QHSearch			= {**QModule}	|	{}
-QHArrowsLR		= {**QModule}	|	{'pol' :	'F.F',}
-QHIncDec			= {**QModule}	|	{'pol' :	'P.P',}
+# QButton={**BUTTON}
+QIconButton={**BUTTON}|{'wh':[20,20],'isize':[32,32],'btnstyle':'I',}
+# QTextButton=QButton|{'btn':'T','txt':1,'Height':20,}
+# QLabel={'pol':'P.F','Height':20,}
+# QLineEdit={'ro':False,'pol':'E.P','height':200,}
+# QCheckBox={'pol':'P.P',}
+# QIconCheckBox={'wh':[20,20],'isize':[32,32],}
 
-QButton={
-	'pol'                   :	'P.P'					,
-	'bi'                    :	False					,
-}
-QIconButton	= QButton	| {
-	'wh'                    :	[20,20]					,
-	'isize'                 :	[32,32]					,
-	'btn'                   :	'I'						,
-}
-QTextButton	= QButton	| {
-	'btn'                   :	'T',
-	'txt'                   :	1,
-	'Height'                :	20,
-}
-QLabel={
-	'pol'       :'P.F'					,
-	'Height'      : 20,
-}
-QLineEdit={
-	'ro'        :	False,
-	'pol'       :	'E.P',
-	'height'      : 	200,
-}
-QCheckBox				=	{
-	'pol'					:	'P.P'					,
-}
-QIconCheckBox			=	{
-	'wh'           :	[20,20]					,
-	'isize'       :	[32,32]					,
-}
+# QModule={**WIDGET}|{'t':'H',}
+# QHIncDec={**QModule}|{'pol':'P.P',}
+# QHArrowsLR={**QModule}|{'pol':'F.F',}
+# QHSearch={**QModule}|{}
+# QEditProp={**QModule}|{'ed':True,}
+

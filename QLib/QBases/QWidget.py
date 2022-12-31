@@ -13,7 +13,7 @@ def QWidget(**k):
 			def add(component):
 				wgt['Lay']['Fnx']['Add'](component['Wgt'])
 				wgt['Fnx'][component['Qid']]=component['Fnx']
-				# wgt['Con'][component['QID']]=component['Con']
+				wgt['Con'][component['Qid']]=component['Con']
 				return wgt
 			return add
 		def Show(wgt):
@@ -28,11 +28,8 @@ def QWidget(**k):
 		return fnx
 	def Mod(wgt):
 		return wgt
-	Constructs=QMake.Construct()
-	w=QtLibs.QElements.get('wgt')()
-	for construct in Constructs('QBse'):
-		w=construct(w,Fnx,Mod,**k)
-	return w
+
+	return QMake.QBuild('QBse','wgt',Fnx,Mod,**k)
 
 def make(name,**k):
 	return QWidget(**(QDefaults.QWidget|k|{'Name':name}))
