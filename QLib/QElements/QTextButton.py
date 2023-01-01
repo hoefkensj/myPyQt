@@ -1,22 +1,18 @@
 #!/usr/bin/env python
 from QLib import Create
-from QLib.QStatic import QElements
 from Configs import QDefaults
 from Configs import Config
+from Fnx import QMake
+from assets import ico
 
-def QtextButton(**k):
-	def Con(wgt):
+def QTextButton(**k):
+	def Fnx(w):
+		w['Fnx']={}
+		return w
+	return QMake.QBuild('QElm','tBtn',Fnx,**k)
 
-		return wgt
-	def Init(wgt)     :
+def make(name,*lbl, **k):
+	lbl={'lbl':lbl[0]} if lbl else {'lbl': name}
+	return QTextButton(**(QDefaults.QTextButton|k|{'Name':name}|{**lbl}))
 
-		return wgt
-	w						=			Create.QComponent(QElements['tBtn'], **k)
-	w						=			Con(w)
-	return Init(w)
 
-def make(namestr,**k):
-	preset=QDefaults.QTextButton
-	k=k|{'lbl'       :	namestr								,	}
-	k= Config.preset(['tBtn', namestr], preset, **k)
-	return QtextButton(**k)

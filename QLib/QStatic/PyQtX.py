@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Auth
+
 from inspect import getmodulename
 from importlib import import_module
 from QLib.QStatic import QtModules

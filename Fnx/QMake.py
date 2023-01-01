@@ -15,8 +15,7 @@ def SizePolicy(pol):
 	QSPol=QSPols['Pol']
 	h=(h:=QtLibs.QSizePolicies[ pol.split('.')[0]])
 	v=(v:=QtLibs.QSizePolicies[ pol.split('.')[1]])
-
-	return 	''
+	return 	QSPol(h,v)
 def Margins(margins):
 	return QtLibs.QCores['Margins'](*margins)
 def ToolButtonStyle(style):
@@ -28,7 +27,7 @@ def svgIcon(svg):
 	icon = PyQtX.QtGui.QIcon()
 	def  make_icon(icon,state):
 		with open(f'icon{state}.svg','wb') as l:
-			l.write(base64.b64decode(svg[state]))
+			l.write(base64.b64decode(svg[::-1][state]))
 		icon.addPixmap(
 			PyQtX.QtGui.QPixmap(f'icon{state}.svg'),
 			PyQtX.QtGui.QIcon.Mode.Normal,
@@ -51,17 +50,18 @@ def Assemble(w,*a,**k):
 	return w
 def Config(w,*a,**k):
 	l= Configs.Config.mapAlias(**k)
-	m= Configs.Config.mapFnAlias(**k,**l)
+	for setting in l:
+		k[setting]=l[setting]
+	m,k= Configs.Config.mapFnAlias(**k)
 	for setting in m:
 		k[setting]=eval(m[setting])
 	w['Cfg']={setting: k[setting] for setting in k}
 	w['Cfg']['Configure']=Configure
 	return w
 def Configure(w,*a):
-	print(w['Cfg']['Name'])
 	for prop in w['Cfg']:
 		with contextlib.suppress(KeyError):
-			breakpoint()
+			print(f"{prop}:{w['Cfg'][prop]}")
 			w['Qtm']['Set'][prop](w['Cfg'][prop])
 			w['Qtm']['Mtd'][prop](w['Cfg'][prop])
 			w['Fnx'][prop](w['Cfg'][prop])
