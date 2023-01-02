@@ -13,6 +13,7 @@ Aliasses={
 	'sz_max'		:			'MaximumSize'				,
 	'sz_min'		:			'MinimumSize'				,
 	'sz_ico'		:			'IconSize'					,
+	'hidecols'	:			'HideCols'					,
 
 }
 

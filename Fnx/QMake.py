@@ -65,8 +65,13 @@ def Configure(w,*a):
 		with contextlib.suppress(KeyError):
 			# print(f"{prop}:{w['Cfg'][prop]}")
 			w['Qtm']['Set'][prop](w['Cfg'][prop])
+			continue
+		with contextlib.suppress(KeyError):
 			w['Qtm']['Mtd'][prop](w['Cfg'][prop])
+			continue
+		with contextlib.suppress(KeyError):
 			w['Fnx'][prop](w['Cfg'][prop])
+			continue
 	return w
 def Entry(fn,wgt):
 	return {(getattr(fn, '__name__')): fn(wgt)}

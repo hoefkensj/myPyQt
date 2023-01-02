@@ -97,8 +97,8 @@ def QTree(**k):
 		def HideCols(wgt):
 			def hidecols(cols):
 				for col in cols:
-					wgt['Qt']['Set']['ColumnHidden'](col,True)
-				return wgt
+					wgt['Qtm']['Set']['ColumnHidden'](col,True)
+				# return wgt
 			return hidecols
 		def ReadColWidth(wgt):
 			def readcolwidth():
@@ -133,6 +133,8 @@ def QTree(**k):
 		wgt['Fnx']['Add']							=	Add(wgt)
 		wgt['Fnx']['Update']					=	Update(wgt)
 		return wgt
+	# qtree=QMake.QBuild('QElm','trW',Fnx,**k)
+	# qtree=qtree['Cfg']['Configure'](qtree)
 	return QMake.QBuild('QElm','trW',Fnx,**k)
 
 
