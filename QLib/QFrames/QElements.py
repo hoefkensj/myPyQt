@@ -20,12 +20,12 @@ def QElements(**k):
 
 		mod	|= QMake.Element(QIconButton.make(f'Dec', wh=[15,15], bi=True))
 
-		mod	|= QMake.Element(QIconButton.make(f'>', wh=[15,15], bi=False))
+		mod	|= QMake.Element(QIconButton.make(f'>', wh=[15,15], bi=True))
 		mod	|= QMake.Element(QIconButton.make(f'Inc', wh=[15,15], bi=True))
 		mod	|= QMake.Element(QIconButton.make(f'Reg', wh=[15,15], bi=True))
-		mod	|= QMake.Element(QIconButton.make(f'<', wh=[15,15], bi=False))
+		mod	|= QMake.Element(QIconButton.make(f'<', wh=[15,15], bi=True))
 		mod	|= QMake.Element(QTextButton.make(f'ikkel','ikkel', bi=True))
-		mod	|= QMake.Element(QTextButton.make(f'test',pol='E.F', bi=False))
+		mod	|= QMake.Element(QTextButton.make(f'test',pol='E.F', bi=True))
 		return mod
 
 	def hv(**k):

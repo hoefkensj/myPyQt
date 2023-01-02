@@ -20,16 +20,17 @@ def Margins(margins):
 	return QtLibs.QCores['Margins'](*margins)
 def ToolButtonStyle(style):
 		return QtLibs.QToolButtons.get(style)
+
 def svgIcon(svg):
 	icon_states={
 		0 : PyQtX.QtGui.QIcon.State.On,
 		1 :	PyQtX.QtGui.QIcon.State.Off,	}
 	icon = PyQtX.QtGui.QIcon()
 	def  make_icon(icon,state):
-		with open(f'icon{state}.svg','wb') as l:
-			l.write(base64.b64decode(svg[::-1][state]))
+		with open(f'icon.svg','wb') as l:
+			l.write(base64.b64decode(svg[state]))
 		icon.addPixmap(
-			PyQtX.QtGui.QPixmap(f'icon{state}.svg'),
+			PyQtX.QtGui.QPixmap(f'icon.svg'),
 			PyQtX.QtGui.QIcon.Mode.Normal,
 			icon_states[state])
 		return icon
@@ -39,6 +40,7 @@ def svgIcon(svg):
 	
 def IconSet(i):
 	return assets.ico.get(i) if i in  assets.ico.names() else None
+
 def Assemble(w,*a,**k):
 	if a:
 		w['Mod']=a[0]()

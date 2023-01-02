@@ -8,3 +8,10 @@ def DebDec(fn):
 		breakpoint()
 		return fn(*a,**k)
 	return debdec
+
+
+name=[]
+breakpoint()
+name+=['somename']
+breakpoint()
+print(name)
