@@ -4,7 +4,7 @@ import contextlib
 import Configs.Config
 from Fnx import isTest
 from QLib.QStatic import QtLibs,PyQtX
-import assets.ico
+from assets import svg
 from QLib.QBases import QLayout
 from Fnx.debug import DebDec
 import base64
@@ -21,29 +21,26 @@ def Margins(margins):
 def ToolButtonStyle(style):
 		return QtLibs.QToolButtons.get(style)
 
-def svgIcon(**k):
+def svgIcon(name):
 	icon_states={
 		0 : PyQtX.QtGui.QIcon.State.On,
-		1 :	PyQtX.QtGui.QIcon.State.Off,	}
+		1 :	PyQtX.QtGui.QIcon.State.Off,}
+	icon_themes={
+		0	: 'dark',
+		1	:	'light',}
 	icon = PyQtX.QtGui.QIcon()
-	def write_svg(svg)
-		with open(f'icon.svg','wb') as l:
-			l.write(base64.b64decode(svg))
-	def  make_icon(icon,state):
-		svg=k.get('svg')
-		write_svg(svg[state])
+	def  make_icon(ico_name,state):
+		theme=icon_themes[state]
+		svg.svgIcon(ico_name,theme)
 		icon.addPixmap(
-			PyQtX.QtGui.QPixmap(f'icon.svg'),
+			PyQtX.QtGui.QPixmap(f'icon_{theme}.svg'),
 			PyQtX.QtGui.QIcon.Mode.Normal,
 			icon_states[state])
 		return icon
-	icon = make_icon(icon,0)
-	icon = make_icon(icon,1)
+	icon = make_icon(name,0)
+	icon = make_icon(name,1)
 	return icon
 	
-def IconSet(i):
-	return assets.ico.get(i) if i in  assets.ico.names() else None
-
 def Assemble(w,*a,**k):
 	if a:
 		w['Mod']=a[0]()

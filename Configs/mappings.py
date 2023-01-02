@@ -6,8 +6,7 @@ Aliasses={
 	'lbl'     	:			'Text'							,
 	'cols'    	:			'ColumnCount'				,
 	'ro'      	:			'ReadOnly'					,
-	'ico'     	:			'Icon'							,
-	'sico'			:			'Icon'							,
+	'ico'				:			'Icon'							,
 	'btn' 			:			'ToolButtonStyle'		,
 	'margins'  	:			'ContentsMargins'		,
 	'pol'     	:			'SizePolicy'				,
@@ -18,7 +17,7 @@ Aliasses={
 }
 
 FnAliasses={
-'svgIcon'					: '''svgIcon({VAL})'''                ,
+'Icon'						: '''svgIcon('{VAL}')'''             ,
 'ToolButtonStyle'	: '''ToolButtonStyle({VAL})'''     ,
 'ContentsMargins'	: '''Margins({VAL})'''             ,
 'SizePolicy'			: '''SizePolicy('{VAL}')'''        ,

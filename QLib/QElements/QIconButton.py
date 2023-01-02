@@ -12,15 +12,9 @@ def QIconButton(**k):
 		w['Fnx']={}
 		return w
 	if not k.get('ico'):
-		name=k.get('Name')
-		icon=QtGui.QIcon.fromTheme(k.get(name))
-		# icon=QMake.IconSet(name)
-		k|={'sico': icon}
+		k|={'ico': k.get('Name')}
 
-
-		print()
 	return QMake.QBuild('QElm','iBtn',Fnx,**k)
 
 def make(name, **k):
-
 	return QIconButton(**(QDefaults.QIconButton|k|{'Name':name}))
