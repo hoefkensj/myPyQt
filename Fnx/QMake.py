@@ -21,14 +21,17 @@ def Margins(margins):
 def ToolButtonStyle(style):
 		return QtLibs.QToolButtons.get(style)
 
-def svgIcon(svg):
+def svgIcon(**k):
 	icon_states={
 		0 : PyQtX.QtGui.QIcon.State.On,
 		1 :	PyQtX.QtGui.QIcon.State.Off,	}
 	icon = PyQtX.QtGui.QIcon()
-	def  make_icon(icon,state):
+	def write_svg(svg)
 		with open(f'icon.svg','wb') as l:
-			l.write(base64.b64decode(svg[state]))
+			l.write(base64.b64decode(svg))
+	def  make_icon(icon,state):
+		svg=k.get('svg')
+		write_svg(svg[state])
 		icon.addPixmap(
 			PyQtX.QtGui.QPixmap(f'icon.svg'),
 			PyQtX.QtGui.QIcon.Mode.Normal,
@@ -63,7 +66,7 @@ def Config(w,*a,**k):
 def Configure(w,*a):
 	for prop in w['Cfg']:
 		with contextlib.suppress(KeyError):
-			print(f"{prop}:{w['Cfg'][prop]}")
+			# print(f"{prop}:{w['Cfg'][prop]}")
 			w['Qtm']['Set'][prop](w['Cfg'][prop])
 			w['Qtm']['Mtd'][prop](w['Cfg'][prop])
 			w['Fnx'][prop](w['Cfg'][prop])

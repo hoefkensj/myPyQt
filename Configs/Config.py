@@ -25,7 +25,7 @@ def mapAlias(**k):
 
 
 def preset(preconf,name,**k):
-	print(inspect.stack()[1][3])
+	# print(inspect.stack()[1][3])
 	k= preconf|k|{'Name':name}
 	return k
 
