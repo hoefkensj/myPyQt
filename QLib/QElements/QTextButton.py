@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-from QLib import Create
 from Configs import QDefaults
-from Configs import Config
 from Fnx import QMake
-from assets import ico
+
 
 def QTextButton(**k):
 	def Fnx(w):

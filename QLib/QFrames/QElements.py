@@ -26,29 +26,14 @@ def QElements(**k):
 			mod	|= QMake.Element(QIconButton.make(f'>', wh=[15,15], bi=True))
 			mod	|= QMake.Element(QIconButton.make(f'<', wh=[15,15], bi=True))
 			mod	|= QMake.Element(QIconButton.make(f'Inc', wh=[15,15], bi=True))
-			# mod	|= QMake.Element(QIconButton.make(f'Reg', wh=[15,15], bi=True))
+			mod	|= QMake.Element(QIconButton.make(f'Cpy', wh=[15,15], bi=True))
+			mod	|= QMake.Element(QIconButton.make(f'Reg', wh=[15,15], bi=True))
 			mod	|= QMake.Element(QTextButton.make(f'ikkel','ikkel', bi=True))
 			mod	|= QMake.Element(QTextButton.make(f'test',pol='E.F', bi=True))
 			return mod
+		return trw()|btn()
 
-		def vh(**k):
-			mod={}
-			mod	|= QMake.Element(QWidget.make('View',t='V',**k))
-			mod	|= QMake.Element(QWidget.make('Btn',t='H',**k))
-			mod['View']=mod['View']['Fnx']['Asm'](mod['View'],trw,**k)
-			mod['Btn']=mod['Btn']['Fnx']['Asm'](mod['Btn'],btn,**k)
-			return mod
-		def hv(**k):
-			mod={}
-			mod	|= QMake.Element(QWidget.make('View',t='V',**k))
-			mod	|= QMake.Element(QWidget.make('Btn',t='H',**k))
-			mod['View']=mod['View']['Fnx']['Asm'](mod['View'],trw,**k)
-			mod['Btn']=mod['Btn']['Fnx']['Asm'](mod['Btn'],btn,**k)
-			return mod
-		def vhhv():
-			mod={}
-			mod	|= QMake.Element(QWidget.make('vh',t='H',**k))
-		return vh()
+
 	wgt= QWidget.make('Main',**k)
 	wgt=wgt['Fnx']['Asm'](wgt,Mod,**k)
 	return wgt['Qtm']['Mtd']['show']

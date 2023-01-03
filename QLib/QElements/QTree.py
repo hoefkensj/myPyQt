@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 from QLib import QElements
 import sys
-from QLib.QStatic import QtLibs
-from QLib.QStatic import skel
 from Configs import QDefaults
-from Configs import Config
 from Fnx import QMake
 
 def Make_Tree(wgt):
@@ -133,8 +130,6 @@ def QTree(**k):
 		wgt['Fnx']['Add']							=	Add(wgt)
 		wgt['Fnx']['Update']					=	Update(wgt)
 		return wgt
-	# qtree=QMake.QBuild('QElm','trW',Fnx,**k)
-	# qtree=qtree['Cfg']['Configure'](qtree)
 	return QMake.QBuild('QElm','trW',Fnx,**k)
 
 
