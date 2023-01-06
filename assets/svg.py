@@ -68,7 +68,7 @@ def svgIcon(icon, theme):
 				'body': icodata(icon),
 			}
 		svg = {'tags': tags, 'data': data}
-		themes = {'light': '#363636', 'dark': '#dedede'}
+		themes = {'light': '#363636', 'dark': '#aaaaaa'}
 		body_list = []
 		# breakpoint()
 		for idx,obj in enumerate(svg['data']['body']):

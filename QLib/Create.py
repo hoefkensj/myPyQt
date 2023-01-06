@@ -23,9 +23,10 @@ from QLib.QStatic import skel
 #         mtdin = mtdin if mtdin in pool else ''
 #         getmtd = mtdsn or mtdin
 #         return mtdcn, getmtd
+wgt={}
 #
-#     wgt['Fnx'] = wgt.get('Fnx') or {}
-#     wgt['Con'] = wgt.get('Con') or {}
+wgt['Fnx'] = wgt.get('Fnx') or {}
+wgt['Con'] = wgt.get('Con') or {}
 #     wgt['Fnx']['Qt'] = {
 #         'Mtd': {}, 'Wrp': {}, 'Atr': {},
 #         'Set': {}, 'Get': {}, 'Sig': {},

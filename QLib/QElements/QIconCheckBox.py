@@ -1,32 +1,19 @@
 #!/usr/bin/env python
-from QLib import gnr,Create
-from QLib.QStatic import QElements
 from Configs import QDefaults
-from Configs import Config
+from Fnx import QMake
 
 def QIconCheckBox(**k):
 	def Fnx(wgt):
 		def toggle():
 			state=wgt['Fnx']['Qt']['Get']['Checked']
 			wgt['Fnx']['Qt']['Set']['Checked'](not state)
+		wgt['Fnx']={}
 		wgt['Fnx']['Toggle']			= toggle
 		return wgt
-	def Con(wgt):
-		wgt['Con']['clicked'] = w['Wgt'].clicked.connect
-		wgt['Con']['clicked'](wgt['Fnx']['Toggle'])
-		return wgt
-	def Init(wgt)     :
-		wgt=gnr.QElementInit(wgt)
-		return wgt
-	w						=			Create.QCreate(QElements['iChk'], **k)
-	w						=			Fnx(w)
-	w['Con']		=			Con()
-	return Init(w)
+	k|={'ico': k.get('Name')}
 
-def make(namestr, **k):
-	iconame=namestr.split('_')[0]
-	preset=QDefaults.QIconButton|{
-		'ico'       :	gnr.IconSet(iconame)	,
-	}
-	k= Config.preset(['iChk', namestr], preset, **k)
-	return QIconCheckBox(**k)
+	return QMake.QBuild('QElm', 'chkB', Fnx, **k)
+
+def make(name, **k):
+	return QIconCheckBox(**(QDefaults.QIconCheckBox | k | {'Name': name}))
+

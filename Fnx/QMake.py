@@ -6,10 +6,8 @@ from Fnx import isTest
 from QLib.QStatic import QtLibs,PyQtX
 from assets import svg
 from QLib.QBases import QLayout
-from Fnx.debug import DebDec
-import base64
-def Size(wh):
-	return QtLibs.QCores['Size'](wh[0], wh[1])
+def Size(a):
+	return QtLibs.QCores['Size'](a[0], a[1])
 def SizePolicy(pol):
 	QSPols=QtLibs.QSizePolicies
 	QSPol=QSPols['Pol']
@@ -20,7 +18,6 @@ def Margins(margins):
 	return QtLibs.QCores['Margins'](*margins)
 def ToolButtonStyle(style):
 		return QtLibs.QToolButtons.get(style)
-
 def svgIcon(name):
 	icon_states={
 		0 : PyQtX.QtGui.QIcon.State.On,
@@ -40,7 +37,6 @@ def svgIcon(name):
 	icon = make_icon(name,0)
 	icon = make_icon(name,1)
 	return icon
-	
 def Assemble(w,*a,**k):
 	if a:
 		w['Mod']=a[0]()
@@ -60,10 +56,9 @@ def Config(w,*a,**k):
 	w['Cfg']={setting: k[setting] for setting in k}
 	w['Cfg']['Configure']=Configure
 	return w
-def Configure(w,*a):
+def Configure(w,*a,c=[]):
 	for prop in w['Cfg']:
 		with contextlib.suppress(KeyError):
-			# print(f"{prop}:{w['Cfg'][prop]}")
 			w['Qtm']['Set'][prop](w['Cfg'][prop])
 			continue
 		with contextlib.suppress(KeyError):
@@ -130,9 +125,8 @@ def ConnectMod(w,con,**k):
 	return w
 def ConnectElm(*a,**k):
 	return {**a[0],'Con': a[0]['Qtm'].get('Sig')}
-
 def Constructs(type):
-	def Qid(*a,**k):	return {'Qid': k["Name"],'Wgt': a[0],}
+	def Qid(*a,**k):	return {	'Qid':k['Name']	,	'Wgt':a[0]	}
 	def Mod(*a,**k):	return Modules(*a,**k)
 	def Cfg(*a,**k):	return Config(*a,**k)
 	def Lay(*a,**k):	return QLayout.make(a[0], **k)
@@ -151,28 +145,8 @@ def Constructs(type):
 		'QElm'			:	[Qid,Cfg,Qtm,FEl,CEl,Cnf,],
 	}
 	return pyQt[type]
-
 def QBuild(*a,**k):
 	w=QtLibs.QElements.get(a[1])()
 	for construct in Constructs(a[0]):
 		w=construct(w,*a[2:],**k)
 	return w
-
-
-#
-# 	'ico'     	:			'{Icon:svgIcon({VAL})}'							,
-# 	'btnstyle' 	:			'ToolButtonStyle'		,
-# 	'margins'  	:			'ContentsMargins'		,
-# 	'pol'     	:			'SizePolicy'				,
-# 	'sz_max'		:			'MaximumSize'				,
-# 	'sz_min'		:			'MinimumSize'				,
-# 	'sz_ico'		:			'IconSize'					,
-# }
-# FnAliasses={
-# 'Icon'						: '''Icon({VAL})'''                ,
-# 'ToolButtonStyle'	: '''ToolButtonStyle({VAL})'''     ,
-# 'ContentsMargins'	: '''Margins({VAL})'''             ,
-# 'SizePolicy'			: '''SizePolicy('{VAL}')'''        ,
-# 'MaximumSize'			: '''Size({VAL})'''                ,
-# 'MinimumSize'			: '''Size({VAL})'''                ,
-# 'IconSize'				: '''Size({VAL})'''           		 , }

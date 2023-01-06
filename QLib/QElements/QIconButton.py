@@ -4,10 +4,13 @@ from Fnx import QMake
 
 def QIconButton(**k):
 	def Fnx(w):
+		def chIcon(w):
+			def chicon():
+				pass
+
 		w['Fnx']={}
 		return w
-	if not k.get('ico'):
-		k|={'ico': k.get('Name')}
+	k|={'ico': k.get('Name')}
 
 	return QMake.QBuild('QElm','iBtn',Fnx,**k)
 
