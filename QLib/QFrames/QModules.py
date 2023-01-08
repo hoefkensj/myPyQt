@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#!/usr/bin/env python
 ###############################################################################
 # # 	Path: /myPyQt/Qlib/QFrames			#	#		License: MIT										#	#
 # # 	File: QElements.py							#	#		Created: 2022.05.01-173015.265	#	#
@@ -28,28 +29,13 @@ def QElements(**k):
 		def btn():
 			mod={}
 			mod	|= QMake.Element(QIconButton.make(f'Search', bi=True))
-			mod	|= QMake.Element(QIconButton.make(f'Dec',wh=[100,200]))
-			mod	|= QMake.Element(QIconButton.make(f'>',  ))
-			mod	|= QMake.Element(QIconButton.make(f'<',  ))
-			mod	|= QMake.Element(QIconButton.make(f'Inc',  bi=True))
-			mod	|= QMake.Element(QIconButton.make(f'Cpy',  bi=True))
-			mod	|= QMake.Element(QIconButton.make(f'Reg',  bi=True))
-			mod	|= QMake.Element(QTextButton.make(f'ikkel','ikkel', bi=True))
-			mod	|= QMake.Element(QTextButton.make(f'test', bi=True))
-			return mod
-		trwv=QWidget.make('BtnH',t='V',**k)
-		trwv=trwv['Fnx']['Asm'](trwv, trw, **k)
-		btnh=QWidget.make('TrWV',t='H', **k)
-		btnh=btnh['Fnx']['Asm'](btnh, btn, **k)
-		mod={}
-		mod|=QMake.Element(trwv)
-		mod|=QMake.Element(btnh)
+
 		return mod
 
 
 	wgt= QWidget.make('Main',t='V',**k)
 	wgt=wgt['Fnx']['Asm'](wgt,Mod,**k)
-	pTree(d=wgt,max=5)
+	# pTree(d=wgt,max=5)
 	return wgt['Qtm']['Mtd']['show']
 def make(**k):
 	app=	QApplication.make('QElements',**k)

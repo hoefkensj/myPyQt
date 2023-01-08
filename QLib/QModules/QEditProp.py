@@ -1,24 +1,31 @@
 #!/usr/bin/env python
 # Auth
-from QLib.QElements import QTextButton,QIconButton,QLineEdit,QLabel
-from QLib.QBases import QWidget
 from QLib import gnr
 from Configs import QDefaults
 from Configs import Config
-
+from QLib.QStatic import QtLibs
+from pTree import pTree
+from Fnx.debug import DebDec
+import contextlib
+from QLib.QElements import  QIconButton,QTextButton,QLabel,QLineEdit
+from QLib.QBases import QWidget
+from Fnx import QMake
 def Clean(**k):
 	c={item : k.get(item) for item in k if item not in Config.QDefaults.Properties}
 	return c
 
 def QEditProp(**k):
-	def Elements(wgt):
-		wgt['Elements'] |= gnr.Element(QLabel.make('Name'))
-		wgt['Elements'] |= gnr.Element(QLineEdit.make('Field',**k|{'ro':1 ,'pol':'E.F'}))
-		wgt['Elements'] |= gnr.Element(QLineEdit.make('Dupl',**k))
-		wgt['Elements'] |= gnr.Element(QTextButton.make('Set',**k|{'pol':'F.F'}))
-		wgt['Elements'] |= gnr.Element(QIconButton.make('Edit',**k|{'bi':1}))
-		return wgt
-		
+	def Mod():
+		# GUI['Elements']|=gnr.Element(component)
+		mod={}
+		mod	|= QMake.Element(QLabel.make('Name'))
+		mod	|= QMake.Element(QLineEdit.make('Field',ro=1))
+		mod	|= QMake.Element(QLineEdit.make('Dupl'))
+		mod	|= QMake.Element(QTextButton.make(f'Set'))
+		mod	|= QMake.Element(QIconButton.make(f'Edit', bi=True))
+		return mod
+
+
 	def Fnx(wgt):
 #SHORT#SHORT#SHORT
 		def TxtText():
@@ -77,8 +84,6 @@ def QEditProp(**k):
 		#
 		# sCon=gnr.ShortEl(wgt, 'Con')
 #SHORT
-		wgt['Con'] = wgt.get('Con') or {}
-		wgt=gnr.ModCon(wgt)
 		# for el in wgt['Con']:
 		# 	print(el)
 		# 	for con in wgt['Con'][el]:
@@ -89,22 +94,10 @@ def QEditProp(**k):
 		# # wgt['Con']['Field']['returnPressed']= sSig['Field']['returnPressed'].connect
 		# wgt=Internals(wgt)
 		return wgt
-	def Init(wgt):
-		fn=wgt['Fnx']
-		gn=wgt['Fnx']['Gen']
-		wgt=gn['Assemble'](wgt)
-		wgt=gn['Configure'](wgt)
-		wgt=fn['Init']()
-		return wgt
-	w	= QWidget.QMake(k['name'], **k)
-	w	=	Elements(w)
-	w	=	Fnx(w)
-	w	=	Con(w)
-	return 	Init(w)
+	# w	=	QWidget.make(k['Name'], t='H', **k)
+
+	return QMake.QBuild('QMdl', 'Wgt', Fnx, **k)
 
 
-def make(namestr,**k):
-	preset=	QDefaults.QEditProp
-	k= Config.preset(['wgt', namestr], preset, **k)
-	return QEditProp(**k)
-
+def make(name,**k):
+	return  QEditProp(**(QDefaults.QEditProp | k | {'Name': name}))

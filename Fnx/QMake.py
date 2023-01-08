@@ -86,7 +86,7 @@ def Qt(wgt):
 	Pool, mtdfilter=lstDiff(Pool,lstDiff(Pool,mtdMap)[0])
 	Pool, setfilter=lstDiff(Pool, setPool)
 	for item in Pool:
-		print(item)
+
 		getmtdname=isGetMtd(item)
 		setmtdname=isSetMtd(item)
 		ismtdname=isIsMtd(item)
@@ -99,9 +99,10 @@ def Qt(wgt):
 			QtMtd['Get']|={ismtdname: mtdMap[item]}
 		elif setmtdname:
 			QtMtd['Set']|={setmtdname:mtdMap[item]}
-
 		elif ismtdname:
 			QtMtd['Get']|={ismtdname:mtdMap[item]}
+		elif item.capitalize() in setPool:
+			QtMtd['Get']|={item.capitalize(): mtdMap[item]}
 		else :
 			# tempPool+=[item.casefold()]
 			QtMtd['Mtd']|={item:mtdMap[item]}

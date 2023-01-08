@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 import sys
+import contextlib
+
 def pTree(*a, **k):
 	d = k.get('d')
 	indent = k.get('indent') or 0
 	keys=len(d.keys())
 	for key in d:
-		dkey=f'\x1b[32m{d[key]}()\x1b[0m' if callable(d[key]) else str(d[key])
+
+		dkey=f'\x1b[32m{d[key]}\x1b[0m' if callable(d[key]) else str(d[key])
 		keys-=1
 		if isinstance(d[key], dict):
 			sys.stdout.write('  ┃  ' * (indent))

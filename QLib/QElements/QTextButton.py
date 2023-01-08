@@ -12,5 +12,3 @@ def QTextButton(**k):
 def make(name,*lbl, **k):
 	lbl={'lbl':lbl[0]} if lbl else {'lbl': name}
 	return QTextButton(**(QDefaults.QTextButton|k|{'Name':name}|{**lbl}))
-
-

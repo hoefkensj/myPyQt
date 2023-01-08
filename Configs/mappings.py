@@ -16,7 +16,7 @@ Aliasses={
 	'sz_min'		:			'MinimumSize'				,
 	'sz_ico'		:			'IconSize'					,
 	'hidecols'	:			'HideCols'					,
-	'wh'				:			'Size'							,
+	'wh'				:			'MinimumSize'							,
 
 }
 
@@ -27,7 +27,5 @@ FnAliasses={
 'SizePolicy'			: '''SizePolicy('{VAL}')'''				,
 'MaximumSize'			: '''Size({VAL})'''								,
 'MinimumSize'			: '''Size({VAL})'''								,
-'IconSize'				: '''Size({VAL})'''					 		 ,
-'Size' 						:	'''Size({VAL})'''																	,
-
+'IconSize'				: '''Size({VAL})'''					 		 	,
 }
