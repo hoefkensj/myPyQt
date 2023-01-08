@@ -21,7 +21,7 @@ def QApplication(**k):
 
 
 	w=QtLibs.QElements.get('app')(sys.argv)
-	for construct in QMake.Constructs('QApp'):
+	for construct in QMake.QBuilders('QApp'):
 		w=construct(w,Fnx,**k)
 
 	return w

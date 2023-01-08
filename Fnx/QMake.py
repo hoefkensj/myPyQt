@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # Auth
 import contextlib
+from .tools import lstDiff
 import Configs.Config
-from Fnx import isTest
+from Fnx.isTest import isGetMtd,isIsMtd,isMethodWrapper,isQtSignal,isSetMtd
 from QLib.QStatic import QtLibs,PyQtX
 from assets import svg
 from QLib.QBases import QLayout
@@ -80,20 +81,29 @@ def Qt(wgt):
 	DirWgt=dir(widget)
 	mtdMap={item: val for item in DirWgt if callable(val:=getattr(widget,item))}
 	clsMap={item: getattr(getattr(getattr(widget,item),'__class__'),'__name__') for item in DirWgt}
-	pool=[*DirWgt]
-	pool=[item for item in pool if item in mtdMap]
-	for item in pool:
-		setmtdname=isTest.isSetMtd(item)
-		ismtdname=isTest.isIsMtd(item)
-		if isTest.isMethodWrapper(clsMap[item]):
+	setPool=[isSetMtd(item) for item in DirWgt if isSetMtd(item)]
+	Pool=[*DirWgt]
+	Pool, mtdfilter=lstDiff(Pool,lstDiff(Pool,mtdMap)[0])
+	Pool, setfilter=lstDiff(Pool, setPool)
+	for item in Pool:
+		print(item)
+		getmtdname=isGetMtd(item)
+		setmtdname=isSetMtd(item)
+		ismtdname=isIsMtd(item)
+
+		if isMethodWrapper(clsMap[item]):
 			QtMtd['Wrp']|={item:mtdMap[item]}
-		elif isTest.isQtSignal(clsMap[item]):
+		elif isQtSignal(clsMap[item]):
 			QtMtd['Sig']|={item:mtdMap[item]}
+		elif getmtdname:
+			QtMtd['Get']|={ismtdname: mtdMap[item]}
 		elif setmtdname:
 			QtMtd['Set']|={setmtdname:mtdMap[item]}
+
 		elif ismtdname:
 			QtMtd['Get']|={ismtdname:mtdMap[item]}
-		else:
+		else :
+			# tempPool+=[item.casefold()]
 			QtMtd['Mtd']|={item:mtdMap[item]}
 	wgt['Qtm']=QtMtd
 	return wgt
@@ -125,7 +135,8 @@ def ConnectMod(w,con,**k):
 	return w
 def ConnectElm(*a,**k):
 	return {**a[0],'Con': a[0]['Qtm'].get('Sig')}
-def Constructs(type):
+
+def QBuilders(type):
 	def Qid(*a,**k):	return {	'Qid':k['Name']	,	'Wgt':a[0]	}
 	def Mod(*a,**k):	return Modules(*a,**k)
 	def Cfg(*a,**k):	return Config(*a,**k)
@@ -138,15 +149,16 @@ def Constructs(type):
 	def Cnf(*a,**k):	return Configure(*a)
 	def Asm(*a,**k):	return Assemble(*a)
 	pyQt={
-		'QApp'			:	[Qid,Cfg,Qtm,FEl,CEl,Cnf],
-		'QBse'			:	[Qid,Cfg,Lay,Qtm,FMd,CMd,Mod,Cnf],
-		'QMdl'			:	[Qid,Mod,Cfg,Lay,Qtm,FMd,CMd,Cnf,Asm,],
+		'QApp'			:	[Qid,Cfg,Qtm,FEl,CEl,],
+		'QBse'			:	[Qid,Cfg,Lay,Qtm,FMd,CMd,Mod],
+		'QMdl'			:	[Qid,Mod,Cfg,Lay,Qtm,FMd,CMd,Cnf,Asm],
 		'QLay'			:	[Qid,Cfg,Qtm,FEl,Cnf,],
 		'QElm'			:	[Qid,Cfg,Qtm,FEl,CEl,Cnf,],
 	}
 	return pyQt[type]
 def QBuild(*a,**k):
 	w=QtLibs.QElements.get(a[1])()
-	for construct in Constructs(a[0]):
-		w=construct(w,*a[2:],**k)
+	for build in QBuilders(a[0]):
+		w=build(w, *a[2:], **k)
 	return w
+

@@ -1,32 +1,21 @@
 #!/usr/bin/env python
-from QLib import Create
-from QLib.QStatic import QElements
-
 from Configs import QDefaults
-from Configs import Config
+from Fnx import QMake
 
 def QLineEdit(**k):
 	def Fnx(wgt):
-		def RO():	wgt['Fnx']['Qt']['Set']['ReadOnly'](True)
-		def RW():	wgt['Fnx']['Qt']['Set']['ReadOnly'](False)
-		wgt['Fnx']['Write']		=	wgt['Fnx']['Qt']['Set']['Text']
-		wgt['Fnx']['Read']		=	wgt['Fnx']['Qt']['Get']['Text']
+		def RO():	wgt['Qtm']['Set']['ReadOnly'](True)
+		def RW():	wgt['Qtm']['Set']['ReadOnly'](False)
+		wgt['Fnx'] = {}
+		wgt['Fnx']['Write']		=	wgt['Qtm']['Set']['Text']
+		wgt['Fnx']['Read']		=	wgt['Qtm']['Get']['Text']
 
 		wgt['Fnx']['RO']			=	RO
 		wgt['Fnx']['RW']			=	RW
-		wgt['Fnx']['ED']			=	wgt['Fnx']['Qt']['Get']['ReadOnly']
-		wgt['Fnx']
+		wgt['Fnx']['ED']			=	wgt['Qtm']['Get']['ReadOnly']
+		return wgt
 
+	return QMake.QBuild('QElm', 'txtE', Fnx, **k)
 
-	def Construct(**k):
-		w = {**skel}
-		for key in w:
-			w[key]=eval(w[key].format(**k['WGT']))
-		w=QMake.Configure(w)
-
-	return Init(w)
-
-def make(namestr, **k):
-	preset=QDefaults.QLineEdit
-	k= Config.preset(['txtE', namestr], preset, **k)
-	return QLineEdit(**k)
+def make(name, **k):
+		return QLineEdit(**(QDefaults.QLineEdit | k | {'Name': name}))

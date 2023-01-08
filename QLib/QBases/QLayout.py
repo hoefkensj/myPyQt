@@ -16,7 +16,7 @@ def QLayout(**k):
 	l=QtLibs.QLayouts[k['t']](Widget['Wgt'])
 
 
-	for construct in QMake.Constructs('QLay'):
+	for construct in QMake.QBuilders('QLay'):
 		l=construct(l,Fnx,**k)
 
 

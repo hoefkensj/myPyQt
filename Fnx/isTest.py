@@ -14,6 +14,17 @@ def isMethodWrapper(mtd):
 	# cls=getattr(mtd,'__class__')
 	return mtd == mtdwrap
 
+
+def isGetMtd(mtd):
+	isIsMtd=RE_QTMTD('GET')
+	tested=isIsMtd.search(mtd)
+	ret=False
+	if tested:
+		grp=tested.groupdict()
+		if grp.get('IS'):
+			ret=grp.get('MTD')
+	return  ret
+
 def isIsMtd(mtd):
 	isIsMtd=RE_QTMTD('IS')
 	tested=isIsMtd.search(mtd)
@@ -32,7 +43,6 @@ def isSetMtd(mtd):
 		grp=tested.groupdict()
 		if grp.get('SET'):
 			ret=grp.get('MTD')
-
 	return  ret
 
 
