@@ -66,13 +66,15 @@ def QEditProp(**k):
 				wgt['Fnx']['Editable'](not k['ed'])
 				return wgt
 			return init
+
+		wgt['Fnx']=wgt.get('Fnx') or {}
 		wgt['Fnx']['Edit'] 			=	Edit()
 		wgt['Fnx']['txtText'] 	=	TxtText()
 		wgt['Fnx']['setText']		=	SetText()
 		wgt['Fnx']['Editable'] 	=	Editable()
-		wgt['Fnx']['wLbl']			= sfn_mtd['Name']['width']
-		wgt['Fnx']['Allign']		= Allign()
-		wgt['Fnx']['Init']			=	Init()
+		# wgt['Fnx']['wLbl']			= sfn_mtd['Name']['width']
+		# wgt['Fnx']['Allign']		= Allign()
+		# wgt['Fnx']['Init']			=	Init()
 		return wgt
 	def Internals(wgt):
 		sClk=gnr.sCon(wgt,'clicked')
@@ -95,8 +97,17 @@ def QEditProp(**k):
 		# wgt=Internals(wgt)
 		return wgt
 	# w	=	QWidget.make(k['Name'], t='H', **k)
+	wgt=QWidget.make(k['Name'],**k|{'t':'H'})
+	wgt=wgt['Fnx']['Asm'](wgt, Mod, **k)
+		# btnh=QWidget.make('TrWV',t='H', **k)
+		# btnh=btnh['Fnx']['Asm'](btnh, btn, **k)
+		# mod={}
+		# mod|=QMake.Component(trwv)
+		# mod|=QMake.Component(btnh)
 
-	return QMake.QBuild('QMdl', 'Wgt', Fnx, **k)
+	return wgt
+
+	# return QMake.QBuild('QMdl', 'wgt',Mod, Fnx, Con, **k)
 
 
 def make(name,**k):

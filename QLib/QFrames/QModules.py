@@ -14,7 +14,7 @@ from pTree import pTree
 from Fnx.debug import DebDec
 import contextlib
 from QLib.QStatic.QtLibs import QCores
-
+from QLib.QElements import  QApplication,QTree,QIconButton,QTextButton,QIconCheckBox,QLabel,QLineEdit
 
 def QModules(**k):
 	def Mod():
@@ -22,7 +22,7 @@ def QModules(**k):
 		mod	|= QMake.Component(QEditProp.make('EditProp'))
 		return mod
 
-	QMake.QBuild('QMdl', 'Wgt', Fnx, **k)
+	# QMake.QBuild('QMdl', 'Wgt', Fnx, **k)
 	wgt= QWidget.make('Main',t='V',**k)
 	wgt=wgt['Fnx']['Asm'](wgt,Mod,**k)
 	# pTree(d=wgt,max=5)
@@ -30,7 +30,7 @@ def QModules(**k):
 
 def make(**k):
 	app=	QApplication.make('QElements',**k)
-	H=	QElements()()
+	H=	QModules()()
 
 	return 	app['Fnx']['Run']
 

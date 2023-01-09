@@ -10,7 +10,7 @@ SPACING	=		{'Spacing':0,'LayoutSpacing':0,}
 MARGIN	=		{'margins':[0,0,0,0]}
 ISIZE		=		{'sz_ico':[21,21]}
 
-
+MODULE		=		{**SPOLEE}|{**MARGIN}|{**SPACING}|{'t':'H'}
 WIDGET		=		{**SPOLEE}|{**MARGIN}|{**SPACING}|{'t':'V'}
 BUTTON		=		{**WIDGET}|{**SPOLEP}|{'bi':False,}
 CHECKBOX	=		{**WIDGET}
@@ -39,5 +39,5 @@ QIconCheckBox	=		{**CHECKBOX}|{**ISIZE}
 # QHIncDec	=		{**QModule}|{'pol':'P.P',}
 # QHArrowsLR	=		{**QModule}|{'pol':'F.F',}
 # QHSearch	=		{**QModule}|{}
-# QEditProp	=		{**QModule}|{'ed':True,}
+QEditProp	=		{**MODULE}|{'ed':True,}
 
