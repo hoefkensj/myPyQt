@@ -10,7 +10,7 @@ SPACING	=		{'Spacing':0,'LayoutSpacing':0,}
 MARGIN	=		{'margins':[0,0,0,0]}
 ISIZE		=		{'sz_ico':[21,21]}
 
-MODULE		=		{**SPOLEE}|{**MARGIN}|{**SPACING}|{'t':'H'}
+MODULE		=		{**SPOLEE}|{**MARGIN}|{**SPACING}
 WIDGET		=		{**SPOLEE}|{**MARGIN}|{**SPACING}|{'t':'V'}
 BUTTON		=		{**WIDGET}|{**SPOLEP}|{'bi':False,}
 CHECKBOX	=		{**WIDGET}

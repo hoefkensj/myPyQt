@@ -68,10 +68,10 @@ def QEditProp(**k):
 			return init
 
 		wgt['Fnx']=wgt.get('Fnx') or {}
-		wgt['Fnx']['Edit'] 			=	Edit()
-		wgt['Fnx']['txtText'] 	=	TxtText()
-		wgt['Fnx']['setText']		=	SetText()
-		wgt['Fnx']['Editable'] 	=	Editable()
+		# wgt['Fnx']['Edit'] 			=	Edit()
+		# wgt['Fnx']['txtText'] 	=	TxtText()
+		# wgt['Fnx']['setText']		=	SetText()
+		# wgt['Fnx']['Editable'] 	=	Editable()
 		# wgt['Fnx']['wLbl']			= sfn_mtd['Name']['width']
 		# wgt['Fnx']['Allign']		= Allign()
 		# wgt['Fnx']['Init']			=	Init()
@@ -96,8 +96,8 @@ def QEditProp(**k):
 		# # wgt['Con']['Field']['returnPressed']= sSig['Field']['returnPressed'].connect
 		# wgt=Internals(wgt)
 		return wgt
-	# w	=	QWidget.make(k['Name'], t='H', **k)
-	wgt=QWidget.make(k['Name'],**k|{'t':'H'})
+	# w	=	QWidget.make(k['Name'],
+	wgt=QWidget.make(k['Name'],t='H', **k)
 	wgt=wgt['Fnx']['Asm'](wgt, Mod, **k)
 		# btnh=QWidget.make('TrWV',t='H', **k)
 		# btnh=btnh['Fnx']['Asm'](btnh, btn, **k)
