@@ -33,3 +33,16 @@ def lstDiff(l1,l2):
 		return lstfilter
 	return  [*filter(lstFilter(l2),l1)],[*filter(lstFilter(l1),l2)]
 
+
+
+
+
+
+
+def MakeID(name,**k):
+	name=k.get('Name')
+	parentPath=k.get('Path')
+	Path='__'.join([parentPath,name])
+	k['Path']=Path
+	return k
+

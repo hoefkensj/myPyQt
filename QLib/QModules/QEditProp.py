@@ -18,11 +18,11 @@ def QEditProp(**k):
 	def Mod():
 		# GUI['Elements']|=gnr.Element(component)
 		mod={}
-		mod	|= QMake.Element(QLabel.make('Name'))
-		mod	|= QMake.Element(QLineEdit.make('Field',ro=1))
-		mod	|= QMake.Element(QLineEdit.make('Dupl'))
-		mod	|= QMake.Element(QTextButton.make(f'Set'))
-		mod	|= QMake.Element(QIconButton.make(f'Edit', bi=True))
+		mod	|= QMake.Component(QLabel.make('Name'))
+		mod	|= QMake.Component(QLineEdit.make('Field', ro=1))
+		mod	|= QMake.Component(QLineEdit.make('Dupl'))
+		mod	|= QMake.Component(QTextButton.make(f'Set'))
+		mod	|= QMake.Component(QIconButton.make(f'Edit', bi=True))
 		return mod
 
 

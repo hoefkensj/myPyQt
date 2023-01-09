@@ -71,9 +71,10 @@ def Configure(w,*a,c=[]):
 	return w
 def Entry(fn,wgt):
 	return {(getattr(fn, '__name__')): fn(wgt)}
-def Element(component):
+def Component(component):
 	name=component.get('Qid')
 	return {name : component}
+
 def Qt(wgt):
 	# fnx_Qt=importlib.import_module('.skell')
 	widget=wgt['Wgt']

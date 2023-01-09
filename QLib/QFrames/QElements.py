@@ -20,30 +20,30 @@ def QElements(**k):
 		# GUI['Elements']|=gnr.Element(component)
 		def trw():
 			mod={}
-			mod	|= QMake.Element(QTree.make('Tree',cols=7,hidecols=[2,4,5,6]))
+			mod	|= QMake.Component(QTree.make('Tree', cols=7, hidecols=[2, 4, 5, 6]))
 			print(mod['Tree']['Qtm']['Mtd']['size']())
-			mod	|= QMake.Element(QLabel.make('Label',lbl='test'))
-			mod	|= QMake.Element(QLineEdit.make('LEdit'))
+			mod	|= QMake.Component(QLabel.make('Label', lbl='test'))
+			mod	|= QMake.Component(QLineEdit.make('LEdit'))
 			return mod
 		def btn():
 			mod={}
-			mod	|= QMake.Element(QIconButton.make(f'Search', bi=True))
-			mod	|= QMake.Element(QIconButton.make(f'Dec',wh=[100,200]))
-			mod	|= QMake.Element(QIconButton.make(f'>',  ))
-			mod	|= QMake.Element(QIconButton.make(f'<',  ))
-			mod	|= QMake.Element(QIconButton.make(f'Inc',  bi=True))
-			mod	|= QMake.Element(QIconButton.make(f'Cpy',  bi=True))
-			mod	|= QMake.Element(QIconButton.make(f'Reg',  bi=True))
-			mod	|= QMake.Element(QTextButton.make(f'ikkel','ikkel', bi=True))
-			mod	|= QMake.Element(QTextButton.make(f'test', bi=True))
+			mod	|= QMake.Component(QIconButton.make(f'Search', bi=True))
+			mod	|= QMake.Component(QIconButton.make(f'Dec', wh=[100, 200]))
+			mod	|= QMake.Component(QIconButton.make(f'>', ))
+			mod	|= QMake.Component(QIconButton.make(f'<', ))
+			mod	|= QMake.Component(QIconButton.make(f'Inc', bi=True))
+			mod	|= QMake.Component(QIconButton.make(f'Cpy', bi=True))
+			mod	|= QMake.Component(QIconButton.make(f'Reg', bi=True))
+			mod	|= QMake.Component(QTextButton.make(f'ikkel', 'ikkel', bi=True))
+			mod	|= QMake.Component(QTextButton.make(f'test', bi=True))
 			return mod
 		trwv=QWidget.make('BtnH',t='V',**k)
 		trwv=trwv['Fnx']['Asm'](trwv, trw, **k)
 		btnh=QWidget.make('TrWV',t='H', **k)
 		btnh=btnh['Fnx']['Asm'](btnh, btn, **k)
 		mod={}
-		mod|=QMake.Element(trwv)
-		mod|=QMake.Element(btnh)
+		mod|=QMake.Component(trwv)
+		mod|=QMake.Component(btnh)
 		return mod
 
 
